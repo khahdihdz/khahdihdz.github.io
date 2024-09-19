@@ -33,7 +33,7 @@ function switchLanguage(lang) {
         document.getElementById('qr-title').innerText = 'Scan the QR code to send BNB:';
 
 // Hiển thị thông tin chuyển BNB tiếng Việt, ẩn tiếng Anh
-        document.getElementById('bnb-title').innerText = 'Quyên góp thông qua Binance Coin (BNB)';
-        document.getElementById('bnb-title-en').innerText = 'Donate via Binance Coin (BNB)';
+                document.getElementById('bnb-title').style.display = 'block';
+        document.getElementById('bnb-title-en').style.display = 'none';
     }
 }
