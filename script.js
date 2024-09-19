@@ -32,8 +32,8 @@ function switchLanguage(lang) {
         document.getElementById('bnb-note').innerText = 'Ensure you\'re sending via Binance Smart Chain (BEP-20).';
         document.getElementById('qr-title').innerText = 'Scan the QR code to send BNB:';
 
-// Hiển thị thông tin chuyển khoản ngân hàng tiếng Anh, ẩn tiếng Việt
-        document.getElementById('bnb-title').style.display = 'none';
-        document.getElementById('bnb-title-en').style.display = 'block';
+// Hiển thị thông tin chuyển BNB tiếng Việt, ẩn tiếng Anh
+        document.getElementById('bnb-title').style.display = 'block';
+        document.getElementById('bnb-title-en').style.display = 'none';
     }
 }
