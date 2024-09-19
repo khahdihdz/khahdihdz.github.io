@@ -1,0 +1,93 @@
+/* Styles for modern design */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.container {
+    background-color: white;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #007BFF;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #555;
+    margin-top: 20px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+strong {
+    color: #000;
+}
+
+.note {
+    font-style: italic;
+    color: #888;
+    font-size: 14px;
+}
+
+.qr-code img {
+    margin-top: 20px;
+    max-width: 200px;
+}
+
+.language-switcher {
+    margin-bottom: 20px;
+}
+
+.language-switcher button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.language-switcher button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
