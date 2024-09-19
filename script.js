@@ -1,31 +1,26 @@
-document.getElementById('vi-btn').addEventListener('click', function() {
-    // Tiếng Việt
-    document.getElementById('title').innerText = 'Ủng Hộ Chúng Tôi qua Chuyển Khoản Ngân Hàng hoặc BNB';
-    document.getElementById('bank-title').innerText = 'Thông Tin Chuyển Khoản Ngân Hàng (SWIFT)';
-    document.getElementById('bank-name').innerText = 'Tên ngân hàng:';
-    document.getElementById('branch-address').innerText = 'Địa chỉ chi nhánh:';
-    document.getElementById('account-number').innerText = 'Số tài khoản:';
-    document.getElementById('account-name').innerText = 'Tên tài khoản:';
-    document.getElementById('swift-code').innerText = 'Mã SWIFT:';
-    document.getElementById('bank-note').innerText = 'Vui lòng kiểm tra thông tin trước khi chuyển tiền.';
-    document.getElementById('bnb-title').innerText = 'Ủng Hộ qua Binance Coin (BNB)';
-    document.getElementById('bnb-address-title').innerText = 'Địa chỉ ví BNB:';
-    document.getElementById('bnb-note').innerText = 'Bạn có thể gửi BNB qua địa chỉ ví trên. Hãy đảm bảo bạn đang sử dụng Binance Smart Chain (BEP-20).';
-    document.getElementById('qr-title').innerText = 'Quét mã QR để gửi BNB:';
-});
-
-document.getElementById('en-btn').addEventListener('click', function() {
-    // English
-    document.getElementById('title').innerText = 'Support Us via Bank Transfer or BNB';
-    document.getElementById('bank-title').innerText = 'Bank Transfer Information (SWIFT)';
-    document.getElementById('bank-name').innerText = 'Bank Name:';
-    document.getElementById('branch-address').innerText = 'Branch Address:';
-    document.getElementById('account-number').innerText = 'Account Number:';
-    document.getElementById('account-name').innerText = 'Account Name:';
-    document.getElementById('swift-code').innerText = 'SWIFT Code:';
-    document.getElementById('bank-note').innerText = 'Please ensure all the information is correct before proceeding with the transfer.';
-    document.getElementById('bnb-title').innerText = 'Donate via Binance Coin (BNB)';
-    document.getElementById('bnb-address-title').innerText = 'BNB Wallet Address:';
-    document.getElementById('bnb-note').innerText = 'You can donate Binance Coin (BNB) to the wallet address above. Ensure you\'re sending via the Binance Smart Chain (BEP-20).';
-    document.getElementById('qr-title').innerText = 'Scan the QR code to send BNB:';
-});
+function switchLanguage(lang) {
+    if (lang === 'vi') {
+        document.getElementById('header-title').innerText = 'Donate | Quyên góp';
+        document.getElementById('header-description').innerText = 'Support us via Bank Transfer or Binance Coin (BNB) | Hỗ trợ chúng tôi qua chuyển khoản ngân hàng hoặc Binance Coin (BNB)';
+        
+        document.getElementById('bank-info').style.display = 'block';
+        document.getElementById('bank-info-en').style.display = 'none';
+        
+        document.getElementById('bnb-title').innerText = 'Donate via Binance Coin (BNB)';
+        document.getElementById('bnb-wallet-address').innerText = 'Địa chỉ ví BNB: [Địa chỉ ví BNB của bạn]';
+        document.getElementById('bnb-note').innerText = 'Hãy đảm bảo bạn sử dụng Binance Smart Chain (BEP-20) khi gửi BNB | Ensure you\'re sending via Binance Smart Chain (BEP-20).';
+        document.getElementById('qr-title').innerText = 'Quét mã QR để gửi BNB | Scan the QR code to send BNB:';
+        
+    } else if (lang === 'en') {
+        document.getElementById('header-title').innerText = 'Donate | Quyên góp';
+        document.getElementById('header-description').innerText = 'Support us via Bank Transfer or Binance Coin (BNB) | Hỗ trợ chúng tôi qua chuyển khoản ngân hàng hoặc Binance Coin (BNB)';
+        
+        document.getElementById('bank-info').style.display = 'none';
+        document.getElementById('bank-info-en').style.display = 'block';
+        
+        document.getElementById('bnb-title').innerText = 'Donate via Binance Coin (BNB)';
+        document.getElementById('bnb-wallet-address-en').innerText = 'BNB Wallet Address: [Your BNB wallet address]';
+        document.getElementById('bnb-note').innerText = 'Ensure you\'re sending via Binance Smart Chain (BEP-20).';
+        document.getElementById('qr-title').innerText = 'Scan the QR code to send BNB:';
+    }
+}
