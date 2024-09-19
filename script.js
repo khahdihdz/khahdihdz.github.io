@@ -1,27 +1,35 @@
 function switchLanguage(lang) {
     if (lang === 'vi') {
-        // Hiển thị nội dung tiếng Việt và ẩn nội dung tiếng Anh
-        document.getElementById('bank-info-vi').style.display = 'block';
+        // Cập nhật tiêu đề và mô tả
+        document.getElementById('header-title').innerText = 'Donate | Quyên góp';
+        document.getElementById('header-description').innerText = 'Support us via Bank Transfer or Binance Coin (BNB) | Hỗ trợ chúng tôi qua chuyển khoản ngân hàng hoặc Binance Coin (BNB)';
+        
+        // Hiển thị thông tin chuyển khoản ngân hàng tiếng Việt, ẩn tiếng Anh
+        document.getElementById('bank-info').style.display = 'block';
         document.getElementById('bank-info-en').style.display = 'none';
-        document.getElementById('bnb-title-vi').style.display = 'block';
-        document.getElementById('bnb-wallet-address-vi').style.display = 'block';
-        document.getElementById('bnb-note-vi').style.display = 'block';
-        document.getElementById('bnb-title-en').style.display = 'none';
+        
+        // Hiển thị địa chỉ ví BNB tiếng Việt, ẩn tiếng Anh
+        document.getElementById('bnb-wallet-address').style.display = 'block';
         document.getElementById('bnb-wallet-address-en').style.display = 'none';
-        document.getElementById('bnb-note-en').style.display = 'none';
-        document.getElementById('qr-title-vi').style.display = 'block';
-        document.getElementById('qr-title-en').style.display = 'none';
+        
+        // Cập nhật ghi chú và tiêu đề QR
+        document.getElementById('bnb-note').innerText = 'Hãy đảm bảo bạn sử dụng Binance Smart Chain (BEP-20) khi gửi BNB | Ensure you\'re sending via Binance Smart Chain (BEP-20).';
+        document.getElementById('qr-title').innerText = 'Quét mã QR để gửi BNB | Scan the QR code to send BNB:';
     } else if (lang === 'en') {
-        // Hiển thị nội dung tiếng Anh và ẩn nội dung tiếng Việt
-        document.getElementById('bank-info-vi').style.display = 'none';
+        // Cập nhật tiêu đề và mô tả
+        document.getElementById('header-title').innerText = 'Donate | Quyên góp';
+        document.getElementById('header-description').innerText = 'Support us via Bank Transfer or Binance Coin (BNB) | Hỗ trợ chúng tôi qua chuyển khoản ngân hàng hoặc Binance Coin (BNB)';
+        
+        // Hiển thị thông tin chuyển khoản ngân hàng tiếng Anh, ẩn tiếng Việt
+        document.getElementById('bank-info').style.display = 'none';
         document.getElementById('bank-info-en').style.display = 'block';
-        document.getElementById('bnb-title-vi').style.display = 'none';
-        document.getElementById('bnb-wallet-address-vi').style.display = 'none';
-        document.getElementById('bnb-note-vi').style.display = 'none';
-        document.getElementById('bnb-title-en').style.display = 'block';
+        
+        // Hiển thị địa chỉ ví BNB tiếng Anh, ẩn tiếng Việt
+        document.getElementById('bnb-wallet-address').style.display = 'none';
         document.getElementById('bnb-wallet-address-en').style.display = 'block';
-        document.getElementById('bnb-note-en').style.display = 'block';
-        document.getElementById('qr-title-vi').style.display = 'none';
-        document.getElementById('qr-title-en').style.display = 'block';
+        
+        // Cập nhật ghi chú và tiêu đề QR
+        document.getElementById('bnb-note').innerText = 'Ensure you\'re sending via Binance Smart Chain (BEP-20).';
+        document.getElementById('qr-title').innerText = 'Scan the QR code to send BNB:';
     }
 }
