@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate via Bank Transfer or BNB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="language-switcher">
+        <button id="vi-btn">Tiếng Việt</button>
+        <button id="en-btn">English</button>
+    </div>
+
+    <h1 id="title">Ủng Hộ Chúng Tôi qua Chuyển Khoản Ngân Hàng hoặc BNB</h1>
+    
+    <div class="container">
+        <!-- Thông tin chuyển khoản ngân hàng -->
+        <h2 id="bank-title">Thông Tin Chuyển Khoản Ngân Hàng (SWIFT)</h2>
+        <div class="bank-info">
+            <p><strong id="bank-name">Tên ngân hàng:</strong> [Tên ngân hàng của bạn]</p>
+            <p><strong id="branch-address">Địa chỉ chi nhánh:</strong> [Địa chỉ chi nhánh ngân hàng]</p>
+            <p><strong id="account-number">Số tài khoản:</strong> [Số tài khoản của bạn]</p>
+            <p><strong id="account-name">Tên tài khoản:</strong> [Tên của bạn (viết in hoa không dấu)]</p>
+            <p><strong id="swift-code">Mã SWIFT:</strong> [SWIFT Code của ngân hàng]</p>
+        </div>
+
+        <p class="note" id="bank-note">Vui lòng kiểm tra thông tin trước khi chuyển tiền.</p>
+
+        <!-- Thông tin donate bằng BNB -->
+        <h2 id="bnb-title">Ủng Hộ qua Binance Coin (BNB)</h2>
+        <div class="crypto-info">
+            <p><strong id="bnb-address-title">Địa chỉ ví BNB:</strong> [Địa chỉ ví BNB của bạn]</p>
+            <p id="bnb-note">Bạn có thể gửi BNB qua địa chỉ ví trên. Hãy đảm bảo bạn đang sử dụng Binance Smart Chain (BEP-20).</p>
+        </div>
+
+        <!-- Mã QR cho ví BNB -->
+        <div class="qr-code">
+            <h3 id="qr-title">Quét mã QR để gửi BNB:</h3>
+            <img src="bnb_qr_code.png" alt="BNB QR Code">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
