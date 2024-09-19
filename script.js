@@ -13,7 +13,7 @@ function switchLanguage(lang) {
         document.getElementById('bnb-wallet-address-en').style.display = 'none';
         
         // Cập nhật ghi chú và tiêu đề QR
-        document.getElementById('bnb-note').innerText = 'Hãy đảm bảo bạn sử dụng Binance Smart Chain (BEP-20) khi gửi BNB | Ensure you\'re sending via Binance Smart Chain (BEP-20).';
+        document.getElementById('bnb-note').innerText = 'Hãy đảm bảo bạn sử dụng Binance Smart Chain (BEP-20) khi gửi BNB.';
         document.getElementById('qr-title').innerText = 'Quét mã QR để gửi BNB | Scan the QR code to send BNB:';
     } else if (lang === 'en') {
         // Cập nhật tiêu đề và mô tả
