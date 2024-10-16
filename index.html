@@ -3,68 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trang quyên góp qua chuyển khoản ngân hàng và Binance Coin (BNB)">
-    <title>Donate | Quyên góp</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Ủng Hộ Server Dream City</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a1a2e;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            background-color: #2e2e44;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+
+        .qrcode img {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .description {
+            color: #bbb;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 12px;
+            width: 80%;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #f39c12;
+        }
+
+        button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e67e22;
+        }
+
+        .thank-you {
+            display: none;
+            color: #28a745;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .description {
+                font-size: 14px;
+            }
+
+            input[type="text"], input[type="number"], button {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .description {
+                font-size: 12px;
+            }
+
+            input[type="text"], input[type="number"], button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-
-    <header>
-        <h1 id="header-title">Donate | Quyên góp</h1>
-        <p id="header-description">Support us via Bank Transfer or Binance Coin (BNB) | Hỗ trợ chúng tôi qua chuyển khoản ngân hàng hoặc Binance Coin (BNB)</p>
-    </header>
-
     <div class="container">
-        
-        <!-- Toggle ngôn ngữ (Language Toggle) -->
-        <div class="language-toggle">
-            <button onclick="switchLanguage('vi')">Tiếng Việt</button>
-            <button onclick="switchLanguage('en')">English</button>
+        <h1>Ủng Hộ Dream City</h1>
+        <div class="qrcode">
+            <img src="qrcode_image_url" alt="QR Code Chuyển Khoản">
         </div>
-
-        <!-- Thông tin chuyển khoản ngân hàng -->
-        <div class="info-box" id="bank-info">
-            <h2 id="bank-info-title">Thông tin chuyển khoản ngân hàng (SWIFT)</h2>
-            <p><strong id="bank-info-bank-name">Tên ngân hàng:</strong> Ngân hàng Hàng Hải MSB</p>
-            <p><strong id="bank-info-branch-address">Địa chỉ chi nhánh:</strong> Nam Định</p>
-            <p><strong id="bank-info-account-number">Số tài khoản:</strong> 13001011869246</p>
-            <p><strong id="bank-info-account-name">Tên tài khoản:</strong> DINH TRONG KHANH</p>
-            <p><strong id="bank-info-swift-code">SWIFT Code:</strong> MCOBVNVX</p>
-            <p id="bank-info-note"><i>Vui lòng đảm bảo thông tin chính xác trước khi thực hiện giao dịch.</i></p>
-        </div>
-
-        <!-- Bank Transfer Information in English -->
-        <div class="info-box" id="bank-info-en" style="display: none;">
-            <h2 id="bank-info-title-en">Bank Transfer Information (SWIFT)</h2>
-            <p><strong id="bank-info-bank-name-en">Bank Name:</strong> VIETNAM MARITIME COMMERCIAL JOINT STOCK BANK</p>
-            <p><strong id="bank-info-branch-address-en">Branch Address:</strong> Nam Dinh</p>
-            <p><strong id="bank-info-account-number-en">Account Number:</strong> 13001011869246</p>
-            <p><strong id="bank-info-account-name-en">Account Name:</strong> DINH TRONG KHANH</p>
-            <p><strong id="bank-info-swift-code-en">SWIFT Code:</strong> MCOBVNVX</p>
-            <p id="bank-info-note-en"><i>Please ensure all information is correct before proceeding with the transfer.</i></p>
-        </div>
-
-        <!-- Thông tin donate bằng BNB -->
-        <div class="info-box">
-            <h2 id="bnb-title">Donate via Binance Coin (BNB)</h2>
-            <p><strong id="bnb-wallet-address">Địa chỉ ví BNB:</strong> 0xAb173125a0d4Be248e7463695555092e306A2ddc</p>
-            <p><strong id="bnb-wallet-address-en">BNB Wallet Address:</strong> 0xAb173125a0d4Be248e7463695555092e306A2ddc</p>
-            <p id="bnb-note">Hãy đảm bảo bạn sử dụng Binance Smart Chain (BEP-20) khi gửi BNB | Ensure you're sending via Binance Smart Chain (BEP-20).</p>
-        </div> 
-
-        <!-- Mã QR cho ví BNB -->
-        <div class="qr-code">
-            <h2 id="qr-title">Quét mã QR để gửi BNB | Scan the QR code to send BNB:</h2>
-            <img src="bnb_qr_code.png" alt="BNB QR Code">
-        </div>
-        
+        <p class="description">Ủng hộ để giúp phát triển server Dream City. Cảm ơn bạn đã đồng hành cùng chúng tôi!</p>
+        <input type="text" id="donorName" placeholder="Nhập tên của bạn">
+        <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (VND)" min="1000">
+        <button onclick="notifyDonation()">Xác nhận đã donate</button>
+        <p class="thank-you" id="thankYouMessage"></p>
     </div>
 
-    <footer>
-        <p>&copy; 2024 khahdihdz | Tất cả quyền được bảo lưu.</p>
-    </footer>
+    <script>
+        function notifyDonation() {
+            // Lấy tên và số tiền từ input
+            const donorName = document.getElementById('donorName').value;
+            const donationAmount = document.getElementById('donationAmount').value;
 
-    <script src="script.js"></script>
+            if (!donorName) {
+                alert('Vui lòng nhập tên của bạn!');
+                return;
+            }
 
+            if (!donationAmount || donationAmount < 1000) {
+                alert('Vui lòng nhập số tiền hợp lệ (tối thiểu 1.000 VND)!');
+                return;
+            }
+
+            // Dữ liệu để gửi qua Discord webhook
+            const webhookURL = 'https://discord.com/api/webhooks/your_webhook_url';
+            const donationData = {
+                username: 'Dream City Donation Bot',
+                content: `Có một khoản ủng hộ mới từ **${donorName}** với số tiền **${donationAmount} VND**!`,
+                embeds: [
+                    {
+                        title: 'Thông tin ủng hộ',
+                        description: `Người dùng ${donorName} đã hoàn tất ủng hộ qua mã QR.`,
+                        color: 15158332, // Mã màu vàng
+                        fields: [
+                            {
+                                name: 'Số tiền',
+                                value: `${donationAmount} VND`,
+                                inline: true
+                            },
+                            {
+                                name: 'Người ủng hộ',
+                                value: donorName,
+                                inline: true
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            // Gửi yêu cầu POST tới Discord webhook
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(donationData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Hiển thị lời cảm ơn cá nhân hóa
+                    const thankYouMessage = document.getElementById('thankYouMessage');
+                    thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND cho Dream City!`;
+                    thankYouMessage.style.display = 'block';
+                } else {
+                    alert('Đã xảy ra lỗi khi gửi thông báo.');
+                }
+            })
+            .catch(error => {
+                alert('Đã xảy ra lỗi: ' + error);
+            });
+        }
+    </script>
 </body>
 </html>
