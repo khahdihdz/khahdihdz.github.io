@@ -131,11 +131,11 @@ button:hover {
     <div class="container">
         <h1>Ủng Hộ Dream City</h1>
         <div class="qrcode">
-            <img src="qrcode_image_url" alt="QR Code Chuyển Khoản">
+            <img src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/1725131445384.png" alt="QR Code Chuyển Khoản">
         </div>
         <p class="description">Ủng hộ để giúp phát triển server Dream City. Cảm ơn bạn đã đồng hành cùng chúng tôi!</p>
         <input type="text" id="donorName" placeholder="Nhập tên của bạn">
-        <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (VND)" min="1000">
+        <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (VND)" min="10000">
         <button onclick="notifyDonation()">Xác nhận đã donate</button>
         <p class="thank-you" id="thankYouMessage"></p>
     </div>
@@ -152,7 +152,7 @@ button:hover {
             }
 
             if (!donationAmount || donationAmount < 1000) {
-                alert('Vui lòng nhập số tiền hợp lệ (tối thiểu 1.000 VND)!');
+                alert('Vui lòng nhập số tiền hợp lệ (tối thiểu 10.000 VND)!');
                 return;
             }
 
