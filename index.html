@@ -43,6 +43,23 @@
             color: #555;
         }
 
+        .url-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .url-button:hover {
+            background-color: #0056b3;
+        }
+
         form {
             display: flex;
             flex-direction: column;
@@ -106,44 +123,23 @@
             width: 150px;
             height: 150px;
         }
-
-        /* Logo */
-        #logo {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        /* Nút liên kết */
-        .url-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 1em;
-            display: inline-block;
-        }
-
-        .url-button:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <img id="logo" src="https://yourlogo.url/logo.png" alt="Logo Dream City" /> <!-- Thay bằng URL logo của bạn -->
- <!-- Nút liên kết đến URL -->
-        <p><a href="" class="url-button" >Kết nối</a></p>
         <h2>Ủng Hộ Dream City</h2>
 
         <p><strong>Ủng Hộ Dream City - Xây Dựng Thế Giới Của Bạn!</strong></p>
         <p>Chúng tôi tin rằng sự phát triển và duy trì cộng đồng là nhờ sự ủng hộ quý giá từ bạn. Mọi đóng góp không chỉ giúp chúng tôi vận hành máy chủ ổn định mà còn mang đến những trải nghiệm mới mẻ, hấp dẫn hơn trong thế giới Dream City.</p>
         <p><strong>Mỗi đóng góp của bạn đều là động lực giúp cộng đồng phát triển vững mạnh hơn!</strong></p>
+
+        <!-- Hiển thị logo -->
+        <img src="https://yourlogo.url/logo.png" alt="Logo Dream City" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+
+        <!-- Nút liên kết đến server FiveM -->
+        <a href="https://cfx.re/join/v9jel5" class="url-button" id="serverLink">Kết Nối Server FiveM</a><a href="https://bom.so/dreamcity_vn" class="url-button" id="serverLink">Discord</a>
+        <p id="playerCount">Số lượng người chơi trực tuyến: <span id="onlinePlayers">0</span></p>
 
         <!-- Form Donate -->
         <form id="donationForm">
@@ -162,8 +158,6 @@
             <!-- Nút gửi -->
             <button type="submit">Gửi ủng hộ</button>
         </form>
-
-       
 
         <!-- Hiển thị QR code chuyển khoản -->
         <img id="qr-code" src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/1725131445384.png" alt="QR Code Chuyển Khoản" />
@@ -216,15 +210,14 @@ Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ v�
 Một lần nữa, cảm ơn bạn rất nhiều vì đã đồng hành cùng Dream City!\n
 
 Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới của chúng ta!`,
-                        color: 14177041, //mã màu đỏ
+                        color: 7506394, // Màu sắc của embed
                         image: {
-                            url: imgurUrl
+                            url: imgurUrl // Ảnh bill đã tải lên
                         }
                     }
                 ]
             };
 
-            // Gửi thông báo lên Discord
             await fetch(webhookURL, {
                 method: 'POST',
                 headers: {
@@ -233,12 +226,33 @@ Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới 
                 body: JSON.stringify(message)
             });
 
-            // Hiển thị lời cảm ơn
-            const thankYouMessage = document.getElementById('thankYouMessage');
-            thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City! Tên nhân vật của bạn: ${characterName}. Vui lòng đợi quản trị viên kiểm tra và cộng tiền vào tài khoản trong game.`;
-            thankYouMessage.style.display = 'block';
-        });
-    </script>
+            // Hiển thị thông điệp cảm ơn
+            document.getElementById('thankYouMessage').textContent = "Cảm ơn bạn đã ủng hộ!";
+            document.getElementById('thankYouMessage').style.display = 'block';
 
+            // Đặt lại form
+            this.reset();
+        });
+
+        // Hàm để lấy số lượng người chơi trực tuyến
+        async function getPlayerCount() {
+            try {
+                const response = await fetch('https://cfx.re/join/v9jel5'); // Thay your_cfxid bằng ID thực tế của server
+                const data = await response.text();
+
+                // Xử lý dữ liệu để tìm số lượng người chơi
+                const playerCountMatch = data.match(/<span class="player-count">(\d+)<\/span>/);
+                const playerCount = playerCountMatch ? playerCountMatch[1] : 0;
+
+                document.getElementById('onlinePlayers').textContent = playerCount;
+            } catch (error) {
+                console.error("Không thể lấy số lượng người chơi:", error);
+                document.getElementById('onlinePlayers').textContent = "Không thể lấy số liệu";
+            }
+        }
+
+        // Gọi hàm lấy số lượng người chơi khi trang được tải
+        getPlayerCount();
+    </script>
 </body>
 </html>
