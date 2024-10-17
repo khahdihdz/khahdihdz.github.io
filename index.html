@@ -3,237 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ủng Hộ Duy Trì Server Dream City</title>
+    <title>Ủng Hộ Dream City</title>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #1a1a2e;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #fff;
-            box-sizing: border-box;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .container {
-            background-color: #2e2e44;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
             padding: 20px;
-            text-align: center;
-            max-width: 400px;
+            border-radius: 10px;
+            max-width: 600px;
             width: 100%;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
             overflow: hidden;
         }
 
-        h1 {
-            font-size: 24px;
-            color: #f39c12;
+        .container h2 {
+            color: #333;
             margin-bottom: 20px;
         }
 
-        .qrcode img {
-            width: 100%;
-            max-width: 220px;
-            height: auto;
+        .container p {
             margin-bottom: 20px;
-            border-radius: 10px;
+            color: #555;
         }
 
-        .description {
-            color: #bbb;
-            font-size: 16px;
-            margin-bottom: 20px;
+        form {
+            display: flex;
+            flex-direction: column;
         }
 
-        input[type="text"], input[type="number"] {
-            padding: 12px;
-            width: calc(100% - 24px);
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
+        label {
+            text-align: left;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
-            border-color: #f39c12;
-        }
-
+        input[type="text"], 
+        input[type="number"], 
         input[type="file"] {
-            padding: 12px;
-            width: calc(100% - 24px);
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            color: #bbb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
         }
 
         button {
-            background-color: #f39c12;
+            padding: 12px;
+            background-color: #28a745;
             color: white;
+            font-size: 1em;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
             transition: background-color 0.3s ease;
-            width: calc(100% - 48px);
-            box-sizing: border-box;
         }
 
         button:hover {
-            background-color: #e67e22;
+            background-color: #218838;
         }
 
-        .thank-you {
-            display: none;
-            color: #28a745;
+        #thankYouMessage {
             margin-top: 20px;
-            font-size: 18px;
+            font-size: 1.2em;
+            color: green;
+            display: none;
         }
 
-        /* Responsive */
+        /* Responsive điều chỉnh hiển thị cho thiết bị nhỏ */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
-                max-width: 100%;
             }
 
-            h1 {
-                font-size: 22px;
-            }
-
-            .description {
-                font-size: 14px;
-            }
-
-            input[type="text"], input[type="number"], input[type="file"], button {
-                width: calc(100% - 20px);
+            input, button {
+                font-size: 0.9em;
+                padding: 10px;
             }
         }
 
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 20px;
-            }
-
-            .description {
-                font-size: 12px;
-            }
-
-            input[type="text"], input[type="number"], input[type="file"], button {
-                width: calc(100% - 16px);
-            }
+        /* QR code hiển thị */
+        #qr-code {
+            margin-top: 20px;
+            width: 150px;
+            height: 150px;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Ủng Hộ Duy Trì Server Dream City</h1>
-        <div class="qrcode">
-            <img src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/1725131445384.png" alt="QR Code Chuyển Khoản">
-        </div>
-        <p class="description">Ủng hộ để duy trì và phát triển server Dream City. Mọi đóng góp đều có ý nghĩa lớn trong việc duy trì hoạt động và cải thiện trải nghiệm chơi game của cộng đồng!</p>
-        <input type="text" id="donorName" placeholder="Nhập tên của bạn">
-        <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (VND)" min="10000">
-        <input type="file" id="billImage" accept="image/*">
-        <button onclick="notifyDonation()">Xác nhận đã donate</button>
-        <p class="thank-you" id="thankYouMessage"></p>
+        <h2>Ủng Hộ Dream City</h2>
+
+        <p><strong>Ủng Hộ Dream City - Xây Dựng Thế Giới Của Bạn!</strong></p>
+        <p>Chúng tôi tin rằng sự phát triển và duy trì cộng đồng là nhờ sự ủng hộ quý giá từ bạn. Mọi đóng góp không chỉ giúp chúng tôi vận hành máy chủ ổn định mà còn mang đến những trải nghiệm mới mẻ, hấp dẫn hơn trong thế giới Dream City.</p>
+        <p><strong>Mỗi đóng góp của bạn đều là động lực giúp cộng đồng phát triển vững mạnh hơn!</strong></p>
+
+        <!-- Form Donate -->
+        <form id="donationForm">
+            <label for="donorName">Tên người ủng hộ:</label>
+            <input type="text" id="donorName" placeholder="Nhập tên của bạn" required>
+
+            <label for="donationAmount">Số tiền ủng hộ (VND):</label>
+            <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (tối thiểu 10,000 VND)" min="10000" required>
+
+            <label for="billImage">Tải lên ảnh bill:</label>
+            <input type="file" id="billImage" accept="image/*" required>
+
+            <!-- Nút gửi -->
+            <button type="submit">Gửi ủng hộ</button>
+        </form>
+
+        <!-- Hiển thị QR code chuyển khoản -->
+        <img id="qr-code" src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/1725131445384.png" alt="QR Code Chuyển Khoản" />
+
+        <!-- Tin nhắn cảm ơn -->
+        <p id="thankYouMessage"></p>
     </div>
 
     <script>
-    function notifyDonation() {
-        const donorName = document.getElementById('donorName').value;
-        const donationAmount = document.getElementById('donationAmount').value;
-        const billImage = document.getElementById('billImage').files[0];
+        document.getElementById('donationForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Ngăn trang reload
 
-        if (!donorName) {
-            alert('Vui lòng nhập tên của bạn!');
-            return;
-        }
+            const donorName = document.getElementById('donorName').value;
+            const donationAmount = document.getElementById('donationAmount').value;
+            const billImage = document.getElementById('billImage').files[0];
 
-        if (!donationAmount || donationAmount < 1000) {
-            alert('Vui lòng nhập số tiền hợp lệ (tối thiểu 1.000 VND)!');
-            return;
-        }
+            // Kiểm tra nếu số tiền dưới 10,000 VND
+            if (donationAmount < 10000) {
+                alert("Số tiền ủng hộ tối thiểu là 10,000 VND.");
+                return;
+            }
 
-        if (!billImage) {
-            alert('Vui lòng tải lên hình ảnh bill xác nhận!');
-            return;
-        }
+            // Tải ảnh lên Imgur qua API
+            const formData = new FormData();
+            formData.append("image", billImage);
 
-        const webhookURL = 'https://discord.com/api/webhooks/1296179509854343241/JwO5NgNUIBYiid6xDqlopM6ccL3J1LYbqf-L27aBA8uWo1v1kO2GlGc10czmesZyiuYw';
+            const imgurResponse = await fetch('https://api.imgur.com/3/image', {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Client-ID your_imgur_client_id' // Thay bằng Client ID của bạn
+                },
+                body: formData
+            });
 
-        const reader = new FileReader();
-        reader.onloadend = function() {
-            const base64Image = reader.result;
+            const imgurData = await imgurResponse.json();
+            const imgurUrl = imgurData.data.link; // Link ảnh sau khi tải lên
 
-            const donationData = {
-                username: 'Dream City Donation Bot',
-                content: `Có một khoản ủng hộ mới từ **${donorName}** với số tiền **${donationAmount} VND**!`,
+            // Tạo thông điệp gửi qua Discord Webhook
+            const webhookURL = 'https://discord.com/api/webhooks/1296179509854343241/JwO5NgNUIBYiid6xDqlopM6ccL3J1LYbqf-L27aBA8uWo1v1kO2GlGc10czmesZyiuYw'; // Thay bằng webhook của bạn
+            const message = {
+                content: `Cảm ơn ${donorName} đã ủng hộ ${donationAmount} VND!`,
                 embeds: [
                     {
-                        title: 'Thông tin ủng hộ',
-                        description: `Người dùng ${donorName} đã hoàn tất ủng hộ để duy trì server.`,
-                        color: 15158332,
-                        fields: [
-                            {
-                                name: 'Số tiền',
-                                value: `${donationAmount} VND`,
-                                inline: true
-                            },
-                            {
-                                name: 'Người ủng hộ',
-                                value: donorName,
-                                inline: true
-                            }
-                        ],
-                        // Giảm kích thước hình ảnh nếu cần hoặc loại bỏ phần này nếu gặp lỗi
+                        title: `Ủng hộ từ ${donorName}`,
+                        description: `Số tiền ủng hộ: ${donationAmount} VND`,
                         image: {
-                            url: base64Image
+                            url: imgurUrl
                         }
                     }
                 ]
             };
 
-            fetch(webhookURL, {
+            // Gửi thông báo lên Discord
+            await fetch(webhookURL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(donationData),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    response.text().then(errorMessage => {
-                        console.error('Lỗi gửi webhook:', errorMessage);
-                        alert('Đã xảy ra lỗi khi gửi thông báo: ' + errorMessage);
-                    });
-                } else {
-                    const thankYouMessage = document.getElementById('thankYouMessage');
-                    thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City!`;
-                    thankYouMessage.style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('Lỗi khi kết nối webhook:', error);
-                alert('Đã xảy ra lỗi khi kết nối với Discord: ' + error.message);
+                body: JSON.stringify(message)
             });
-        };
 
-        if (billImage) {
-            reader.readAsDataURL(billImage);
-        }
-    }
-</script>
+            // Hiển thị lời cảm ơn
+            const thankYouMessage = document.getElementById('thankYouMessage');
+            thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City! Vui lòng đợi quản trị viên kiểm tra và cộng tiền vào tài khoản trong game.`;
+            thankYouMessage.style.display = 'block';
+        });
+    </script>
 
 </body>
 </html>
