@@ -237,20 +237,21 @@ Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới 
 
         // Hàm để lấy số lượng người chơi trực tuyến
         async function getPlayerCount() {
-            try {
-                const response = await fetch('https://cfx.re/join/v9jel5'); // Thay your_cfxid bằng ID thực tế của server
-                const data = await response.text();
+    try {
+        const response = await fetch('https://cfx.re/join/v9jel5'); // Lấy trang của server FiveM
+        const data = await response.text();
 
-                // Xử lý dữ liệu để tìm số lượng người chơi
-                const playerCountMatch = data.match(/<span class="player-count">(\d+)<\/span>/);
-                const playerCount = playerCountMatch ? playerCountMatch[1] : 0;
+        // Bạn sẽ cần xác định cách mà số lượng người chơi được hiển thị trên trang
+        const playerCountMatch = data.match(/<span class="player-count">(\d+)<\/span>/);
+        const playerCount = playerCountMatch ? playerCountMatch[1] : 0;
 
-                document.getElementById('onlinePlayers').textContent = playerCount;
-            } catch (error) {
-                console.error("Không thể lấy số lượng người chơi:", error);
-                document.getElementById('onlinePlayers').textContent = "Không thể lấy số liệu";
-            }
-        }
+        document.getElementById('onlinePlayers').textContent = playerCount;
+    } catch (error) {
+        console.error("Không thể lấy số lượng người chơi:", error);
+        document.getElementById('onlinePlayers').textContent = "Không thể lấy số liệu";
+    }
+}
+
 
         // Gọi hàm lấy số lượng người chơi khi trang được tải
         getPlayerCount();
