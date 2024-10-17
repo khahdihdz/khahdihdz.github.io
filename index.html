@@ -106,11 +106,39 @@
             width: 150px;
             height: 150px;
         }
+
+        /* Logo */
+        #logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        /* Nút liên kết */
+        .url-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1em;
+            display: inline-block;
+        }
+
+        .url-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <img id="logo" src="https://yourlogo.url/logo.png" alt="Logo Dream City" /> <!-- Thay bằng URL logo của bạn -->
+ <!-- Nút liên kết đến URL -->
+        <p><a href="" class="url-button" >Kết nối</a></p>
         <h2>Ủng Hộ Dream City</h2>
 
         <p><strong>Ủng Hộ Dream City - Xây Dựng Thế Giới Của Bạn!</strong></p>
@@ -134,6 +162,8 @@
             <!-- Nút gửi -->
             <button type="submit">Gửi ủng hộ</button>
         </form>
+
+       
 
         <!-- Hiển thị QR code chuyển khoản -->
         <img id="qr-code" src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/1725131445384.png" alt="QR Code Chuyển Khoản" />
