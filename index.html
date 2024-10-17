@@ -150,84 +150,90 @@
     </div>
 
     <script>
-        function notifyDonation() {
-            const donorName = document.getElementById('donorName').value;
-            const donationAmount = document.getElementById('donationAmount').value;
-            const billImage = document.getElementById('billImage').files[0];
+    function notifyDonation() {
+        const donorName = document.getElementById('donorName').value;
+        const donationAmount = document.getElementById('donationAmount').value;
+        const billImage = document.getElementById('billImage').files[0];
 
-            if (!donorName) {
-                alert('Vui lòng nhập tên của bạn!');
-                return;
-            }
+        if (!donorName) {
+            alert('Vui lòng nhập tên của bạn!');
+            return;
+        }
 
-            if (!donationAmount || donationAmount < 10000) {
-                alert('Vui lòng nhập số tiền hợp lệ (tối thiểu 10.000 VND)!');
-                return;
-            }
+        if (!donationAmount || donationAmount < 1000) {
+            alert('Vui lòng nhập số tiền hợp lệ (tối thiểu 1.000 VND)!');
+            return;
+        }
 
-            if (!billImage) {
-                alert('Vui lòng tải lên hình ảnh bill xác nhận!');
-                return;
-            }
+        if (!billImage) {
+            alert('Vui lòng tải lên hình ảnh bill xác nhận!');
+            return;
+        }
 
-            const webhookURL = 'https://discord.com/api/webhooks/1296179509854343241/JwO5NgNUIBYiid6xDqlopM6ccL3J1LYbqf-L27aBA8uWo1v1kO2GlGc10czmesZyiuYw';
+        const webhookURL = 'https://discord.com/api/webhooks/1296179509854343241/JwO5NgNUIBYiid6xDqlopM6ccL3J1LYbqf-L27aBA8uWo1v1kO2GlGc10czmesZyiuYw';
 
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                const base64Image = reader.result;
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            const base64Image = reader.result;
 
-                const donationData = {
-                    username: 'Dream City Donation Bot',
-                    content: `Có một khoản ủng hộ mới từ **${donorName}** với số tiền **${donationAmount} VND**!`,
-                    embeds: [
-                        {
-                            title: 'Thông tin ủng hộ',
-                            description: `Cảm ơn ${donorName} đã hoàn tất ủng hộ để duy trì server.`,
-                            color: 15158332,
-                            fields: [
-                                {
-                                    name: 'Số tiền',
-                                    value: `${donationAmount} VND`,
-                                    inline: true
-                                },
-                                {
-                                    name: 'Người ủng hộ',
-                                    value: donorName,
-                                    inline: true
-                                }
-                            ],
-                            image: {
-                                url: base64Image
+            const donationData = {
+                username: 'Dream City Donation Bot',
+                content: `Có một khoản ủng hộ mới từ **${donorName}** với số tiền **${donationAmount} VND**!`,
+                embeds: [
+                    {
+                        title: 'Thông tin ủng hộ',
+                        description: `Người dùng ${donorName} đã hoàn tất ủng hộ để duy trì server.`,
+                        color: 15158332,
+                        fields: [
+                            {
+                                name: 'Số tiền',
+                                value: `${donationAmount} VND`,
+                                inline: true
+                            },
+                            {
+                                name: 'Người ủng hộ',
+                                value: donorName,
+                                inline: true
                             }
+                        ],
+                        // Giảm kích thước hình ảnh nếu cần hoặc loại bỏ phần này nếu gặp lỗi
+                        image: {
+                            url: base64Image
                         }
-                    ]
-                };
-
-                fetch(webhookURL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(donationData),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        const thankYouMessage = document.getElementById('thankYouMessage');
-                        thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City!`;
-                        thankYouMessage.style.display = 'block';
-                    } else {
-                        alert('Đã xảy ra lỗi khi gửi thông báo.');
                     }
-                })
-                .catch(error => {
-                    alert('Đã xảy ra lỗi: ' + error);
-                });
+                ]
             };
 
-            if (billImage) {
-                reader.readAsDataURL(billImage);
-            }
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(donationData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    response.text().then(errorMessage => {
+                        console.error('Lỗi gửi webhook:', errorMessage);
+                        alert('Đã xảy ra lỗi khi gửi thông báo: ' + errorMessage);
+                    });
+                } else {
+                    const thankYouMessage = document.getElementById('thankYouMessage');
+                    thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City!`;
+                    thankYouMessage.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi khi kết nối webhook:', error);
+                alert('Đã xảy ra lỗi khi kết nối với Discord: ' + error.message);
+            });
+        };
+
+        if (billImage) {
+            reader.readAsDataURL(billImage);
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
