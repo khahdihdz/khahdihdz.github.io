@@ -122,6 +122,9 @@
             <label for="donorName">Tên người ủng hộ:</label>
             <input type="text" id="donorName" placeholder="Nhập tên của bạn" required>
 
+            <label for="characterName">Tên nhân vật trong game:</label>
+            <input type="text" id="characterName" placeholder="Nhập tên nhân vật trong Dream City" required>
+
             <label for="donationAmount">Số tiền ủng hộ (VND):</label>
             <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (tối thiểu 10,000 VND)" min="10000" required>
 
@@ -144,6 +147,7 @@
             event.preventDefault(); // Ngăn trang reload
 
             const donorName = document.getElementById('donorName').value;
+            const characterName = document.getElementById('characterName').value;
             const donationAmount = document.getElementById('donationAmount').value;
             const billImage = document.getElementById('billImage').files[0];
 
@@ -160,7 +164,7 @@
             const imgurResponse = await fetch('https://api.imgur.com/3/image', {
                 method: 'POST',
                 headers: {
-                    Authorization: 'Client-ID 0ec456789155e23' // Thay bằng Client ID của bạn
+                    Authorization: 'Client-ID 0ec456789155e23' // Sử dụng Client ID mới
                 },
                 body: formData
             });
@@ -175,7 +179,7 @@
                 embeds: [
                     {
                         title: `Ủng hộ từ ${donorName}`,
-                        description: `Số tiền ủng hộ: ${donationAmount} VND`,
+                        description: `Số tiền ủng hộ: ${donationAmount} VND\nTên nhân vật: ${characterName}`,
                         image: {
                             url: imgurUrl
                         }
@@ -194,7 +198,7 @@
 
             // Hiển thị lời cảm ơn
             const thankYouMessage = document.getElementById('thankYouMessage');
-            thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City! Vui lòng đợi quản trị viên kiểm tra và cộng tiền vào tài khoản trong game.`;
+            thankYouMessage.innerText = `Cảm ơn bạn, ${donorName}, vì đã ủng hộ số tiền ${donationAmount} VND để duy trì server Dream City! Tên nhân vật của bạn: ${characterName}. Vui lòng đợi quản trị viên kiểm tra và cộng tiền vào tài khoản trong game.`;
             thankYouMessage.style.display = 'block';
         });
     </script>
