@@ -302,7 +302,7 @@ Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới 
                 const data = await response.json();
                 
                 const playerCount = data.Data.players.length; // Số lượng người chơi trực tuyến
-                document.getElementById('playerCount').textContent = `<i class="fa-solid fa-users"></i> Số người chơi trực tuyến: ${playerCount} thành viên`;
+                document.getElementById('playerCount').textContent = `Số người chơi trực tuyến: ${playerCount} thành viên`;
             } catch (error) {
                 document.getElementById('playerCount').textContent = 'Không thể tải số lượng người chơi.';
                 console.error('Lỗi khi lấy thông tin máy chủ:', error);
