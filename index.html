@@ -10,6 +10,7 @@
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="64x64" type="image/png">
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="96x96" type="image/png">
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="192x192" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
     <title>DREAM CITY | VIETNAM ROLEPLAY</title>
     <style>
@@ -177,8 +178,8 @@ button:hover {
     <img src="https://i.imgur.com/O7n05kj.png" alt="Logo Dream City" style="max-width: 100%; height: auto; margin: 0 auto 20px auto; display: block;">
     
     <!-- Nút liên kết đến server FiveM -->
-    <a href="fivem://connect/cfx.re/join/v9jel5" class="url-button" id="serverLink" style="margin: 10px;">Kết Nối Server FiveM</a>
-    <a href="https://bom.so/dreamcity_vn" class="url-button" id="serverLink" style="margin: 10px;">Discord</a>
+    <a href="fivem://connect/cfx.re/join/v9jel5" class="url-button" id="serverLink" style="margin: 10px;"><i class="fa-solid fa-network-wired"></i> Kết Nối Server FiveM</a>
+    <a href="https://bom.so/dreamcity_vn" class="url-button" id="serverLink" style="margin: 10px;"><i class="fa-brands fa-discord"></i> Discord</a>
     <p style="text-align: center; 
            border: 2px solid #007bff; 
            background-color: #f0f8ff; 
@@ -301,7 +302,7 @@ Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới 
                 const data = await response.json();
                 
                 const playerCount = data.Data.players.length; // Số lượng người chơi trực tuyến
-                document.getElementById('playerCount').textContent = `Số người chơi trực tuyến: ${playerCount} thành viên`;
+                document.getElementById('playerCount').textContent = `<i class="fa-solid fa-users"></i> Số người chơi trực tuyến: ${playerCount} thành viên`;
             } catch (error) {
                 document.getElementById('playerCount').textContent = 'Không thể tải số lượng người chơi.';
                 console.error('Lỗi khi lấy thông tin máy chủ:', error);
