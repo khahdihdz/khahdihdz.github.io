@@ -5,7 +5,7 @@
 }
 
 html, body {
-    height: 100%; /* Đảm bảo toàn bộ trang phủ hết màn hình */
+    height: 100%; /* Bảo đảm trang chiếm toàn bộ chiều cao */
 }
 
 body {
@@ -17,7 +17,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    overflow-x: hidden; /* Ngăn tràn viền ngang */
+    overflow-x: hidden; /* Ngăn tràn ngang */
 }
 
 .container {
@@ -26,31 +26,37 @@ body {
     border-radius: 10px;
     max-width: 90%;
     width: 100%;
-    display: flex;
-    flex-direction: column; /* Xếp dọc các phần tử con */
-    justify-content: space-between; /* Chia đều không gian dọc */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Chống tràn viền */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
     height: auto;
-    max-height: 100vh; /* Giới hạn chiều cao tối đa để không vượt quá màn hình */
+    max-height: 90vh; /* Giới hạn chiều cao để không tràn màn hình */
 }
 
 h2 {
     color: #333;
     margin-bottom: 20px;
     font-size: clamp(1.5em, 2.5vw, 2em);
+    text-align: center;
 }
 
 p {
-    margin-bottom: 20px;
     color: #555;
     text-align: justify;
     font-size: clamp(0.9em, 1.5vw, 1em);
-    flex-grow: 1; /* Đảm bảo đoạn văn giãn ra theo chiều dọc */
+    margin-bottom: 20px;
+    max-width: 100%; /* Đảm bảo không bị tràn ngang */
+    line-height: 1.6;
 }
 
 .service {
     margin-bottom: 30px;
+    text-align: center;
+    width: 100%; /* Đảm bảo khối dịch vụ đầy đủ chiều rộng */
 }
 
 .service h4 {
@@ -73,6 +79,7 @@ p {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 15px;
 }
 
 .dropbtn:hover {
@@ -84,7 +91,6 @@ p {
     position: absolute;
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    padding: 12px 0;
     border-radius: 5px;
     z-index: 1;
     min-width: 160px;
