@@ -4,79 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Chào mừng đến với Dream City, nơi bạn có thể tự do xây dựng thế giới của riêng mình! Tham gia vào cộng đồng năng động với những cuộc phiêu lưu, hoạt động gang chiến, và vô vàn tính năng mới mẻ đang chờ đón bạn. Khám phá ngay để trở thành một phần của Dream City!">
-<meta property="og:title" content="DREAM CITY | VIETNAM ROLEPLAY">
+    <meta property="og:title" content="DREAM CITY | VIETNAM ROLEPLAY">
     <meta property="og:description" content="Chào mừng đến với Dream City, nơi bạn có thể tự do xây dựng thế giới của riêng mình! Tham gia vào cộng đồng năng động với những cuộc phiêu lưu, hoạt động gang chiến, và vô vàn tính năng mới mẻ đang chờ đón bạn. Khám phá ngay để trở thành một phần của Dream City!">
     <meta property="og:image" content="https://i.imgur.com/fyvotLF.png">
     <meta property="og:url" content="https://dcrp.vercel.app/">
-    <!--- Favicon lớn hơn (512x512) và chỉ định kích thước phù hợp --->
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="16x16" type="image/png">
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="64x64" type="image/png">
-    <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="96x96" type="image/png">
-    <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="192x192" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    <link rel="stylesheet" href="style.css" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <title>DREAM CITY | VIETNAM ROLEPLAY</title>
-    
 </head>
 <body>
-
     <div class="container">
-<!-- Hiển thị logo -->
-<div style="text-align: center;">
-    <img src="https://i.imgur.com/O7n05kj.png" alt="Logo Dream City" style="max-width: 100%; height: auto; margin: 0 auto 20px auto; display: block;">
-    
-    <!-- Nút liên kết đến server FiveM -->
-    <a href="fivem://connect/cfx.re/join/v9jel5" class="url-button" id="serverLink" style="margin: 10px;"><i class="fa-solid fa-network-wired"></i> Kết Nối Server FiveM</a>
-    <a href="https://bom.so/dreamcity_vn" class="url-button" id="serverLink" style="margin: 10px;"><i class="fa-brands fa-discord"></i> Discord</a>
-    <a href="/hosting-vps" class="url-button" id="serverLink" style="margin: 10px;"><i class="fa-solid fa-server"></i> Cloud VPS</a>
-    <p style="text-align: center; 
-           border: 2px solid #007bff; 
-           background-color: #f0f8ff; 
-           padding: 10px; 
-           border-radius: 5px;" 
-   id="playerCount" 
-   class="player-count">
-    Đang tải số lượng người chơi...
-</p>
-</div>
-
+        <div style="text-align: center;">
+            <img src="https://i.imgur.com/O7n05kj.png" alt="Logo Dream City" class="logo">
+            <a href="fivem://connect/cfx.re/join/v9jel5" class="url-button"><i class="fa-solid fa-network-wired"></i> Kết Nối Server FiveM</a>
+            <a href="https://bom.so/dreamcity_vn" class="url-button"><i class="fa-brands fa-discord"></i> Discord</a>
+            <a href="/hosting-vps" class="url-button"><i class="fa-solid fa-server"></i> Cloud VPS</a>
+            <p id="playerCount" class="player-count">Đang tải số lượng người chơi...</p>
+        </div>
         <h2><i class="fa-solid fa-circle-dollar-to-slot"></i> Ủng Hộ Dream City</h2>
-
         <p><strong>Ủng Hộ Dream City - Xây Dựng Thế Giới Của Bạn!</strong></p>
         <p>Chúng tôi tin rằng sự phát triển và duy trì cộng đồng là nhờ sự ủng hộ quý giá từ bạn. Mọi đóng góp không chỉ giúp chúng tôi vận hành máy chủ ổn định mà còn mang đến những trải nghiệm mới mẻ, hấp dẫn hơn trong thế giới Dream City.</p>
         <p><strong>Mỗi đóng góp của bạn đều là động lực giúp cộng đồng phát triển vững mạnh hơn!</strong></p>
-
-        
-
-        <!-- Form Donate -->
         <form id="donationForm">
             <label for="donorName">Tên người ủng hộ:</label>
             <input type="text" id="donorName" placeholder="Nhập tên của bạn" required>
-
             <label for="characterName">Tên nhân vật trong game:</label>
             <input type="text" id="characterName" placeholder="Nhập tên nhân vật trong Dream City" required>
-
             <label for="donationAmount">Số tiền ủng hộ (VND):</label>
             <input type="number" id="donationAmount" placeholder="Nhập số tiền ủng hộ (tối thiểu 10,000 VND)" min="10000" required>
-
             <label for="billImage">Tải lên ảnh bill:</label>
             <input type="file" id="billImage" accept="image/*" required>
-
-            <!-- Nút gửi -->
             <button type="submit"><i class="fa-solid fa-circle-dollar-to-slot"></i> Gửi ủng hộ</button>
         </form>
-
-        <!-- Hiển thị QR code chuyển khoản -->
-        <img id="qr-code" src="https://i.imgur.com/IOFdvFa.png" alt="QR Code Chuyển Khoản" />
-
-        <!-- Tin nhắn cảm ơn -->
+        <img id="qr-code" src="https://i.imgur.com/IOFdvFa.png" alt="QR Code Chuyển Khoản">
         <p id="thankYouMessage"></p>
     </div>
 
-    <script src="script.js">
-        
-    </script>
+    <!-- Chân trang -->
+    <footer>
+        <p>© 2024 Dream City. Tất cả các quyền được bảo lưu.</p>
+        <p>Theo dõi chúng tôi trên <a href="https://www.facebook.com/DreamCity" target="_blank">Facebook</a> | <a href="https://www.instagram.com/DreamCity" target="_blank">Instagram</a></p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
