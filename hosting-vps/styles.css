@@ -13,12 +13,12 @@ body {
 header {
     background-color: #007bff; /* Màu xanh sáng cho header */
     color: white;
+    padding: 2em 0; /* Tăng padding để header lớn hơn */
 }
 
 nav {
     display: flex;
     justify-content: center;
-    padding: 1em;
 }
 
 .menu {
@@ -27,9 +27,10 @@ nav {
 
 .dropdown {
     cursor: pointer;
-    padding: 10px 15px;
+    padding: 15px 20px; /* Tăng padding cho menu */
     color: white;
     text-decoration: none;
+    font-size: 1.2em; /* Tăng kích thước chữ */
     transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
 }
 
@@ -128,12 +129,13 @@ main {
 
 footer {
     text-align: center;
-    padding: 1em;
+    padding: 0.5em; /* Giảm padding cho footer */
     background-color: #007bff; /* Màu giống header cho footer */
     color: white;
     position: relative;
     bottom: 0;
     width: 100%;
+    font-size: 0.9em; /* Giảm kích thước chữ */
 }
 
 /* Responsive */
