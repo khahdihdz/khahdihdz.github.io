@@ -27,10 +27,12 @@ nav {
 
 .menu {
     list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .menu > li {
-    display: inline-block;
     position: relative;
 }
 
@@ -39,6 +41,7 @@ nav {
     text-decoration: none;
     padding: 15px 20px;
     display: block;
+    transition: background 0.3s;
 }
 
 .menu > li:hover > a {
@@ -68,6 +71,7 @@ nav {
 
 main {
     padding: 20px;
+    text-align: center;
 }
 
 footer {
@@ -81,11 +85,15 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .menu > li {
-        display: block;
+    .menu {
+        flex-direction: column;
     }
-    
-    .menu > li > a {
-        text-align: center;
+
+    .menu > li {
+        width: 100%;
+    }
+
+    .dropdown {
+        position: static; /* Thay đổi để dropdown không bị rơi ra ngoài khung */
     }
 }
