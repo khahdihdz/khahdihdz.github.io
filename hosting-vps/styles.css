@@ -4,179 +4,79 @@
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    overflow-x: hidden;
+body {
+    font-family: Arial, sans-serif;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
+header {
+    background-color: #333;
+    color: white;
+}
+
+nav {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Căn lề trên cùng */
-    padding: 20px;
-    min-height: 100vh;
+    padding: 1em;
 }
 
-.container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 90vw;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Căn đều các phần tử */
-    align-items: center;
-    text-align: center;
-    overflow: hidden; /* Ngăn tràn viền */
-}
-
-h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: clamp(1.5em, 2.5vw, 2em);
-    text-align: center;
-}
-
-p {
-    color: #555;
-    text-align: justify;
-    font-size: clamp(0.9em, 1.5vw, 1em);
-    margin-bottom: 20px;
-}
-
-.service {
-    margin-bottom: 30px;
-    text-align: center;
-    width: 100%;
-}
-
-.service h4 {
-    color: #007bff;
-    margin-bottom: 15px;
-    font-size: clamp(1.2em, 2vw, 1.5em);
+.menu {
+    position: relative;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropbtn {
-    background-color: #007bff;
-    color: white;
-    padding: 12px 20px;
-    font-size: clamp(1em, 2vw, 1.1em);
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
 }
 
-.dropbtn:hover {
-    background-color: #0056b3;
-}
-
-/* Điều chỉnh menu thả xuống */
 .dropdown-content {
     display: none;
-    position: absolute; /* Sử dụng absolute để menu không bị cắt */
-    top: calc(100% + 10px); /* Xuất hiện bên dưới nút với khoảng cách */
-    left: 50%; /* Căn giữa theo chiều ngang */
-    transform: translateX(-50%);
+    position: absolute;
     background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    z-index: 1000;
-    min-width: 200px;
-    max-width: 90vw; /* Đảm bảo hiển thị linh hoạt trên các thiết bị nhỏ */
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 50vh; /* Hạn chế chiều cao của menu */
-    padding: 5px 0; /* Thêm khoảng cách cho menu */
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
-/* Hiển thị nội dung menu thả xuống */
 .dropdown-content a {
-    color: #333;
+    color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    transition: background-color 0.2s ease;
 }
 
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
 
-.dropdown:hover .dropdown-content {
+.show {
     display: block;
 }
 
-/* Responsive điều chỉnh hiển thị cho thiết bị nhỏ */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-        max-width: 95%;
-    }
-
-    .service h4, .dropbtn, .dropdown-content a {
-        font-size: 0.9em;
-    }
+main {
+    text-align: center;
+    padding: 2em;
 }
 
-/* Responsive điều chỉnh hiển thị cho thiết bị rất nhỏ (dưới 480px) */
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-
-    .container {
-        padding: 10px;
-        max-width: 100%;
-    }
-
-    .dropbtn {
-        padding: 8px 15px;
-    }
-
-    h2 {
-        font-size: 1.3em;
-    }
-    p {
-        font-size: 0.85em;
-    }
+footer {
+    text-align: center;
+    padding: 1em;
+    background-color: #333;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
-/* Responsive cho màn hình lớn hơn (trên 1200px) */
-@media (min-width: 1200px) {
-    .container {
-        max-width: 70%;
+/* Responsive */
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
     }
-
-    h2 {
-        font-size: 2em;
-    }
-
-    p {
-        font-size: 1.1em;
-    }
-
-    .service h4 {
-        font-size: 1.5em;
-    }
-
-    .dropbtn {
-        padding: 14px 24px;
-    }
-
-    .dropdown-content a {
-        padding: 14px 18px;
-        font-size: 1em;
+    
+    .menu {
+        display: block;
+        width: 100%;
     }
 }
