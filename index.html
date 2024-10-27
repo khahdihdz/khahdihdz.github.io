@@ -30,6 +30,7 @@ body {
     background-color: #f4f4f4;
     padding: 20px;
     display: flex;
+    flex-direction: column; /* Bố cục dọc */
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -39,11 +40,12 @@ body {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    max-width: 90%; /* Điều chỉnh chiều rộng tối đa để linh hoạt trên màn hình lớn */
+    max-width: 90%;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     overflow: hidden;
+    flex: 1; /* Chiếm toàn bộ chiều cao có sẵn */
 }
 
 .container h2 {
