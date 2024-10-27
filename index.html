@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Chào mừng đến với Dream City, nơi bạn có thể tự do xây dựng thế giới của riêng mình! Tham gia vào cộng đồng năng động với những cuộc phiêu lưu, hoạt động gang chiến, và vô vàn tính năng mới mẻ đang chờ đón bạn. Khám phá ngay để trở thành một phần của Dream City!">
 <meta property="og:title" content="DREAM CITY | VIETNAM ROLEPLAY">
     <meta property="og:description" content="Chào mừng đến với Dream City, nơi bạn có thể tự do xây dựng thế giới của riêng mình! Tham gia vào cộng đồng năng động với những cuộc phiêu lưu, hoạt động gang chiến, và vô vàn tính năng mới mẻ đang chờ đón bạn. Khám phá ngay để trở thành một phần của Dream City!">
@@ -14,15 +14,165 @@
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="64x64" type="image/png">
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="96x96" type="image/png">
     <link rel="icon" href="https://i.imgur.com/O7n05kj.png" sizes="192x192" type="image/png">
-
-<link rel="stylesheet" href="/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
     <title>DREAM CITY | VIETNAM ROLEPLAY</title>
-    
-        
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90%; /* Điều chỉnh chiều rộng tối đa để linh hoạt trên màn hình lớn */
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden;
+}
+
+.container h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.container p {
+    margin-bottom: 20px;
+    color: #555;
+    text-align: justify;
+}
+
+.url-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    width: auto;
+}
+
+.url-button:hover {
+    background-color: #0056b3;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+input[type="text"], 
+input[type="number"], 
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100%;
+}
+
+button {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#thankYouMessage {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: green;
+    display: none;
+}
+
+/* QR code hiển thị */
+#qr-code {
+    margin-top: 20px;
+    width: 150px;
+    height: auto; /* Đảm bảo mã QR co giãn theo chiều cao */
+}
+
+/* Responsive điều chỉnh hiển thị cho thiết bị nhỏ */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        max-width: 95%;
+    }
+
+    input, button {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    #qr-code {
+        width: 120px;
+    }
+}
+
+/* Responsive điều chỉnh hiển thị cho thiết bị rất nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    input, button {
+        font-size: 0.85em;
+        padding: 8px;
+    }
+
+    #qr-code {
+        width: 100px;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+    p {
+        font-size: 0.9em;
+    }
+}
+
+    </style>
 </head>
 <body>
 
@@ -167,11 +317,5 @@ Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới 
         // Gọi hàm để lấy thông tin khi tải trang
         fetchPlayerCount();
     </script>
-
-
-<footer style="text-align: center; padding: 20px; background-color: #333; color: #fff; width: 100%; box-sizing: border-box;">
-    <p>Dream City &copy; 2024. Mọi quyền được bảo lưu.</p>
-</footer>
-
 </body>
 </html>
