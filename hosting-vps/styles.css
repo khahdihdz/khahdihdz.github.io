@@ -1,3 +1,4 @@
+/* Reset các thuộc tính mặc định */
 * {
     margin: 0;
     padding: 0;
@@ -5,177 +6,153 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #e9ecef; /* Màu nền sáng hơn */
-    color: #343a40; /* Màu chữ tối hơn */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Màu nền sáng */
 }
 
+/* Header */
 header {
-    background-color: #007bff; /* Màu xanh sáng cho header */
-    color: white;
-    padding: 2em 0; /* Tăng padding để header lớn hơn */
-    text-align: center; /* Căn giữa nội dung trong header */
+    background-color: #333; /* Màu nền tối cho header */
+    padding: 10px 0;
 }
 
 nav {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Căn giữa menu */
 }
 
 .menu {
-    position: relative;
+    display: flex;
 }
 
-.dropdown {
-    cursor: pointer;
-    padding: 15px 20px; /* Tăng padding cho menu */
-    color: white;
+/* Liên kết trong menu */
+.menu a {
+    color: white; /* Chữ màu trắng */
+    padding: 14px 20px;
     text-decoration: none;
-    font-size: 1.2em; /* Tăng kích thước chữ */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+    text-align: center;
 }
 
-.dropdown:hover {
-    background-color: #0056b3; /* Màu nền khi hover */
+.menu a:hover {
+    background-color: #575757; /* Hiệu ứng hover */
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #ffffff; /* Màu nền menu thả xuống sáng */
+    background-color: #333;
     min-width: 160px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: #007bff; /* Màu chữ của liên kết trong menu thả xuống */
+    color: white;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
 }
 
 .dropdown-content a:hover {
-    background-color: #f8f9fa; /* Màu nền khi hover trên liên kết */
+    background-color: #575757;
 }
 
-.show {
-    display: block;
+.dropdown:hover .dropdown-content {
+    display: block; /* Hiển thị nội dung khi hover */
 }
 
-main {
-    text-align: center;
-    padding: 2em;
-}
-
+/* Hero Section */
 .hero {
-    background-color: #f0f9ff; /* Màu nền cho phần giới thiệu */
-    padding: 2em 0;
-    margin-bottom: 2em;
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #0066cc; /* Màu nền cho hero section */
+    color: white;
 }
 
 .hero h1 {
-    font-size: 2.5em;
-    margin-bottom: 0.5em;
-    text-align: center; /* Căn giữa tiêu đề hero */
+    font-size: 2.5em; /* Kích thước tiêu đề */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
 }
 
 .hero p {
-    font-size: 1.2em;
-    margin-bottom: 1em;
-    text-align: center; /* Căn giữa mô tả hero */
+    font-size: 1.2em; /* Kích thước văn bản */
 }
 
 .btn {
-    background-color: #007bff; /* Màu nút */
-    color: white;
+    display: inline-block;
     padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+    background-color: #fff; /* Nền nút trắng */
+    color: #0066cc; /* Màu chữ nút */
+    text-decoration: none; /* Bỏ gạch chân */
+    border-radius: 5px; /* Bo góc */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi màu nền */
 }
 
 .btn:hover {
-    background-color: #0056b3; /* Màu nền khi hover nút */
+    background-color: #f0f0f0; /* Hiệu ứng hover cho nút */
 }
 
-#services {
-    padding: 2em;
-}
-
+/* Dịch vụ */
 .services-container {
-    border: 2px solid #007bff; /* Viền màu xanh cho khung */
-    border-radius: 10px; /* Bo góc cho khung */
-    padding: 20px; /* Khoảng cách bên trong khung */
-    margin: 20px auto; /* Giữa trang */
-    background-color: #ffffff; /* Màu nền cho phần dịch vụ */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho khung */
-    display: flex; /* Sử dụng Flexbox */
-    flex-wrap: wrap; /* Cho phép các thẻ dịch vụ co giãn */
-    justify-content: center; /* Căn giữa các thẻ dịch vụ */
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Căn giữa các dịch vụ */
 }
 
 .service-card {
-    display: flex; /* Sử dụng Flexbox trong thẻ dịch vụ */
-    flex-direction: column; /* Đặt chiều dọc cho các thành phần bên trong */
-    width: calc(33.333% - 40px); /* Đặt chiều rộng cho các thẻ dịch vụ với khoảng cách */
-    margin: 10px; /* Khoảng cách giữa các thẻ dịch vụ */
-    background-color: white;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    margin: 10px;
+    padding: 15px;
+    background-color: white; /* Màu nền trắng cho các dịch vụ */
+    text-align: center;
+    width: 300px; /* Chiều rộng cố định cho các dịch vụ */
+    transition: transform 0.3s; /* Hiệu ứng chuyển đổi khi hover */
+}
+
+.service-card:hover {
+    transform: scale(1.05); /* Phóng to khi hover */
 }
 
 .service-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+    max-width: 100%;
+    border-radius: 5px;
 }
 
-.service-card h3 {
-    padding: 15px;
-    color: #007bff; /* Màu chữ cho tiêu đề dịch vụ */
-    text-align: center; /* Căn giữa tiêu đề dịch vụ */
-}
-
-.service-card p {
-    padding: 0 15px 15px;
-    text-align: center; /* Căn giữa mô tả dịch vụ */
-}
-
+/* Footer */
 footer {
     text-align: center;
-    padding: 1em; /* Tăng padding cho footer */
-    background-color: #007bff; /* Màu giống header cho footer */
+    padding: 10px 0;
+    background-color: #333;
     color: white;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    font-size: 0.9em; /* Giảm kích thước chữ */
 }
 
 /* Responsive */
-@media (max-width: 800px) {
+@media (max-width: 768px) {
     .service-card {
-        width: calc(50% - 40px); /* Thay đổi chiều rộng cho màn hình nhỏ hơn */
-    }
-}
-
-@media (max-width: 500px) {
-    .service-card {
-        width: calc(100% - 40px); /* Thay đổi chiều rộng cho màn hình nhỏ nhất */
+        width: 90%; /* Chiều rộng cho màn hình nhỏ hơn */
     }
 
     .hero h1 {
-        font-size: 2em; /* Giảm kích thước chữ cho tiêu đề lớn trên màn hình nhỏ */
+        font-size: 2em; /* Kích thước tiêu đề nhỏ hơn cho màn hình nhỏ */
     }
 
     .hero p {
-        font-size: 1em; /* Giảm kích thước chữ cho phần mô tả trên màn hình nhỏ */
+        font-size: 1em; /* Kích thước văn bản nhỏ hơn cho màn hình nhỏ */
+    }
+}
+
+@media (max-width: 480px) {
+    .menu a {
+        padding: 10px; /* Giảm padding cho liên kết trong menu */
     }
 
-    .dropdown {
-        font-size: 1em; /* Giảm kích thước chữ cho menu thả xuống */
+    .hero h1 {
+        font-size: 1.5em; /* Kích thước tiêu đề nhỏ hơn nữa cho màn hình rất nhỏ */
     }
 }
