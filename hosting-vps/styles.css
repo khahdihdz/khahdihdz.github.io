@@ -8,7 +8,7 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
+    background-color: #e9ecef; /* Màu nền nhẹ cho thân thiện mắt */
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -17,52 +17,53 @@ body {
 }
 
 .container {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px;
-    border-radius: 10px;
-    max-width: 600px; /* Điều chỉnh độ rộng tối đa cho desktop */
+    border-radius: 12px;
+    max-width: 600px;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Hiệu ứng đổ bóng */
     text-align: center;
     overflow: hidden;
 }
 
 .container h2 {
-    color: #333;
+    color: #343a40; /* Màu chữ tối hơn cho tiêu đề */
     margin-bottom: 20px;
-    font-size: 1.8em; /* Kích thước chữ lớn cho tiêu đề */
+    font-size: 1.8em;
 }
 
 .container p {
     margin-bottom: 20px;
-    color: #555;
+    color: #6c757d; /* Màu xám nhẹ cho nội dung văn bản */
     text-align: justify;
-    font-size: 1em; /* Kích thước văn bản chuẩn */
+    font-size: 1em;
 }
 
 /* Nút cho dịch vụ */
 .url-button {
     display: inline-block;
-    padding: 12px 20px;
-    background-color: #007bff;
+    padding: 12px 24px;
+    background-color: #007bff; /* Màu xanh hiện đại cho nút */
     color: white;
     font-size: 1em;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px; /* Bo tròn góc nút */
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 10px;
     width: auto;
 }
 
 .url-button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Màu đậm khi hover */
+    transform: translateY(-2px); /* Hiệu ứng nâng nhẹ khi hover */
 }
 
 /* Responsive cho màn hình máy tính bảng */
 @media (max-width: 1024px) {
     .container {
-        max-width: 80%; /* Giảm kích thước để phù hợp với máy tính bảng */
+        max-width: 80%;
     }
 
     .container h2 {
