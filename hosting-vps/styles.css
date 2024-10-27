@@ -1,4 +1,4 @@
-00* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -101,14 +101,26 @@ main {
     padding: 2em;
 }
 
+.services-container {
+    border: 2px solid #007bff; /* Viền màu xanh cho khung */
+    border-radius: 10px; /* Bo góc cho khung */
+    padding: 20px; /* Khoảng cách bên trong khung */
+    margin: 20px auto; /* Giữa trang */
+    background-color: #ffffff; /* Màu nền cho phần dịch vụ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho khung */
+    display: flex; /* Sử dụng Flexbox */
+    flex-wrap: wrap; /* Cho phép các thẻ dịch vụ co giãn */
+    justify-content: center; /* Căn giữa các thẻ dịch vụ */
+}
+
 .service-card {
-    display: inline-block;
-    width: 300px;
-    margin: 20px;
+    display: flex; /* Sử dụng Flexbox trong thẻ dịch vụ */
+    flex-direction: column; /* Đặt chiều dọc cho các thành phần bên trong */
+    width: calc(33.333% - 40px); /* Đặt chiều rộng cho các thẻ dịch vụ với khoảng cách */
+    margin: 10px; /* Khoảng cách giữa các thẻ dịch vụ */
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
     overflow: hidden;
 }
 
@@ -127,24 +139,9 @@ main {
     padding: 0 15px 15px;
 }
 
-.services-container {
-    border: 2px solid #007bff; /* Viền màu xanh cho khung */
-    border-radius: 10px; /* Bo góc cho khung */
-    padding: 20px; /* Khoảng cách bên trong khung */
-    margin: 20px auto; /* Giữa trang */
-    background-color: #ffffff; /* Màu nền cho phần dịch vụ */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho khung */
-}
-
-#services h2 {
-    text-align: center; /* Căn giữa tiêu đề */
-    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
-    color: #007bff; /* Màu chữ cho tiêu đề */
-}
-
 footer {
     text-align: center;
-    padding: 0.5em; /* Giảm padding cho footer */
+    padding: 1em; /* Tăng padding cho footer */
     background-color: #007bff; /* Màu giống header cho footer */
     color: white;
     position: relative;
@@ -154,17 +151,26 @@ footer {
 }
 
 /* Responsive */
-@media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-    }
-    
-    .menu {
-        display: block;
-        width: 100%;
-    }
-    
+@media (max-width: 800px) {
     .service-card {
-        width: 90%; /* Đổi kích thước thẻ dịch vụ cho màn hình nhỏ */
+        width: calc(50% - 40px); /* Thay đổi chiều rộng cho màn hình nhỏ hơn */
+    }
+}
+
+@media (max-width: 500px) {
+    .service-card {
+        width: calc(100% - 40px); /* Thay đổi chiều rộng cho màn hình nhỏ nhất */
+    }
+
+    .hero h1 {
+        font-size: 2em; /* Giảm kích thước chữ cho tiêu đề lớn trên màn hình nhỏ */
+    }
+
+    .hero p {
+        font-size: 1em; /* Giảm kích thước chữ cho phần mô tả trên màn hình nhỏ */
+    }
+
+    .dropdown {
+        font-size: 1em; /* Giảm kích thước chữ cho menu thả xuống */
     }
 }
