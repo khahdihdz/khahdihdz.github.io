@@ -4,15 +4,19 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%; /* Đảm bảo toàn bộ trang phủ hết màn hình */
+}
+
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     background-color: #f4f4f4;
-    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 20px;
     overflow-x: hidden; /* Ngăn tràn viền ngang */
 }
 
@@ -22,22 +26,27 @@ body {
     border-radius: 10px;
     max-width: 90%;
     width: 100%;
+    display: flex;
+    flex-direction: column; /* Xếp dọc các phần tử con */
+    justify-content: space-between; /* Chia đều không gian dọc */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
     overflow: hidden; /* Chống tràn viền */
+    height: auto;
+    max-height: 100vh; /* Giới hạn chiều cao tối đa để không vượt quá màn hình */
 }
 
 h2 {
     color: #333;
     margin-bottom: 20px;
-    font-size: clamp(1.5em, 2.5vw, 2em); /* Tự động điều chỉnh kích thước chữ */
+    font-size: clamp(1.5em, 2.5vw, 2em);
 }
 
 p {
     margin-bottom: 20px;
     color: #555;
     text-align: justify;
-    font-size: clamp(0.9em, 1.5vw, 1em); /* Điều chỉnh kích thước chữ để không bị tràn */
+    font-size: clamp(0.9em, 1.5vw, 1em);
+    flex-grow: 1; /* Đảm bảo đoạn văn giãn ra theo chiều dọc */
 }
 
 .service {
@@ -79,7 +88,6 @@ p {
     border-radius: 5px;
     z-index: 1;
     min-width: 160px;
-    overflow: hidden;
 }
 
 .dropdown-content a {
