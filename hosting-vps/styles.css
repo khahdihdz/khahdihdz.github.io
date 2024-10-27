@@ -9,24 +9,33 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
+    line-height: 1.6;
 }
 
+/* Header */
 header {
     background-color: #0056b3;
     color: white;
     text-align: center;
-    padding: 1.5rem;
+    padding: 2rem 1rem;
 }
 
 header h1 {
     margin-bottom: 0.5rem;
+    font-size: 2rem;
 }
 
+header p {
+    font-size: 1rem;
+}
+
+/* Dịch vụ */
 #services {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
 }
 
 .service-card {
@@ -34,28 +43,37 @@ header h1 {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 1.5rem;
-    width: 250px;
+    width: 100%;
+    max-width: 300px;
     text-align: center;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 }
 
 .service-card h2 {
     color: #0056b3;
     margin-bottom: 1rem;
+    font-size: 1.5rem;
 }
 
 .service-card p {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
 }
 
 .btn {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.2rem;
     color: white;
     background-color: #007bff;
     border-radius: 5px;
     text-decoration: none;
+    font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
@@ -63,11 +81,64 @@ header h1 {
     background-color: #0056b3;
 }
 
+/* Footer */
 footer {
     text-align: center;
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: #333;
     color: white;
     font-size: 0.9rem;
     margin-top: 2rem;
+}
+
+/* Responsive */
+@media (min-width: 576px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+
+    #services {
+        gap: 2rem;
+    }
+
+    .service-card {
+        max-width: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    header {
+        padding: 3rem 1.5rem;
+    }
+
+    header h1 {
+        font-size: 3rem;
+    }
+
+    header p {
+        font-size: 1.1rem;
+    }
+
+    #services {
+        gap: 2.5rem;
+    }
+
+    .service-card {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    header h1 {
+        font-size: 3.5rem;
+    }
+
+    header p {
+        font-size: 1.2rem;
+    }
+
+    #services {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 }
