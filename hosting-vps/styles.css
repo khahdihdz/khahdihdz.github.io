@@ -5,102 +5,87 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #e7f4ff; /* Màu nền sáng hơn */
-    color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #f9fafb; /* Màu nền sáng */
+    color: #333; /* Màu chữ tối */
 }
 
 header {
-    background: #4a90e2; /* Màu nền sáng hơn cho header */
-    color: #ffffff;
-    padding: 10px 0;
+    background: linear-gradient(135deg, #6c63ff, #3b4b9a); /* Màu nền gradient tươi sáng */
+    color: white;
+    padding: 20px 0;
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
+    margin-bottom: 10px;
+    font-size: 2.5em; /* Kích thước chữ lớn */
 }
 
 nav {
-    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .menu {
     list-style: none;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    gap: 30px; /* Khoảng cách giữa các mục menu */
 }
 
-.menu > li {
-    position: relative;
-}
-
-.menu > li > a {
+.menu li a {
     color: white;
     text-decoration: none;
-    padding: 15px 20px;
-    display: block;
-    transition: background 0.3s, color 0.3s;
+    padding: 15px 20px; /* Padding lớn hơn cho các liên kết */
+    transition: background 0.3s, transform 0.3s; /* Thêm hiệu ứng khi hover */
 }
 
-.menu > li:hover > a {
-    background: #357ab8; /* Màu nền khi hover */
-    color: #ffffff; /* Màu chữ khi hover */
+.menu li a:hover {
+    background: #4c4caf; /* Màu nền khi hover */
+    border-radius: 5px;
+    transform: scale(1.05); /* Hiệu ứng phóng to */
 }
 
-.dropdown {
-    display: none;
-    position: absolute;
-    background: #4a90e2; /* Màu nền cho dropdown */
-    list-style: none;
-    padding: 0;
-    z-index: 1000;
-}
-
-.dropdown li {
-    width: 150px;
-}
-
-.dropdown li a {
-    padding: 10px;
-    color: white;
-    transition: background 0.3s, color 0.3s;
-}
-
-.dropdown li a:hover {
-    background: #357ab8; /* Màu nền khi hover trong dropdown */
-}
-
-.menu > li:hover .dropdown {
-    display: block;
-}
-
-main {
-    padding: 20px;
+.services {
+    padding: 40px 20px; /* Padding lớn hơn cho không gian */
     text-align: center;
+}
+
+.service {
+    background: #ffffff; /* Màu nền sáng cho dịch vụ */
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Bóng đổ sâu hơn */
+    margin: 20px auto;
+    padding: 30px; /* Padding lớn hơn */
+    max-width: 90%; /* Chiều rộng tối đa để responsive */
+    text-align: center;
+}
+
+.service img {
+    max-width: 100%; /* Đảm bảo hình ảnh không bị vượt quá chiều rộng */
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
 footer {
-    text-align: center;
-    padding: 10px;
-    background: #4a90e2; /* Màu nền cho footer */
+    background: #6c63ff; /* Màu nền footer */
     color: white;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    text-align: center;
+    padding: 15px; /* Padding lớn hơn */
+    margin-top: 20px;
 }
 
 @media (max-width: 768px) {
     .menu {
-        flex-direction: column;
+        flex-direction: column; /* Menu thả xuống trên thiết bị di động */
+        align-items: center;
     }
 
-    .menu > li {
-        width: 100%;
+    h1 {
+        font-size: 2em; /* Kích thước chữ h1 nhỏ hơn trên di động */
     }
 
-    .dropdown {
-        position: static; /* Thay đổi để dropdown không bị rơi ra ngoài khung */
+    .service {
+        max-width: 95%; /* Chiều rộng dịch vụ lớn hơn trên di động */
     }
 }
