@@ -15,7 +15,7 @@ body {
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Căn lề trên cùng */
     padding: 20px;
     min-height: 100vh;
 }
@@ -27,12 +27,12 @@ body {
     max-width: 90vw;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start; /* Căn đều các phần tử */
     align-items: center;
     text-align: center;
+    overflow: hidden; /* Ngăn tràn viền */
 }
 
 h2 {
@@ -47,8 +47,6 @@ p {
     text-align: justify;
     font-size: clamp(0.9em, 1.5vw, 1em);
     margin-bottom: 20px;
-    max-width: 100%;
-    line-height: 1.6;
 }
 
 .service {
@@ -87,8 +85,8 @@ p {
 /* Điều chỉnh menu thả xuống */
 .dropdown-content {
     display: none;
-    position: fixed; /* Giữ menu thả xuống cố định */
-    top: 50px; /* Điều chỉnh khoảng cách với nút menu */
+    position: absolute; /* Sử dụng absolute để menu không bị cắt */
+    top: 100%; /* Xuất hiện bên dưới nút */
     left: 50%; /* Căn giữa theo chiều ngang */
     transform: translateX(-50%);
     background-color: #f9f9f9;
@@ -99,9 +97,10 @@ p {
     max-width: 90vw; /* Đảm bảo hiển thị linh hoạt trên các thiết bị nhỏ */
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 50vh; /* Đảm bảo menu không chiếm toàn bộ màn hình dọc */
+    max-height: 50vh; /* Hạn chế chiều cao của menu */
 }
 
+/* Hiển thị nội dung menu thả xuống */
 .dropdown-content a {
     color: #333;
     padding: 12px 16px;
