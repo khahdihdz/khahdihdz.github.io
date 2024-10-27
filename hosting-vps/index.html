@@ -8,85 +8,40 @@
 </head>
 <body>
     <header>
+        <h1>Dịch Vụ VPS và Game Server</h1>
         <nav>
-            <div class="menu">
-                <div class="dropdown">
-                    <a href="#" class="dropdown-toggle">Dịch vụ VPS</a>
-                    <div class="dropdown-content">
-                        <a href="link1-affiliate">VPS Linux</a>
-                        <a href="link2-affiliate">VPS Windows</a>
-                        <a href="link3-affiliate">VPS Cloud</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <a href="#" class="dropdown-toggle">Game Server</a>
-                    <div class="dropdown-content">
-                        <a href="link4-affiliate">Game Server 1</a>
-                        <a href="link5-affiliate">Game Server 2</a>
-                        <a href="link6-affiliate">Game Server 3</a>
-                    </div>
-                </div>
-            </div>
+            <ul class="menu">
+                <li><a href="#">Trang Chủ</a></li>
+                <li>
+                    <a href="#">Dịch Vụ VPS</a>
+                    <ul class="dropdown">
+                        <li><a href="#">VPS Cơ Bản</a></li>
+                        <li><a href="#">VPS Nâng Cao</a></li>
+                        <li><a href="#">VPS Chuyên Nghiệp</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Game Server</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Game 1</a></li>
+                        <li><a href="#">Game 2</a></li>
+                        <li><a href="#">Game 3</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Liên Hệ</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <section class="hero">
-            <h1>Chào mừng đến với dịch vụ VPS và Game Server</h1>
-            <p>Chúng tôi cung cấp các dịch vụ VPS và Game Server với hiệu suất cao và độ tin cậy tối ưu cho mọi nhu cầu của bạn.</p>
-            <a href="#services" class="btn">Tìm hiểu thêm</a>
-        </section>
-
-        <section id="services" class="services-container">
-            <h2>Dịch Vụ Của Chúng Tôi</h2>
-            <div class="service-card">
-                <img src="https://via.placeholder.com/300x200.png?text=VPS+Linux" alt="VPS Linux">
-                <h3>VPS Linux</h3>
-                <p>Máy chủ ảo chạy hệ điều hành Linux với khả năng tùy chỉnh cao, phù hợp cho nhiều ứng dụng khác nhau.</p>
-            </div>
-            <div class="service-card">
-                <img src="https://via.placeholder.com/300x200.png?text=VPS+Windows" alt="VPS Windows">
-                <h3>VPS Windows</h3>
-                <p>Máy chủ ảo chạy hệ điều hành Windows, lý tưởng cho các ứng dụng đòi hỏi môi trường Windows.</p>
-            </div>
-            <div class="service-card">
-                <img src="https://via.placeholder.com/300x200.png?text=VPS+Cloud" alt="VPS Cloud">
-                <h3>VPS Cloud</h3>
-                <p>Giải pháp VPS Cloud linh hoạt, giúp bạn mở rộng tài nguyên theo nhu cầu mà không mất thời gian.</p>
-            </div>
-            <div class="service-card">
-                <img src="https://via.placeholder.com/300x200.png?text=Game+Server" alt="Game Server">
-                <h3>Game Server</h3>
-                <p>Dịch vụ Game Server mạnh mẽ cho nhiều trò chơi phổ biến với độ ổn định và tốc độ cao.</p>
-            </div>
+        <section>
+            <h2>Giới Thiệu</h2>
+            <p>Chúng tôi cung cấp dịch vụ VPS và Game Server chất lượng cao với hiệu suất tốt nhất cho nhu cầu của bạn.</p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 DREAM CITY | ROLEPLAY VIETNAM. Tất cả các quyền được bảo lưu. Thiết kế bởi <a href="https://facebook.com/khahdihdz" title="DREAM CITY | ROLEPLAY VIETNAM">khahdihdz</a>.</p>
+        <p>&copy; 2024 Dịch Vụ VPS và Game Server. Bản quyền thuộc về công ty.</p>
     </footer>
-
-    <script>
-        // JavaScript cho menu thả xuống
-        const dropdowns = document.querySelectorAll('.dropdown-toggle');
-
-        dropdowns.forEach(dropdown => {
-            dropdown.addEventListener('click', () => {
-                dropdown.nextElementSibling.classList.toggle('show');
-            });
-        });
-
-        // Đóng menu khi nhấp ra ngoài
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropdown-toggle')) {
-                dropdowns.forEach(dropdown => {
-                    const content = dropdown.nextElementSibling;
-                    if (content.classList.contains('show')) {
-                        content.classList.remove('show');
-                    }
-                });
-            }
-        };
-    </script>
 </body>
 </html>
