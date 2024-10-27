@@ -8,7 +8,7 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-color: #e9ecef;
+    background-color: #f4f4f4; /* Màu nền nhẹ */
     padding: 20px;
     display: flex;
     justify-content: center;
@@ -18,106 +18,103 @@ body {
 
 .container {
     background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px; /* Chiều rộng tối đa */
+    width: 90%; /* Chiều rộng tối thiểu */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ */
     text-align: center;
-    overflow: hidden;
 }
 
+/* Tiêu đề */
 .container h2 {
     color: #343a40;
     margin-bottom: 20px;
-    font-size: 1.8em;
-    text-align: center;
+    font-size: 2em; /* Kích thước tiêu đề lớn */
 }
 
+/* Nội dung văn bản */
 .container p {
     margin-bottom: 20px;
     color: #6c757d;
-    text-align: justify; /* Căn lề đều hai bên */
-    font-size: 1em;
+    text-align: justify; /* Căn đều hai bên */
+    font-size: 1.1em; /* Kích thước văn bản vừa phải */
 }
 
 /* Nút cho dịch vụ */
 .url-button {
     display: inline-block;
-    padding: 12px 24px;
-    background-color: #007bff;
+    padding: 12px 30px; /* Padding lớn hơn */
+    background-color: #007bff; /* Màu xanh hiện đại */
     color: white;
-    font-size: 1em;
+    font-size: 1.1em; /* Kích thước chữ cho nút */
     border: none;
     border-radius: 8px;
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 10px;
-    width: auto;
 }
 
 .url-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+    background-color: #0056b3; /* Màu nút khi hover */
+    transform: translateY(-3px); /* Hiệu ứng nâng nhẹ khi hover */
 }
 
 /* Responsive cho màn hình máy tính bảng */
 @media (max-width: 1024px) {
     .container {
-        max-width: 80%;
+        padding: 20px; /* Giảm padding cho màn hình nhỏ hơn */
     }
 
     .container h2 {
-        font-size: 1.6em;
+        font-size: 1.8em; /* Giảm kích thước tiêu đề */
     }
 
     .url-button {
-        font-size: 0.95em;
+        font-size: 1em; /* Giảm kích thước chữ nút */
     }
 }
 
 /* Responsive cho điện thoại lớn */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
-        max-width: 90%;
+        padding: 15px; /* Giảm padding hơn nữa */
     }
 
-    h2 {
-        font-size: 1.4em;
+    .container h2 {
+        font-size: 1.6em; /* Giảm kích thước tiêu đề */
     }
 
-    p {
-        font-size: 0.95em;
+    .container p {
+        font-size: 1em; /* Giảm kích thước văn bản */
     }
 
     .url-button {
-        font-size: 0.9em;
-        padding: 10px;
+        padding: 10px 20px; /* Giảm padding cho nút */
+        font-size: 0.95em; /* Giảm kích thước chữ nút */
     }
 }
 
 /* Responsive cho điện thoại rất nhỏ */
 @media (max-width: 480px) {
     body {
-        padding: 10px;
+        padding: 10px; /* Giảm padding cho body */
     }
 
     .container {
-        padding: 10px;
-        max-width: 100%;
+        padding: 10px; /* Giảm padding cho container */
     }
 
-    h2 {
-        font-size: 1.2em;
+    .container h2 {
+        font-size: 1.4em; /* Kích thước tiêu đề nhỏ hơn */
     }
 
-    p {
-        font-size: 0.85em;
+    .container p {
+        font-size: 0.9em; /* Kích thước văn bản nhỏ hơn */
     }
 
     .url-button {
-        font-size: 0.85em;
-        padding: 8px;
+        padding: 8px 15px; /* Giảm padding cho nút */
+        font-size: 0.9em; /* Giảm kích thước chữ nút */
     }
 }
