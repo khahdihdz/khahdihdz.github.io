@@ -5,11 +5,13 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Màu nền nhẹ */
+    color: #333; /* Màu chữ tối */
 }
 
 header {
-    background-color: #333;
+    background-color: #2c3e50; /* Màu xanh đậm cho header */
     color: white;
 }
 
@@ -28,26 +30,32 @@ nav {
     padding: 10px 15px;
     color: white;
     text-decoration: none;
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.dropdown:hover {
+    background-color: #34495e; /* Màu nền khi hover */
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #ecf0f1; /* Màu nền menu thả xuống */
     min-width: 160px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: black;
+    color: #2c3e50; /* Màu chữ của liên kết trong menu thả xuống */
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color: #bdc3c7; /* Màu nền khi hover trên liên kết */
 }
 
 .show {
@@ -62,7 +70,7 @@ main {
 footer {
     text-align: center;
     padding: 1em;
-    background-color: #333;
+    background-color: #2c3e50; /* Màu giống header cho footer */
     color: white;
     position: relative;
     bottom: 0;
