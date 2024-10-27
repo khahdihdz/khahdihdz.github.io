@@ -5,7 +5,8 @@
 }
 
 html, body {
-    height: 100%; /* Bảo đảm trang chiếm toàn bộ chiều cao */
+    height: 100%;
+    overflow-x: hidden; /* Ngăn tràn ngang */
 }
 
 body {
@@ -15,26 +16,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     padding: 20px;
-    overflow-x: hidden; /* Ngăn tràn ngang */
+    min-height: 100vh;
 }
 
 .container {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    max-width: 90%;
+    max-width: 90vw;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     text-align: center;
-    height: auto;
-    max-height: 90vh; /* Giới hạn chiều cao để không tràn màn hình */
 }
 
 h2 {
@@ -49,14 +47,14 @@ p {
     text-align: justify;
     font-size: clamp(0.9em, 1.5vw, 1em);
     margin-bottom: 20px;
-    max-width: 100%; /* Đảm bảo không bị tràn ngang */
+    max-width: 100%;
     line-height: 1.6;
 }
 
 .service {
     margin-bottom: 30px;
     text-align: center;
-    width: 100%; /* Đảm bảo khối dịch vụ đầy đủ chiều rộng */
+    width: 100%;
 }
 
 .service h4 {
@@ -94,6 +92,7 @@ p {
     border-radius: 5px;
     z-index: 1;
     min-width: 160px;
+    overflow: hidden; /* Ngăn tràn */
 }
 
 .dropdown-content a {
