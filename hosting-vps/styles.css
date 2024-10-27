@@ -1,4 +1,4 @@
-/* Định dạng cơ bản cho toàn bộ trang */
+/* Thiết lập chung */
 * {
     margin: 0;
     padding: 0;
@@ -6,139 +6,116 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
-}
-
-/* Header */
-header {
-    background-color: #0056b3;
-    color: white;
-    text-align: center;
-    padding: 2rem 1rem;
-}
-
-header h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-}
-
-header p {
-    font-size: 1rem;
-}
-
-/* Dịch vụ */
-#services {
+    background-color: #f4f4f4;
+    padding: 20px;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5rem;
-    padding: 2rem 1rem;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.service-card {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1.5rem;
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px; /* Điều chỉnh độ rộng tối đa cho desktop */
     width: 100%;
-    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
-.service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+.container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8em; /* Kích thước chữ lớn cho tiêu đề */
 }
 
-.service-card h2 {
-    color: #0056b3;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+.container p {
+    margin-bottom: 20px;
+    color: #555;
+    text-align: justify;
+    font-size: 1em; /* Kích thước văn bản chuẩn */
 }
 
-.service-card p {
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-
-.btn {
+/* Nút cho dịch vụ */
+.url-button {
     display: inline-block;
-    padding: 0.5rem 1.2rem;
-    color: white;
+    padding: 12px 20px;
     background-color: #007bff;
+    color: white;
+    font-size: 1em;
+    border: none;
     border-radius: 5px;
     text-decoration: none;
-    font-size: 1rem;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
+    width: auto;
 }
 
-.btn:hover {
+.url-button:hover {
     background-color: #0056b3;
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: #333;
-    color: white;
-    font-size: 0.9rem;
-    margin-top: 2rem;
-}
-
-/* Responsive */
-@media (min-width: 576px) {
-    header h1 {
-        font-size: 2.5rem;
+/* Responsive cho màn hình máy tính bảng */
+@media (max-width: 1024px) {
+    .container {
+        max-width: 80%; /* Giảm kích thước để phù hợp với máy tính bảng */
     }
 
-    #services {
-        gap: 2rem;
+    .container h2 {
+        font-size: 1.6em;
     }
 
-    .service-card {
-        max-width: 250px;
+    .url-button {
+        font-size: 0.95em;
     }
 }
 
-@media (min-width: 768px) {
-    header {
-        padding: 3rem 1.5rem;
+/* Responsive cho điện thoại lớn */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        max-width: 90%;
     }
 
-    header h1 {
-        font-size: 3rem;
+    h2 {
+        font-size: 1.4em;
     }
 
-    header p {
-        font-size: 1.1rem;
+    p {
+        font-size: 0.95em;
     }
 
-    #services {
-        gap: 2.5rem;
-    }
-
-    .service-card {
-        max-width: 300px;
+    .url-button {
+        font-size: 0.9em;
+        padding: 10px;
     }
 }
 
-@media (min-width: 992px) {
-    header h1 {
-        font-size: 3.5rem;
+/* Responsive cho điện thoại rất nhỏ */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
     }
 
-    header p {
-        font-size: 1.2rem;
+    .container {
+        padding: 10px;
+        max-width: 100%;
     }
 
-    #services {
-        max-width: 1200px;
-        margin: 0 auto;
+    h2 {
+        font-size: 1.2em;
+    }
+
+    p {
+        font-size: 0.85em;
+    }
+
+    .url-button {
+        font-size: 0.85em;
+        padding: 8px;
     }
 }
