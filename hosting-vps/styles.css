@@ -1,4 +1,4 @@
-* {
+00* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -125,6 +125,21 @@ main {
 
 .service-card p {
     padding: 0 15px 15px;
+}
+
+.services-container {
+    border: 2px solid #007bff; /* Viền màu xanh cho khung */
+    border-radius: 10px; /* Bo góc cho khung */
+    padding: 20px; /* Khoảng cách bên trong khung */
+    margin: 20px auto; /* Giữa trang */
+    background-color: #ffffff; /* Màu nền cho phần dịch vụ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho khung */
+}
+
+#services h2 {
+    text-align: center; /* Căn giữa tiêu đề */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    color: #007bff; /* Màu chữ cho tiêu đề */
 }
 
 footer {
