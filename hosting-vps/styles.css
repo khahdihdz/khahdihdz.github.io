@@ -4,19 +4,14 @@
     box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    overflow-x: hidden;
-}
-
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     background-color: #f4f4f4;
+    padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Căn lề trên cùng */
-    padding: 20px;
+    align-items: center;
     min-height: 100vh;
 }
 
@@ -24,43 +19,43 @@ body {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    max-width: 90vw;
+    max-width: 90%;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Căn đều các phần tử */
-    align-items: center;
     text-align: center;
-    overflow: hidden; /* Ngăn tràn viền */
+    overflow: hidden;
 }
 
-h2 {
+.container h2 {
     color: #333;
     margin-bottom: 20px;
-    font-size: clamp(1.5em, 2.5vw, 2em);
-    text-align: center;
 }
 
-p {
+.container p {
+    margin-bottom: 20px;
     color: #555;
     text-align: justify;
-    font-size: clamp(0.9em, 1.5vw, 1em);
-    margin-bottom: 20px;
 }
 
-.service {
-    margin-bottom: 30px;
-    text-align: center;
-    width: 100%;
+.url-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    width: auto;
 }
 
-.service h4 {
-    color: #007bff;
-    margin-bottom: 15px;
-    font-size: clamp(1.2em, 2vw, 1.5em);
+.url-button:hover {
+    background-color: #0056b3;
 }
 
+/* Menu thả xuống */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -76,28 +71,23 @@ p {
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 15px;
+    z-index: 1;
 }
 
-.dropbtn:hover {
-    background-color: #0056b3;
-}
-
-/* Điều chỉnh menu thả xuống */
 .dropdown-content {
     display: none;
-    position: absolute; /* Sử dụng absolute để menu không bị cắt */
-    top: 100%; /* Xuất hiện bên dưới nút */
-    left: 50%; /* Căn giữa theo chiều ngang */
+    position: absolute;
+    top: 100%;
+    left: 50%;
     transform: translateX(-50%);
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     z-index: 1000;
     min-width: 200px;
-    max-width: 90vw; /* Đảm bảo hiển thị linh hoạt trên các thiết bị nhỏ */
+    max-width: 90vw;
     overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 50vh; /* Hạn chế chiều cao của menu */
+    max-height: 300px; /* Giới hạn chiều cao menu thả xuống */
 }
 
 /* Hiển thị nội dung menu thả xuống */
@@ -113,8 +103,54 @@ p {
     background-color: #f1f1f1;
 }
 
+/* Hiển thị menu thả xuống khi di chuột */
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+input[type="text"], 
+input[type="number"], 
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100%;
+}
+
+button {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#thankYouMessage {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: green;
+    display: none;
 }
 
 /* Responsive điều chỉnh hiển thị cho thiết bị nhỏ */
@@ -124,8 +160,9 @@ p {
         max-width: 95%;
     }
 
-    .service h4, .dropbtn, .dropdown-content a {
+    input, button {
         font-size: 0.9em;
+        padding: 10px;
     }
 }
 
@@ -140,42 +177,15 @@ p {
         max-width: 100%;
     }
 
-    .dropbtn {
-        padding: 8px 15px;
-    }
-
-    h2 {
-        font-size: 1.3em;
-    }
-    p {
+    input, button {
         font-size: 0.85em;
-    }
-}
-
-/* Responsive cho màn hình lớn hơn (trên 1200px) */
-@media (min-width: 1200px) {
-    .container {
-        max-width: 70%;
+        padding: 8px;
     }
 
     h2 {
-        font-size: 2em;
+        font-size: 1.4em;
     }
-
     p {
-        font-size: 1.1em;
-    }
-
-    .service h4 {
-        font-size: 1.5em;
-    }
-
-    .dropbtn {
-        padding: 14px 24px;
-    }
-
-    .dropdown-content a {
-        padding: 14px 18px;
-        font-size: 1em;
+        font-size: 0.9em;
     }
 }
