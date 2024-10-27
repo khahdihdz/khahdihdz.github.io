@@ -14,6 +14,7 @@ header {
     background-color: #007bff; /* Màu xanh sáng cho header */
     color: white;
     padding: 2em 0; /* Tăng padding để header lớn hơn */
+    text-align: center; /* Căn giữa nội dung trong header */
 }
 
 nav {
@@ -77,11 +78,13 @@ main {
 .hero h1 {
     font-size: 2.5em;
     margin-bottom: 0.5em;
+    text-align: center; /* Căn giữa tiêu đề hero */
 }
 
 .hero p {
     font-size: 1.2em;
     margin-bottom: 1em;
+    text-align: center; /* Căn giữa mô tả hero */
 }
 
 .btn {
@@ -133,10 +136,12 @@ main {
 .service-card h3 {
     padding: 15px;
     color: #007bff; /* Màu chữ cho tiêu đề dịch vụ */
+    text-align: center; /* Căn giữa tiêu đề dịch vụ */
 }
 
 .service-card p {
     padding: 0 15px 15px;
+    text-align: center; /* Căn giữa mô tả dịch vụ */
 }
 
 footer {
