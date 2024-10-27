@@ -7,12 +7,12 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
+    background-color: #e7f4ff; /* Màu nền sáng hơn */
     color: #333;
 }
 
 header {
-    background: #35424a;
+    background: #4a90e2; /* Màu nền sáng hơn cho header */
     color: #ffffff;
     padding: 10px 0;
 }
@@ -41,17 +41,18 @@ nav {
     text-decoration: none;
     padding: 15px 20px;
     display: block;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
 }
 
 .menu > li:hover > a {
-    background: #428bca;
+    background: #357ab8; /* Màu nền khi hover */
+    color: #ffffff; /* Màu chữ khi hover */
 }
 
 .dropdown {
     display: none;
     position: absolute;
-    background: #35424a;
+    background: #4a90e2; /* Màu nền cho dropdown */
     list-style: none;
     padding: 0;
     z-index: 1000;
@@ -63,6 +64,12 @@ nav {
 
 .dropdown li a {
     padding: 10px;
+    color: white;
+    transition: background 0.3s, color 0.3s;
+}
+
+.dropdown li a:hover {
+    background: #357ab8; /* Màu nền khi hover trong dropdown */
 }
 
 .menu > li:hover .dropdown {
@@ -77,7 +84,7 @@ main {
 footer {
     text-align: center;
     padding: 10px;
-    background: #35424a;
+    background: #4a90e2; /* Màu nền cho footer */
     color: white;
     position: relative;
     bottom: 0;
