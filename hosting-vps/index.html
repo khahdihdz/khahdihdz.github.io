@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch vụ VPS và Game Server</title>
+    <title>Dịch Vụ VPS và Game Server</title>
     <link rel="stylesheet" href="hosting-vps/styles.css">
 </head>
 <body>
     <header>
         <nav>
             <div class="menu">
-                <a href="#" class="dropdown">Dịch vụ VPS</a>
-                <div class="dropdown-content">
-                    <a href="link1-affiliate">VPS Linux</a>
-                    <a href="link2-affiliate">VPS Windows</a>
-                    <a href="link3-affiliate">VPS Cloud</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">Dịch vụ VPS</a>
+                    <div class="dropdown-content">
+                        <a href="link1-affiliate">VPS Linux</a>
+                        <a href="link2-affiliate">VPS Windows</a>
+                        <a href="link3-affiliate">VPS Cloud</a>
+                    </div>
                 </div>
-                <a href="#" class="dropdown">Game Server</a>
-                <div class="dropdown-content">
-                    <a href="link4-affiliate">Game Server 1</a>
-                    <a href="link5-affiliate">Game Server 2</a>
-                    <a href="link6-affiliate">Game Server 3</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">Game Server</a>
+                    <div class="dropdown-content">
+                        <a href="link4-affiliate">Game Server 1</a>
+                        <a href="link5-affiliate">Game Server 2</a>
+                        <a href="link6-affiliate">Game Server 3</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -34,37 +38,37 @@
         </section>
 
         <section id="services" class="services-container">
-    <h2>Dịch vụ của chúng tôi</h2>
-    <div class="service-card">
-        <img src="https://via.placeholder.com/300x200.png?text=VPS+Linux" alt="VPS Linux">
-        <h3>VPS Linux</h3>
-        <p>Máy chủ ảo chạy hệ điều hành Linux với khả năng tùy chỉnh cao, phù hợp cho nhiều ứng dụng khác nhau.</p>
-    </div>
-    <div class="service-card">
-        <img src="https://via.placeholder.com/300x200.png?text=VPS+Windows" alt="VPS Windows">
-        <h3>VPS Windows</h3>
-        <p>Máy chủ ảo chạy hệ điều hành Windows, lý tưởng cho các ứng dụng đòi hỏi môi trường Windows.</p>
-    </div>
-    <div class="service-card">
-        <img src="https://via.placeholder.com/300x200.png?text=VPS+Cloud" alt="VPS Cloud">
-        <h3>VPS Cloud</h3>
-        <p>Giải pháp VPS Cloud linh hoạt, giúp bạn mở rộng tài nguyên theo nhu cầu mà không mất thời gian.</p>
-    </div>
-    <div class="service-card">
-        <img src="https://via.placeholder.com/300x200.png?text=Game+Server" alt="Game Server">
-        <h3>Game Server</h3>
-        <p>Dịch vụ Game Server mạnh mẽ cho nhiều trò chơi phổ biến với độ ổn định và tốc độ cao.</p>
-    </div>
-</section>
+            <h2>Dịch Vụ Của Chúng Tôi</h2>
+            <div class="service-card">
+                <img src="https://via.placeholder.com/300x200.png?text=VPS+Linux" alt="VPS Linux">
+                <h3>VPS Linux</h3>
+                <p>Máy chủ ảo chạy hệ điều hành Linux với khả năng tùy chỉnh cao, phù hợp cho nhiều ứng dụng khác nhau.</p>
+            </div>
+            <div class="service-card">
+                <img src="https://via.placeholder.com/300x200.png?text=VPS+Windows" alt="VPS Windows">
+                <h3>VPS Windows</h3>
+                <p>Máy chủ ảo chạy hệ điều hành Windows, lý tưởng cho các ứng dụng đòi hỏi môi trường Windows.</p>
+            </div>
+            <div class="service-card">
+                <img src="https://via.placeholder.com/300x200.png?text=VPS+Cloud" alt="VPS Cloud">
+                <h3>VPS Cloud</h3>
+                <p>Giải pháp VPS Cloud linh hoạt, giúp bạn mở rộng tài nguyên theo nhu cầu mà không mất thời gian.</p>
+            </div>
+            <div class="service-card">
+                <img src="https://via.placeholder.com/300x200.png?text=Game+Server" alt="Game Server">
+                <h3>Game Server</h3>
+                <p>Dịch vụ Game Server mạnh mẽ cho nhiều trò chơi phổ biến với độ ổn định và tốc độ cao.</p>
+            </div>
+        </section>
     </main>
 
     <footer>
-    <p>&copy; 2024 DREAM CITY | ROLEPLAY VIETNAM. Tất cả các quyền được bảo lưu. Thiết kế bởi <a href="https://facebook.com/khahdihdz" title="DREAM CITY | ROLEPLAY VIETNAM">khahdihdz.</a></p>
-</footer>
+        <p>&copy; 2024 DREAM CITY | ROLEPLAY VIETNAM. Tất cả các quyền được bảo lưu. Thiết kế bởi <a href="https://facebook.com/khahdihdz" title="DREAM CITY | ROLEPLAY VIETNAM">khahdihdz</a>.</p>
+    </footer>
 
     <script>
         // JavaScript cho menu thả xuống
-        const dropdowns = document.querySelectorAll('.dropdown');
+        const dropdowns = document.querySelectorAll('.dropdown-toggle');
 
         dropdowns.forEach(dropdown => {
             dropdown.addEventListener('click', () => {
@@ -74,7 +78,7 @@
 
         // Đóng menu khi nhấp ra ngoài
         window.onclick = function(event) {
-            if (!event.target.matches('.dropdown')) {
+            if (!event.target.matches('.dropdown-toggle')) {
                 dropdowns.forEach(dropdown => {
                     const content = dropdown.nextElementSibling;
                     if (content.classList.contains('show')) {
