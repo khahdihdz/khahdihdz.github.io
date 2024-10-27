@@ -3,51 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dịch vụ Hosting/VPS/Game Server</title>
+    <title>Dịch vụ VPS và Game Server</title>
     <link rel="stylesheet" href="hosting-vps/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Chào mừng đến với Dịch vụ Hosting/VPS/Game Server</h2>
-
-        <div class="service">
-            <h4>Dịch vụ VPS</h4>
-            <p>Chúng tôi cung cấp dịch vụ VPS với cấu hình mạnh mẽ, giá cả hợp lý.</p>
-            <div class="dropdown">
-                <button class="dropbtn">Tùy chọn VPS</button>
+    <header>
+        <nav>
+            <div class="menu">
+                <a href="#" class="dropdown">Dịch vụ VPS</a>
                 <div class="dropdown-content">
-                    <a href="#">VPS Bắt Đầu</a>
-                    <a href="#">VPS Trung Bình</a>
-                    <a href="#">VPS Cao Cấp</a>
+                    <a href="link1-affiliate">VPS Linux</a>
+                    <a href="link2-affiliate">VPS Windows</a>
+                    <a href="link3-affiliate">VPS Cloud</a>
+                </div>
+                <a href="#" class="dropdown">Game Server</a>
+                <div class="dropdown-content">
+                    <a href="link4-affiliate">Game Server 1</a>
+                    <a href="link5-affiliate">Game Server 2</a>
+                    <a href="link6-affiliate">Game Server 3</a>
                 </div>
             </div>
-        </div>
+        </nav>
+    </header>
 
-        <div class="service">
-            <h4>Dịch vụ Hosting</h4>
-            <p>Hosting nhanh chóng, dễ dàng quản lý và bảo mật.</p>
-            <div class="dropdown">
-                <button class="dropbtn">Tùy chọn Hosting</button>
-                <div class="dropdown-content">
-                    <a href="#">Hosting Cơ Bản</a>
-                    <a href="#">Hosting Doanh Nghiệp</a>
-                    <a href="#">Hosting Cao Cấp</a>
-                </div>
-            </div>
-        </div>
+    <main>
+        <section>
+            <h1>Chào mừng đến với dịch vụ VPS và Game Server</h1>
+            <p>Chúng tôi cung cấp các dịch vụ VPS và Game Server với hiệu suất cao và độ tin cậy cao.</p>
+        </section>
+    </main>
 
-        <div class="service">
-            <h4>Dịch vụ Game Server</h4>
-            <p>Máy chủ game với độ trễ thấp và hiệu suất cao.</p>
-            <div class="dropdown">
-                <button class="dropbtn">Tùy chọn Game Server</button>
-                <div class="dropdown-content">
-                    <a href="#">Game Server Cơ Bản</a>
-                    <a href="#">Game Server Chuyên Nghiệp</a>
-                    <a href="#">Game Server Tùy Chỉnh</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2024 Dịch vụ VPS và Game Server. Bản quyền thuộc về bạn.</p>
+    </footer>
+
+    <script>
+        // JavaScript cho menu thả xuống
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('click', () => {
+                dropdown.nextElementSibling.classList.toggle('show');
+            });
+        });
+
+        // Đóng menu khi nhấp ra ngoài
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    const content = dropdown.nextElementSibling;
+                    if (content.classList.contains('show')) {
+                        content.classList.remove('show');
+                    }
+                });
+            }
+        };
+    </script>
 </body>
 </html>
