@@ -1,0 +1,276 @@
+/* Các biến CSS toàn cục */
+:root {
+    --primary-color: #ff9a00;
+    --secondary-color: #ffc107;
+    --accent-color: #ff6b6b;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --text-color: #495057;
+    --border-radius: 12px;
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Kiểu dáng cơ bản */
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow);
+}
+
+/* Header */
+.avatar-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 5px solid var(--primary-color);
+    box-shadow: var(--box-shadow);
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.bio {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Coffee Options */
+.coffee-options {
+    margin-bottom: 2rem;
+}
+
+.coffee-option {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.coffee-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background-color: #fff9e6;
+}
+
+.coffee-option.active {
+    background-color: #fff5d6;
+    border: 2px solid var(--primary-color);
+}
+
+.coffee-icon {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.coffee-option h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.coffee-option p {
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 0;
+}
+
+/* Payment Form */
+.payment-form {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    border: 1px solid #e2e2e2;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.25);
+    border-color: var(--primary-color);
+}
+
+/* Banking Information */
+.banking-info {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.bank-account-info, .qr-code-container {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    height: 100%;
+}
+
+.bank-name {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px dashed var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
+.account-number, .account-name, .transfer-note {
+    margin-bottom: 0.5rem;
+}
+
+.qr-title {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.qr-image {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.qr-note {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+/* Input group styling */
+.input-group-text {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    border-color: var(--primary-color);
+}
+
+#transferContent {
+    font-weight: 600;
+    background-color: #fff9e6;
+}
+
+#copyButton {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+#copyButton:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+/* Footer */
+footer {
+    padding: 2rem 0;
+}
+
+.social-icons {
+    margin-bottom: 1rem;
+}
+
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--light-color);
+    border-radius: 50%;
+    color: var(--dark-color);
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.copyright {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .name {
+        font-size: 2rem;
+    }
+    
+    .coffee-option {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .payment-form, .recent-supporters {
+        padding: 1.5rem;
+    }
+    
+    .coffee-option {
+        padding: 1rem;
+    }
+}
