@@ -1,86 +1,200 @@
-document.getElementById('donationForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Ngăn trang reload
-
-            const donorName = document.getElementById('donorName').value;
-            const characterName = document.getElementById('characterName').value;
-            const donationAmount = document.getElementById('donationAmount').value;
-            const billImage = document.getElementById('billImage').files[0];
-
-            // Kiểm tra nếu số tiền dưới 10,000 VND
-            if (donationAmount < 10000) {
-                alert("Số tiền ủng hộ tối thiểu là 10,000 VND.");
-                return;
-            }
-
-            // Tải ảnh lên Imgur qua API
-            const formData = new FormData();
-            formData.append("image", billImage);
-
-            const imgurResponse = await fetch('https://api.imgur.com/3/image', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Client-ID 0ec456789155e23' // Sử dụng Client ID mới
-                },
-                body: formData
-            });
-
-            const imgurData = await imgurResponse.json();
-            const imgurUrl = imgurData.data.link; // Link ảnh sau khi tải lên
-
-            // Tạo thông điệp gửi qua Discord Webhook
-            const webhookURL = 'https://discord.com/api/webhooks/1296179509854343241/JwO5NgNUIBYiid6xDqlopM6ccL3J1LYbqf-L27aBA8uWo1v1kO2GlGc10czmesZyiuYw'; // Thay bằng webhook của bạn
-            const message = {
-                content: `Cảm ơn **${donorName}**!\nChúng tôi chân thành cảm ơn bạn đã ủng hộ **${donationAmount} VND** cho máy chủ Dream City. Sự đóng góp của bạn sẽ giúp chúng tôi duy trì và phát triển cộng đồng ngày càng tốt đẹp hơn.`,
-                embeds: [
-                    {
-                        title: `Ủng hộ từ **${donorName}**`,
-                        description: `• Số tiền ủng hộ: **${donationAmount} VND**\n• Tên nhân vật: **${characterName}**\nChúng tôi sẽ kiểm tra và cộng tiền vào tài khoản của bạn trong game ngay khi có thể. Sự hỗ trợ của bạn là động lực lớn để chúng tôi không ngừng cải thiện và mang đến những trải nghiệm tuyệt vời hơn cho tất cả các thành viên.\n
-
-Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi!\n
-
-Một lần nữa, cảm ơn bạn rất nhiều vì đã đồng hành cùng Dream City!\n
-
-Chúc bạn có những giây phút thư giãn tuyệt vời trong thế giới của chúng ta!`,
-                        color: 7506394, // Màu sắc của embed
-                        image: {
-                            url: imgurUrl // Ảnh bill đã tải lên
-                        }
-                    }
-                ]
-            };
-
-            await fetch(webhookURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(message)
-            });
-
-            // Hiển thị thông điệp cảm ơn
-            document.getElementById('thankYouMessage').textContent = "Cảm ơn bạn đã ủng hộ!";
-            document.getElementById('thankYouMessage').style.display = 'block';
-
-            // Đặt lại form
-            this.reset();
+// Đợi tài liệu HTML được tải hoàn toàn
+document.addEventListener('DOMContentLoaded', function() {
+    // Cập nhật năm hiện tại ở cuối trang
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Lấy các phần tử DOM
+    const coffeeOptions = document.querySelectorAll('.coffee-option');
+    const customAmountInput = document.getElementById('customAmount');
+    const nameInput = document.getElementById('name');
+    const messageInput = document.getElementById('message');
+    const transferContentInput = document.getElementById('transferContent');
+    const generateButton = document.getElementById('generateButton');
+    const copyButton = document.getElementById('copyButton');
+    
+    // Số tiền mặc định là ly nhỏ
+    let selectedAmount = 20000;
+    
+    // Xử lý sự kiện khi người dùng click vào các tùy chọn cà phê
+    coffeeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Xóa class active của tất cả các tùy chọn
+            coffeeOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Thêm class active cho tùy chọn được chọn
+            this.classList.add('active');
+            
+            // Lấy giá trị số tiền từ thuộc tính data-amount
+            selectedAmount = parseInt(this.getAttribute('data-amount'));
+            
+            // Cập nhật giá trị số tiền tùy chọn
+            customAmountInput.value = selectedAmount;
         });
-
-        // CFX Server ID (thay ID của bạn vào đây)
-        const CFX_SERVER_ID = "v9jel5"; // Thay "abc123" bằng ID server của bạn
-
-        // Hàm lấy thông tin máy chủ từ API CFXRE
-        async function fetchPlayerCount() {
-            try {
-                const response = await fetch(`https://servers-frontend.fivem.net/api/servers/single/${CFX_SERVER_ID}`);
-                const data = await response.json();
-                
-                const playerCount = data.Data.players.length; // Số lượng người chơi trực tuyến
-                document.getElementById('playerCount').textContent = `Số người chơi trực tuyến: ${playerCount} thành viên`;
-            } catch (error) {
-                document.getElementById('playerCount').textContent = 'Không thể tải số lượng người chơi.';
-                console.error('Lỗi khi lấy thông tin máy chủ:', error);
-            }
+    });
+    
+    // Khi người dùng thay đổi số tiền tùy chọn
+    customAmountInput.addEventListener('input', function() {
+        // Xóa class active của tất cả các tùy chọn cà phê
+        coffeeOptions.forEach(opt => opt.classList.remove('active'));
+        
+        // Cập nhật số tiền được chọn
+        selectedAmount = parseInt(this.value) || 0;
+    });
+    
+    // Xử lý sự kiện khi người dùng nhập tên
+    nameInput.addEventListener('input', function() {
+        updateTransferContent();
+    });
+    
+    // Xử lý nút tạo nội dung chuyển khoản
+    generateButton.addEventListener('click', function() {
+        // Kiểm tra xem người dùng đã nhập tên và số tiền chưa
+        if (!nameInput.value.trim()) {
+            showToast('Vui lòng nhập tên của bạn!', 'warning');
+            nameInput.focus();
+            return;
         }
+        
+        if (!customAmountInput.value || parseInt(customAmountInput.value) <= 0) {
+            showToast('Vui lòng nhập số tiền hợp lệ!', 'warning');
+            customAmountInput.focus();
+            return;
+        }
+        
+        // Cập nhật nội dung chuyển khoản
+        updateTransferContent();
+        
+        // Hiển thị thông báo thành công
+        showToast('Đã tạo nội dung chuyển khoản!', 'success');
+    });
+    
+    // Xử lý nút sao chép nội dung chuyển khoản
+    copyButton.addEventListener('click', function() {
+        // Kiểm tra nội dung có trống không
+        if (!transferContentInput.value.trim()) {
+            showToast('Vui lòng tạo nội dung chuyển khoản trước!', 'warning');
+            return;
+        }
+        
+        // Sao chép nội dung vào clipboard
+        transferContentInput.select();
+        document.execCommand('copy');
+        
+        // Hiển thị thông báo thành công
+        showToast('Đã sao chép nội dung chuyển khoản!', 'success');
+    });
+    
+    // Hàm cập nhật nội dung chuyển khoản
+    function updateTransferContent() {
+        const name = nameInput.value.trim();
+        if (name) {
+            // Loại bỏ dấu tiếng Việt và các ký tự đặc biệt
+            const sanitizedName = removeVietnameseAccents(name).replace(/[^a-zA-Z0-9]/g, '');
+            transferContentInput.value = sanitizedName.toUpperCase();
+        } else {
+            transferContentInput.value = '';
+        }
+    }
+    
+    // Hàm loại bỏ dấu tiếng Việt
+    function removeVietnameseAccents(str) {
+        return str.normalize('NFD')
+                 .replace(/[\u0300-\u036f]/g, '')
+                 .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+    }
+    
+    // Hàm định dạng tiền tệ
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN').format(amount);
+    }
+    
+    // Hàm hiển thị thông báo toast
+    function showToast(message, type = 'info') {
+        // Kiểm tra xem container đã tồn tại chưa, nếu chưa thì tạo mới
+        let toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container';
+            document.body.appendChild(toastContainer);
+        }
+        
+        // Tạo toast mới
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `
+            <div class="toast-header">
+                <strong class="me-auto">${type === 'success' ? 'Thành công' : 'Thông báo'}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        
+        // Thêm toast vào container
+        toastContainer.appendChild(toast);
+        
+        // Khởi tạo toast bootstrap
+        const bootstrapToast = new bootstrap.Toast(toast, {
+            autohide: true,
+            delay: 3000
+        });
+        
+        // Hiển thị toast
+        bootstrapToast.show();
+        
+        // Xóa toast khỏi DOM sau khi ẩn
+        toast.addEventListener('hidden.bs.toast', function() {
+            toast.remove();
+        });
+    }
+    
+    // Chọn ly nhỏ mặc định
+    coffeeOptions[0].classList.add('active');
+    
+    // Tạo một thẻ div cho toast container
+    if (!document.querySelector('.toast-container')) {
+        const toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container';
+        document.body.appendChild(toastContainer);
+    }
+    
+    // Thêm hiệu ứng hover cho các phần tử
+    addHoverEffects();
+});
 
-        // Gọi hàm để lấy thông tin khi tải trang
-        fetchPlayerCount();
+// Hàm thêm hiệu ứng hover cho các phần tử
+function addHoverEffects() {
+    // Thêm hiệu ứng hover cho nút
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('mouseover', function() {
+            this.style.transform = 'translateY(-3px)';
+        });
+        
+        button.addEventListener('mouseout', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Thêm hiệu ứng ripple cho các tùy chọn cà phê
+    const coffeeOptions = document.querySelectorAll('.coffee-option');
+    coffeeOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+            // Tạo hiệu ứng ripple
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+            ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+            
+            // Xóa hiệu ứng sau khi hoàn thành
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
