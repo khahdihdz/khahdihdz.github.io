@@ -1,231 +1,416 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mua cho tôi một ly cà phê ☕</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hàng, QR Code hoặc BuyMeACoffee.">
-    <meta name="keywords" content="coffee, support, donation, ủng hộ, cà phê, chuyển khoản">
+    <!-- Primary Meta Tags -->
+    <title>Mua cho tôi một ly cà phê ☕ | Ủng hộ công việc của tôi</title>
+    <meta name="title" content="Mua cho tôi một ly cà phê ☕ | Ủng hộ công việc của tôi">
+    <meta name="description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Thanh toán dễ dàng qua ngân hàng MSB, QR Code hoặc BuyMeACoffee. Chỉ từ 25,000 VND.">
+    <meta name="keywords" content="coffee, support, donation, ủng hộ, cà phê, chuyển khoản, MSB, QR code, buy me a coffee">
     <meta name="author" content="Dinh Trong Khanh">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Vietnamese">
     
-    <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
-    <meta property="og:title" content="Mua cho tôi một ly cà phê ☕">
-    <meta property="og:description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Có thể thanh toán qua ngân hàng, QR Code hoặc BuyMeACoffee.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
-    <meta property="og:image:alt" content="Coffee cup with heart latte art">
-    <meta property="og:url" content="https://khahdihdz.github.io">
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Buy Me A Coffee">
+    <meta property="og:site_name" content="Buy Me A Coffee - Dinh Trong Khanh">
+    <meta property="og:title" content="Mua cho tôi một ly cà phê ☕">
+    <meta property="og:description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Thanh toán qua MSB, QR Code hoặc BuyMeACoffee.">
+    <meta property="og:url" content="https://khahdihdz.github.io">
+    <meta property="og:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
+    <meta property="og:image:alt" content="Coffee cup with heart latte art - Support my work">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:locale" content="vi_VN">
     <meta property="og:locale:alternate" content="en_US">
     
-    <!-- Twitter Card Meta Tags -->
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mua cho tôi một ly cà phê ☕">
     <meta name="twitter:description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Thanh toán dễ dàng qua nhiều phương thức.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
-    <meta name="twitter:image:alt" content="Coffee cup with heart latte art">
-    <meta name="twitter:creator" content="@yourusername">
+    <meta name="twitter:image:alt" content="Coffee support page">
+    <meta name="twitter:creator" content="@khahdihdz">
+    <meta name="twitter:site" content="@khahdihdz">
     
-    <!-- Additional Social Media Meta Tags -->
-    <meta property="article:author" content="Dinh Trong Khanh">
+    <!-- Additional Meta -->
     <meta name="theme-color" content="#6c5ce7">
     <meta name="msapplication-TileColor" content="#6c5ce7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Buy Me Coffee">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Mua cho tôi một ly cà phê ☕",
+        "description": "Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ",
+        "url": "https://khahdihdz.github.io",
+        "author": {
+            "@type": "Person",
+            "name": "Dinh Trong Khanh"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "25000",
+            "priceCurrency": "VND",
+            "availability": "https://schema.org/InStock"
+        }
+    }
+    </script>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ctext y='.9em' font-size='90'%3e☕%3c/text%3e%3c/svg%3e">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ctext y='.9em' font-size='90'%3e☕%3c/text%3e%3c/svg%3e">
     
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
+    <link rel="dns-prefetch" href="https://buymeacoffee.com">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/MSB-13001011869246-compact%20(1).png" as="image" type="image/png">
 </head>
+
 <body>
-<!-- Language Toggle - Fixed Header -->
-    <div class="fixed-header">
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 z-index-1050 m-2">
+        Chuyển đến nội dung chính
+    </a>
+
+    <!-- Language Toggle Header -->
+    <header class="fixed-header" role="banner">
         <div class="container-fluid">
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-outline-primary btn-sm" id="langToggle">
-                    <i class="fas fa-globe"></i>
+            <div class="d-flex justify-content-end align-items-center">
+                <button class="btn btn-outline-primary btn-sm" id="langToggle" 
+                        aria-label="Chuyển đổi ngôn ngữ" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="bottom" 
+                        title="Switch Language">
+                    <i class="fas fa-globe" aria-hidden="true"></i>
                     <span id="langText">English</span>
                 </button>
             </div>
         </div>
-    </div>
+    </header>
+
     <!-- Main Content -->
-    <div class="container">
+    <main id="main-content" class="container" role="main">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-6">
-                <div class="coffee-card">
-                    <!-- Header -->
-                    <div class="text-center mb-4">
-                        <div class="coffee-icon">
-                            <i class="fas fa-coffee"></i>
+                <article class="coffee-card" itemscope itemtype="https://schema.org/Product">
+                    
+                    <!-- Header Section -->
+                    <header class="text-center mb-4">
+                        <div class="coffee-icon" role="img" aria-label="Coffee icon">
+                            <i class="fas fa-coffee" aria-hidden="true"></i>
                         </div>
-                        <h1 class="coffee-title" data-vi="Mua cho tôi một ly cà phê" data-en="Buy me a coffee">
+                        <h1 class="coffee-title" 
+                            itemprop="name"
+                            data-vi="Mua cho tôi một ly cà phê" 
+                            data-en="Buy me a coffee">
                             Mua cho tôi một ly cà phê
                         </h1>
-                        <p class="coffee-subtitle" data-vi="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ" data-en="Support my work with a small coffee">
+                        <p class="coffee-subtitle" 
+                           itemprop="description"
+                           data-vi="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ" 
+                           data-en="Support my work with a small coffee">
                             Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ
                         </p>
-                    </div>
+                    </header>
 
-                    <!-- Coffee Amount Selection -->
-                    <div class="amount-section mb-4">
-                        <h5 class="section-title" data-vi="Chọn số lượng cà phê" data-en="Choose number of coffees">
+                    <!-- Amount Selection Section -->
+                    <section class="section mb-4" aria-labelledby="amount-title">
+                        <h2 id="amount-title" class="section-title" 
+                            data-vi="Chọn số lượng cà phê" 
+                            data-en="Choose number of coffees">
                             Chọn số lượng cà phê
-                        </h5>
-                        <div class="amount-buttons">
-                            <button class="amount-btn active" data-amount="1">
-                                <i class="fas fa-coffee"></i> 1
+                        </h2>
+                        
+                        <div class="amount-buttons" role="group" aria-labelledby="amount-title">
+                            <button class="amount-btn active" 
+                                    data-amount="1" 
+                                    type="button"
+                                    aria-pressed="true"
+                                    aria-describedby="total-display">
+                                <i class="fas fa-coffee" aria-hidden="true"></i>
+                                <span>1</span>
                             </button>
-                            <button class="amount-btn" data-amount="3">
-                                <i class="fas fa-coffee"></i> 3
+                            <button class="amount-btn" 
+                                    data-amount="3" 
+                                    type="button"
+                                    aria-pressed="false"
+                                    aria-describedby="total-display">
+                                <i class="fas fa-coffee" aria-hidden="true"></i>
+                                <span>3</span>
                             </button>
-                            <button class="amount-btn" data-amount="5">
-                                <i class="fas fa-coffee"></i> 5
+                            <button class="amount-btn" 
+                                    data-amount="5" 
+                                    type="button"
+                                    aria-pressed="false"
+                                    aria-describedby="total-display">
+                                <i class="fas fa-coffee" aria-hidden="true"></i>
+                                <span>5</span>
                             </button>
                             <div class="custom-amount">
-                                <input type="number" class="form-control" id="customAmount" min="1" placeholder="Khác">
+                                <label for="customAmount" class="visually-hidden">Số lượng tùy chỉnh</label>
+                                <input type="number" 
+                                       class="form-control" 
+                                       id="customAmount" 
+                                       min="1" 
+                                       max="999"
+                                       placeholder="Khác"
+                                       aria-label="Nhập số lượng cà phê tùy chỉnh"
+                                       aria-describedby="total-display">
                             </div>
                         </div>
-                        <div class="total-amount">
+                        
+                        <div class="total-amount" id="total-display" aria-live="polite">
                             <span data-vi="Tổng:" data-en="Total:">Tổng:</span>
-                            <strong id="totalAmount">25,000 VND</strong>
+                            <strong id="totalAmount" itemprop="price">25,000 VND</strong>
                         </div>
-                    </div>
+                    </section>
 
                     <!-- Message Section -->
-                    <div class="message-section mb-4">
-                        <h5 class="section-title" data-vi="Để lại lời nhắn (tùy chọn)" data-en="Leave a message (optional)">
+                    <section class="section mb-4" aria-labelledby="message-title">
+                        <h2 id="message-title" class="section-title" 
+                            data-vi="Để lại lời nhắn (tùy chọn)" 
+                            data-en="Leave a message (optional)">
                             Để lại lời nhắn (tùy chọn)
-                        </h5>
-                        <textarea class="form-control message-input" rows="3" 
-                                  data-vi="Viết lời nhắn của bạn..." data-en="Write your message..."
-                                  placeholder="Viết lời nhắn của bạn..."></textarea>
-                    </div>
+                        </h2>
+                        <label for="messageInput" class="visually-hidden">Lời nhắn của bạn</label>
+                        <textarea class="form-control message-input" 
+                                  id="messageInput"
+                                  rows="3" 
+                                  maxlength="500"
+                                  data-vi="Viết lời nhắn của bạn..." 
+                                  data-en="Write your message..."
+                                  placeholder="Viết lời nhắn của bạn..."
+                                  aria-describedby="message-help"></textarea>
+                        <div id="message-help" class="form-text">
+                            <span data-vi="Tối đa 500 ký tự" data-en="Maximum 500 characters">Tối đa 500 ký tự</span>
+                        </div>
+                    </section>
 
-                    <!-- Payment Methods -->
-                    <div class="payment-section">
-                        <h5 class="section-title" data-vi="Phương thức thanh toán" data-en="Payment Methods">
+                    <!-- Payment Methods Section -->
+                    <section class="section" aria-labelledby="payment-title">
+                        <h2 id="payment-title" class="section-title" 
+                            data-vi="Phương thức thanh toán" 
+                            data-en="Payment Methods">
                             Phương thức thanh toán
-                        </h5>
+                        </h2>
                         
                         <!-- Payment Tabs -->
-                        <ul class="nav nav-pills payment-tabs justify-content-center mb-3" id="paymentTabs">
-                            <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#bankTab">
-                                    <i class="fas fa-university"></i>
+                        <ul class="nav nav-pills payment-tabs justify-content-center mb-3" 
+                            id="paymentTabs" 
+                            role="tablist" 
+                            aria-labelledby="payment-title">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" 
+                                        id="bank-tab"
+                                        data-bs-toggle="pill" 
+                                        data-bs-target="#bankTab"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="bankTab"
+                                        aria-selected="true">
+                                    <i class="fas fa-university" aria-hidden="true"></i>
                                     <span data-vi="Ngân hàng" data-en="Bank Transfer">Ngân hàng</span>
                                 </button>
                             </li>
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#qrTab">
-                                    <i class="fas fa-qrcode"></i>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" 
+                                        id="qr-tab"
+                                        data-bs-toggle="pill" 
+                                        data-bs-target="#qrTab"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="qrTab"
+                                        aria-selected="false">
+                                    <i class="fas fa-qrcode" aria-hidden="true"></i>
                                     <span data-vi="QR Code" data-en="QR Code">QR Code</span>
                                 </button>
                             </li>
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#buymeacoffeeTab">
-                                    <i class="fas fa-coffee"></i>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" 
+                                        id="buymeacoffee-tab"
+                                        data-bs-toggle="pill" 
+                                        data-bs-target="#buymeacoffeeTab"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="buymeacoffeeTab"
+                                        aria-selected="false">
+                                    <i class="fas fa-coffee" aria-hidden="true"></i>
                                     <span>BuyMeACoffee</span>
                                 </button>
                             </li>
                         </ul>
 
                         <!-- Payment Content -->
-                        <div class="tab-content">
-                            <!-- Bank Transfer -->
-                            <div class="tab-pane fade show active" id="bankTab">
+                        <div class="tab-content" id="paymentTabContent">
+                            
+                            <!-- Bank Transfer Tab -->
+                            <div class="tab-pane fade show active" 
+                                 id="bankTab" 
+                                 role="tabpanel" 
+                                 aria-labelledby="bank-tab">
                                 <div class="payment-card">
                                     <div class="bank-info">
                                         <div class="bank-item">
                                             <strong data-vi="Ngân hàng:" data-en="Bank:">Ngân hàng:</strong>
                                             <span>Maritime Bank (MSB)</span>
-                                            <button class="copy-btn" data-copy="MSB">
-                                                <i class="fas fa-copy"></i>
+                                            <button class="copy-btn" 
+                                                    data-copy="MSB"
+                                                    type="button"
+                                                    aria-label="Sao chép tên ngân hàng"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Sao chép">
+                                                <i class="fas fa-copy" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <div class="bank-item">
                                             <strong data-vi="Số tài khoản:" data-en="Account Number:">Số tài khoản:</strong>
                                             <span>13001011869246</span>
-                                            <button class="copy-btn" data-copy="13001011869246">
-                                                <i class="fas fa-copy"></i>
+                                            <button class="copy-btn" 
+                                                    data-copy="13001011869246"
+                                                    type="button"
+                                                    aria-label="Sao chép số tài khoản"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Sao chép">
+                                                <i class="fas fa-copy" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <div class="bank-item">
                                             <strong data-vi="Chủ tài khoản:" data-en="Account Holder:">Chủ tài khoản:</strong>
                                             <span>DINH TRONG KHANH</span>
-                                            <button class="copy-btn" data-copy="DINH TRONG KHANH">
-                                                <i class="fas fa-copy"></i>
+                                            <button class="copy-btn" 
+                                                    data-copy="DINH TRONG KHANH"
+                                                    type="button"
+                                                    aria-label="Sao chép tên chủ tài khoản"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Sao chép">
+                                                <i class="fas fa-copy" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <div class="bank-item">
                                             <strong data-vi="Nội dung:" data-en="Message:">Nội dung:</strong>
                                             <span id="transferMessage">Ung ho ca phe</span>
-                                            <button class="copy-btn" data-copy-id="transferMessage">
-                                                <i class="fas fa-copy"></i>
+                                            <button class="copy-btn" 
+                                                    data-copy-id="transferMessage"
+                                                    type="button"
+                                                    aria-label="Sao chép nội dung chuyển khoản"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Sao chép">
+                                                <i class="fas fa-copy" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- QR Code -->
-                            <div class="tab-pane fade" id="qrTab">
+                            <!-- QR Code Tab -->
+                            <div class="tab-pane fade" 
+                                 id="qrTab" 
+                                 role="tabpanel" 
+                                 aria-labelledby="qr-tab">
                                 <div class="payment-card text-center">
                                     <div class="qr-code-container">
                                         <img src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/MSB-13001011869246-compact%20(1).png" 
-                                             alt="QR Code" class="qr-code">
-                                        <p class="qr-description" data-vi="Quét mã QR để thanh toán" data-en="Scan QR code to pay">
+                                             alt="QR Code để thanh toán - Maritime Bank" 
+                                             class="qr-code"
+                                             loading="lazy"
+                                             width="200"
+                                             height="200">
+                                        <p class="qr-description" 
+                                           data-vi="Quét mã QR để thanh toán" 
+                                           data-en="Scan QR code to pay">
                                             Quét mã QR để thanh toán
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- BuyMeACoffee -->
-                            <div class="tab-pane fade" id="buymeacoffeeTab">
+                            <!-- BuyMeACoffee Tab -->
+                            <div class="tab-pane fade" 
+                                 id="buymeacoffeeTab" 
+                                 role="tabpanel" 
+                                 aria-labelledby="buymeacoffee-tab">
                                 <div class="payment-card text-center">
                                     <div class="buymeacoffee-container">
-                                        <a href="https://buymeacoffee.com/khahdihdz" target="_blank" class="buymeacoffee-btn">
-                                            <i class="fas fa-coffee"></i>
+                                        <a href="https://buymeacoffee.com/khahdihdz" 
+                                           target="_blank" 
+                                           rel="noopener noreferrer"
+                                           class="buymeacoffee-btn"
+                                           aria-label="Mở BuyMeACoffee trong tab mới">
+                                            <i class="fas fa-coffee" aria-hidden="true"></i>
                                             <span data-vi="BuyMeACoffee" data-en="BuyMeACoffee">
                                                 BuyMeACoffee
                                             </span>
+                                            <i class="fas fa-external-link-alt ms-1" aria-hidden="true"></i>
                                         </a>
-                                        <p class="buymeacoffee-description" data-vi="Thanh toán quốc tế qua thẻ tín dụng" data-en="International payment via credit card">
+                                        <p class="buymeacoffee-description" 
+                                           data-vi="Thanh toán quốc tế qua thẻ tín dụng" 
+                                           data-en="International payment via credit card">
                                             Thanh toán quốc tế qua thẻ tín dụng
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <!-- Thank You Message -->
-                    <div class="thank-you-section text-center mt-4">
-                        <p class="thank-you-text" data-vi="Cảm ơn bạn đã ủng hộ! ❤️" data-en="Thank you for your support! ❤️">
+                    <!-- Thank You Section -->
+                    <footer class="thank-you-section text-center mt-4">
+                        <p class="thank-you-text" 
+                           data-vi="Cảm ơn bạn đã ủng hộ! ❤️" 
+                           data-en="Thank you for your support! ❤️">
                             Cảm ơn bạn đã ủng hộ! ❤️
                         </p>
-                    </div>
-                </div>
+                    </footer>
+                </article>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Toast Notification -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="copyToast" class="toast" role="alert">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" aria-live="polite" aria-atomic="true">
+        <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-body">
-                <i class="fas fa-check-circle text-success me-2"></i>
+                <i class="fas fa-check-circle text-success me-2" aria-hidden="true"></i>
                 <span data-vi="Đã sao chép!" data-en="Copied!">Đã sao chép!</span>
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Loading Indicator -->
+    <div id="loading" class="position-fixed top-50 start-50 translate-middle d-none" aria-hidden="true">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Đang tải...</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function() {
+                    // Service worker registration failed, but app still works
+                });
+            });
+        }
+    </script>
 </body>
 </html>
