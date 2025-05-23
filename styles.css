@@ -1,488 +1,564 @@
-/* Color Palette - Bright and Fresh */
+/* ===== BIẾN CSS - BẢNG MÀU ===== */
 :root {
-    --primary-color: #6c5ce7;
-    --secondary-color: #fd63a3;
-    --accent-color: #fdcb6e;
-    --success-color: #00d4aa;
-    --light-bg: #f8f9fa;
-    --card-bg: #ffffff;
-    --text-primary: #2d3748;
-    --text-secondary: #718096;
-    --border-color: #e2e8f0;
-    --shadow: 0 10px 25px rgba(108, 92, 231, 0.1);
-    --gradient: linear-gradient(135deg, #6c5ce7 0%, #fd63a3 100%);
-    --coffee-gradient: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
+  /* Màu chính */
+  --primary: #6c5ce7;
+  --secondary: #fd63a3;
+  --accent: #fdcb6e;
+  --success: #00d4aa;
+  
+  /* Màu nền */
+  --bg-light: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-body: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  /* Màu chữ */
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --border: #e2e8f0;
+  
+  /* Hiệu ứng */
+  --shadow: 0 10px 25px rgba(108, 92, 231, 0.1);
+  --shadow-hover: 0 8px 25px rgba(108, 92, 231, 0.4);
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  --coffee-gradient: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
+  
+  /* Kích thước */
+  --border-radius: 12px;
+  --border-radius-large: 20px;
+  --padding: 1rem;
+  --padding-large: 1.5rem;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Global Styles */
-* {
-    box-sizing: border-box;
+/* ===== RESET VÀ BASE STYLES ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: var(--text-primary);
-    line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  min-height: 100vh;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+  padding: 80px 0 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Main Coffee Card */
+/* ===== HEADER CỐ ĐỊNH ===== */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  padding: var(--padding) 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== THẺ COFFEE CHÍNH ===== */
 .coffee-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 2.5rem;
-    box-shadow: var(--shadow);
-    margin: 2rem 0;
-    position: relative;
-    overflow: hidden;
+  background: var(--bg-card);
+  border-radius: var(--border-radius-large);
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+  margin: 2rem auto;
+  max-width: 600px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
 }
 
 .coffee-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: var(--gradient);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--gradient);
 }
 
-/* Header Styles */
+.coffee-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* ===== ICON VÀ TIÊU ĐỀ ===== */
 .coffee-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--coffee-gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
-    box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+  width: 80px;
+  height: 80px;
+  background: var(--coffee-gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
+  transition: var(--transition);
+}
+
+.coffee-icon:hover {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .coffee-icon i {
-    font-size: 2.5rem;
-    color: white;
+  font-size: 2.5rem;
+  color: white;
 }
 
 .coffee-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: var(--gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .coffee-subtitle {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 0;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+  text-align: center;
 }
 
-/* Section Titles */
+/* ===== SECTION CHUNG ===== */
+.section {
+  background: var(--bg-light);
+  padding: var(--padding-large);
+  border-radius: 15px;
+  border: 2px solid var(--border);
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+}
+
+.section:hover {
+  border-color: var(--primary);
+  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.1);
+}
+
 .section-title {
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--padding);
+  font-size: 1.2rem;
 }
 
-/* Amount Selection */
-.amount-section {
-    background: var(--light-bg);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--border-color);
-}
-
+/* ===== CHỌN SỐ TIỀN ===== */
 .amount-buttons {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: var(--padding);
 }
 
 .amount-btn {
-    background: white;
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 0.75rem 1.25rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex: 1;
-    min-width: 80px;
-    justify-content: center;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  user-select: none;
 }
 
-.amount-btn:hover {
-    border-color: var(--primary-color);
-    background: rgba(108, 92, 231, 0.05);
-    transform: translateY(-2px);
+.amount-btn:hover:not(.active) {
+  border-color: var(--primary);
+  background: rgba(108, 92, 231, 0.05);
+  transform: translateY(-2px);
 }
 
 .amount-btn.active {
-    background: var(--gradient);
-    color: white;
-    border-color: var(--primary-color);
-    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-}
-
-.custom-amount {
-    flex: 1;
-    min-width: 120px;
+  background: var(--gradient);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+  transform: scale(1.05);
 }
 
 .custom-amount input {
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 0.75rem 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-size: 1rem;
 }
 
 .custom-amount input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
 }
 
 .total-amount {
-    text-align: center;
-    font-size: 1.25rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 12px;
-    border: 2px solid var(--success-color);
+  text-align: center;
+  font-size: 1.25rem;
+  padding: var(--padding);
+  background: white;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--success);
+  margin-top: var(--padding);
 }
 
 .total-amount strong {
-    color: var(--success-color);
-    font-size: 1.5rem;
+  color: var(--success);
+  font-size: 1.5rem;
+  display: block;
 }
 
-/* Message Section */
-.message-section {
-    background: var(--light-bg);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--border-color);
+/* ===== TEXTAREA VÀ INPUT ===== */
+.form-control {
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
 }
 
 .message-input {
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    resize: vertical;
-    transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 100px;
 }
 
-.message-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
-}
-
-/* Payment Section */
-.payment-section {
-    background: var(--light-bg);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--border-color);
-}
-
+/* ===== TABS THANH TOÁN ===== */
 .payment-tabs {
-    border-bottom: none;
-    margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: var(--padding-large);
+  border: none;
 }
 
 .payment-tabs .nav-link {
-    background: white;
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    color: var(--text-primary);
-    font-weight: 600;
-    margin: 0 0.25rem;
-    padding: 0.75rem 1rem;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 0.75rem var(--padding);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  flex: 1;
+  justify-content: center;
 }
 
-.payment-tabs .nav-link:hover {
-    border-color: var(--primary-color);
-    background: rgba(108, 92, 231, 0.05);
-    transform: translateY(-2px);
+.payment-tabs .nav-link:hover:not(.active) {
+  border-color: var(--primary);
+  background: rgba(108, 92, 231, 0.05);
+  transform: translateY(-2px);
 }
 
 .payment-tabs .nav-link.active {
-    background: var(--gradient);
-    color: white;
-    border-color: var(--primary-color);
-    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+  background: var(--gradient);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
 }
 
+/* ===== THÔNG TIN NGÂN HÀNG ===== */
 .payment-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    border: 2px solid var(--border-color);
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  border: 2px solid var(--border);
 }
 
-/* Bank Info */
 .bank-info {
-    text-align: left;
+  text-align: left;
 }
 
 .bank-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border-color);
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: var(--padding);
 }
 
 .bank-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .bank-item strong {
-    color: var(--text-primary);
-    min-width: 120px;
-    flex-shrink: 0;
+  color: var(--text-primary);
+  min-width: 120px;
+  flex-shrink: 0;
 }
 
 .bank-item span {
-    flex: 1;
-    font-family: 'Courier New', monospace;
-    background: var(--light-bg);
-    padding: 0.5rem;
-    border-radius: 8px;
-    font-weight: 600;
+  flex: 1;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: var(--bg-light);
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  word-break: break-all;
 }
 
 .copy-btn {
-    background: var(--success-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .copy-btn:hover {
-    background: #00b894;
-    transform: scale(1.1);
+  background: #00b894;
+  transform: scale(1.1);
 }
 
-/* QR Code */
+/* ===== QR CODE ===== */
 .qr-code-container {
-    padding: 1rem;
+  text-align: center;
+  padding: var(--padding);
 }
 
 .qr-code {
-    max-width: 200px;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
+  max-width: 200px;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: var(--padding);
 }
 
 .qr-description {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
 }
 
-/* BuyMeACoffee */
+/* ===== BUY ME A COFFEE BUTTON ===== */
 .buymeacoffee-container {
-    padding: 1rem;
+  text-align: center;
+  padding: var(--padding);
 }
 
 .buymeacoffee-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: #FFDD00;
-    color: #000;
-    text-decoration: none;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 221, 0, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #FFDD00;
+  color: #000;
+  text-decoration: none;
+  padding: var(--padding) 2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  box-shadow: 0 5px 15px rgba(255, 221, 0, 0.3);
 }
 
 .buymeacoffee-btn:hover {
-    background: #ffcc00;
-    color: #000;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 221, 0, 0.4);
+  background: #ffcc00;
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 221, 0, 0.4);
+  text-decoration: none;
 }
 
 .buymeacoffee-description {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin: 1rem 0 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: var(--padding) 0 0 0;
 }
 
-/* Thank You Section */
+/* ===== THANK YOU SECTION ===== */
 .thank-you-section {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background: rgba(0, 212, 170, 0.1);
-    border-radius: 15px;
-    border: 2px solid var(--success-color);
+  margin-top: 2rem;
+  padding: var(--padding-large);
+  background: rgba(0, 212, 170, 0.1);
+  border-radius: 15px;
+  border: 2px solid var(--success);
+  text-align: center;
 }
 
 .thank-you-text {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--success-color);
-    margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--success);
+  margin: 0;
 }
 
-/* Language Toggle */
+/* ===== LANGUAGE TOGGLE ===== */
 #langToggle {
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+  border-radius: 25px;
+  padding: 0.5rem var(--padding);
+  font-weight: 600;
+  transition: var(--transition);
+  border: 2px solid var(--primary);
+  background: var(--gradient);
+  color: white;
 }
 
 #langToggle:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
 }
 
-/* Toast */
+/* ===== TOAST NOTIFICATION ===== */
 .toast {
-    background: var(--success-color);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 212, 170, 0.3);
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 20px rgba(0, 212, 170, 0.3);
 }
 
 .toast-body {
-    font-weight: 600;
+  font-weight: 600;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .coffee-card {
-        margin: 1rem;
-        padding: 1.5rem;
-    }
-    
-    .coffee-title {
-        font-size: 2rem;
-    }
-    
-    .amount-buttons {
-        flex-direction: column;
-    }
-    
-    .amount-btn {
-        min-width: 100%;
-    }
-    
-    .custom-amount {
-        min-width: 100%;
-    }
-    
-    .payment-tabs {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .payment-tabs .nav-item {
-        flex: 1;
-    }
-    
-    .payment-tabs .nav-link {
-        margin: 0;
-        justify-content: center;
-    }
-    
-    .bank-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    
-    .bank-item span {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .copy-btn {
-        align-self: flex-end;
-    }
-}
-
-@media (max-width: 576px) {
-    .coffee-card {
-        padding: 1rem;
-        margin: 0.5rem;
-    }
-    
-    .coffee-title {
-        font-size: 1.75rem;
-    }
-    
-    .coffee-icon {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .coffee-icon i {
-        font-size: 2rem;
-    }
-}
-
-/* Animation Classes */
+/* ===== ANIMATION ===== */
 .fade-in {
-    animation: fadeIn 0.5s ease-in;
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pulse {
-    animation: pulse 2s infinite;
+  animation: pulse 2s ease-in-out infinite;
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .coffee-card {
+    margin: 1rem;
+    padding: var(--padding-large);
+  }
+  
+  .payment-tabs {
+    flex-direction: column;
+  }
+  
+  .bank-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .bank-item span {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .copy-btn {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    padding-top: 60px;
+  }
+  
+  .coffee-card {
+    padding: var(--padding);
+    margin: 0.5rem;
+  }
+  
+  .coffee-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .coffee-icon i {
+    font-size: 2rem;
+  }
+  
+  .amount-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== FOCUS VISIBLE ===== */
+.amount-btn:focus-visible,
+.payment-tabs .nav-link:focus-visible,
+.copy-btn:focus-visible,
+#langToggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .fixed-header,
+  .payment-section,
+  .thank-you-section {
+    display: none;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .coffee-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
 }
