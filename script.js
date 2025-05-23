@@ -411,3 +411,56 @@ window.BuyMeACoffee = {
     copyToClipboard,
     formatVND
 };
+function updateLanguageDisplay() {
+    // Update language button text
+    const langText = document.getElementById('langText');
+    langText.textContent = currentLang === 'vi' ? 'English' : 'Tiếng Việt';
+    
+    // Update HTML lang attribute
+    document.documentElement.lang = currentLang;
+    
+    // Update all elements with data-vi and data-en attributes
+    document.querySelectorAll('[data-vi][data-en]').forEach(element => {
+        const text = element.getAttribute(`data-${currentLang}`);
+        if (text) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = text;
+            } else {
+                element.textContent = text;
+            }
+        }
+    });
+    
+    // Update meta tags for social sharing
+    updateSocialMetaTags();
+    
+    // Update page title
+    document.title = currentLang === 'vi' ? 
+        'Mua cho tôi một ly cà phê ☕' : 
+        'Buy me a coffee ☕';
+}
+
+// Function to update social media meta tags based on language
+function updateSocialMetaTags() {
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+    const metaDescription = document.querySelector('meta[name="description"]');
+    
+    if (currentLang === 'vi') {
+        // Vietnamese content
+        if (ogTitle) ogTitle.content = 'Mua cho tôi một ly cà phê ☕';
+        if (ogDescription) ogDescription.content = 'Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Có thể thanh toán qua ngân hàng, QR Code hoặc BuyMeACoffee.';
+        if (twitterTitle) twitterTitle.content = 'Mua cho tôi một ly cà phê ☕';
+        if (twitterDescription) twitterDescription.content = 'Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Thanh toán dễ dàng qua nhiều phương thức.';
+        if (metaDescription) metaDescription.content = 'Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hàng, QR Code hoặc BuyMeACoffee.';
+    } else {
+        // English content
+        if (ogTitle) ogTitle.content = 'Buy me a coffee ☕';
+        if (ogDescription) ogDescription.content = 'Support my work with a small coffee. Payment available via bank transfer, QR Code or BuyMeACoffee.';
+        if (twitterTitle) twitterTitle.content = 'Buy me a coffee ☕';
+        if (twitterDescription) twitterDescription.content = 'Support my work with a small coffee. Easy payment through multiple methods.';
+        if (metaDescription) metaDescription.content = 'Support my work with a small coffee. Bank transfer, QR Code or BuyMeACoffee available.';
+    }
+}
