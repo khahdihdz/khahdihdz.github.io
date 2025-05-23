@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" id="htmlElement">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mua cho tôi một ly cà phê</title>
+    <title id="pageTitle">Mua cho tôi một ly cà phê</title>
 
     <!-- Meta Description -->
-    <meta name="description" content="Ủng hộ khahdihdz bằng cách mua cho tôi một ly cà phê. Hỗ trợ nhỏ giúp tôi tiếp tục sáng tạo nội dung mỗi ngày!">
+    <meta name="description" content="Ủng hộ khahdihdz bằng cách mua cho tôi một ly cà phê. Hỗ trợ nhỏ giúp tôi tiếp tục sáng tạo nội dung mỗi ngày!" id="metaDescription">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Mua cho tôi một ly cà phê">
-    <meta property="og:description" content="Ủng hộ khahdihdz bằng cách mua một ly cà phê. Mỗi tấm lòng là động lực to lớn!">
+    <meta property="og:title" content="Mua cho tôi một ly cà phê" id="ogTitle">
+    <meta property="og:description" content="Ủng hộ khahdihdz bằng cách mua một ly cà phê. Mỗi tấm lòng là động lực to lớn!" id="ogDescription">
     <meta property="og:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
     <meta property="og:url" content="https://khahdihdz.github.io">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="vi_VN">
+    <meta property="og:locale" content="vi_VN" id="ogLocale">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mua cho tôi một ly cà phê">
-    <meta name="twitter:description" content="Ủng hộ tôi bằng một ly cà phê, giúp tôi duy trì việc sáng tạo nội dung.">
+    <meta name="twitter:title" content="Mua cho tôi một ly cà phê" id="twitterTitle">
+    <meta name="twitter:description" content="Ủng hộ tôi bằng một ly cà phê, giúp tôi duy trì việc sáng tạo nội dung." id="twitterDescription">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
 
     <!-- Bootstrap CSS -->
@@ -31,13 +31,21 @@
 </head>
 <body>
     <div class="container py-5">
+        <!-- Language Toggle -->
+        <div class="language-toggle text-end mb-3">
+            <button class="btn btn-outline-primary btn-sm" id="langToggle">
+                <i class="fas fa-globe me-1"></i>
+                <span id="langText">English</span>
+            </button>
+        </div>
+
         <!-- Header -->
         <header class="text-center mb-5">
             <div class="avatar-container mx-auto mb-4">
                 <img src="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/image.png" alt="Avatar" class="avatar">
             </div>
             <h1 class="name">khahdihdz</h1>
-            <p class="bio">Xin chào! Tôi là một người sáng tạo nội dung. Hỗ trợ của bạn giúp tôi tiếp tục công việc sáng tạo.</p>
+            <p class="bio" id="bioText">Xin chào! Tôi là một người sáng tạo nội dung. Hỗ trợ của bạn giúp tôi tiếp tục công việc sáng tạo.</p>
         </header>
 
         <!-- Main Content -->
@@ -47,30 +55,30 @@
                 <div class="coffee-options mb-5">
                     <div class="row g-4">
                         <div class="col-md-4">
-                            <div class="coffee-option" data-amount="20000">
+                            <div class="coffee-option" data-amount-vnd="20000" data-amount-usd="1">
                                 <div class="coffee-icon">
                                     <i class="fas fa-coffee"></i>
                                 </div>
-                                <h3>Ly nhỏ</h3>
-                                <p>20.000 VNĐ</p>
+                                <h3 id="smallCoffee">Ly nhỏ</h3>
+                                <p id="smallPrice">20.000 VNĐ</p>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="coffee-option" data-amount="50000">
+                            <div class="coffee-option" data-amount-vnd="50000" data-amount-usd="3">
                                 <div class="coffee-icon">
                                     <i class="fas fa-coffee"></i><i class="fas fa-coffee"></i>
                                 </div>
-                                <h3>Ly vừa</h3>
-                                <p>50.000 VNĐ</p>
+                                <h3 id="mediumCoffee">Ly vừa</h3>
+                                <p id="mediumPrice">50.000 VNĐ</p>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="coffee-option" data-amount="100000">
+                            <div class="coffee-option" data-amount-vnd="100000" data-amount-usd="5">
                                 <div class="coffee-icon">
                                     <i class="fas fa-coffee"></i><i class="fas fa-coffee"></i><i class="fas fa-coffee"></i>
                                 </div>
-                                <h3>Ly lớn</h3>
-                                <p>100.000 VNĐ</p>
+                                <h3 id="largeCoffee">Ly lớn</h3>
+                                <p id="largePrice">100.000 VNĐ</p>
                             </div>
                         </div>
                     </div>
@@ -78,23 +86,23 @@
 
                 <!-- Payment Form -->
                 <div class="payment-form p-4">
-                    <h2 class="mb-4 text-center">Mua cho tôi một ly cà phê</h2>
-                    <p class="text-center mb-4">Bạn có thể chọn số tiền ủng hộ rồi chuyển qua ngân hàng hoặc quét mã QR</p>
+                    <h2 class="mb-4 text-center" id="formTitle">Mua cho tôi một ly cà phê</h2>
+                    <p class="text-center mb-4" id="formSubtitle">Bạn có thể chọn số tiền ủng hộ rồi chuyển qua ngân hàng hoặc quét mã QR</p>
                     <form id="coffeeForm">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Tên của bạn</label>
-                            <input type="text" class="form-control" id="name" placeholder="Tên của bạn">
+                            <label for="name" class="form-label" id="nameLabel">Tên của bạn</label>
+                            <input type="text" class="form-control" id="name" placeholder="">
                         </div>
                         <div class="mb-3">
-                            <label for="message" class="form-label">Lời nhắn (tuỳ chọn)</label>
-                            <textarea class="form-control" id="message" rows="3" placeholder="Gửi lời nhắn cho tôi..."></textarea>
+                            <label for="message" class="form-label" id="messageLabel">Lời nhắn (tuỳ chọn)</label>
+                            <textarea class="form-control" id="message" rows="3" placeholder=""></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="customAmount" class="form-label">Số tiền tuỳ chọn (VNĐ)</label>
-                            <input type="number" class="form-control" id="customAmount" placeholder="Nhập số tiền">
+                            <label for="customAmount" class="form-label" id="amountLabel">Số tiền tuỳ chọn (VNĐ)</label>
+                            <input type="number" class="form-control" id="customAmount" placeholder="">
                         </div>
-                        <div class="mb-3">
-                            <label for="transferContent" class="form-label">Nội dung chuyển khoản</label>
+                        <div class="mb-3" id="transferSection">
+                            <label for="transferContent" class="form-label" id="transferLabel">Nội dung chuyển khoản</label>
                             <div class="input-group">
                                 <span class="input-group-text">COFFEE</span>
                                 <input type="text" class="form-control" id="transferContent" readonly>
@@ -102,19 +110,19 @@
                                     <i class="fas fa-copy"></i>
                                 </button>
                             </div>
-                            <small class="form-text text-muted">Sử dụng nội dung này khi chuyển khoản</small>
+                            <small class="form-text text-muted" id="transferNote">Sử dụng nội dung này khi chuyển khoản</small>
                         </div>
                         <div class="d-grid gap-2">
                             <button type="button" class="btn btn-primary btn-lg" id="generateButton">
-                                <i class="fas fa-magic me-2"></i> Tạo nội dung chuyển khoản
+                                <i class="fas fa-magic me-2"></i> <span id="generateText">Tạo nội dung chuyển khoản</span>
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <!-- Banking Information -->
-                <div class="banking-info mt-5 p-4">
-                    <h2 class="mb-4 text-center">Thông tin chuyển khoản</h2>
+                <!-- Banking Information (Vietnamese) -->
+                <div class="banking-info mt-5 p-4" id="bankingSection">
+                    <h2 class="mb-4 text-center" id="bankingTitle">Thông tin chuyển khoản</h2>
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <div class="bank-account-info p-3">
@@ -135,6 +143,29 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Buy Me a Coffee Information (English) -->
+                <div class="banking-info mt-5 p-4" id="buymeacoffeeSection" style="display: none;">
+                    <h2 class="mb-4 text-center" id="buymeacoffeeTitle">Payment Information</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="buymeacoffee-container p-4 text-center">
+                                <div class="buymeacoffee-icon mb-3">
+                                    <i class="fas fa-coffee" style="font-size: 3rem; color: #FFDD00;"></i>
+                                </div>
+                                <h3 class="buymeacoffee-title mb-3">Support via Buy Me a Coffee</h3>
+                                <p class="buymeacoffee-description mb-4">Click the button below to support me through Buy Me a Coffee. It's simple, fast, and secure!</p>
+                                <a href="https://buymeacoffee.com/khahdihdz" target="_blank" class="btn btn-lg" style="background-color: #FFDD00; color: #000; border-radius: 25px; padding: 12px 30px; font-weight: 600;">
+                                    <i class="fas fa-coffee me-2"></i>
+                                    Buy me a coffee
+                                </a>
+                                <p class="buymeacoffee-note mt-3">
+                                    <small class="text-muted">You'll be redirected to Buy Me a Coffee to complete your support securely.</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -143,16 +174,228 @@
             <div class="social-icons mb-3">
                 <a href="https://facebook.com/khahdihdz" class="social-icon"><i class="fab fa-facebook"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="https://paypal.me/khahdz" class="social-icon"><i class="fa-brands fa-paypal"></i></a>
+                <a href="https://buymeacoffee.com/khahdihdz" class="social-icon"><i class="fas fa-coffee"></i></a>
                 <a href="https://github.com/khahdihdz" class="social-icon"><i class="fab fa-github"></i></a>
             </div>
-            <p class="copyright">&copy; <span id="currentYear"></span> Mua cho tôi một ly cà phê</p>
+            <p class="copyright" id="copyrightText">&copy; <span id="currentYear"></span> Mua cho tôi một ly cà phê</p>
         </footer>
+    </div>
+
+    <!-- Toast for copy notification -->
+    <div class="toast-container">
+        <div id="copyToast" class="toast" role="alert">
+            <div class="toast-body" id="toastMessage">
+                Đã sao chép nội dung chuyển khoản!
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+    
+    <!-- Custom JS with Bilingual Support -->
+    <script>
+        // Language translations
+        const translations = {
+            vi: {
+                pageTitle: "Mua cho tôi một ly cà phê",
+                metaDescription: "Ủng hộ khahdihdz bằng cách mua cho tôi một ly cà phê. Hỗ trợ nhỏ giúp tôi tiếp tục sáng tạo nội dung mỗi ngày!",
+                ogTitle: "Mua cho tôi một ly cà phê",
+                ogDescription: "Ủng hộ khahdihdz bằng cách mua một ly cà phê. Mỗi tấm lòng là động lực to lớn!",
+                twitterTitle: "Mua cho tôi một ly cà phê",
+                twitterDescription: "Ủng hộ tôi bằng một ly cà phê, giúp tôi duy trì việc sáng tạo nội dung.",
+                langText: "English",
+                bioText: "Xin chào! Tôi là một người sáng tạo nội dung. Hỗ trợ của bạn giúp tôi tiếp tục công việc sáng tạo.",
+                smallCoffee: "Ly nhỏ",
+                mediumCoffee: "Ly vừa",
+                largeCoffee: "Ly lớn",
+                smallPrice: "20.000 VNĐ",
+                mediumPrice: "50.000 VNĐ",
+                largePrice: "100.000 VNĐ",
+                formTitle: "Mua cho tôi một ly cà phê",
+                formSubtitle: "Bạn có thể chọn số tiền ủng hộ rồi chuyển qua ngân hàng hoặc quét mã QR",
+                nameLabel: "Tên của bạn",
+                namePlaceholder: "Tên của bạn",
+                messageLabel: "Lời nhắn (tuỳ chọn)",
+                messagePlaceholder: "Gửi lời nhắn cho tôi...",
+                amountLabel: "Số tiền tuỳ chọn (VNĐ)",
+                amountPlaceholder: "Nhập số tiền",
+                transferLabel: "Nội dung chuyển khoản",
+                transferNote: "Sử dụng nội dung này khi chuyển khoản",
+                generateText: "Tạo nội dung chuyển khoản",
+                bankingTitle: "Thông tin chuyển khoản",
+                copyrightText: "Mua cho tôi một ly cà phê",
+                toastMessage: "Đã sao chép nội dung chuyển khoản!",
+                currency: "VNĐ"
+            },
+            en: {
+                pageTitle: "Buy me a coffee",
+                metaDescription: "Support khahdihdz by buying me a coffee. Your small support helps me continue creating content every day!",
+                ogTitle: "Buy me a coffee",
+                ogDescription: "Support khahdihdz by buying me a coffee. Every contribution is a great motivation!",
+                twitterTitle: "Buy me a coffee",
+                twitterDescription: "Support me with a coffee, help me maintain content creation.",
+                langText: "Tiếng Việt",
+                bioText: "Hello! I'm a content creator. Your support helps me continue my creative work.",
+                smallCoffee: "Small Cup",
+                mediumCoffee: "Medium Cup",
+                largeCoffee: "Large Cup",
+                smallPrice: "$1 USD",
+                mediumPrice: "$3 USD",
+                largePrice: "$5 USD",
+                formTitle: "Buy me a coffee",
+                formSubtitle: "Choose your support amount and send via PayPal",
+                nameLabel: "Your Name",
+                namePlaceholder: "Your name",
+                messageLabel: "Message (optional)",
+                messagePlaceholder: "Send me a message...",
+                amountLabel: "Custom Amount (USD)",
+                amountPlaceholder: "Enter amount",
+                transferLabel: "Payment Reference",
+                transferNote: "Use this reference for your payment",
+                generateText: "Generate Payment Reference",
+                bankingTitle: "Payment Information",
+                copyrightText: "Buy me a coffee",
+                toastMessage: "Payment reference copied!",
+                currency: "USD"
+            }
+        };
+
+        // Current language state
+        let currentLang = 'vi';
+        let selectedAmount = 0;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Language toggle functionality
+            const langToggle = document.getElementById('langToggle');
+            langToggle.addEventListener('click', toggleLanguage);
+            
+            // Coffee option selection
+            document.querySelectorAll('.coffee-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.coffee-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (currentLang === 'vi') {
+                        selectedAmount = parseInt(this.dataset.amountVnd);
+                        document.getElementById('customAmount').placeholder = `${selectedAmount} VNĐ`;
+                    } else {
+                        selectedAmount = parseInt(this.dataset.amountUsd);
+                        document.getElementById('customAmount').placeholder = `$${selectedAmount} USD`;
+                    }
+                });
+            });
+            
+            // Generate button functionality
+            document.getElementById('generateButton').addEventListener('click', generateTransferContent);
+            
+            // Copy button functionality
+            document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+        });
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'vi' ? 'en' : 'vi';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const lang = translations[currentLang];
+            
+            // Update HTML lang attribute
+            document.getElementById('htmlElement').lang = currentLang;
+            
+            // Update meta tags
+            document.getElementById('pageTitle').textContent = lang.pageTitle;
+            document.getElementById('metaDescription').content = lang.metaDescription;
+            document.getElementById('ogTitle').content = lang.ogTitle;
+            document.getElementById('ogDescription').content = lang.ogDescription;
+            document.getElementById('ogLocale').content = currentLang === 'vi' ? 'vi_VN' : 'en_US';
+            document.getElementById('twitterTitle').content = lang.twitterTitle;
+            document.getElementById('twitterDescription').content = lang.twitterDescription;
+            
+            // Update UI elements
+            document.getElementById('langText').textContent = lang.langText;
+            document.getElementById('bioText').textContent = lang.bioText;
+            document.getElementById('smallCoffee').textContent = lang.smallCoffee;
+            document.getElementById('mediumCoffee').textContent = lang.mediumCoffee;
+            document.getElementById('largeCoffee').textContent = lang.largeCoffee;
+            document.getElementById('smallPrice').textContent = lang.smallPrice;
+            document.getElementById('mediumPrice').textContent = lang.mediumPrice;
+            document.getElementById('largePrice').textContent = lang.largePrice;
+            document.getElementById('formTitle').textContent = lang.formTitle;
+            document.getElementById('formSubtitle').textContent = lang.formSubtitle;
+            document.getElementById('nameLabel').textContent = lang.nameLabel;
+            document.getElementById('messageLabel').textContent = lang.messageLabel;
+            document.getElementById('amountLabel').textContent = lang.amountLabel;
+            document.getElementById('transferLabel').textContent = lang.transferLabel;
+            document.getElementById('transferNote').textContent = lang.transferNote;
+            document.getElementById('generateText').textContent = lang.generateText;
+            document.getElementById('bankingTitle').textContent = lang.bankingTitle;
+            document.getElementById('copyrightText').innerHTML = `&copy; <span id="currentYear">${new Date().getFullYear()}</span> ${lang.copyrightText}`;
+            
+            // Update placeholders
+            document.getElementById('name').placeholder = lang.namePlaceholder;
+            document.getElementById('message').placeholder = lang.messagePlaceholder;
+            document.getElementById('customAmount').placeholder = lang.amountPlaceholder;
+            
+            // Show/hide payment sections
+            if (currentLang === 'vi') {
+                document.getElementById('bankingSection').style.display = 'block';
+                document.getElementById('buymeacoffeeSection').style.display = 'none';
+                document.getElementById('transferSection').style.display = 'block';
+            } else {
+                document.getElementById('bankingSection').style.display = 'none';
+                document.getElementById('buymeacoffeeSection').style.display = 'block';
+                document.getElementById('transferSection').style.display = 'none';
+            }
+            
+            // Reset coffee selection
+            document.querySelectorAll('.coffee-option').forEach(opt => opt.classList.remove('active'));
+            selectedAmount = 0;
+        }
+
+        function generateTransferContent() {
+            const name = document.getElementById('name').value.trim();
+            const customAmount = document.getElementById('customAmount').value;
+            
+            if (!name) {
+                alert(currentLang === 'vi' ? 'Vui lòng nhập tên của bạn!' : 'Please enter your name!');
+                return;
+            }
+            
+            let amount = selectedAmount;
+            if (customAmount) {
+                amount = parseInt(customAmount);
+            }
+            
+            if (!amount || amount <= 0) {
+                alert(currentLang === 'vi' ? 'Vui lòng chọn hoặc nhập số tiền!' : 'Please select or enter an amount!');
+                return;
+            }
+            
+            const transferContent = `COFFEE ${name}`;
+            document.getElementById('transferContent').value = transferContent;
+        }
+
+        function copyToClipboard() {
+            const transferContent = document.getElementById('transferContent');
+            if (!transferContent.value) {
+                alert(currentLang === 'vi' ? 'Vui lòng tạo nội dung chuyển khoản trước!' : 'Please generate payment reference first!');
+                return;
+            }
+            
+            transferContent.select();
+            document.execCommand('copy');
+            
+            // Show toast
+            const toast = new bootstrap.Toast(document.getElementById('copyToast'));
+            document.getElementById('toastMessage').textContent = translations[currentLang].toastMessage;
+            toast.show();
+        }
+    </script>
 </body>
 </html>
