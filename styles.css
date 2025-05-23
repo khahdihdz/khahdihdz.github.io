@@ -8,45 +8,102 @@
     --text-color: #495057;
     --border-radius: 12px;
     --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
 }
 
 /* Kiểu dáng cơ bản */
 body {
     font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f9f9f9;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     color: var(--text-color);
     line-height: 1.6;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--dark-color);
     font-weight: 600;
+    margin-bottom: 1rem;
 }
 
 a {
     color: var(--primary-color);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 a:hover {
     color: var(--accent-color);
+    text-decoration: none;
 }
 
+/* Language Toggle Button */
+.language-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#langToggle {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--primary-color);
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+#langToggle:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 154, 0, 0.3);
+}
+
+/* Button Styles */
 .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    border: none;
     border-radius: var(--border-radius);
     padding: 12px 24px;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
 }
 
 .btn-primary:hover {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
     transform: translateY(-3px);
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 10px 25px rgba(255, 154, 0, 0.4);
+}
+
+.btn-outline-secondary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
 }
 
 /* Header */
@@ -57,12 +114,31 @@ a:hover {
     border-radius: 50%;
     border: 5px solid var(--primary-color);
     box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.avatar-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 154, 0, 0.1), transparent);
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .avatar {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: relative;
+    z-index: 1;
 }
 
 .name {
@@ -70,13 +146,18 @@ a:hover {
     font-weight: 700;
     margin-bottom: 0.5rem;
     color: var(--dark-color);
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .bio {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-color);
     max-width: 600px;
     margin: 0 auto;
+    opacity: 0.9;
 }
 
 /* Coffee Options */
@@ -85,168 +166,309 @@ a:hover {
 }
 
 .coffee-option {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
     border-radius: var(--border-radius);
     padding: 1.5rem 1rem;
     text-align: center;
     box-shadow: var(--box-shadow);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     height: 100%;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.coffee-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
 }
 
 .coffee-option:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-    background-color: #fff9e6;
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.coffee-option:hover::before {
+    opacity: 0.1;
 }
 
 .coffee-option.active {
-    background-color: #fff5d6;
+    background: linear-gradient(135deg, #fff9e6, #fff5d6);
     border: 2px solid var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 154, 0, 0.3);
 }
 
 .coffee-icon {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.coffee-option:hover .coffee-icon {
+    transform: scale(1.1);
+    color: var(--accent-color);
 }
 
 .coffee-option h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 0.5rem;
+    transition: var(--transition);
 }
 
 .coffee-option p {
-    font-weight: 600;
+    font-weight: 700;
     color: var(--accent-color);
     margin-bottom: 0;
+    font-size: 1.1rem;
 }
 
 /* Payment Form */
 .payment-form {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     margin-bottom: 2rem;
+    border: 1px solid rgba(255, 154, 0, 0.1);
 }
 
 .form-control {
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 0.8rem 1rem;
-    border: 1px solid #e2e2e2;
+    border: 2px solid #e2e2e2;
+    transition: var(--transition);
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .form-control:focus {
     box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.25);
     border-color: var(--primary-color);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.7rem;
 }
 
 /* Banking Information */
 .banking-info {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    border: 1px solid rgba(255, 154, 0, 0.1);
 }
 
 .bank-account-info, .qr-code-container {
-    background-color: var(--light-color);
+    background: linear-gradient(135deg, var(--light-color), rgba(255, 255, 255, 0.9));
     border-radius: var(--border-radius);
     height: 100%;
+    transition: var(--transition);
 }
 
-.bank-name {
+.bank-account-info:hover, .qr-code-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.bank-name, .qr-title {
     color: var(--primary-color);
     font-size: 1.4rem;
     margin-bottom: 1rem;
     border-bottom: 2px dashed var(--secondary-color);
     padding-bottom: 0.5rem;
+    font-weight: 700;
 }
 
 .account-number, .account-name, .transfer-note {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
 }
 
-.qr-title {
-    color: var(--primary-color);
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+.account-number strong, .account-name strong, .transfer-note strong {
+    color: var(--dark-color);
 }
 
 .qr-image {
-    background-color: white;
-    padding: 10px;
-    border-radius: 8px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
     display: inline-block;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.qr-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .qr-note {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-color);
+    opacity: 0.8;
 }
 
 /* Input group styling */
 .input-group-text {
-    background-color: var(--primary-color);
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
     color: white;
-    font-weight: 600;
-    border-color: var(--primary-color);
+    font-weight: 700;
+    border: none;
+    border-radius: 10px 0 0 10px;
 }
 
 #transferContent {
     font-weight: 600;
-    background-color: #fff9e6;
+    background: linear-gradient(135deg, #fff9e6, #fff5d6);
+    border-left: none;
+    border-right: none;
 }
 
 #copyButton {
-    border-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
     color: var(--primary-color);
+    border-radius: 0 10px 10px 0;
+    transition: var(--transition);
 }
 
 #copyButton:hover {
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
+    transform: scale(1.05);
 }
 
-.toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1050;
+/* Toast Styling */
+.toast {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+.toast-header {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border-bottom: none;
+}
+
+.toast-body {
+    font-weight: 500;
 }
 
 /* Footer */
 footer {
     padding: 2rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    margin-top: 3rem;
 }
 
 .social-icons {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .social-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: var(--light-color);
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--light-color), rgba(255, 255, 255, 0.9));
     border-radius: 50%;
     color: var(--dark-color);
     margin: 0 0.5rem;
-    transition: all 0.3s ease;
+    transition: var(--transition);
+    font-size: 1.2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
 }
 
 .social-icon:hover {
-    background-color: var(--primary-color);
     color: white;
-    transform: translateY(-3px);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(255, 154, 0, 0.3);
+}
+
+.social-icon:hover::before {
+    opacity: 1;
 }
 
 .copyright {
-    color: #888;
-    font-size: 0.9rem;
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.coffee-option.active {
+    animation: pulse 2s infinite;
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.loading {
+    animation: shimmer 1.5s ease-in-out infinite;
+    background: linear-gradient(to right, #f6f7f8 8%, #f0f0f0 18%, #f6f7f8 33%);
+    background-size: 800px 104px;
 }
 
 /* Responsive Adjustments */
@@ -255,8 +477,35 @@ footer {
         font-size: 2rem;
     }
     
+    .bio {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+    
     .coffee-option {
         margin-bottom: 1rem;
+        padding: 1rem;
+    }
+    
+    .coffee-icon {
+        font-size: 1.5rem;
+    }
+    
+    .language-toggle {
+        top: 10px;
+        right: 10px;
+    }
+    
+    #langToggle {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .social-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+        margin: 0 0.3rem;
     }
 }
 
@@ -266,11 +515,113 @@ footer {
         padding-right: 15px;
     }
     
-    .payment-form, .recent-supporters {
+    .payment-form, .banking-info {
         padding: 1.5rem;
+        margin: 1rem 0;
     }
     
     .coffee-option {
-        padding: 1rem;
+        padding: 1rem 0.5rem;
+    }
+    
+    .coffee-option h3 {
+        font-size: 1.2rem;
+    }
+    
+    .coffee-option p {
+        font-size: 1rem;
+    }
+    
+    .name {
+        font-size: 1.8rem;
+    }
+    
+    .avatar-container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .bank-name, .qr-title {
+        font-size: 1.2rem;
+    }
+    
+    .row.g-4 {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 1rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light-color: #2d3748;
+        --dark-color: #f7fafc;
+        --text-color: #e2e8f0;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+    
+    .payment-form, .banking-info {
+        background: rgba(45, 55, 72, 0.95);
+    }
+    
+    .coffee-option {
+        background: rgba(45, 55, 72, 0.95);
+        color: var(--text-color);
+    }
+    
+    .form-control {
+        background: rgba(45, 55, 72, 0.8);
+        border-color: #4a5568;
+        color: var(--text-color);
+    }
+    
+    .form-control:focus {
+        background: #2d3748;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .coffee-option {
+        border: 3px solid var(--primary-color);
+    }
+    
+    .btn-primary {
+        border: 2px solid var(--dark-color);
+    }
+    
+    .social-icon {
+        border: 2px solid var(--primary-color);
+    }
+}
+
+/* Print styles */
+@media print {
+    .language-toggle,
+    .social-icons,
+    .coffee-options,
+    .payment-form {
+        display: none;
+    }
+    
+    .banking-info {
+        page-break-inside: avoid;
+    }
+    
+    body {
+        background: white;
+        color: black;
     }
 }
