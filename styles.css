@@ -287,6 +287,8 @@ body {
   padding: 2rem;
   border-radius: 15px;
   border: 2px solid var(--border);
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .bank-info {
@@ -345,33 +347,51 @@ body {
 
 /* ===== QR CODE ===== */
 .qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: var(--padding);
+  padding: var(--padding-large);
+  min-height: 250px;
+  overflow: hidden;
 }
 
 .qr-code {
   max-width: 200px;
+  width: 100%;
   height: auto;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: var(--padding);
+  object-fit: contain;
 }
 
 .qr-description {
   color: var(--text-secondary);
   font-size: 0.95rem;
   margin: 0;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 /* ===== BUY ME A COFFEE BUTTON ===== */
 .buymeacoffee-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: var(--padding);
+  padding: var(--padding-large);
+  min-height: 250px;
+  overflow: hidden;
 }
 
 .buymeacoffee-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   background: #FFDD00;
   color: #000;
@@ -382,6 +402,10 @@ body {
   font-size: 1.1rem;
   transition: var(--transition);
   box-shadow: 0 5px 15px rgba(255, 221, 0, 0.3);
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .buymeacoffee-btn:hover {
@@ -396,6 +420,9 @@ body {
   color: var(--text-secondary);
   font-size: 0.95rem;
   margin: var(--padding) 0 0 0;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 /* ===== THANK YOU SECTION ===== */
@@ -521,6 +548,21 @@ body {
   
   .amount-buttons {
     grid-template-columns: 1fr;
+  }
+  
+  .qr-code-container,
+  .buymeacoffee-container {
+    padding: var(--padding);
+    min-height: 200px;
+  }
+  
+  .buymeacoffee-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .qr-code {
+    max-width: 150px;
   }
 }
 
