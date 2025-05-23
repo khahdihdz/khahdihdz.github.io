@@ -47,6 +47,10 @@ body {
   padding: 80px 0 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Ngăn chặn cuộn ngang toàn trang */
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ===== HEADER CỐ ĐỊNH ===== */
@@ -61,6 +65,14 @@ body {
   z-index: 1000;
   padding: var(--padding) 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* Xử lý overflow cho header */
+  overflow: hidden;
+}
+
+.fixed-header .container-fluid {
+  /* Đảm bảo nội dung header không bị tràn */
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* ===== THẺ COFFEE CHÍNH ===== */
@@ -74,6 +86,10 @@ body {
   position: relative;
   overflow: hidden;
   transition: var(--transition);
+  /* Đảm bảo card không bị tràn */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .coffee-card::before {
@@ -103,6 +119,8 @@ body {
   margin: 0 auto 1.5rem;
   box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
   transition: var(--transition);
+  /* Đảm bảo icon không bị biến dạng */
+  flex-shrink: 0;
 }
 
 .coffee-icon:hover {
@@ -123,6 +141,11 @@ body {
   background-clip: text;
   margin-bottom: 0.5rem;
   text-align: center;
+  /* Xử lý văn bản dài */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.2;
 }
 
 .coffee-subtitle {
@@ -130,6 +153,10 @@ body {
   color: var(--text-secondary);
   margin-bottom: 0;
   text-align: center;
+  /* Xử lý văn bản dài */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===== SECTION CHUNG ===== */
@@ -140,6 +167,10 @@ body {
   border: 2px solid var(--border);
   margin-bottom: 1.5rem;
   transition: var(--transition);
+  /* Xử lý overflow cho sections */
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .section:hover {
@@ -152,6 +183,10 @@ body {
   color: var(--text-primary);
   margin-bottom: var(--padding);
   font-size: 1.2rem;
+  /* Xử lý tiêu đề dài */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===== CHỌN SỐ TIỀN ===== */
@@ -160,6 +195,9 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 0.75rem;
   margin-bottom: var(--padding);
+  /* Đảm bảo grid không bị tràn */
+  width: 100%;
+  max-width: 100%;
 }
 
 .amount-btn {
@@ -177,6 +215,11 @@ body {
   gap: 0.5rem;
   text-align: center;
   user-select: none;
+  /* Xử lý nội dung dài trong button */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0; /* Cho phép flex item co lại */
 }
 
 .amount-btn:hover:not(.active) {
@@ -193,6 +236,12 @@ body {
   transform: scale(1.05);
 }
 
+.custom-amount {
+  /* Đảm bảo input không bị tràn */
+  min-width: 0;
+  width: 100%;
+}
+
 .custom-amount input {
   width: 100%;
   border: 2px solid var(--border);
@@ -201,6 +250,11 @@ body {
   font-weight: 600;
   transition: var(--transition);
   font-size: 1rem;
+  /* Xử lý input overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .custom-amount input:focus {
@@ -217,12 +271,20 @@ body {
   border-radius: var(--border-radius);
   border: 2px solid var(--success);
   margin-top: var(--padding);
+  /* Xử lý số tiền dài */
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .total-amount strong {
   color: var(--success);
   font-size: 1.5rem;
   display: block;
+  /* Xử lý số tiền rất dài */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===== TEXTAREA VÀ INPUT ===== */
@@ -231,6 +293,10 @@ body {
   border-radius: var(--border-radius);
   transition: var(--transition);
   font-size: 1rem;
+  /* Xử lý overflow cho form controls */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .form-control:focus {
@@ -242,6 +308,11 @@ body {
 .message-input {
   resize: vertical;
   min-height: 100px;
+  /* Xử lý văn bản dài trong textarea */
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===== TABS THANH TOÁN ===== */
@@ -250,6 +321,10 @@ body {
   gap: 0.5rem;
   margin-bottom: var(--padding-large);
   border: none;
+  /* Xử lý tabs overflow */
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
 }
 
 .payment-tabs .nav-link {
@@ -266,6 +341,11 @@ body {
   text-decoration: none;
   flex: 1;
   justify-content: center;
+  /* Xử lý văn bản dài trong tabs */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .payment-tabs .nav-link:hover:not(.active) {
@@ -289,10 +369,19 @@ body {
   border: 2px solid var(--border);
   overflow: hidden;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* Đảm bảo card không bị tràn */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .bank-info {
   text-align: left;
+  /* Xử lý overflow cho thông tin bank */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .bank-item {
@@ -302,6 +391,11 @@ body {
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border);
   gap: var(--padding);
+  /* Xử lý overflow cho từng item */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  flex-wrap: wrap;
 }
 
 .bank-item:last-child {
@@ -312,6 +406,9 @@ body {
   color: var(--text-primary);
   min-width: 120px;
   flex-shrink: 0;
+  /* Xử lý label dài */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .bank-item span {
@@ -321,7 +418,34 @@ body {
   padding: 0.5rem;
   border-radius: 8px;
   font-weight: 600;
+  /* Xử lý số tài khoản và thông tin dài */
   word-break: break-all;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  /* Đảm bảo không bị tràn */
+  max-width: calc(100% - 180px);
+  overflow: hidden;
+  /* Hiển thị tooltip cho nội dung bị cắt */
+  position: relative;
+}
+
+/* Tooltip cho nội dung bị cắt */
+.bank-item span:hover::after {
+  content: attr(data-full-text);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--text-primary);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  white-space: normal;
+  word-wrap: break-word;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 300px;
 }
 
 .copy-btn {
@@ -338,6 +462,9 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Đảm bảo button không bị co */
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .copy-btn:hover {
@@ -355,6 +482,10 @@ body {
   padding: var(--padding-large);
   min-height: 250px;
   overflow: hidden;
+  /* Xử lý overflow cho QR container */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .qr-code {
@@ -365,6 +496,9 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: var(--padding);
   object-fit: contain;
+  /* Đảm bảo hình ảnh không bị tràn */
+  display: block;
+  max-height: 200px;
 }
 
 .qr-description {
@@ -372,8 +506,12 @@ body {
   font-size: 0.95rem;
   margin: 0;
   text-align: center;
+  /* Xử lý mô tả dài */
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
   max-width: 100%;
+  overflow: hidden;
 }
 
 /* ===== BUY ME A COFFEE BUTTON ===== */
@@ -386,6 +524,10 @@ body {
   padding: var(--padding-large);
   min-height: 250px;
   overflow: hidden;
+  /* Xử lý overflow cho container */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .buymeacoffee-btn {
@@ -402,10 +544,12 @@ body {
   font-size: 1.1rem;
   transition: var(--transition);
   box-shadow: 0 5px 15px rgba(255, 221, 0, 0.3);
+  /* Xử lý văn bản dài trong button */
   white-space: nowrap;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .buymeacoffee-btn:hover {
@@ -421,8 +565,12 @@ body {
   font-size: 0.95rem;
   margin: var(--padding) 0 0 0;
   text-align: center;
+  /* Xử lý mô tả dài */
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
   max-width: 100%;
+  overflow: hidden;
 }
 
 /* ===== THANK YOU SECTION ===== */
@@ -433,6 +581,10 @@ body {
   border-radius: 15px;
   border: 2px solid var(--success);
   text-align: center;
+  /* Xử lý overflow */
+  overflow: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .thank-you-text {
@@ -440,6 +592,10 @@ body {
   font-weight: 600;
   color: var(--success);
   margin: 0;
+  /* Xử lý văn bản dài */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* ===== LANGUAGE TOGGLE ===== */
@@ -451,6 +607,11 @@ body {
   border: 2px solid var(--primary);
   background: var(--gradient);
   color: white;
+  /* Xử lý overflow cho button */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
 }
 
 #langToggle:hover {
@@ -465,10 +626,17 @@ body {
   border: none;
   border-radius: var(--border-radius);
   box-shadow: 0 8px 20px rgba(0, 212, 170, 0.3);
+  /* Xử lý overflow cho toast */
+  overflow: hidden;
+  word-wrap: break-word;
+  max-width: 300px;
 }
 
 .toast-body {
   font-weight: 600;
+  /* Xử lý nội dung dài trong toast */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* ===== ANIMATION ===== */
@@ -505,10 +673,21 @@ body {
   .coffee-card {
     margin: 1rem;
     padding: var(--padding-large);
+    /* Đảm bảo responsive không bị tràn */
+    max-width: calc(100vw - 2rem);
+    overflow: hidden;
   }
   
   .payment-tabs {
     flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .payment-tabs .nav-link {
+    /* Cho phép wrap text trên mobile */
+    white-space: normal;
+    text-align: center;
+    min-height: 50px;
   }
   
   .bank-item {
@@ -520,21 +699,39 @@ body {
   .bank-item span {
     width: 100%;
     text-align: center;
+    max-width: 100%;
+    /* Cho phép break trên mobile */
+    word-break: break-all;
+    white-space: normal;
   }
   
   .copy-btn {
     align-self: flex-end;
+  }
+  
+  /* Xử lý button overflow trên mobile */
+  .buymeacoffee-btn {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    white-space: normal;
+    text-align: center;
+    min-height: 50px;
   }
 }
 
 @media (max-width: 576px) {
   body {
     padding-top: 60px;
+    /* Ngăn cuộn ngang */
+    overflow-x: hidden;
   }
   
   .coffee-card {
     padding: var(--padding);
     margin: 0.5rem;
+    /* Đảm bảo không tràn trên màn hình nhỏ */
+    max-width: calc(100vw - 1rem);
+    width: calc(100vw - 1rem);
   }
   
   .coffee-icon {
@@ -548,6 +745,14 @@ body {
   
   .amount-buttons {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .amount-btn {
+    /* Cho phép text wrap trên màn hình nhỏ */
+    white-space: normal;
+    min-height: 50px;
+    padding: 0.75rem 0.5rem;
   }
   
   .qr-code-container,
@@ -557,13 +762,67 @@ body {
   }
   
   .buymeacoffee-btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    /* Cho phép break text trên màn hình rất nhỏ */
+    white-space: normal;
+    line-height: 1.4;
   }
   
   .qr-code {
     max-width: 150px;
+    max-height: 150px;
   }
+  
+  /* Xử lý form elements trên mobile */
+  .custom-amount input {
+    font-size: 16px; /* Ngăn zoom trên iOS */
+  }
+  
+  .message-input {
+    min-height: 80px;
+    font-size: 16px; /* Ngăn zoom trên iOS */
+  }
+  
+  /* Xử lý bank info trên mobile */
+  .bank-item span {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== XỬ LÝ OVERFLOW CHO CÁC TRƯỜNG HỢP ĐẶC BIỆT ===== */
+
+/* Container chính luôn có max-width */
+.container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Xử lý cho các phần tử có thể bị tràn */
+.text-truncate-responsive {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Xử lý cho văn bản rất dài */
+.text-break-all {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Xử lý cho số và mã */
+.monospace-break {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 /* ===== ACCESSIBILITY ===== */
@@ -597,10 +856,18 @@ body {
   body {
     background: white;
     color: black;
+    overflow: visible;
   }
   
   .coffee-card {
     box-shadow: none;
     border: 1px solid #ccc;
+    overflow: visible;
+  }
+  
+  /* Đảm bảo văn bản không bị cắt khi in */
+  .bank-item span {
+    white-space: normal;
+    word-break: break-all;
   }
 }
