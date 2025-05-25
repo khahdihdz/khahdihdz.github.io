@@ -1,466 +1,380 @@
-// Global Variables
-let currentLang = 'vi';
-let coffeePrice = 25000; // Price per coffee in VND
-let selectedAmount = 1;
+// Buy Me A Coffee JavaScript
 
-// Initialize when DOM is loaded
+let currentLanguage = 'vi';
+let currentAmount = 25000; // Default 1 coffee = 25,000 VND
+const coffeePrice = 25000;
+
+// Language switcher
 document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
+    const langToggle = document.getElementById('langToggle');
+    const customAmountInput = document.getElementById('customAmount');
+    const coffeeButtons = document.querySelectorAll('.coffee-btn');
+    
+    // Language toggle event
+    langToggle.addEventListener('click', function() {
+        currentLanguage = currentLanguage === 'vi' ? 'en' : 'vi';
+        switchLanguage();
+        langToggle.innerHTML = currentLanguage === 'vi' ? '<i class="fas fa-globe"></i> EN' : '<i class="fas fa-globe"></i> VI';
+    });
+    
+    // Coffee button events
+    coffeeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            coffeeButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Calculate amount
+            const coffeeCount = parseInt(this.dataset.amount);
+            currentAmount = coffeeCount * coffeePrice;
+            
+            // Clear custom amount
+            customAmountInput.value = '';
+            
+            // Update total
+            updateTotalAmount();
+        });
+    });
+    
+    // Custom amount input event
+    customAmountInput.addEventListener('input', function() {
+        const customValue = parseInt(this.value) || 0;
+        if (customValue > 0) {
+            // Remove active class from coffee buttons
+            coffeeButtons.forEach(btn => btn.classList.remove('active'));
+            currentAmount = customValue;
+            updateTotalAmount();
+        }
+    });
 });
 
-// Initialize Application
-function initializeApp() {
-    setupEventListeners();
-    updateTotalAmount();
-    setupLanguageToggle();
-    setupCopyButtons();
-    setupAmountButtons();
-    setupCustomAmount();
-    updateTransferMessage();
-}
-
-// Setup Event Listeners
-function setupEventListeners() {
-    // Language toggle
-    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
-    
-    // Amount buttons
-    document.querySelectorAll('.amount-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            selectAmount(parseInt(this.dataset.amount));
-        });
-    });
-    
-    // Custom amount input
-    document.getElementById('customAmount').addEventListener('input', function() {
-        const value = parseInt(this.value) || 0;
-        if (value > 0) {
-            selectCustomAmount(value);
+// Switch language function
+function switchLanguage() {
+    const elements = document.querySelectorAll('[data-vi][data-en]');
+    elements.forEach(element => {
+        if (currentLanguage === 'vi') {
+            element.textContent = element.getAttribute('data-vi');
+        } else {
+            element.textContent = element.getAttribute('data-en');
         }
     });
     
-    // Message textarea
-    document.querySelector('.message-input').addEventListener('input', updateTransferMessage);
-}
-
-// Language Toggle Functions
-function setupLanguageToggle() {
-    // Set initial language state
-    updateLanguageDisplay();
-}
-
-function toggleLanguage() {
-    currentLang = currentLang === 'vi' ? 'en' : 'vi';
-    updateLanguageDisplay();
-    updatePlaceholders();
+    // Update placeholders
+    const customAmountInput = document.getElementById('customAmount');
+    if (currentLanguage === 'vi') {
+        customAmountInput.placeholder = '25000';
+        document.title = 'Mua Cà Phê Cho Tôi | Buy Me A Coffee';
+    } else {
+        customAmountInput.placeholder = '25000';
+        document.title = 'Buy Me A Coffee | Mua Cà Phê Cho Tôi';
+    }
     
-    // Add animation
-    document.querySelector('.coffee-card').classList.add('fade-in');
-    setTimeout(() => {
-        document.querySelector('.coffee-card').classList.remove('fade-in');
-    }, 500);
-}
-
-function updateLanguageDisplay() {
-    // Update language button text
-    const langText = document.getElementById('langText');
-    langText.textContent = currentLang === 'vi' ? 'English' : 'Tiếng Việt';
-    
-    // Update HTML lang attribute
-    document.documentElement.lang = currentLang;
-    
-    // Update all elements with data-vi and data-en attributes
-    document.querySelectorAll('[data-vi][data-en]').forEach(element => {
-        const text = element.getAttribute(`data-${currentLang}`);
-        if (text) {
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = text;
-            } else {
-                element.textContent = text;
-            }
-        }
-    });
-    
-    // Update page title
-    document.title = currentLang === 'vi' ? 
-        'Mua tôi một ly cà phê ☕' : 
-        'Buy me a coffee ☕';
-}
-
-function updatePlaceholders() {
-    // Update custom amount placeholder
-    const customAmount = document.getElementById('customAmount');
-    customAmount.placeholder = currentLang === 'vi' ? 'Khác' : 'Other';
-    
-    // Update message textarea placeholder
-    const messageInput = document.querySelector('.message-input');
-    messageInput.placeholder = currentLang === 'vi' ? 
-        'Viết lời nhắn của bạn...' : 
-        'Write your message...';
-}
-
-// Amount Selection Functions
-function setupAmountButtons() {
-    // Set initial active state
-    document.querySelector('.amount-btn[data-amount="1"]').classList.add('active');
-}
-
-function selectAmount(amount) {
-    selectedAmount = amount;
-    
-    // Clear custom amount input
-    document.getElementById('customAmount').value = '';
-    
-    // Update button states
-    document.querySelectorAll('.amount-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    document.querySelector(`[data-amount="${amount}"]`).classList.add('active');
-    
-    // Update total
     updateTotalAmount();
-    updateTransferMessage();
-    
-    // Add pulse animation to total
-    document.querySelector('.total-amount').classList.add('pulse');
-    setTimeout(() => {
-        document.querySelector('.total-amount').classList.remove('pulse');
-    }, 2000);
 }
 
-function setupCustomAmount() {
-    const customInput = document.getElementById('customAmount');
-    
-    customInput.addEventListener('focus', function() {
-        // Clear amount button selections
-        document.querySelectorAll('.amount-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-    });
-}
-
-function selectCustomAmount(amount) {
-    selectedAmount = amount;
-    
-    // Clear amount button selections
-    document.querySelectorAll('.amount-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Update total
-    updateTotalAmount();
-    updateTransferMessage();
-}
-
+// Update total amount display
 function updateTotalAmount() {
-    const total = selectedAmount * coffeePrice;
     const totalElement = document.getElementById('totalAmount');
-    
-    // Format currency based on language
-    if (currentLang === 'vi') {
-        totalElement.textContent = formatVND(total);
-    } else {
-        // Convert to USD (approximate rate: 1 USD = 24,000 VND)
-        const usdAmount = (total / 24000).toFixed(2);
-        totalElement.textContent = `${usdAmount} USD`;
-    }
+    totalElement.textContent = formatCurrency(currentAmount);
 }
 
-// Currency Formatting
-function formatVND(amount) {
-    return new Intl.NumberFormat('vi-VN').format(amount) + ' VND';
+// Format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('vi-VN').format(amount) + '₫';
 }
 
-// Transfer Message Functions
-function updateTransferMessage() {
-    const messageInput = document.querySelector('.message-input');
-    const customMessage = messageInput.value.trim();
-    const transferMessageElement = document.getElementById('transferMessage');
-    
-    let message;
-    if (customMessage) {
-        // Use custom message with coffee count
-        message = currentLang === 'vi' ? 
-            `${customMessage} (${selectedAmount} ca phe)` :
-            `${customMessage} (${selectedAmount} coffee${selectedAmount > 1 ? 's' : ''})`;
-    } else {
-        // Default message
-        message = currentLang === 'vi' ? 
-            `Ung ho ${selectedAmount} ca phe` :
-            `Support ${selectedAmount} coffee${selectedAmount > 1 ? 's' : ''}`;
-    }
-    
-    transferMessageElement.textContent = message;
-}
-
-// Copy to Clipboard Functions
-function setupCopyButtons() {
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            let textToCopy;
-            
-            if (this.dataset.copy) {
-                textToCopy = this.dataset.copy;
-            } else if (this.dataset.copyId) {
-                const element = document.getElementById(this.dataset.copyId);
-                textToCopy = element.textContent;
-            }
-            
-            if (textToCopy) {
-                copyToClipboard(textToCopy);
-            }
-        });
+// Copy to clipboard function
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        showToast();
+    }).catch(function(err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast();
     });
 }
 
-function copyToClipboard(text) {
-    // Create temporary textarea element
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    
-    // Select and copy
-    textarea.focus();
-    textarea.select();
-    
-    try {
-        document.execCommand('copy');
-        showCopyToast();
-        
-        // Add success animation to copy button
-        event.target.style.transform = 'scale(1.2)';
-        setTimeout(() => {
-            event.target.style.transform = '';
-        }, 200);
-        
-    } catch (err) {
-        console.error('Copy failed:', err);
-        // Fallback: show text in alert
-        alert(currentLang === 'vi' ? 
-            `Sao chép thủ công: ${text}` : 
-            `Manual copy: ${text}`);
-    }
-    
-    // Clean up
-    document.body.removeChild(textarea);
+// Get current text based on language
+function getCurrentText(selector) {
+    const element = document.querySelector(selector);
+    return currentLanguage === 'vi' ? element.getAttribute('data-vi') : element.getAttribute('data-en');
 }
 
-function showCopyToast() {
+// Show toast notification
+function showToast() {
     const toast = new bootstrap.Toast(document.getElementById('copyToast'));
     toast.show();
 }
 
-// Payment Tab Functions
-function setupPaymentTabs() {
-    // Add event listeners to payment tabs
-    document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
-        tab.addEventListener('shown.bs.tab', function(e) {
-            // Add animation when tab is shown
-            const targetPane = document.querySelector(e.target.dataset.bsTarget);
-            targetPane.classList.add('fade-in');
+// Generate QR Code (simple implementation)
+function generateQRCode() {
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Set background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Create a simple QR-like pattern (placeholder)
+    const qrSize = 180;
+    const startX = (canvas.width - qrSize) / 2;
+    const startY = (canvas.height - qrSize) / 2;
+    const cellSize = qrSize / 21; // 21x21 grid
+    
+    ctx.fillStyle = '#000000';
+    
+    // Create QR pattern (simplified version)
+    const pattern = [
+        [1,1,1,1,1,1,1,0,1,1,0,1,0,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,1,1,0,1,0,1,0,0,0,0,0,1],
+        [1,0,1,1,1,0,1,0,1,0,1,1,0,0,1,0,1,1,1,0,1],
+        [1,0,1,1,1,0,1,0,0,1,0,1,1,0,1,0,1,1,1,0,1],
+        [1,0,1,1,1,0,1,0,1,1,1,0,0,0,1,0,1,1,1,0,1],
+        [1,0,0,0,0,0,1,0,0,0,1,1,1,0,1,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1],
+        [0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0],
+        [1,0,1,1,0,1,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1],
+        [0,1,0,1,1,0,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0],
+        [1,1,1,0,1,1,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1],
+        [0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0],
+        [1,0,1,1,1,1,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1],
+        [0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0],
+        [1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1],
+        [1,0,0,0,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0],
+        [1,0,1,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1],
+        [1,0,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0],
+        [1,0,1,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1],
+        [1,0,0,0,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0],
+        [1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1]
+    ];
+    
+    // Draw the pattern
+    for (let row = 0; row < pattern.length; row++) {
+        for (let col = 0; col < pattern[row].length; col++) {
+            if (pattern[row][col] === 1) {
+                ctx.fillRect(
+                    startX + col * cellSize,
+                    startY + row * cellSize,
+                    cellSize,
+                    cellSize
+                );
+            }
+        }
+    }
+    
+    // Add amount text below QR code
+    ctx.fillStyle = '#6f4e37';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(
+        formatCurrency(currentAmount),
+        canvas.width / 2,
+        canvas.height - 10
+    );
+}
+
+// Smooth scrolling for collapse elements
+document.addEventListener('shown.bs.collapse', function (e) {
+    e.target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+    });
+});
+
+// Add hover effects to payment buttons
+document.querySelectorAll('.btn-payment').forEach(button => {
+    button.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-2px)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+    });
+});
+
+// Initialize tooltips if needed
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+// Add some interactive effects
+document.addEventListener('DOMContentLoaded', function() {
+    // Add fade-in animation
+    const card = document.querySelector('.coffee-card');
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    
+    setTimeout(() => {
+        card.style.transition = 'all 0.6s ease';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+    }, 100);
+    
+    // Add floating animation to coffee icon
+    const coffeeIcon = document.querySelector('.coffee-icon');
+    setInterval(() => {
+        coffeeIcon.style.transform = 'translateY(-5px)';
+        setTimeout(() => {
+            coffeeIcon.style.transform = 'translateY(0)';
+        }, 1000);
+    }, 3000);
+});
+
+// Handle form submission (placeholder)
+function handleDonation() {
+    // This function can be extended to handle actual payment processing
+    alert(currentLanguage === 'vi' ? 'Cảm ơn bạn đã ủng hộ!' : 'Thank you for your support!');
+}
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(event) {
+    // Press L to toggle language
+    if (event.key.toLowerCase() === 'l' && event.ctrlKey) {
+        event.preventDefault();
+        document.getElementById('langToggle').click();
+    }
+    
+    // Press 1, 3, 5 for quick coffee selection
+    if (['1', '3', '5'].includes(event.key)) {
+        const button = document.querySelector(`[data-amount="${event.key}"]`);
+        if (button) {
+            button.click();
+        }
+    }
+});
+
+// Add loading state for payment methods
+function showLoading(element) {
+    const originalText = element.innerHTML;
+    element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + 
+        (currentLanguage === 'vi' ? 'Đang tải...' : 'Loading...');
+    
+    setTimeout(() => {
+        element.innerHTML = originalText;
+    }, 1500);
+}
+
+// Enhanced copy function with better feedback
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        showToast();
+        // Add visual feedback to the copied element
+        if (event && event.target) {
+            event.target.style.background = '#28a745';
+            event.target.innerHTML = '<i class="fas fa-check"></i>';
             
             setTimeout(() => {
-                targetPane.classList.remove('fade-in');
-            }, 500);
-        });
+                event.target.style.background = '';
+                event.target.innerHTML = '<i class="fas fa-copy"></i>';
+            }, 2000);
+        }
+    }).catch(function(err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showToast();
     });
 }
 
-// Utility Functions
-function formatCurrency(amount, currency = 'VND') {
-    if (currency === 'VND') {
-        return formatVND(amount);
-    } else if (currency === 'USD') {
-        return `${amount.toFixed(2)} USD`;
-    }
-    return amount.toString();
-}
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Animation Functions
-function addPulseAnimation(element) {
-    element.classList.add('pulse');
+// Add animation to total amount when it changes
+function updateTotalAmount() {
+    const totalElement = document.getElementById('totalAmount');
+    totalElement.style.transform = 'scale(1.1)';
+    totalElement.style.color = '#d4a574';
+    
     setTimeout(() => {
-        element.classList.remove('pulse');
-    }, 2000);
+        totalElement.textContent = formatCurrency(currentAmount);
+        totalElement.style.transform = 'scale(1)';
+        totalElement.style.color = '';
+    }, 150);
 }
 
-function addFadeInAnimation(element) {
-    element.classList.add('fade-in');
-    setTimeout(() => {
-        element.classList.remove('fade-in');
-    }, 500);
-}
-
-// Validation Functions
-function validateAmount(amount) {
-    return !isNaN(amount) && amount > 0 && amount <= 100;
-}
-
-function sanitizeMessage(message) {
-    return message.replace(/[<>\"']/g, '').trim();
-}
-
-// Enhanced Features
-function generateQRCode() {
-    // This would integrate with a QR code library in a real implementation
-    // For now, we'll update the placeholder
-    const amount = selectedAmount * coffeePrice;
-    const message = document.getElementById('transferMessage').textContent;
+// Add progress indicator for donation process
+function createProgressIndicator() {
+    const progressHtml = `
+        <div class="progress mb-3" style="height: 6px; display: none;" id="donationProgress">
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+        </div>
+    `;
     
-    // In a real implementation, you would generate a QR code with payment info
-    console.log('QR Code data:', { amount, message });
-}
-
-function updateBuyMeACoffeeLink() {
-    // Update the BuyMeACoffee link with current amount
-    const link = document.querySelector('.buymeacoffee-btn');
-    const baseUrl = 'https://buymeacoffee.com/yourusername';
-    
-    // Add amount parameter (BuyMeACoffee supports this)
-    const usdAmount = (selectedAmount * coffeePrice / 24000).toFixed(2);
-    link.href = `${baseUrl}?amount=${usdAmount}`;
-}
-
-// Error Handling
-function handleError(error, context = '') {
-    console.error(`Error in ${context}:`, error);
-    
-    // Show user-friendly error message
-    const errorMessage = currentLang === 'vi' ? 
-        'Đã xảy ra lỗi. Vui lòng thử lại.' : 
-        'An error occurred. Please try again.';
-    
-    // You could show this in a toast or modal
-    console.log(errorMessage);
+    const totalSection = document.querySelector('.total-section');
+    totalSection.insertAdjacentHTML('afterend', progressHtml);
 }
 
 // Initialize additional features
-function initializeAdvancedFeatures() {
-    setupPaymentTabs();
+document.addEventListener('DOMContentLoaded', function() {
+    createProgressIndicator();
     
-    // Update QR code when amount changes
-    const originalUpdateTotal = updateTotalAmount;
-    updateTotalAmount = function() {
-        originalUpdateTotal();
-        generateQRCode();
-        updateBuyMeACoffeeLink();
-    };
+    // Add click tracking to buttons
+    document.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', function() {
+            trackClick(this.textContent.trim(), 'button_click');
+        });
+    });
+});
+
+// Validate amount input
+document.getElementById('customAmount').addEventListener('input', function() {
+    const value = parseInt(this.value);
+    const minAmount = 5000;
+    const maxAmount = 10000000;
     
-    // Add debounced message update
-    const messageInput = document.querySelector('.message-input');
-    const debouncedUpdateMessage = debounce(updateTransferMessage, 300);
-    messageInput.addEventListener('input', debouncedUpdateMessage);
+    if (value && (value < minAmount || value > maxAmount)) {
+        this.style.borderColor = '#dc3545';
+        this.style.boxShadow = '0 0 0 0.2rem rgba(220, 53, 69, 0.25)';
+    } else {
+        this.style.borderColor = '';
+        this.style.boxShadow = '';
+    }
+});
+
+// Add confetti effect when copying (fun feature)
+function showConfetti() {
+    // Simple confetti effect using CSS animations
+    const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7'];
+    
+    for (let i = 0; i < 30; i++) {
+        createConfettiPiece(colors[Math.floor(Math.random() * colors.length)]);
+    }
 }
 
-// Enhanced initialization
-document.addEventListener('DOMContentLoaded', function() {
-    try {
-        initializeApp();
-        initializeAdvancedFeatures();
-        
-        // Add welcome animation
-        setTimeout(() => {
-            document.querySelector('.coffee-icon').classList.add('pulse');
-        }, 500);
-        
-    } catch (error) {
-        handleError(error, 'initialization');
-    }
-});
-
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e) {
-    // Language toggle with Ctrl/Cmd + L
-    if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
-        e.preventDefault();
-        toggleLanguage();
-    }
+function createConfettiPiece(color) {
+    const confetti = document.createElement('div');
+    confetti.style.position = 'fixed';
+    confetti.style.width = '6px';
+    confetti.style.height = '6px';
+    confetti.style.backgroundColor = color;
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.top = '-10px';
+    confetti.style.zIndex = '9999';
+    confetti.style.pointerEvents = 'none';
+    confetti.style.borderRadius = '50%';
     
-    // Quick amount selection with number keys
-    if (e.key >= '1' && e.key <= '9' && !e.ctrlKey && !e.metaKey) {
-        const targetInput = document.activeElement;
-        if (targetInput.tagName !== 'INPUT' && targetInput.tagName !== 'TEXTAREA') {
-            const amount = parseInt(e.key);
-            if (amount <= 5) {
-                selectAmount(amount);
-            }
-        }
-    }
-});
-
-// Export functions for potential external use
-window.BuyMeACoffee = {
-    toggleLanguage,
-    selectAmount,
-    updateTotalAmount,
-    copyToClipboard,
-    formatVND
-};
-function updateLanguageDisplay() {
-    // Update language button text
-    const langText = document.getElementById('langText');
-    langText.textContent = currentLang === 'vi' ? 'English' : 'Tiếng Việt';
+    document.body.appendChild(confetti);
     
-    // Update HTML lang attribute
-    document.documentElement.lang = currentLang;
-    
-    // Update all elements with data-vi and data-en attributes
-    document.querySelectorAll('[data-vi][data-en]').forEach(element => {
-        const text = element.getAttribute(`data-${currentLang}`);
-        if (text) {
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = text;
-            } else {
-                element.textContent = text;
-            }
-        }
+    const animation = confetti.animate([
+        { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+        { transform: `translateY(${window.innerHeight + 10}px) rotate(360deg)`, opacity: 0 }
+    ], {
+        duration: Math.random() * 2000 + 1000,
+        easing: 'ease-out'
     });
     
-    // Update meta tags for social sharing
-    updateSocialMetaTags();
-    
-    // Update page title
-    document.title = currentLang === 'vi' ? 
-        'Mua cho tôi một ly cà phê ☕' : 
-        'Buy me a coffee ☕';
-}
-
-// Function to update social media meta tags based on language
-function updateSocialMetaTags() {
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    const metaDescription = document.querySelector('meta[name="description"]');
-    
-    if (currentLang === 'vi') {
-        // Vietnamese content
-        if (ogTitle) ogTitle.content = 'Mua cho tôi một ly cà phê ☕';
-        if (ogDescription) ogDescription.content = 'Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Có thể thanh toán qua ngân hàng, QR Code hoặc BuyMeACoffee.';
-        if (twitterTitle) twitterTitle.content = 'Mua cho tôi một ly cà phê ☕';
-        if (twitterDescription) twitterDescription.content = 'Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Thanh toán dễ dàng qua nhiều phương thức.';
-        if (metaDescription) metaDescription.content = 'Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hàng, QR Code hoặc BuyMeACoffee.';
-    } else {
-        // English content
-        if (ogTitle) ogTitle.content = 'Buy me a coffee ☕';
-        if (ogDescription) ogDescription.content = 'Support my work with a small coffee. Payment available via bank transfer, QR Code or BuyMeACoffee.';
-        if (twitterTitle) twitterTitle.content = 'Buy me a coffee ☕';
-        if (twitterDescription) twitterDescription.content = 'Support my work with a small coffee. Easy payment through multiple methods.';
-        if (metaDescription) metaDescription.content = 'Support my work with a small coffee. Bank transfer, QR Code or BuyMeACoffee available.';
-    }
+    animation.onfinish = () => confetti.remove();
 }
