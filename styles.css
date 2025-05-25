@@ -1,1232 +1,328 @@
-/* ===== BIẾN CSS - BẢNG MÀU ===== */
+/* Custom CSS for Buy Me A Coffee */
+
 :root {
-  /* Màu chính */
-  --primary: #6c5ce7;
-  --secondary: #fd63a3;
-  --accent: #fdcb6e;
-  --success: #00d4aa;
-  
-  /* Màu nền */
-  --bg-light: #f8f9fa;
-  --bg-card: #ffffff;
-  --bg-body: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  
-  /* Màu chữ */
-  --text-primary: #2d3748;
-  --text-secondary: #718096;
-  --border: #e2e8f0;
-  
-  /* Hiệu ứng */
-  --shadow: 0 10px 25px rgba(108, 92, 231, 0.1);
-  --shadow-hover: 0 8px 25px rgba(108, 92, 231, 0.4);
-  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  --coffee-gradient: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
-  
-  /* Kích thước và khoảng cách - CẬP NHẬT */
-  --border-radius: 12px;
-  --border-radius-large: 20px;
-  --padding: 1rem;
-  --padding-large: 1.5rem;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Kích thước container và căn giữa - MỚI */
-  --container-max-width: 1200px;
-  --container-padding: 2rem;
-  --content-max-width: 800px;
-  --section-spacing: 2rem;
-}
-
-/* ===== RESET VÀ BASE STYLES ===== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  /* Đảm bảo cuộn mượt mà */
-  scroll-behavior: smooth;
-  /* Ngăn chặn cuộn ngang toàn trang */
-  overflow-x: hidden;
+    --coffee-primary: #6f4e37;
+    --coffee-secondary: #8b6914;
+    --coffee-light: #f5f2e8;
+    --coffee-accent: #d4a574;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg-body);
-  min-height: 100vh;
-  color: var(--text-primary);
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Ngăn chặn cuộn ngang toàn trang */
-  overflow-x: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  
-  /* CẬP NHẬT: Thêm khoảng cách cho header cố định */
-  padding-top: 80px;
+    background: linear-gradient(135deg, var(--coffee-light) 0%, #fff 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding: 2rem 0;
 }
 
-/* ===== CONTAINER CHÍNH - CẬP NHẬT TOÀN BỘ ===== */
-.container,
-.container-fluid {
-  width: 100%;
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
-  /* Đảm bảo container luôn căn giữa */
-  display: block;
-  position: relative;
+/* Language Toggle */
+.language-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
 }
 
-/* Container đặc biệt cho nội dung chính */
-.main-container {
-  width: 100%;
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-  padding: var(--section-spacing) var(--container-padding);
-  /* Căn giữa và tạo khoảng cách đều */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--section-spacing);
-}
-
-/* ===== HEADER CỐ ĐỊNH - CẬP NHẬT ===== */
-.fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  z-index: 1000;
-  padding: var(--padding) 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  /* Xử lý overflow cho header */
-  overflow: hidden;
-}
-
-.fixed-header .container-fluid {
-  /* Đảm bảo nội dung header căn giữa và không bị tràn */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-/* ===== THẺ COFFEE CHÍNH - CẬP NHẬT ===== */
+/* Main Card */
 .coffee-card {
-  background: var(--bg-card);
-  border-radius: var(--border-radius-large);
-  padding: 2.5rem;
-  box-shadow: var(--shadow);
-  /* CẬP NHẬT: Căn giữa hoàn toàn */
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  transition: var(--transition);
-  /* Đảm bảo card không bị tràn */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  
-  /* Căn giữa nội dung bên trong */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px var(--shadow-light);
+    border: 1px solid rgba(111, 78, 55, 0.1);
 }
 
-.coffee-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: var(--gradient);
-}
-
-.coffee-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-}
-
-/* ===== ICON VÀ TIÊU ĐỀ - CẬP NHẬT ===== */
+/* Header */
 .coffee-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--coffee-gradient);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-  box-shadow: 0 8px 20px rgba(139, 69, 19, 0.3);
-  transition: var(--transition);
-  /* Đảm bảo icon không bị biến dạng */
-  flex-shrink: 0;
-}
-
-.coffee-icon:hover {
-  transform: scale(1.1) rotate(5deg);
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--coffee-primary), var(--coffee-secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
 }
 
 .coffee-icon i {
-  font-size: 2.5rem;
-  color: white;
+    font-size: 2rem;
+    color: white;
 }
 
-.coffee-title {
-  font-size: clamp(2rem, 5vw, 2.5rem);
-  font-weight: 700;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  /* Xử lý văn bản dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  line-height: 1.2;
-  /* Căn giữa hoàn toàn */
-  width: 100%;
+.title {
+    color: var(--coffee-primary);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
-.coffee-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 0;
-  text-align: center;
-  /* Xử lý văn bản dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  /* Căn giữa hoàn toàn */
-  width: 100%;
+.subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 0;
 }
 
-/* ===== SECTION CHUNG - CẬP NHẬT ===== */
-.section {
-  background: var(--bg-light);
-  padding: var(--padding-large);
-  border-radius: 15px;
-  border: 2px solid var(--border);
-  margin-bottom: var(--section-spacing);
-  transition: var(--transition);
-  /* CẬP NHẬT: Căn giữa và lề đều */
-  width: 100%;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  /* Xử lý overflow cho sections */
-  overflow: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+/* Coffee Options */
+.options-title,
+.payment-title {
+    color: var(--coffee-primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
 
-.section:hover {
-  border-color: var(--primary);
-  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.1);
-}
-
-.section-title {
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: var(--padding);
-  font-size: 1.2rem;
-  /* CẬP NHẬT: Căn giữa tiêu đề */
-  text-align: center;
-  /* Xử lý tiêu đề dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-
-/* ===== CHỌN SỐ TIỀN - CẬP NHẬT ===== */
-.amount-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: var(--padding);
-  /* CẬP NHẬT: Căn giữa grid */
-  justify-content: center;
-  align-items: center;
-  /* Đảm bảo grid không bị tràn */
-  width: 100%;
-  max-width: 100%;
-}
-
-.amount-btn {
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: var(--border-radius);
-  padding: 0.75rem;
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 600;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  text-align: center;
-  user-select: none;
-  /* Xử lý nội dung dài trong button */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0; /* Cho phép flex item co lại */
-}
-
-.amount-btn:hover:not(.active) {
-  border-color: var(--primary);
-  background: rgba(108, 92, 231, 0.05);
-  transform: translateY(-2px);
-}
-
-.amount-btn.active {
-  background: var(--gradient);
-  color: white;
-  border-color: var(--primary);
-  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-  transform: scale(1.05);
-}
-
-.custom-amount {
-  /* Đảm bảo input không bị tràn */
-  min-width: 0;
-  width: 100%;
-  /* CẬP NHẬT: Căn giữa */
-  display: flex;
-  justify-content: center;
-}
-
-.custom-amount input {
-  width: 100%;
-  border: 2px solid var(--border);
-  border-radius: var(--border-radius);
-  padding: 0.75rem;
-  font-weight: 600;
-  transition: var(--transition);
-  font-size: 1rem;
-  /* CẬP NHẬT: Căn giữa text */
-  text-align: center;
-  /* Xử lý input overflow */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
-
-.custom-amount input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
-}
-
-.total-amount {
-  text-align: center;
-  font-size: 1.25rem;
-  padding: var(--padding);
-  background: white;
-  border-radius: var(--border-radius);
-  border: 2px solid var(--success);
-  margin-top: var(--padding);
-  /* CẬP NHẬT: Căn giữa hoàn toàn */
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  /* Xử lý số tiền dài */
-  overflow: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.total-amount strong {
-  color: var(--success);
-  font-size: 1.5rem;
-  display: block;
-  /* Xử lý số tiền rất dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-
-/* ===== TEXTAREA VÀ INPUT - CẬP NHẬT ===== */
-.form-control {
-  border: 2px solid var(--border);
-  border-radius: var(--border-radius);
-  transition: var(--transition);
-  font-size: 1rem;
-  /* Xử lý overflow cho form controls */
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
-}
-
-.message-input {
-  resize: vertical;
-  min-height: 100px;
-  /* Xử lý văn bản dài trong textarea */
-  overflow-y: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-
-/* ===== TABS THANH TOÁN - CẬP NHẬT ===== */
-.payment-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: var(--padding-large);
-  border: none;
-  /* CẬP NHẬT: Căn giữa tabs */
-  justify-content: center;
-  align-items: center;
-  /* Xử lý tabs overflow */
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 100%;
-}
-
-.payment-tabs .nav-link {
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: var(--border-radius);
-  color: var(--text-primary);
-  font-weight: 600;
-  padding: 0.75rem var(--padding);
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  flex: 1;
-  justify-content: center;
-  /* Xử lý văn bản dài trong tabs */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
-
-.payment-tabs .nav-link:hover:not(.active) {
-  border-color: var(--primary);
-  background: rgba(108, 92, 231, 0.05);
-  transform: translateY(-2px);
-}
-
-.payment-tabs .nav-link.active {
-  background: var(--gradient);
-  color: white;
-  border-color: var(--primary);
-  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-}
-
-/* ===== THÔNG TIN NGÂN HÀNG - CẬP NHẬT ===== */
-.payment-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 15px;
-  border: 2px solid var(--border);
-  overflow: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  /* CẬP NHẬT: Căn giữa card */
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-
-.bank-info {
-  /* CẬP NHẬT: Căn giữa thông tin bank */
-  text-align: center;
-  /* Xử lý overflow cho thông tin bank */
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.bank-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--border);
-  gap: var(--padding);
-  /* Xử lý overflow cho từng item */
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  flex-wrap: wrap;
-}
-
-.bank-item:last-child {
-  border-bottom: none;
-}
-
-.bank-item strong {
-  color: var(--text-primary);
-  min-width: 120px;
-  flex-shrink: 0;
-  /* Xử lý label dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.bank-item span {
-  flex: 1;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  background: var(--bg-light);
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  /* CẬP NHẬT: Căn giữa nội dung */
-  text-align: center;
-  /* Xử lý số tài khoản và thông tin dài */
-  word-break: break-all;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  /* Đảm bảo không bị tràn */
-  max-width: calc(100% - 180px);
-  overflow: hidden;
-  /* Hiển thị tooltip cho nội dung bị cắt */
-  position: relative;
-}
-
-/* Tooltip cho nội dung bị cắt */
-.bank-item span:hover::after {
-  content: attr(data-full-text);
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--text-primary);
-  color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  white-space: normal;
-  word-wrap: break-word;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-width: 300px;
-}
-
-.copy-btn {
-  background: var(--success);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem;
-  cursor: pointer;
-  transition: var(--transition);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  /* Đảm bảo button không bị co */
-  min-width: 40px;
-  min-height: 40px;
-}
-
-.copy-btn:hover {
-  background: #00b894;
-  transform: scale(1.1);
-}
-
-/* ===== QR CODE - CẬP NHẬT ===== */
-.qr-code-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--padding-large);
-  min-height: 250px;
-  overflow: hidden;
-  /* CẬP NHẬT: Căn giữa hoàn toàn */
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-
-.qr-code {
-  max-width: 200px;
-  width: 100%;
-  height: auto;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: var(--padding);
-  object-fit: contain;
-  /* Đảm bảo hình ảnh không bị tràn và căn giữa */
-  display: block;
-  max-height: 200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.qr-description {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin: 0;
-  text-align: center;
-  /* Xử lý mô tả dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-/* ===== BUY ME A COFFEE BUTTON - CẬP NHẬT ===== */
-.buymeacoffee-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--padding-large);
-  min-height: 250px;
-  overflow: hidden;
-  /* CẬP NHẬT: Căn giữa hoàn toàn */
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-
-.buymeacoffee-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  background: #FFDD00;
-  color: #000;
-  text-decoration: none;
-  padding: var(--padding) 2rem;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  transition: var(--transition);
-  box-shadow: 0 5px 15px rgba(255, 221, 0, 0.3);
-  /* CẬP NHẬT: Căn giữa button */
-  margin: 0 auto;
-  /* Xử lý văn bản dài trong button */
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-
-.buymeacoffee-btn:hover {
-  background: #ffcc00;
-  color: #000;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 221, 0, 0.4);
-  text-decoration: none;
-}
-
-.buymeacoffee-description {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin: var(--padding) 0 0 0;
-  text-align: center;
-  /* Xử lý mô tả dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-/* ===== THANK YOU SECTION - CẬP NHẬT ===== */
-.thank-you-section {
-  margin-top: var(--section-spacing);
-  padding: var(--padding-large);
-  background: rgba(0, 212, 170, 0.1);
-  border-radius: 15px;
-  border: 2px solid var(--success);
-  text-align: center;
-  /* CẬP NHẬT: Căn giữa section */
-  width: 100%;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  /* Xử lý overflow */
-  overflow: hidden;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.thank-you-text {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--success);
-  margin: 0;
-  /* Xử lý văn bản dài */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-
-/* ===== LANGUAGE TOGGLE - CẬP NHẬT ===== */
-#langToggle {
-  border-radius: 25px;
-  padding: 0.5rem var(--padding);
-  font-weight: 600;
-  transition: var(--transition);
-  border: 2px solid var(--primary);
-  background: var(--gradient);
-  color: white;
-  /* CẬP NHẬT: Căn giữa button */
-  display: block;
-  margin: 0 auto;
-  /* Xử lý overflow cho button */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 200px;
-}
-
-#langToggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
-}
-
-/* ===== TOAST NOTIFICATION ===== */
-.toast {
-  background: var(--success);
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  box-shadow: 0 8px 20px rgba(0, 212, 170, 0.3);
-  /* Xử lý overflow cho toast */
-  overflow: hidden;
-  word-wrap: break-word;
-  max-width: 300px;
-}
-
-.toast-body {
-  font-weight: 600;
-  /* Xử lý nội dung dài trong toast */
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-/* ===== ANIMATION ===== */
-.fade-in {
-  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-/* ===== UTILITY CLASSES - MỚI ===== */
-/* Class tiện ích để căn giữa nhanh */
-.center-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.center-horizontal {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.max-width-content {
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-}
-
-/* ===== RESPONSIVE DESIGN - CẬP NHẬT ===== */
-@media (max-width: 768px) {
-  :root {
-    --container-padding: 1rem;
-    --section-spacing: 1.5rem;
-  }
-  
-  .main-container {
-    padding: var(--section-spacing) var(--container-padding);
-  }
-  
-  .coffee-card {
-    padding: var(--padding-large);
-    /* CẬP NHẬT: Đảm bảo responsive không bị tràn và căn giữa */
-    max-width: calc(100vw - 2rem);
-    margin: 0 auto;
-    overflow: hidden;
-  }
-  
-  .payment-tabs {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .payment-tabs .nav-link {
-    /* Cho phép wrap text trên mobile */
-    white-space: normal;
-    text-align: center;
-    min-height: 50px;
-  }
-  
-  .bank-item {
+.coffee-btn {
+    border: 2px solid var(--coffee-accent);
+    color: var(--coffee-primary);
+    padding: 1rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+}
+
+.coffee-btn:hover {
+    background-color: var(--coffee-light);
+    border-color: var(--coffee-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+.coffee-btn.active {
+    background-color: var(--coffee-primary);
+    border-color: var(--coffee-primary);
+    color: white;
+}
+
+.coffee-btn i {
+    font-size: 1.2rem;
+}
+
+.coffee-btn span {
+    font-weight: 600;
+}
+
+/* Custom Amount */
+.custom-amount .input-group-text {
+    background-color: var(--coffee-light);
+    border-color: var(--coffee-accent);
+    color: var(--coffee-primary);
+    font-weight: 600;
+}
+
+.custom-amount .form-control {
+    border-color: var(--coffee-accent);
+    border-radius: 0 10px 10px 0;
+}
+
+.custom-amount .form-control:focus {
+    border-color: var(--coffee-primary);
+    box-shadow: 0 0 0 0.2rem rgba(111, 78, 55, 0.25);
+}
+
+/* Total Section */
+.total-section {
+    background: linear-gradient(135deg, var(--coffee-light), #fff);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 2px solid var(--coffee-accent);
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-label {
+    font-size: 1.2rem;
+    color: var(--coffee-primary);
+    font-weight: 600;
+}
+
+.total-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--coffee-secondary);
+}
+
+/* Payment Methods */
+.btn-payment {
+    background: white;
+    border: 2px solid var(--coffee-accent);
+    color: var(--coffee-primary);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-payment:hover {
+    background-color: var(--coffee-light);
+    border-color: var(--coffee-primary);
+    color: var(--coffee-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+/* Bank Info */
+.bank-info {
+    background: var(--coffee-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--coffee-accent);
+}
+
+.bank-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid rgba(111, 78, 55, 0.1);
+}
+
+.bank-detail:last-child {
+    margin-bottom: 0;
+}
+
+.bank-detail label {
+    font-weight: 600;
+    color: var(--coffee-primary);
+    margin-bottom: 0;
+    min-width: 120px;
+}
+
+.bank-detail span {
+    flex: 1;
     text-align: center;
-  }
-  
-  .bank-item span {
-    width: 100%;
+    font-weight: 500;
+    color: #333;
+}
+
+.copy-btn {
+    background: var(--coffee-primary);
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+    background: var(--coffee-secondary);
+    transform: scale(1.05);
+}
+
+/* QR Code */
+.qr-section {
     text-align: center;
+    padding: 1.5rem;
+    background: var(--coffee-light);
+    border-radius: 12px;
+}
+
+.qr-placeholder {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+#qrImage {
+    border: 3px solid white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-light);
     max-width: 100%;
-    /* Cho phép break trên mobile */
-    word-break: break-all;
-    white-space: normal;
-  }
-  
-  .copy-btn {
-    align-self: center;
-  }
-  
-  /* Xử lý button overflow trên mobile */
-  .buymeacoffee-btn {
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    white-space: normal;
-    text-align: center;
-    min-height: 50px;
-  }
+    height: auto;
+}
+
+.qr-note {
+    color: var(--coffee-primary);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+/* Thank You */
+.thank-you p {
+    font-size: 1.1rem;
+    color: var(--coffee-primary);
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+/* Toast */
+.toast {
+    background-color: var(--coffee-primary);
+    color: white;
+    border: none;
+}
+
+.toast-body {
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .coffee-card {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+    
+    .title {
+        font-size: 1.75rem;
+    }
+    
+    .coffee-btn {
+        padding: 0.75rem;
+    }
+    
+    .bank-detail {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .bank-detail label {
+        min-width: auto;
+    }
+    
+    .bank-detail span {
+        text-align: center;
+    }
 }
 
 @media (max-width: 576px) {
-  :root {
-    --container-padding: 0.75rem;
-    --section-spacing: 1rem;
-  }
-  
-  body {
-    padding-top: 60px;
-    /* Ngăn cuộn ngang */
-    overflow-x: hidden;
-  }
-  
-  .main-container {
-    padding: var(--section-spacing) var(--container-padding);
-  }
-  
-  .coffee-card {
-    padding: var(--padding);
-    margin: 0 auto;
-    /* CẬP NHẬT: Đảm bảo không tràn trên màn hình nhỏ và căn giữa */
-    max-width: calc(100vw - 1.5rem);
-    width: calc(100vw - 1.5rem);
-  }
-  
-  .coffee-icon {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .coffee-icon i {
-    font-size: 2rem;
-  }
-  
-  .amount-buttons {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    /* CẬP NHẬT: Căn giữa trên mobile */
-    justify-items: center;
-  }
-  
-  .amount-btn {
-    /* Cho phép text wrap trên màn hình nhỏ */
-    white-space: normal;
-    min-height: 50px;
-    padding: 0.75rem 0.5rem;
-    /* CẬP NHẬT: Căn giữa nội dung */
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .qr-code-container,
-  .buymeacoffee-container {
-    padding: var(--padding);
-    min-height: 200px;
-  }
-  
-  .buymeacoffee-btn {
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
-    /* Cho phép break text trên màn hình rất nhỏ */
-    white-space: normal;
-    line-height: 1.4;
-    /* CẬP NHẬT: Đảm bảo căn giữa */
-    max-width: 90%;
-  }
-  
-  .qr-code {
-    max-width: 150px;
-    max-height: 150px;
-  }
-  
-  /* Xử lý form elements trên mobile */
-  .custom-amount input {
-    font-size: 16px; /* Ngăn zoom trên iOS */
-  }
-  
-  .message-input {
-    min-height: 80px;
-    font-size: 16px; /* Ngăn zoom trên iOS */
-  }
-  
-  /* Xử lý bank info trên mobile */
-  .bank-item span {
-    font-size: 0.9rem;
-    padding: 0.4rem;
-  }
-  
-  .section-title {
-    font-size: 1.1rem;
-  }
+    body {
+        padding: 1rem 0;
+    }
+    
+    .coffee-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .coffee-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .coffee-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
 }
-
-/* ===== XỬ LÝ OVERFLOW CHO CÁC TRƯỜNG HỢP ĐẶC BIỆT ===== */
-
-/* Container chính luôn có max-width */
-.container {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* Xử lý cho các phần tử có thể bị tràn */
-.text-truncate-responsive {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Xử lý cho văn bản rất dài */
-.text-break-all {
-  word-break: break-all;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-}
-
-/* Xử lý cho số và mã */
-.monospace-break {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  word-break: break-all;
-  overflow-wrap: break-word;
-}
-
-/* ===== CĂNG GIỮA CHO CÁC LAYOUT ĐẶC BIỆT - MỚI ===== */
-
-/* Flexbox container căn giữa hoàn toàn */
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.flex-center-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Grid container căn giữa */
-.grid-center {
-  display: grid;
-  place-items: center;
-  text-align: center;
-}
-
-/* Wrapper cho toàn bộ trang */
-.page-wrapper {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 80px;
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-/* Content wrapper chính */
-.content-wrapper {
-  width: 100%;
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  padding: 0 var(--container-padding);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--section-spacing);
-}
-
-/* ===== ACCESSIBILITY - CẬP NHẬT ===== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* ===== FOCUS VISIBLE ===== */
-.amount-btn:focus-visible,
-.payment-tabs .nav-link:focus-visible,
-.copy-btn:focus-visible,
-#langToggle:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-/* ===== PRINT STYLES - CẬP NHẬT ===== */
-@media print {
-  .fixed-header,
-  .payment-section,
-  .thank-you-section {
-    display: none;
-  }
-  
-  body {
-    background: white;
-    color: black;
-    overflow: visible;
-    padding-top: 0;
-  }
-  
-  .coffee-card {
-    box-shadow: none;
-    border: 1px solid #ccc;
-    overflow: visible;
-    margin: 0 auto;
-    max-width: 100%;
-  }
-  
-  /* Đảm bảo văn bản không bị cắt khi in */
-  .bank-item span {
-    white-space: normal;
-    word-break: break-all;
-  }
-  
-  /* Căn giữa nội dung khi in */
-  .main-container,
-  .content-wrapper {
-    max-width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
-}
-
-/* ===== RESPONSIVE BREAKPOINTS BỔ SUNG - MỚI ===== */
-
-/* Large tablets và desktop nhỏ */
-@media (min-width: 769px) and (max-width: 1024px) {
-  :root {
-    --container-padding: 1.5rem;
-    --content-max-width: 700px;
-  }
-  
-  .coffee-card {
-    max-width: 550px;
-  }
-}
-
-/* Desktop lớn */
-@media (min-width: 1025px) {
-  :root {
-    --container-padding: 2rem;
-    --content-max-width: 800px;
-  }
-  
-  .coffee-card {
-    max-width: 600px;
-  }
-  
-  /* Thêm khoảng cách cho desktop lớn */
-  .main-container {
-    padding: calc(var(--section-spacing) * 1.5) var(--container-padding);
-  }
-}
-
-/* Ultra wide screens */
-@media (min-width: 1400px) {
-  :root {
-    --container-max-width: 1400px;
-    --content-max-width: 900px;
-  }
-  
-  .coffee-card {
-    max-width: 700px;
-    padding: 3rem;
-  }
-}
-
-/* ===== ENHANCED CENTERING SYSTEM - MỚI ===== */
-
-/* Hệ thống căn giữa nâng cao */
-.center-all {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 100%;
-}
-
-.center-content-horizontal {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.center-content-vertical {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100%;
-}
-
-/* Căn giữa cho các thành phần cụ thể */
-.section-centered {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto var(--section-spacing);
-}
-
-.form-centered {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.button-group-centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-/* ===== MỤC ĐÍCH VÀ TÍNH NĂNG CỦA CÁC CẬP NHẬT ===== */
-
-/*
-GIẢI THÍCH CÁC CẬP NHẬT CHÍNH:
-
-1. HỆ THỐNG CONTAINER VÀ CĂN GIỮA:
-   - Thêm biến CSS cho kích thước container và căn giữa
-   - Container chính (.main-container, .content-wrapper) được căn giữa hoàn toàn
-   - Tất cả các section và card đều có margin: 0 auto để căn giữa
-
-2. FLEXBOX VÀ GRID CĂN GIỮA:
-   - Sử dụng flexbox với justify-content: center và align-items: center
-   - Grid với place-items: center cho căn giữa hoàn hảo
-   - Text-align: center cho căn giữa nội dung văn bản
-
-3. RESPONSIVE CĂN GIỮA:
-   - Điều chỉnh kích thước container theo từng breakpoint
-   - Đảm bảo căn giữa trên mọi thiết bị
-   - Xử lý overflow và text wrapping phù hợp
-
-4. UTILITY CLASSES:
-   - .center-all: Căn giữa hoàn toàn mọi thứ
-   - .flex-center: Sử dụng flexbox căn giữa
-   - .grid-center: Sử dụng grid căn giữa
-   - .section-centered: Căn giữa các section
-
-5. LỀ ĐỀU VÀ KHOẢNG CÁCH:
-   - Sử dụng biến --section-spacing cho khoảng cách đều
-   - Padding và margin được tính toán để tạo lề đều
-   - Gap trong flexbox và grid cho khoảng cách đồng nhất
-
-6. XỬ LÝ OVERFLOW:
-   - Ngăn chặn tràn ngang trên mọi thiết bị
-   - Word-wrap và text-overflow cho nội dung dài
-   - Max-width và box-sizing: border-box
-
-7. ENHANCED RESPONSIVENESS:
-   - Breakpoints chi tiết cho từng loại thiết bị
-   - Điều chỉnh kích thước và khoảng cách theo màn hình
-   - Căn giữa được duy trì trên mọi kích thước
-
-CÁC LỚP CSS CHÍNH ĐỂ SỬ DỤNG:
-- .main-container: Container chính cho toàn bộ nội dung
-- .center-all: Căn giữa hoàn toàn
-- .section-centered: Căn giữa các section
-- .flex-center: Flexbox căn giữa
-- .content-wrapper: Wrapper cho nội dung chính
-*/
