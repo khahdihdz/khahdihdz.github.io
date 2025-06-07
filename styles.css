@@ -1,328 +1,958 @@
-/* Custom CSS for Buy Me A Coffee */
+/* CSS tối ưu cho trang Buy Me a Coffee - Loại bỏ khoảng trắng thừa */
 
+/* Khai báo biến CSS */
 :root {
-    --coffee-primary: #6f4e37;
-    --coffee-secondary: #8b6914;
-    --coffee-light: #f5f2e8;
-    --coffee-accent: #d4a574;
-    --shadow-light: rgba(0, 0, 0, 0.1);
-    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --primary-color: #4f46e5;
+    --secondary-color: #f59e0b;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --dark-color: #1f2937;
+    --light-color: #f8fafc;
+    --coffee-brown: #8b4513;
+    --coffee-light: #d2b48c;
+    --border-radius: 15px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset và Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 body {
-    background: linear-gradient(135deg, var(--coffee-light) 0%, #fff 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-    padding: 2rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px 0;
+    margin: 0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
+/* Utilities - Tối ưu hóa */
+.d-flex { display: flex; }
+.align-items-center { align-items: center; }
+.justify-content-center { justify-content: center; }
+.text-center { text-align: center; }
+.w-100 { width: 100%; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.p-3 { padding: 1rem; }
 
 /* Language Toggle */
 .language-toggle {
     position: fixed;
-    top: 1rem;
-    right: 1rem;
+    top: 20px;
+    right: 20px;
     z-index: 1000;
+}
+
+#langToggle {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+#langToggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
 }
 
 /* Main Card */
 .coffee-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 2.5rem;
-    box-shadow: 0 10px 30px var(--shadow-light);
-    border: 1px solid rgba(111, 78, 55, 0.1);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 20px auto;
+    max-width: 600px;
+    animation: fadeInUp 0.8s ease-out;
+    will-change: transform;
 }
 
-/* Header */
+/* Header Section */
 .coffee-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--coffee-primary), var(--coffee-secondary));
+    background: linear-gradient(135deg, var(--coffee-brown), var(--coffee-light));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 1.25rem;
+    box-shadow: 0 10px 20px rgba(139, 69, 19, 0.3);
 }
 
 .coffee-icon i {
-    font-size: 2rem;
+    font-size: 2.25rem;
     color: white;
 }
 
 .title {
-    color: var(--coffee-primary);
+    font-size: 2.5rem;
     font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.625rem;
+    text-align: center;
 }
 
 .subtitle {
-    color: #666;
+    color: #6b7280;
     font-size: 1.1rem;
     margin-bottom: 0;
+    text-align: center;
 }
 
-/* Coffee Options */
-.options-title,
-.payment-title {
-    color: var(--coffee-primary);
+.section-title {
+    color: var(--dark-color);
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+/* Coffee Selection */
+.coffee-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
 }
 
 .coffee-btn {
-    border: 2px solid var(--coffee-accent);
-    color: var(--coffee-primary);
-    padding: 1rem;
-    border-radius: 15px;
-    transition: all 0.3s ease;
+    width: 80px;
+    height: 80px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-}
-
-.coffee-btn:hover {
-    background-color: var(--coffee-light);
-    border-color: var(--coffee-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px var(--shadow-light);
-}
-
-.coffee-btn.active {
-    background-color: var(--coffee-primary);
-    border-color: var(--coffee-primary);
-    color: white;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    user-select: none;
 }
 
 .coffee-btn i {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    color: var(--coffee-brown);
+    margin-bottom: 0.3125rem;
 }
 
 .coffee-btn span {
     font-weight: 600;
+    color: var(--dark-color);
+    font-size: 0.875rem;
 }
 
-/* Custom Amount */
-.custom-amount .input-group-text {
-    background-color: var(--coffee-light);
-    border-color: var(--coffee-accent);
-    color: var(--coffee-primary);
-    font-weight: 600;
+.coffee-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-sm);
 }
 
-.custom-amount .form-control {
-    border-color: var(--coffee-accent);
-    border-radius: 0 10px 10px 0;
+.coffee-btn.active {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
-.custom-amount .form-control:focus {
-    border-color: var(--coffee-primary);
-    box-shadow: 0 0 0 0.2rem rgba(111, 78, 55, 0.25);
+.coffee-btn.active i,
+.coffee-btn.active span {
+    color: white;
 }
 
-/* Total Section */
-.total-section {
-    background: linear-gradient(135deg, var(--coffee-light), #fff);
-    padding: 1.5rem;
-    border-radius: 15px;
-    border: 2px solid var(--coffee-accent);
-}
-
-.total-amount {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.total-label {
-    font-size: 1.2rem;
-    color: var(--coffee-primary);
-    font-weight: 600;
-}
-
-.total-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--coffee-secondary);
-}
-
-/* Payment Methods */
-.btn-payment {
-    background: white;
-    border: 2px solid var(--coffee-accent);
-    color: var(--coffee-primary);
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+.coffee-btn.active::after {
+    content: '✓';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--success-color);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
 }
 
-.btn-payment:hover {
-    background-color: var(--coffee-light);
-    border-color: var(--coffee-primary);
-    color: var(--coffee-primary);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px var(--shadow-light);
+/* Custom Amount Input */
+.custom-amount {
+    margin-top: 1rem;
 }
 
-/* Bank Info */
-.bank-info {
-    background: var(--coffee-light);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid var(--coffee-accent);
-}
-
-.bank-detail {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+#customAmount {
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
     padding: 0.75rem;
-    background: white;
-    border-radius: 8px;
-    border: 1px solid rgba(111, 78, 55, 0.1);
+    width: 100%;
+    transition: border-color 0.3s ease;
+    font-size: 1rem;
 }
 
-.bank-detail:last-child {
-    margin-bottom: 0;
+#customAmount:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+    outline: none;
 }
 
-.bank-detail label {
-    font-weight: 600;
-    color: var(--coffee-primary);
-    margin-bottom: 0;
-    min-width: 120px;
+/* Payment Section - Loại bỏ tất cả khoảng trắng thừa */
+.payment-section {
+    margin-top: 1.5rem;
 }
 
-.bank-detail span {
+/* Payment Container - Tạo khung chứa liền mạch */
+.payment-container {
+    position: relative;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    /* Loại bỏ tất cả margin và padding thừa */
+    margin: 0;
+    padding: 0;
+}
+
+/* Payment Tabs - Gắn chặt với container */
+.payment-tabs {
+    display: flex;
+    /* QUAN TRỌNG: Loại bỏ margin và padding thừa */
+    margin: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Đảm bảo không có gap */
+    gap: 0;
+}
+
+.payment-tab {
     flex: 1;
-    text-align: center;
+    background: transparent;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     font-weight: 500;
+    color: #666;
+    position: relative;
+    border-bottom: 3px solid transparent;
+    /* Loại bỏ margin thừa */
+    margin: 0;
+}
+
+.payment-tab:hover {
+    background: rgba(255, 255, 255, 0.5);
     color: #333;
 }
 
+.payment-tab.active {
+    background: white;
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.payment-tab i {
+    font-size: 1.2rem;
+}
+
+/* Payment Options Container - Loại bỏ hoàn toàn khoảng trắng */
+.payment-options-container {
+    position: relative;
+    background: white;
+    overflow: hidden;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    /* QUAN TRỌNG: Loại bỏ tất cả margin và padding */
+    margin: 0;
+    padding: 0;
+}
+
+.payment-option {
+    display: none;
+    background: white;
+    /* QUAN TRỌNG: Loại bỏ tất cả padding và margin */
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    position: static;
+    /* Đảm bảo không có border hoặc outline */
+    border: none;
+    outline: none;
+}
+
+.payment-option.active {
+    display: block;
+}
+
+/* Payment Header - Gắn liền với content */
+.payment-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* QUAN TRỌNG: Loại bỏ margin */
+    margin: 0;
+    border-radius: 0;
+    /* Đảm bảo không có border */
+    border: none;
+}
+
+.payment-header i {
+    font-size: 1.25rem;
+    margin-right: 0.625rem;
+}
+
+.payment-header .currency {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Payment Content - Gắn liền với header */
+.payment-content {
+    padding: 1.25rem;
+    /* QUAN TRỌNG: Loại bỏ margin */
+    margin: 0;
+    /* Đảm bảo không có border */
+    border: none;
+    /* Đảm bảo background liền mạch */
+    background: white;
+}
+
+/* Price Display */
+.price-display {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.price-display .amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.price-display .currency-text {
+    font-size: 1.2rem;
+    color: #6b7280;
+    margin-left: 0.5rem;
+}
+
+/* QR Code Section */
+.qr-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.qr-code {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.qr-code img {
+    width: 200px;
+    height: 200px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Bank & Crypto Info - Loại bỏ khoảng trắng thừa */
+.bank-info,
+.crypto-info {
+    flex: 1;
+    min-width: 250px;
+    /* QUAN TRỌNG: Loại bỏ margin và padding thừa */
+    margin: 0;
+    padding: 0;
+}
+
+.bank-info h6,
+.crypto-info h6 {
+    color: var(--dark-color);
+    font-weight: 600;
+    /* Giảm margin bottom để loại bỏ khoảng trắng */
+    margin-bottom: 0.75rem;
+    margin-top: 0;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.625rem;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    /* Loại bỏ margin top */
+    margin-top: 0;
+}
+
+.info-item strong {
+    min-width: 100px;
+    color: var(--dark-color);
+}
+
+.copyable {
+    font-family: 'Courier New', monospace;
+    background: #f3f4f6;
+    padding: 0.375rem 0.625rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+.crypto-address {
+    word-break: break-all;
+    line-height: 1.3;
+}
+
 .copy-btn {
-    background: var(--coffee-primary);
+    background: var(--primary-color);
     color: white;
     border: none;
-    padding: 0.25rem 0.5rem;
-    border-radius: 5px;
-    font-size: 0.8rem;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: var(--transition);
+    flex-shrink: 0;
 }
 
 .copy-btn:hover {
-    background: var(--coffee-secondary);
-    transform: scale(1.05);
+    background: var(--secondary-color);
+    transform: scale(1.1);
 }
 
-/* QR Code */
-.qr-section {
-    text-align: center;
-    padding: 1.5rem;
-    background: var(--coffee-light);
-    border-radius: 12px;
-}
-
-.qr-placeholder {
+/* Warning Text */
+.warning-text {
+    background: #fef3cd;
+    color: #856404;
+    padding: 0.625rem;
+    border-radius: 8px;
+    margin-top: 1rem;
     display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-#qrImage {
-    border: 3px solid white;
+.warning-text i {
+    color: var(--secondary-color);
+}
+
+/* Message Section */
+.message-section {
+    margin-top: 1.5rem;
+}
+
+.message-section textarea {
     border-radius: 10px;
-    box-shadow: 0 4px 15px var(--shadow-light);
-    max-width: 100%;
-    height: auto;
+    border: 2px solid #e5e7eb;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    padding: 0.75rem;
+    font-family: inherit;
 }
 
-.qr-note {
-    color: var(--coffee-primary);
-    font-weight: 500;
-    margin-bottom: 0;
+.message-section textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+    outline: none;
 }
 
-/* Thank You */
-.thank-you p {
-    font-size: 1.1rem;
-    color: var(--coffee-primary);
-    font-weight: 500;
-    margin-bottom: 0;
+/* Thank You Section */
+.thank-you-section {
+    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    border: 2px solid #bbf7d0;
+    margin-top: 1.5rem;
 }
 
-/* Toast */
+.thank-you-section h6 {
+    color: var(--success-color);
+    font-weight: 600;
+    margin-bottom: 0.625rem;
+}
+
+/* Toast Styles */
 .toast {
-    background-color: var(--coffee-primary);
+    background: var(--success-color);
     color: white;
     border: none;
+    border-radius: var(--border-radius);
 }
 
-.toast-body {
-    font-weight: 600;
+.toast .toast-body {
+    display: flex;
+    align-items: center;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Language Transitions */
+[data-vi], [data-en] {
+    transition: opacity 0.3s ease;
+}
+
+.lang-transition {
+    opacity: 0;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .coffee-card {
-        padding: 2rem 1.5rem;
-        margin: 1rem;
+        padding: 1.25rem;
+        margin: 10px;
     }
     
     .title {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
     
-    .coffee-btn {
-        padding: 0.75rem;
-    }
-    
-    .bank-detail {
+    .qr-section {
         flex-direction: column;
-        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .bank-info,
+    .crypto-info {
+        width: 100%;
         text-align: center;
     }
     
-    .bank-detail label {
-        min-width: auto;
+    .info-item {
+        justify-content: center;
+        text-align: center;
     }
     
-    .bank-detail span {
-        text-align: center;
+    .coffee-options {
+        justify-content: center;
+    }
+    
+    .payment-tabs {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .payment-tab {
+        flex: 1;
+        min-width: 120px;
     }
 }
 
 @media (max-width: 576px) {
-    body {
-        padding: 1rem 0;
-    }
-    
     .coffee-card {
-        padding: 1.5rem 1rem;
+        padding: 1rem;
     }
     
-    .coffee-icon {
-        width: 60px;
-        height: 60px;
+    .coffee-btn {
+        width: 70px;
+        height: 70px;
     }
     
-    .coffee-icon i {
-        font-size: 1.5rem;
+    .coffee-btn i {
+        font-size: 1.25rem;
     }
     
-    .title {
-        font-size: 1.5rem;
+    .price-display .amount {
+        font-size: 2rem;
     }
     
-    .subtitle {
-        font-size: 1rem;
+    .qr-code img {
+        width: 150px;
+        height: 150px;
     }
+    
+    .payment-tabs {
+        flex-direction: column;
+    }
+    
+    .payment-tab {
+        flex: none;
+        justify-content: flex-start;
+    }
+}
+
+/* Performance Optimizations */
+.payment-option,
+.coffee-btn,
+.copy-btn {
+    will-change: transform;
+}
+
+/* Preload critical animations */
+@media (prefers-reduced-motion: no-preference) {
+    .payment-option.active {
+        animation: none;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* CSS nâng cao cho các nút Cryptocurrency */
+
+/* Container cho crypto selection */
+.crypto-selection {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.crypto-selection h6 {
+    color: var(--dark-color);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.crypto-selection h6::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 2px;
+}
+
+/* Container cho các nút crypto */
+.crypto-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Styling cho các nút cryptocurrency */
+.crypto-btn {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    min-height: 100px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Icon styling cho từng loại crypto */
+.crypto-btn i {
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+/* Text styling */
+.crypto-btn span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+/* Bitcoin styling */
+.crypto-btn[data-crypto="btc"] {
+    border-color: #f7931a;
+}
+
+.crypto-btn[data-crypto="btc"] i {
+    color: #f7931a;
+}
+
+.crypto-btn[data-crypto="btc"]:hover {
+    border-color: #f7931a;
+    background: linear-gradient(135deg, #f7931a, #ff9500);
+    color: white;
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(247, 147, 26, 0.3);
+}
+
+.crypto-btn[data-crypto="btc"]:hover i,
+.crypto-btn[data-crypto="btc"]:hover span {
+    color: white;
+}
+
+.crypto-btn[data-crypto="btc"].active {
+    border-color: #f7931a;
+    background: linear-gradient(135deg, #f7931a, #ff9500);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(247, 147, 26, 0.4);
+}
+
+.crypto-btn[data-crypto="btc"].active i,
+.crypto-btn[data-crypto="btc"].active span {
+    color: white;
+}
+
+/* USDT styling */
+.crypto-btn[data-crypto="usdt"] {
+    border-color: #26a17b;
+}
+
+.crypto-btn[data-crypto="usdt"] i {
+    color: #26a17b;
+}
+
+.crypto-btn[data-crypto="usdt"]:hover {
+    border-color: #26a17b;
+    background: linear-gradient(135deg, #26a17b, #2dd4aa);
+    color: white;
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(38, 161, 123, 0.3);
+}
+
+.crypto-btn[data-crypto="usdt"]:hover i,
+.crypto-btn[data-crypto="usdt"]:hover span {
+    color: white;
+}
+
+.crypto-btn[data-crypto="usdt"].active {
+    border-color: #26a17b;
+    background: linear-gradient(135deg, #26a17b, #2dd4aa);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(38, 161, 123, 0.4);
+}
+
+.crypto-btn[data-crypto="usdt"].active i,
+.crypto-btn[data-crypto="usdt"].active span {
+    color: white;
+}
+
+/* BNB styling */
+.crypto-btn[data-crypto="bnb"] {
+    border-color: #f3ba2f;
+}
+
+.crypto-btn[data-crypto="bnb"] i {
+    color: #f3ba2f;
+}
+
+.crypto-btn[data-crypto="bnb"]:hover {
+    border-color: #f3ba2f;
+    background: linear-gradient(135deg, #f3ba2f, #ffd700);
+    color: white;
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(243, 186, 47, 0.3);
+}
+
+.crypto-btn[data-crypto="bnb"]:hover i,
+.crypto-btn[data-crypto="bnb"]:hover span {
+    color: white;
+}
+
+.crypto-btn[data-crypto="bnb"].active {
+    border-color: #f3ba2f;
+    background: linear-gradient(135deg, #f3ba2f, #ffd700);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(243, 186, 47, 0.4);
+}
+
+.crypto-btn[data-crypto="bnb"].active i,
+.crypto-btn[data-crypto="bnb"].active span {
+    color: white;
+}
+
+/* Hiệu ứng ripple khi click */
+.crypto-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: 1;
+}
+
+.crypto-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Hiệu ứng glow cho nút active */
+.crypto-btn.active::after {
+    content: '✓';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--success-color);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    animation: bounceIn 0.5s ease;
+    z-index: 3;
+}
+
+/* Animation cho check mark */
+@keyframes bounceIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Hiệu ứng hover cho container */
+.crypto-buttons-container:hover .crypto-btn:not(:hover) {
+    opacity: 0.7;
+    transform: scale(0.95);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .crypto-buttons-container {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.75rem;
+    }
+    
+    .crypto-btn {
+        min-height: 85px;
+        padding: 0.75rem;
+    }
+    
+    .crypto-btn i {
+        font-size: 1.6rem;
+    }
+    
+    .crypto-btn span {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .crypto-selection {
+        padding: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .crypto-buttons-container {
+        grid-template-columns: 1fr;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .crypto-btn {
+        min-height: 80px;
+    }
+}
+
+/* Thêm hiệu ứng loading cho crypto buttons */
+.crypto-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.crypto-btn.loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 3;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Thêm hiệu ứng pulse cho active state */
+.crypto-btn.active {
+    animation: cryptoPulse 2s infinite;
+}
+
+@keyframes cryptoPulse {
+    0% { box-shadow: 0 8px 20px rgba(var(--crypto-color), 0.4); }
+    50% { box-shadow: 0 8px 30px rgba(var(--crypto-color), 0.6); }
+    100% { box-shadow: 0 8px 20px rgba(var(--crypto-color), 0.4); }
 }
