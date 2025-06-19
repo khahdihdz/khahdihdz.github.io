@@ -27,59 +27,8 @@ let games = [
             storage: "1.5 GB"
         },
         features: ["Việt hóa 100% văn bản", "Giao diện tiếng Việt", "Hướng dẫn đầy đủ"]
-    },
-    {
-        id: 2,
-        name: "Cyberpunk 2077",
-        genre: "Action RPG",
-        rating: 4,
-        description: "Game nhập vai hành động trong tương lai dystopian. Đã được cộng đồng Việt hóa với chất lượng tốt, mang đến trải nghiệm Night City sống động.",
-        image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=200&fit=crop&crop=center",
-        screenshots: [
-            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
-            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop",
-            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop"
-        ],
-        downloadLink: "https://example.com/download/cyberpunk2077-viet",
-        fileSize: "65 GB",
-        releaseYear: "2020",
-        developer: "CD Projekt RED",
-        vietnameseTeam: "Cộng đồng Game Việt",
-        systemRequirements: {
-            os: "Windows 10 64-bit",
-            processor: "Intel Core i5-3570K / AMD FX-8310",
-            memory: "8 GB RAM",
-            graphics: "NVIDIA GTX 780 / AMD Radeon RX 470",
-            storage: "70 GB SSD"
-        },
-        features: ["Việt hóa phụ đề", "Menu tiếng Việt", "Hỗ trợ mod Việt hóa"]
-    },
-    {
-        id: 3,
-        name: "Persona 5 Royal",
-        genre: "JRPG",
-        rating: 5,
-        description: "JRPG xuất sắc về nhóm Phantom Thieves. Bản Việt hóa chất lượng cao với đầy đủ văn bản và giao diện.",
-        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=200&fit=crop&crop=center",
-        screenshots: [
-            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop",
-            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
-            "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop"
-        ],
-        downloadLink: "https://example.com/download/persona5royal-viet",
-        fileSize: "28 GB",
-        releaseYear: "2019",
-        developer: "Atlus",
-        vietnameseTeam: "Team JRPG Việt",
-        systemRequirements: {
-            os: "Windows 10/11 64-bit",
-            processor: "Intel Core i7-4790 / AMD Ryzen 5 1600",
-            memory: "8 GB RAM",
-            graphics: "NVIDIA GTX 650 Ti / AMD Radeon R7 360",
-            storage: "35 GB"
-        },
-        features: ["Việt hóa hoàn chỉnh", "Giao diện Việt", "Voice-over Nhật + Sub Việt"]
     }
+    
 ];
 
 // DOM Elements
