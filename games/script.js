@@ -1,330 +1,253 @@
-// ============================
-// SCREENSHOT MODAL FUNCTIONALITY
-// ============================
-function openScreenshot(imageSrc, gameName) {
-    // Create modal if it doesn't exist
-    let modal = document.getElementById('screenshotModal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'screenshotModal';
-        modal.className = 'screenshot-modal';
-        modal.innerHTML = `
-            <div class="screenshot-modal-content">
-                <span class="screenshot-close" onclick="closeScreenshot()">&times;</span>
-                <img id="screenshotImage" src="" alt="">
-                <div class="screenshot-caption" id="screenshotCaption"></div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-    }
-    
-    // Set image and caption
-    document.getElementById('screenshotImage').src = imageSrc;
-    document.getElementById('screenshotCaption').textContent = gameName;
-    
-    // Show modal
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeScreenshot() {
-    const modal = document.getElementById('screenshotModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('screenshotModal');
-    if (modal && e.target === modal) {
-        closeScreenshot();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeScreenshot();
-    }
-});
-
-// ============================
-// GAME DATA
-// ============================
-const games = [
+// Game data with compressed thumbnails and full descriptions
+const gamesData = [
     {
         id: 1,
-        name: "Neighbours From Hell",
+        title: "Neighbours from Hell",
         genre: "Strategy",
-        rating: 4,
-        description: "Game giải đố hài hước về anh chàng Woody thực hiện những trò đùa tinh quái với người hàng xóm khó ở. Game đã được Việt hóa hoàn chỉnh, mang đến những tình huống vui nhộn và thử thách trí tuệ thú vị.",
-        image: "https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=400&h=300&fit=crop",
-        screenshots: [
-            "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600&h=400&fit=crop",
-            "https://images.unsplash.com/photo-1556438064-2d7646166914?w=600&h=400&fit=crop",
-            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop"
-        ],
-        downloadLink: "https://example.com/download/neighbours-from-hell-viet-hoa"
+        description: "Game giải đố vui nhộn về việc chơi khăm hàng xóm khó tính với những mánh khóe hài hước.",
+        fullDescription: "Neighbours from Hell là một tựa game puzzle-strategy độc đáo và hài hước được phát triển bởi JoWooD Productions. Người chơi sẽ vào vai Woody, một chàng trai quyết tâm trả đũa ông hàng xóm khó tính Mr. Rottweiler bằng những trò chơi khăm sáng tạo và hài hước. Game có gameplay đơn giản nhưng đầy thử thách, yêu cầu người chơi lên kế hoạch và thực hiện các pha chơi khăm một cách khéo léo mà không bị phát hiện. Với đồ họa cartoon dễ thương, âm thanh vui nhộn và các tình huống hài hước, Neighbours from Hell mang đến trải nghiệm giải trí nhẹ nhàng nhưng không kém phần thú vị. Game bao gồm nhiều level với độ khó tăng dần và các vật dụng chơi khăm đa dạng.",
+        thumbnail: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAoAEADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6Vooor1DxQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/9k=",
+        features: ["Gameplay hài hước", "Puzzle sáng tạo", "Đồ họa cartoon", "Nhiều level thử thách"],
+        downloadLink: "#download-neighbours",
+        size: "500 MB",
+        version: "Season 1 & 2",
+        releaseDate: "2003",
+        developer: "JoWooD Productions",
+        genre_full: "Puzzle Strategy",
+        language: "Tiếng Việt hóa",
+        rating: "Everyone 10+",
+        platforms: ["PC"]
     }
+    
 ];
 
-// ============================
-// DOM ELEMENTS
-// ============================
-const gamesList = document.getElementById('gamesList');
-const searchInput = document.getElementById('searchInput');
-const gameCount = document.getElementById('gameCount');
-const scrollToTopBtn = document.getElementById('scrollToTop');
+// DOM elements
+const gamesList = document.getElementById('games-list');
+const searchInput = document.getElementById('search-input');
+const genreFilter = document.getElementById('genre-filter');
+const modal = document.getElementById('game-modal');
+const modalContent = document.querySelector('.modal-game-info');
+const closeModal = document.querySelector('.close-modal');
 
-// ============================
-// INITIALIZE APP
-// ============================
+// Initialize app
 document.addEventListener('DOMContentLoaded', function() {
-    renderGames();
+    displayGames(gamesData);
     setupEventListeners();
-    updateGameCount();
+    populateGenreFilter();
 });
 
-// ============================
-// EVENT LISTENERS
-// ============================
+// Setup event listeners
 function setupEventListeners() {
-    // Search functionality
     searchInput.addEventListener('input', handleSearch);
+    genreFilter.addEventListener('change', handleGenreFilter);
+    closeModal.addEventListener('click', hideModal);
     
-    // Scroll to top button
-    window.addEventListener('scroll', handleScroll);
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            hideModal();
+        }
+    });
     
-    // Smooth scroll for scroll indicator
-    document.querySelector('.scroll-indicator').addEventListener('click', function() {
-        document.querySelector('.games-section').scrollIntoView({
-            behavior: 'smooth'
-        });
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            hideModal();
+        }
     });
 }
 
-// ============================
-// GAME RENDERING
-// ============================
-function renderGames(gamesToRender = games) {
-    if (gamesToRender.length === 0) {
-        gamesList.innerHTML = `
-            <div class="col-12 text-center">
-                <div class="no-games-message">
-                    <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-                    <h3>Không tìm thấy game nào</h3>
-                    <p class="text-muted">Thử tìm kiếm với từ khóa khác</p>
-                </div>
-            </div>
-        `;
+// Display games
+function displayGames(games) {
+    if (games.length === 0) {
+        gamesList.innerHTML = '<div class="no-results">Không tìm thấy game nào phù hợp.</div>';
         return;
     }
-
-    gamesList.innerHTML = gamesToRender.map(game => `
-        <div class="game-card" data-aos="fade-up">
-            <div class="game-image">
-                ${game.image ? 
-                    `<img src="${game.image}" alt="${game.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                     <div class="game-image-placeholder" style="display: none;">
-                         <i class="fas fa-gamepad"></i>
-                     </div>` :
-                    `<div class="game-image-placeholder">
-                         <i class="fas fa-gamepad"></i>
-                     </div>`
-                }
-                <div class="game-badge">${game.genre}</div>
-            </div>
-            <div class="game-content">
-                <h3 class="game-title">${game.name}</h3>
-                <div class="game-genre">${game.genre}</div>
-                <p class="game-description">${game.description}</p>
-                <div class="game-rating">
-                    <div class="stars">
-                        ${generateStars(game.rating)}
-                    </div>
-                    <span class="rating-text">${game.rating}/5</span>
+    
+    gamesList.innerHTML = games.map(game => `
+        <div class="game-card" data-game-id="${game.id}">
+            <div class="game-thumbnail">
+                <img src="${game.thumbnail}" alt="${game.title}" loading="lazy">
+                <div class="game-overlay">
+                    <button class="btn-primary" onclick="showGameDetails(${game.id})">Xem chi tiết</button>
                 </div>
-                ${game.screenshots ? `
-                    <div class="game-screenshots">
-                        <h5 class="screenshots-title">
-                            <i class="fas fa-images me-2"></i>Ảnh chụp màn hình
-                        </h5>
-                        <div class="screenshots-grid">
-                            ${game.screenshots.map((screenshot, index) => `
-                                <img src="${screenshot}" alt="Screenshot ${index + 1}" 
-                                     class="screenshot-thumb" onclick="openScreenshot('${screenshot}', '${game.name}')">
-                            `).join('')}
-                        </div>
-                    </div>
-                ` : ''}
-                ${game.downloadLink ? `
-                    <div class="game-actions">
-                        <a href="${game.downloadLink}" class="btn-download" target="_blank" rel="noopener">
-                            <i class="fas fa-download me-2"></i>Tải về
-                        </a>
-                    </div>
-                ` : ''}
+            </div>
+            <div class="game-info">
+                <h3 class="game-title">${game.title}</h3>
+                <div class="game-meta">
+                    <span class="game-genre">${game.genre}</span>
+                    <span class="game-size">${game.size}</span>
+                </div>
+                <p class="game-description">${game.description}</p>
+                <div class="game-features">
+                    ${game.features.slice(0, 3).map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                </div>
+                <div class="game-actions">
+                    <button class="btn-primary" onclick="showGameDetails(${game.id})">Chi tiết</button>
+                    <a href="${game.downloadLink}" class="btn-secondary">Tải xuống</a>
+                </div>
             </div>
         </div>
     `).join('');
 }
 
-// ============================
-// UTILITY FUNCTIONS
-// ============================
-function generateStars(rating) {
-    let stars = '';
-    for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-            stars += '<i class="fas fa-star"></i>';
-        } else {
-            stars += '<i class="fas fa-star empty"></i>';
-        }
+// Show game details modal
+function showGameDetails(gameId) {
+    const game = gamesData.find(g => g.id === gameId);
+    if (!game) return;
+    
+    modalContent.innerHTML = `
+        <div class="modal-header">
+            <img src="${game.thumbnail}" alt="${game.title}" class="modal-thumbnail">
+            <div class="modal-title-info">
+                <h2>${game.title}</h2>
+                <div class="modal-meta">
+                    <span class="meta-item"><strong>Thể loại:</strong> ${game.genre_full}</span>
+                    <span class="meta-item"><strong>Kích thước:</strong> ${game.size}</span>
+                    <span class="meta-item"><strong>Phiên bản:</strong> ${game.version}</span>
+                    <span class="meta-item"><strong>Năm phát hành:</strong> ${game.releaseDate}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-body">
+            <div class="modal-section">
+                <h3>Mô tả</h3>
+                <p>${game.fullDescription}</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Tính năng chính</h3>
+                <div class="features-grid">
+                    ${game.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Thông tin chi tiết</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Nhà phát triển:</strong>
+                        <span>${game.developer}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Ngôn ngữ:</strong>
+                        <span>${game.language}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Độ tuổi:</strong>
+                        <span>${game.rating}</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Nền tảng:</strong>
+                        <span>${game.platforms.join(', ')}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <a href="${game.downloadLink}" class="btn-primary btn-large">
+                    <i class="download-icon">⬇</i>
+                    Tải xuống ngay
+                </a>
+                <button class="btn-secondary" onclick="shareGame(${game.id})">
+                    <i class="share-icon">📤</i>
+                    Chia sẻ
+                </button>
+            </div>
+        </div>
+    `;
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Hide modal
+function hideModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Handle search
+function handleSearch() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const selectedGenre = genreFilter.value;
+    
+    let filteredGames = gamesData;
+    
+    // Filter by search term
+    if (searchTerm) {
+        filteredGames = filteredGames.filter(game => 
+            game.title.toLowerCase().includes(searchTerm) ||
+            game.description.toLowerCase().includes(searchTerm) ||
+            game.features.some(feature => feature.toLowerCase().includes(searchTerm))
+        );
     }
-    return stars;
-}
-
-function updateGameCount() {
-    const count = games.length;
-    gameCount.textContent = count;
     
-    // Animate the number
-    gameCount.style.animation = 'pulse 0.6s ease';
-    setTimeout(() => {
-        gameCount.style.animation = '';
-    }, 600);
-}
-
-// ============================
-// SEARCH FUNCTIONALITY
-// ============================
-function handleSearch(e) {
-    const searchTerm = e.target.value.toLowerCase().trim();
-    
-    if (searchTerm === '') {
-        renderGames();
-        return;
+    // Filter by genre
+    if (selectedGenre && selectedGenre !== 'all') {
+        filteredGames = filteredGames.filter(game => 
+            game.genre.toLowerCase() === selectedGenre.toLowerCase()
+        );
     }
     
-    const filteredGames = games.filter(game => 
-        game.name.toLowerCase().includes(searchTerm) ||
-        game.genre.toLowerCase().includes(searchTerm) ||
-        game.description.toLowerCase().includes(searchTerm)
-    );
-    
-    renderGames(filteredGames);
+    displayGames(filteredGames);
 }
 
-// ============================
-// SCROLL FUNCTIONALITY
-// ============================
-function handleScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+// Handle genre filter
+function handleGenreFilter() {
+    handleSearch(); // Reuse search logic
+}
+
+// Populate genre filter
+function populateGenreFilter() {
+    const genres = [...new Set(gamesData.map(game => game.genre))];
     
-    // Show/hide scroll to top button
-    if (scrollTop > 500) {
-        scrollToTopBtn.classList.add('show');
+    genreFilter.innerHTML = '<option value="all">Tất cả thể loại</option>' +
+        genres.map(genre => `<option value="${genre}">${genre}</option>`).join('');
+}
+
+// Share game function
+function shareGame(gameId) {
+    const game = gamesData.find(g => g.id === gameId);
+    if (!game) return;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: game.title,
+            text: game.description,
+            url: window.location.href
+        }).catch(console.error);
     } else {
-        scrollToTopBtn.classList.remove('show');
+        // Fallback: copy to clipboard
+        const shareText = `${game.title} - ${game.description}\n${window.location.href}`;
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert('Đã sao chép link chia sẻ!');
+        }).catch(() => {
+            alert('Không thể chia sẻ. Vui lòng sao chép link thủ công.');
+        });
     }
 }
 
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
-
-// ============================
-// ANIMATIONS
-// ============================
-function addScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animationDelay = Math.random() * 0.3 + 's';
-                entry.target.classList.add('animate');
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-
-    document.querySelectorAll('.game-card').forEach(card => {
-        observer.observe(card);
-    });
-}
-
-// ============================
-// THEME UTILITIES
-// ============================
-function addHoverEffects() {
-    document.querySelectorAll('.game-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
+// Lazy loading for images
+function setupLazyLoading() {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
         });
         
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
+        images.forEach(img => imageObserver.observe(img));
+    }
 }
 
-// ============================
-// PERFORMANCE OPTIMIZATION
-// ============================
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Apply debounce to search
-const debouncedSearch = debounce(handleSearch, 300);
-if (searchInput) {
-    searchInput.removeEventListener('input', handleSearch);
-    searchInput.addEventListener('input', debouncedSearch);
-}
-
-// ============================
-// ACCESSIBILITY IMPROVEMENTS
-// ============================
-function improveAccessibility() {
-    // Add ARIA labels
-    document.querySelectorAll('.game-card').forEach((card, index) => {
-        card.setAttribute('role', 'article');
-        card.setAttribute('aria-label', `Game thứ ${index + 1}`);
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            searchInput.blur();
-        }
-    });
-}
-
-// ============================
-// ERROR HANDLING
-// ============================
-window.addEventListener('error', function(e) {
-    console.warn('Đã xảy ra lỗi:', e.error);
-});
-
-// ============================
-// INIT ADDITIONAL FEATURES
-// ============================
-setTimeout(() => {
-    addScrollAnimations();
-    addHoverEffects();
-    improveAccessibility();
-}, 100);
+// Initialize lazy loading after DOM content is loaded
+document.addEventListener('DOMContentLoaded', setupLazyLoading);
