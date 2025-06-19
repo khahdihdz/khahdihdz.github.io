@@ -1,94 +1,207 @@
-// Game data with compressed thumbnails and full descriptions
+// Vietnamese Games List JavaScript
+
+// Sample game data
 const gamesData = [
     {
         id: 1,
         title: "Neighbours from Hell",
-        genre: "Strategy",
-        description: "Game giải đố vui nhộn về việc chơi khăm hàng xóm khó tính với những mánh khóe hài hước.",
-        fullDescription: "Neighbours from Hell là một tựa game puzzle-strategy độc đáo và hài hước được phát triển bởi JoWooD Productions. Người chơi sẽ vào vai Woody, một chàng trai quyết tâm trả đũa ông hàng xóm khó tính Mr. Rottweiler bằng những trò chơi khăm sáng tạo và hài hước. Game có gameplay đơn giản nhưng đầy thử thách, yêu cầu người chơi lên kế hoạch và thực hiện các pha chơi khăm một cách khéo léo mà không bị phát hiện. Với đồ họa cartoon dễ thương, âm thanh vui nhộn và các tình huống hài hước, Neighbours from Hell mang đến trải nghiệm giải trí nhẹ nhàng nhưng không kém phần thú vị. Game bao gồm nhiều level với độ khó tăng dần và các vật dụng chơi khăm đa dạng.",
-        thumbnail: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAoAEADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6Vooor1DxQooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/9k=",
-        features: ["Gameplay hài hước", "Puzzle sáng tạo", "Đồ họa cartoon", "Nhiều level thử thách"],
+        description: "Game puzzle hài hước về một gã hàng xóm phá phách. Hãy trở thành Woody và thực hiện những trò nghịch ngợm để trêu chọc hàng xóm Mr. Rottweiler trong chương trình TV thực tế.",
+        category: "adventure",
+        status: "completed",
+        statusText: "Hoàn thành 100%",
+        icon: "😈",
         downloadLink: "#download-neighbours",
-        size: "500 MB",
-        version: "Season 1 & 2",
-        releaseDate: "2003",
-        developer: "JoWooD Productions",
-        genre_full: "Puzzle Strategy",
-        language: "Tiếng Việt hóa",
-        rating: "Everyone 10+",
-        platforms: ["PC"]
+        releaseYear: 2003,
+        size: "150MB",
+        screenshots: [
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/260750/ss_c0b156c13b3da5b06ec16a31073b41dcf9ad6948.1920x1080.jpg",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/260750/ss_59fbcaae3e3ffcbdc0ac96d2c42add3ad32d7cb7.1920x1080.jpg",
+            "https://cdn.cloudflare.steamstatic.com/steam/apps/260750/ss_e3fd0b1b0e4a3b16c4a36d3b4a09dafce27b1f47.1920x1080.jpg"
+        ],
+        features: [
+            "Phụ đề tiếng Việt hoàn chỉnh",
+            "Menu và giao diện đã việt hóa",
+            "14 tập phim với 100+ trò nghịch ngợm",
+            "Đồ họa 3D cartoon dễ thương",
+            "Gameplay đơn giản, phù hợp mọi lứa tuổi"
+        ],
+        systemRequirements: {
+            os: "Windows XP/Vista/7/8/10/11",
+            processor: "Pentium III 500 MHz",
+            memory: "64 MB RAM",
+            graphics: "DirectX 8.0",
+            storage: "200 MB"
+        }
     }
-    
 ];
 
-// DOM elements
-const gamesList = document.getElementById('games-list');
-const searchInput = document.getElementById('search-input');
-const genreFilter = document.getElementById('genre-filter');
-const modal = document.getElementById('game-modal');
-const modalContent = document.querySelector('.modal-game-info');
-const closeModal = document.querySelector('.close-modal');
+// DOM Elements
+const gamesContainer = document.getElementById('gamesContainer');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
 
-// Initialize app
+// State
+let filteredGames = [...gamesData];
+
+// Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
-    displayGames(gamesData);
-    setupEventListeners();
-    populateGenreFilter();
+    renderGames(gamesData);
+    initializeEventListeners();
+    addScrollAnimations();
 });
 
-// Setup event listeners
-function setupEventListeners() {
-    searchInput.addEventListener('input', handleSearch);
-    genreFilter.addEventListener('change', handleGenreFilter);
-    closeModal.addEventListener('click', hideModal);
-    
-    // Close modal when clicking outside
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            hideModal();
-        }
-    });
-    
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            hideModal();
-        }
-    });
-}
-
-// Display games
-function displayGames(games) {
+// Render games to the DOM
+function renderGames(games) {
     if (games.length === 0) {
-        gamesList.innerHTML = '<div class="no-results">Không tìm thấy game nào phù hợp.</div>';
+        gamesContainer.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <div class="display-1 mb-3">😔</div>
+                <h3>Không tìm thấy game nào</h3>
+                <p class="text-muted">Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc</p>
+            </div>
+        `;
         return;
     }
-    
-    gamesList.innerHTML = games.map(game => `
-        <div class="game-card" data-game-id="${game.id}">
-            <div class="game-thumbnail">
-                <img src="${game.thumbnail}" alt="${game.title}" loading="lazy">
-                <div class="game-overlay">
-                    <button class="btn-primary" onclick="showGameDetails(${game.id})">Xem chi tiết</button>
-                </div>
-            </div>
-            <div class="game-info">
-                <h3 class="game-title">${game.title}</h3>
-                <div class="game-meta">
-                    <span class="game-genre">${game.genre}</span>
-                    <span class="game-size">${game.size}</span>
-                </div>
-                <p class="game-description">${game.description}</p>
-                <div class="game-features">
-                    ${game.features.slice(0, 3).map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
-                </div>
-                <div class="game-actions">
-                    <button class="btn-primary" onclick="showGameDetails(${game.id})">Chi tiết</button>
-                    <a href="${game.downloadLink}" class="btn-secondary">Tải xuống</a>
+
+    const gamesHTML = games.map(game => `
+        <div class="col-12 game-item fade-in" data-category="${game.category}">
+            <div class="game-card-detailed">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="game-screenshots">
+                            <div id="carousel-${game.id}" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    ${game.screenshots.map((screenshot, index) => `
+                                        <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                            <img src="${screenshot}" class="d-block w-100 screenshot-img" alt="Screenshot ${index + 1}">
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${game.id}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel-${game.id}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="game-body-detailed">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="game-title-detailed">${game.title}</h3>
+                                <span class="game-category">${getCategoryName(game.category)}</span>
+                            </div>
+                            
+                            <p class="game-description-detailed">${game.description}</p>
+                            
+                            <div class="game-features mb-3">
+                                <h6 class="fw-bold mb-2">✨ Tính năng việt hóa:</h6>
+                                <ul class="feature-list">
+                                    ${game.features.map(feature => `<li>${feature}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="game-info-row">
+                                <div class="info-item">
+                                    <span class="info-label">Trạng thái:</span>
+                                    <span class="game-status ${game.status === 'completed' ? 'status-completed' : 'status-progress'}">
+                                        ${game.statusText}
+                                    </span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Dung lượng:</span>
+                                    <span class="text-muted">${game.size}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Năm phát hành:</span>
+                                    <span class="text-muted">${game.releaseYear}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="action-buttons mt-4">
+                                <button class="download-btn me-2" onclick="handleDownload('${game.title}')">
+                                    📥 Tải về ngay
+                                </button>
+                                <button class="detail-btn" onclick="showGameDetails(${game.id})">
+                                    👁️ Xem chi tiết
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     `).join('');
+
+    gamesContainer.innerHTML = gamesHTML;
+    
+    // Add animation delay for each card
+    const gameCards = document.querySelectorAll('.game-item');
+    gameCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+    });
+}
+
+// Get category display name
+function getCategoryName(category) {
+    const categories = {
+        'rpg': 'RPG',
+        'action': 'Hành động',
+        'adventure': 'Phiêu lưu',
+        'strategy': 'Chiến thuật'
+    };
+    return categories[category] || category;
+}
+
+// Initialize event listeners
+function initializeEventListeners() {
+    // Search functionality
+    searchInput.addEventListener('input', debounce(handleSearch, 300));
+    
+    // Category filter
+    categoryFilter.addEventListener('change', handleCategoryFilter);
+    
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Handle search
+function handleSearch(e) {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    applyFilters(searchTerm, categoryFilter.value);
+}
+
+// Handle category filter
+function handleCategoryFilter(e) {
+    const category = e.target.value;
+    applyFilters(searchInput.value.toLowerCase().trim(), category);
+}
+
+// Apply filters
+function applyFilters(searchTerm, category) {
+    filteredGames = gamesData.filter(game => {
+        const matchesSearch = !searchTerm || 
+            game.title.toLowerCase().includes(searchTerm) ||
+            game.description.toLowerCase().includes(searchTerm);
+        
+        const matchesCategory = !category || game.category === category;
+        
+        return matchesSearch && matchesCategory;
+    });
+    
+    renderGames(filteredGames);
 }
 
 // Show game details modal
@@ -96,158 +209,257 @@ function showGameDetails(gameId) {
     const game = gamesData.find(g => g.id === gameId);
     if (!game) return;
     
-    modalContent.innerHTML = `
-        <div class="modal-header">
-            <img src="${game.thumbnail}" alt="${game.title}" class="modal-thumbnail">
-            <div class="modal-title-info">
-                <h2>${game.title}</h2>
-                <div class="modal-meta">
-                    <span class="meta-item"><strong>Thể loại:</strong> ${game.genre_full}</span>
-                    <span class="meta-item"><strong>Kích thước:</strong> ${game.size}</span>
-                    <span class="meta-item"><strong>Phiên bản:</strong> ${game.version}</span>
-                    <span class="meta-item"><strong>Năm phát hành:</strong> ${game.releaseDate}</span>
+    const modalHTML = `
+        <div class="modal fade" id="gameDetailModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient text-white">
+                        <h5 class="modal-title">${game.title} - Chi tiết</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-3">📱 Yêu cầu hệ thống:</h6>
+                                <ul class="list-unstyled system-requirements">
+                                    <li><strong>Hệ điều hành:</strong> ${game.systemRequirements.os}</li>
+                                    <li><strong>Bộ xử lý:</strong> ${game.systemRequirements.processor}</li>
+                                    <li><strong>Bộ nhớ:</strong> ${game.systemRequirements.memory}</li>
+                                    <li><strong>Đồ họa:</strong> ${game.systemRequirements.graphics}</li>
+                                    <li><strong>Dung lượng:</strong> ${game.systemRequirements.storage}</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-3">🎮 Thông tin game:</h6>
+                                <ul class="list-unstyled game-info-detail">
+                                    <li><strong>Thể loại:</strong> ${getCategoryName(game.category)}</li>
+                                    <li><strong>Năm phát hành:</strong> ${game.releaseYear}</li>
+                                    <li><strong>Dung lượng:</strong> ${game.size}</li>
+                                    <li><strong>Trạng thái việt hóa:</strong> <span class="${game.status === 'completed' ? 'status-completed' : 'status-progress'}">${game.statusText}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="mb-3">
+                            <h6 class="fw-bold mb-2">📝 Mô tả chi tiết:</h6>
+                            <p>${game.description}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6 class="fw-bold mb-2">🌟 Điểm nổi bật của bản việt hóa:</h6>
+                            <div class="row">
+                                ${game.features.map(feature => `
+                                    <div class="col-md-6 mb-2">
+                                        <div class="feature-highlight">
+                                            <i class="text-success">✓</i> ${feature}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="screenshot-gallery">
+                            <h6 class="fw-bold mb-2">🖼️ Ảnh chụp màn hình:</h6>
+                            <div class="row">
+                                ${game.screenshots.map((screenshot, index) => `
+                                    <div class="col-4 mb-2">
+                                        <img src="${screenshot}" class="img-fluid rounded screenshot-thumb" alt="Screenshot ${index + 1}" onclick="showFullScreenshot('${screenshot}')">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="download-btn" onclick="handleDownload('${game.title}'); bootstrap.Modal.getInstance(document.getElementById('gameDetailModal')).hide();">
+                            📥 Tải về ngay
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="modal-body">
-            <div class="modal-section">
-                <h3>Mô tả</h3>
-                <p>${game.fullDescription}</p>
-            </div>
-            
-            <div class="modal-section">
-                <h3>Tính năng chính</h3>
-                <div class="features-grid">
-                    ${game.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
-                </div>
-            </div>
-            
-            <div class="modal-section">
-                <h3>Thông tin chi tiết</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <strong>Nhà phát triển:</strong>
-                        <span>${game.developer}</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Ngôn ngữ:</strong>
-                        <span>${game.language}</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Độ tuổi:</strong>
-                        <span>${game.rating}</span>
-                    </div>
-                    <div class="info-item">
-                        <strong>Nền tảng:</strong>
-                        <span>${game.platforms.join(', ')}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal-actions">
-                <a href="${game.downloadLink}" class="btn-primary btn-large">
-                    <i class="download-icon">⬇</i>
-                    Tải xuống ngay
-                </a>
-                <button class="btn-secondary" onclick="shareGame(${game.id})">
-                    <i class="share-icon">📤</i>
-                    Chia sẻ
-                </button>
             </div>
         </div>
     `;
     
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-// Hide modal
-function hideModal() {
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// Handle search
-function handleSearch() {
-    const searchTerm = searchInput.value.toLowerCase().trim();
-    const selectedGenre = genreFilter.value;
-    
-    let filteredGames = gamesData;
-    
-    // Filter by search term
-    if (searchTerm) {
-        filteredGames = filteredGames.filter(game => 
-            game.title.toLowerCase().includes(searchTerm) ||
-            game.description.toLowerCase().includes(searchTerm) ||
-            game.features.some(feature => feature.toLowerCase().includes(searchTerm))
-        );
+    // Remove existing modal if any
+    const existingModal = document.getElementById('gameDetailModal');
+    if (existingModal) {
+        existingModal.remove();
     }
     
-    // Filter by genre
-    if (selectedGenre && selectedGenre !== 'all') {
-        filteredGames = filteredGames.filter(game => 
-            game.genre.toLowerCase() === selectedGenre.toLowerCase()
-        );
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('gameDetailModal'));
+    modal.show();
+}
+
+// Show full screenshot
+function showFullScreenshot(imageSrc) {
+    const fullScreenHTML = `
+        <div class="modal fade" id="screenshotModal" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-center p-0">
+                        <img src="${imageSrc}" class="img-fluid" alt="Full Screenshot">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Remove existing screenshot modal if any
+    const existingModal = document.getElementById('screenshotModal');
+    if (existingModal) {
+        existingModal.remove();
     }
     
-    displayGames(filteredGames);
-}
-
-// Handle genre filter
-function handleGenreFilter() {
-    handleSearch(); // Reuse search logic
-}
-
-// Populate genre filter
-function populateGenreFilter() {
-    const genres = [...new Set(gamesData.map(game => game.genre))];
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', fullScreenHTML);
     
-    genreFilter.innerHTML = '<option value="all">Tất cả thể loại</option>' +
-        genres.map(genre => `<option value="${genre}">${genre}</option>`).join('');
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('screenshotModal'));
+    modal.show();
 }
 
-// Share game function
-function shareGame(gameId) {
-    const game = gamesData.find(g => g.id === gameId);
-    if (!game) return;
+// Handle download click
+function handleDownload(gameTitle) {
+    // Show download notification
+    showNotification(`Bắt đầu tải "${gameTitle}"`, 'success');
     
-    if (navigator.share) {
-        navigator.share({
-            title: game.title,
-            text: game.description,
-            url: window.location.href
-        }).catch(console.error);
-    } else {
-        // Fallback: copy to clipboard
-        const shareText = `${game.title} - ${game.description}\n${window.location.href}`;
-        navigator.clipboard.writeText(shareText).then(() => {
-            alert('Đã sao chép link chia sẻ!');
-        }).catch(() => {
-            alert('Không thể chia sẻ. Vui lòng sao chép link thủ công.');
+    // In a real application, this would handle the actual download
+    console.log(`Downloading: ${gameTitle}`);
+}
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = `
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        min-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    
+    notification.innerHTML = `
+        <strong>${type === 'success' ? '✅' : 'ℹ️'}</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (notification && notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+
+// Debounce function for search
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Add scroll animations
+function addScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
         });
-    }
+    }, observerOptions);
+    
+    // Observe elements that should animate on scroll
+    setTimeout(() => {
+        document.querySelectorAll('.game-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
+    }, 100);
 }
 
-// Lazy loading for images
-function setupLazyLoading() {
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
-                }
-            });
+// Add some interactive features
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading effect for images
+    const gameImages = document.querySelectorAll('.game-image');
+    gameImages.forEach(img => {
+        img.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
         });
         
-        images.forEach(img => imageObserver.observe(img));
-    }
+        img.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === '/' && e.ctrlKey) {
+            e.preventDefault();
+            searchInput.focus();
+        }
+    });
+});
+
+// Stats counter animation
+function animateStats() {
+    const statsElements = document.querySelectorAll('[data-count]');
+    
+    statsElements.forEach(element => {
+        const finalCount = parseInt(element.dataset.count);
+        const duration = 2000;
+        const startTime = performance.now();
+        
+        function updateCount(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const currentCount = Math.floor(progress * finalCount);
+            
+            element.textContent = currentCount;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateCount);
+            }
+        }
+        
+        requestAnimationFrame(updateCount);
+    });
 }
 
-// Initialize lazy loading after DOM content is loaded
-document.addEventListener('DOMContentLoaded', setupLazyLoading);
+// Initialize stats animation when section is visible
+const statsSection = document.querySelector('#stats');
+if (statsSection) {
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateStats();
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    });
+    
+    statsObserver.observe(statsSection);
+}
