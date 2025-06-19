@@ -8,9 +8,78 @@ let games = [
         genre: "Puzzle/Strategy",
         rating: 4,
         description: "Game giải đố hài hước về anh chàng Woody thực hiện những trò đùa tinh quái với người hàng xóm khó ở. Game đã được Việt hóa hoàn chỉnh, mang đến những tình huống vui nhộn và thử thách trí tuệ thú vị.",
-        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=200&fit=crop&crop=center"
+        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=200&fit=crop&crop=center",
+        screenshots: [
+            "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600&h=400&fit=crop"
+        ],
+        downloadLink: "https://example.com/download/neighbours-from-hell-viet",
+        fileSize: "1.2 GB",
+        releaseYear: "2003",
+        developer: "JoWooD Studios",
+        vietnameseTeam: "Nhóm Việt Hóa GameVN",
+        systemRequirements: {
+            os: "Windows 7/8/10/11",
+            processor: "Intel Pentium 4 1.5GHz",
+            memory: "512 MB RAM",
+            graphics: "DirectX 9 compatible",
+            storage: "1.5 GB"
+        },
+        features: ["Việt hóa 100% văn bản", "Giao diện tiếng Việt", "Hướng dẫn đầy đủ"]
+    },
+    {
+        id: 2,
+        name: "Cyberpunk 2077",
+        genre: "Action RPG",
+        rating: 4,
+        description: "Game nhập vai hành động trong tương lai dystopian. Đã được cộng đồng Việt hóa với chất lượng tốt, mang đến trải nghiệm Night City sống động.",
+        image: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=200&fit=crop&crop=center",
+        screenshots: [
+            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop"
+        ],
+        downloadLink: "https://example.com/download/cyberpunk2077-viet",
+        fileSize: "65 GB",
+        releaseYear: "2020",
+        developer: "CD Projekt RED",
+        vietnameseTeam: "Cộng đồng Game Việt",
+        systemRequirements: {
+            os: "Windows 10 64-bit",
+            processor: "Intel Core i5-3570K / AMD FX-8310",
+            memory: "8 GB RAM",
+            graphics: "NVIDIA GTX 780 / AMD Radeon RX 470",
+            storage: "70 GB SSD"
+        },
+        features: ["Việt hóa phụ đề", "Menu tiếng Việt", "Hỗ trợ mod Việt hóa"]
+    },
+    {
+        id: 3,
+        name: "Persona 5 Royal",
+        genre: "JRPG",
+        rating: 5,
+        description: "JRPG xuất sắc về nhóm Phantom Thieves. Bản Việt hóa chất lượng cao với đầy đủ văn bản và giao diện.",
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=200&fit=crop&crop=center",
+        screenshots: [
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop"
+        ],
+        downloadLink: "https://example.com/download/persona5royal-viet",
+        fileSize: "28 GB",
+        releaseYear: "2019",
+        developer: "Atlus",
+        vietnameseTeam: "Team JRPG Việt",
+        systemRequirements: {
+            os: "Windows 10/11 64-bit",
+            processor: "Intel Core i7-4790 / AMD Ryzen 5 1600",
+            memory: "8 GB RAM",
+            graphics: "NVIDIA GTX 650 Ti / AMD Radeon R7 360",
+            storage: "35 GB"
+        },
+        features: ["Việt hóa hoàn chỉnh", "Giao diện Việt", "Voice-over Nhật + Sub Việt"]
     }
-    
 ];
 
 // DOM Elements
@@ -125,15 +194,19 @@ function renderGames() {
                         ${generateStars(game.rating)}
                     </div>
                     <p class="card-text flex-grow-1">${game.description}</p>
+                    <div class="game-info mb-3">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar me-1"></i>${game.releaseYear} • 
+                            <i class="fas fa-hdd me-1"></i>${game.fileSize} • 
+                            <i class="fas fa-users me-1"></i>${game.vietnameseTeam}
+                        </small>
+                    </div>
                     <div class="btn-group mt-auto">
+                        <button class="btn btn-success btn-sm" onclick="downloadGame(${game.id})">
+                            <i class="fas fa-download me-1"></i>Tải xuống
+                        </button>
                         <button class="btn btn-primary btn-sm" onclick="viewGame(${game.id})">
                             <i class="fas fa-eye me-1"></i>Xem chi tiết
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="editGame(${game.id})">
-                            <i class="fas fa-edit me-1"></i>Sửa
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm" onclick="deleteGame(${game.id})">
-                            <i class="fas fa-trash me-1"></i>Xóa
                         </button>
                     </div>
                 </div>
@@ -330,10 +403,22 @@ function viewGame(gameId) {
     const game = games.find(g => g.id === gameId);
     if (!game) return;
 
+    // Tạo screenshots carousel
+    const screenshotsCarousel = game.screenshots.map((screenshot, index) => `
+        <div class="carousel-item ${index === 0 ? 'active' : ''}">
+            <img src="${screenshot}" class="d-block w-100 rounded" alt="Screenshot ${index + 1}">
+        </div>
+    `).join('');
+
+    // Tạo features list
+    const featuresList = game.features.map(feature => `
+        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i>${feature}</li>
+    `).join('');
+
     // Tạo modal chi tiết
     const modal = `
         <div class="modal fade" id="gameDetailModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">${game.name}</h5>
@@ -341,22 +426,68 @@ function viewGame(gameId) {
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <img src="${game.image}" class="img-fluid rounded" alt="${game.name}">
-                            </div>
-                            <div class="col-md-6">
-                                <h6><i class="fas fa-tag me-2"></i>Thể loại: ${game.genre}</h6>
-                                <h6><i class="fas fa-star me-2"></i>Đánh giá: ${generateStars(game.rating)}</h6>
-                                <hr>
-                                <h6>Mô tả:</h6>
+                            <div class="col-lg-8">
+                                <!-- Screenshots Carousel -->
+                                <div id="screenshotsCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        ${screenshotsCarousel}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#screenshotsCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#screenshotsCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                    </button>
+                                </div>
+                                
+                                <h6><i class="fas fa-info-circle me-2"></i>Mô tả chi tiết</h6>
                                 <p>${game.description}</p>
+                                
+                                <h6><i class="fas fa-star me-2"></i>Tính năng Việt hóa</h6>
+                                <ul class="list-group list-group-flush">
+                                    ${featuresList}
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <img src="${game.image}" class="card-img-top" alt="${game.name}">
+                                    <div class="card-body">
+                                        <h6><i class="fas fa-tag me-2"></i>Thông tin cơ bản</h6>
+                                        <p class="mb-2"><strong>Thể loại:</strong> ${game.genre}</p>
+                                        <p class="mb-2"><strong>Năm phát hành:</strong> ${game.releaseYear}</p>
+                                        <p class="mb-2"><strong>Nhà phát triển:</strong> ${game.developer}</p>
+                                        <p class="mb-2"><strong>Kích thước:</strong> ${game.fileSize}</p>
+                                        <p class="mb-3"><strong>Nhóm Việt hóa:</strong> ${game.vietnameseTeam}</p>
+                                        
+                                        <div class="rating mb-3">
+                                            <strong>Đánh giá: </strong>${generateStars(game.rating)}
+                                        </div>
+                                        
+                                        <button class="btn btn-success w-100 mb-2" onclick="downloadGame(${game.id})">
+                                            <i class="fas fa-download me-2"></i>Tải xuống ngay
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <h6 class="mb-0"><i class="fas fa-desktop me-2"></i>Cấu hình tối thiểu</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-1"><strong>Hệ điều hành:</strong> ${game.systemRequirements.os}</p>
+                                        <p class="mb-1"><strong>CPU:</strong> ${game.systemRequirements.processor}</p>
+                                        <p class="mb-1"><strong>RAM:</strong> ${game.systemRequirements.memory}</p>
+                                        <p class="mb-1"><strong>Card đồ họa:</strong> ${game.systemRequirements.graphics}</p>
+                                        <p class="mb-0"><strong>Dung lượng:</strong> ${game.systemRequirements.storage}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary" onclick="editGame(${game.id})" data-bs-dismiss="modal">
-                            <i class="fas fa-edit me-1"></i>Chỉnh sửa
+                        <button type="button" class="btn btn-success" onclick="downloadGame(${game.id})">
+                            <i class="fas fa-download me-1"></i>Tải xuống
                         </button>
                     </div>
                 </div>
@@ -379,7 +510,73 @@ function viewGame(gameId) {
     });
 }
 
-// Cập nhật số lượng game
+// Tải xuống game
+function downloadGame(gameId) {
+    const game = games.find(g => g.id === gameId);
+    if (!game) return;
+
+    // Hiển thị modal xác nhận download
+    const confirmModal = `
+        <div class="modal fade" id="downloadModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-download me-2"></i>Tải xuống ${game.name}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-3">
+                            <img src="${game.image}" class="img-fluid rounded" style="max-height: 150px;" alt="${game.name}">
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Thông tin tải xuống:</strong><br>
+                            • Kích thước: ${game.fileSize}<br>
+                            • Nhóm Việt hóa: ${game.vietnameseTeam}<br>
+                            • Đã bao gồm bản Việt hóa hoàn chỉnh
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Lưu ý:</strong> Đảm bảo bạn sở hữu bản quyền game gốc trước khi tải xuống bản Việt hóa.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-success" onclick="startDownload('${game.downloadLink}', '${game.name}')" data-bs-dismiss="modal">
+                            <i class="fas fa-download me-1"></i>Bắt đầu tải
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Xóa modal cũ nếu có
+    const oldModal = document.getElementById('downloadModal');
+    if (oldModal) oldModal.remove();
+
+    // Thêm modal mới
+    document.body.insertAdjacentHTML('beforeend', confirmModal);
+    const downloadModal = new bootstrap.Modal(document.getElementById('downloadModal'));
+    downloadModal.show();
+
+    // Xóa modal sau khi đóng
+    document.getElementById('downloadModal').addEventListener('hidden.bs.modal', function() {
+        this.remove();
+    });
+}
+
+// Bắt đầu tải xuống
+function startDownload(downloadLink, gameName) {
+    // Mở link download trong tab mới
+    window.open(downloadLink, '_blank');
+    
+    // Hiển thị thông báo
+    showNotification(`Đang chuyển hướng đến trang tải xuống "${gameName}"...`, 'success');
+    
+    // Có thể thêm tracking analytics ở đây
+    console.log(`Download started for: ${gameName}`);
+}
 function updateGameCount() {
     gameCountElement.textContent = filteredGames.length;
 }
