@@ -1,7 +1,7 @@
 const games = [
   {
     title: "Neighbours From Hell",
-    image: "https://vi.m.wikipedia.org/wiki/T%E1%BA%ADp_tin:Neighbors_from_Hell_Coverart.png",
+    image: "https://i.ibb.co/9HQLzdYv/Neighbors-from-Hell-Coverart.png",
     desc: "Game hài hước chơi khăm hàng xóm cực gắt đã được Việt hóa.",
     link: "#"
   },
