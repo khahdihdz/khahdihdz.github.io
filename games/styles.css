@@ -14,3 +14,14 @@ h1 {
 .card-title {
   color: #0d6efd;
 }
+
+.details {
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.details img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
