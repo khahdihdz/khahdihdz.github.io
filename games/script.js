@@ -4,34 +4,75 @@
 const gamesData = [
     {
         id: 1,
-        title: "Neighbours from Hell",
-        description: "Game puzzle hài hước về một gã hàng xóm phá phách. Hãy trở thành Woody và thực hiện những trò nghịch ngợm để trêu chọc hàng xóm Mr. Rottweiler trong chương trình TV thực tế.",
+        title: "The Witcher 3: Wild Hunt",
+        description: "Một trong những tựa game RPG hay nhất mọi thời đại với thế giới mở rộng lớn và câu chuyện hấp dẫn. Phiên bản việt hóa đầy đủ với lồng tiếng và phụ đề.",
+        category: "rpg",
+        status: "completed",
+        statusText: "Hoàn thành 100%",
+        icon: "🗡️",
+        downloadLink: "#",
+        releaseYear: 2015,
+        size: "35GB"
+    },
+    {
+        id: 2,
+        title: "Cyberpunk 2077",
+        description: "Game nhập vai thế giới mở với bối cảnh tương lai đầy công nghệ. Việt hóa bao gồm phụ đề và menu hoàn chỉnh.",
+        category: "rpg",
+        status: "progress",
+        statusText: "Đang việt hóa 85%",
+        icon: "🤖",
+        downloadLink: "#",
+        releaseYear: 2020,
+        size: "70GB"
+    },
+    {
+        id: 3,
+        title: "Assassin's Creed Valhalla",
+        description: "Hành trình của một warrior Viking trong thế giới Anh thời trung cổ. Phiên bản việt hóa với phụ đề đầy đủ.",
+        category: "action",
+        status: "completed",
+        statusText: "Hoàn thành 100%",
+        icon: "⚔️",
+        downloadLink: "#",
+        releaseYear: 2020,
+        size: "50GB"
+    },
+    {
+        id: 4,
+        title: "Red Dead Redemption 2",
+        description: "Câu chuyện miền Tây hoang dã với đồ họa tuyệt đẹp và gameplay sâu sắc. Việt hóa hoàn chỉnh cả phụ đề và menu.",
         category: "adventure",
         status: "completed",
         statusText: "Hoàn thành 100%",
-        icon: "😈",
-        downloadLink: "#download-neighbours",
-        releaseYear: 2003,
-        size: "150MB",
-        screenshots: [
-            "https://cdn.cloudflare.steamstatic.com/steam/apps/260750/ss_c0b156c13b3da5b06ec16a31073b41dcf9ad6948.1920x1080.jpg",
-            "https://cdn.cloudflare.steamstatic.com/steam/apps/260750/ss_59fbcaae3e3ffcbdc0ac96d2c42add3ad32d7cb7.1920x1080.jpg",
-            "https://cdn.cloudflare.steamstatic.com/steam/apps/260750/ss_e3fd0b1b0e4a3b16c4a36d3b4a09dafce27b1f47.1920x1080.jpg"
-        ],
-        features: [
-            "Phụ đề tiếng Việt hoàn chỉnh",
-            "Menu và giao diện đã việt hóa",
-            "14 tập phim với 100+ trò nghịch ngợm",
-            "Đồ họa 3D cartoon dễ thương",
-            "Gameplay đơn giản, phù hợp mọi lứa tuổi"
-        ],
-        systemRequirements: {
-            os: "Windows XP/Vista/7/8/10/11",
-            processor: "Pentium III 500 MHz",
-            memory: "64 MB RAM",
-            graphics: "DirectX 8.0",
-            storage: "200 MB"
-        }
+        icon: "🤠",
+        downloadLink: "#",
+        releaseYear: 2018,
+        size: "120GB"
+    },
+    {
+        id: 5,
+        title: "Age of Empires IV",
+        description: "Game chiến thuật thời gian thực kinh điển với đồ họa hiện đại. Việt hóa đầy đủ interface và tutorial.",
+        category: "strategy",
+        status: "progress",
+        statusText: "Đang việt hóa 70%",
+        icon: "🏰",
+        downloadLink: "#",
+        releaseYear: 2021,
+        size: "25GB"
+    },
+    {
+        id: 6,
+        title: "Horizon Zero Dawn",
+        description: "Phiêu lưu trong thế giới hậu tận thế với robot khủng long. Việt hóa hoàn chỉnh với phụ đề tiếng Việt.",
+        category: "adventure",
+        status: "completed",
+        statusText: "Hoàn thành 100%",
+        icon: "🏹",
+        downloadLink: "#",
+        releaseYear: 2017,
+        size: "67GB"
     }
 ];
 
@@ -64,70 +105,25 @@ function renderGames(games) {
     }
 
     const gamesHTML = games.map(game => `
-        <div class="col-12 game-item fade-in" data-category="${game.category}">
-            <div class="game-card-detailed">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="game-screenshots">
-                            <div id="carousel-${game.id}" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    ${game.screenshots.map((screenshot, index) => `
-                                        <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                                            <img src="${screenshot}" class="d-block w-100 screenshot-img" alt="Screenshot ${index + 1}">
-                                        </div>
-                                    `).join('')}
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${game.id}" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carousel-${game.id}" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon"></span>
-                                </button>
-                            </div>
-                        </div>
+        <div class="col-lg-4 col-md-6 game-item fade-in" data-category="${game.category}">
+            <div class="game-card h-100">
+                <div class="game-image">
+                    <span>${game.icon}</span>
+                </div>
+                <div class="game-body">
+                    <h5 class="game-title">${game.title}</h5>
+                    <p class="game-description">${game.description}</p>
+                    <span class="game-category">${getCategoryName(game.category)}</span>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="game-status ${game.status === 'completed' ? 'status-completed' : 'status-progress'}">
+                            ${game.statusText}
+                        </small>
+                        <small class="text-muted">${game.size}</small>
                     </div>
-                    <div class="col-md-8">
-                        <div class="game-body-detailed">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <h3 class="game-title-detailed">${game.title}</h3>
-                                <span class="game-category">${getCategoryName(game.category)}</span>
-                            </div>
-                            
-                            <p class="game-description-detailed">${game.description}</p>
-                            
-                            <div class="game-features mb-3">
-                                <h6 class="fw-bold mb-2">✨ Tính năng việt hóa:</h6>
-                                <ul class="feature-list">
-                                    ${game.features.map(feature => `<li>${feature}</li>`).join('')}
-                                </ul>
-                            </div>
-                            
-                            <div class="game-info-row">
-                                <div class="info-item">
-                                    <span class="info-label">Trạng thái:</span>
-                                    <span class="game-status ${game.status === 'completed' ? 'status-completed' : 'status-progress'}">
-                                        ${game.statusText}
-                                    </span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Dung lượng:</span>
-                                    <span class="text-muted">${game.size}</span>
-                                </div>
-                                <div class="info-item">
-                                    <span class="info-label">Năm phát hành:</span>
-                                    <span class="text-muted">${game.releaseYear}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="action-buttons mt-4">
-                                <button class="download-btn me-2" onclick="handleDownload('${game.title}')">
-                                    📥 Tải về ngay
-                                </button>
-                                <button class="detail-btn" onclick="showGameDetails(${game.id})">
-                                    👁️ Xem chi tiết
-                                </button>
-                            </div>
-                        </div>
+                    <div class="mt-3">
+                        <a href="${game.downloadLink}" class="download-btn" onclick="handleDownload('${game.title}')">
+                            📥 Tải về
+                        </a>
                     </div>
                 </div>
             </div>
@@ -204,129 +200,6 @@ function applyFilters(searchTerm, category) {
     renderGames(filteredGames);
 }
 
-// Show game details modal
-function showGameDetails(gameId) {
-    const game = gamesData.find(g => g.id === gameId);
-    if (!game) return;
-    
-    const modalHTML = `
-        <div class="modal fade" id="gameDetailModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-gradient text-white">
-                        <h5 class="modal-title">${game.title} - Chi tiết</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="fw-bold mb-3">📱 Yêu cầu hệ thống:</h6>
-                                <ul class="list-unstyled system-requirements">
-                                    <li><strong>Hệ điều hành:</strong> ${game.systemRequirements.os}</li>
-                                    <li><strong>Bộ xử lý:</strong> ${game.systemRequirements.processor}</li>
-                                    <li><strong>Bộ nhớ:</strong> ${game.systemRequirements.memory}</li>
-                                    <li><strong>Đồ họa:</strong> ${game.systemRequirements.graphics}</li>
-                                    <li><strong>Dung lượng:</strong> ${game.systemRequirements.storage}</li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <h6 class="fw-bold mb-3">🎮 Thông tin game:</h6>
-                                <ul class="list-unstyled game-info-detail">
-                                    <li><strong>Thể loại:</strong> ${getCategoryName(game.category)}</li>
-                                    <li><strong>Năm phát hành:</strong> ${game.releaseYear}</li>
-                                    <li><strong>Dung lượng:</strong> ${game.size}</li>
-                                    <li><strong>Trạng thái việt hóa:</strong> <span class="${game.status === 'completed' ? 'status-completed' : 'status-progress'}">${game.statusText}</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <hr>
-                        
-                        <div class="mb-3">
-                            <h6 class="fw-bold mb-2">📝 Mô tả chi tiết:</h6>
-                            <p>${game.description}</p>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <h6 class="fw-bold mb-2">🌟 Điểm nổi bật của bản việt hóa:</h6>
-                            <div class="row">
-                                ${game.features.map(feature => `
-                                    <div class="col-md-6 mb-2">
-                                        <div class="feature-highlight">
-                                            <i class="text-success">✓</i> ${feature}
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="screenshot-gallery">
-                            <h6 class="fw-bold mb-2">🖼️ Ảnh chụp màn hình:</h6>
-                            <div class="row">
-                                ${game.screenshots.map((screenshot, index) => `
-                                    <div class="col-4 mb-2">
-                                        <img src="${screenshot}" class="img-fluid rounded screenshot-thumb" alt="Screenshot ${index + 1}" onclick="showFullScreenshot('${screenshot}')">
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="button" class="download-btn" onclick="handleDownload('${game.title}'); bootstrap.Modal.getInstance(document.getElementById('gameDetailModal')).hide();">
-                            📥 Tải về ngay
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Remove existing modal if any
-    const existingModal = document.getElementById('gameDetailModal');
-    if (existingModal) {
-        existingModal.remove();
-    }
-    
-    // Add modal to body
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-    
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('gameDetailModal'));
-    modal.show();
-}
-
-// Show full screenshot
-function showFullScreenshot(imageSrc) {
-    const fullScreenHTML = `
-        <div class="modal fade" id="screenshotModal" tabindex="-1">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content bg-dark">
-                    <div class="modal-header border-0">
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body text-center p-0">
-                        <img src="${imageSrc}" class="img-fluid" alt="Full Screenshot">
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Remove existing screenshot modal if any
-    const existingModal = document.getElementById('screenshotModal');
-    if (existingModal) {
-        existingModal.remove();
-    }
-    
-    // Add modal to body
-    document.body.insertAdjacentHTML('beforeend', fullScreenHTML);
-    
-    // Show modal
-    const modal = new bootstrap.Modal(document.getElementById('screenshotModal'));
-    modal.show();
-}
-
 // Handle download click
 function handleDownload(gameTitle) {
     // Show download notification
@@ -335,6 +208,9 @@ function handleDownload(gameTitle) {
     // In a real application, this would handle the actual download
     console.log(`Downloading: ${gameTitle}`);
 }
+
+// Show notification
+function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `alert alert-${type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
