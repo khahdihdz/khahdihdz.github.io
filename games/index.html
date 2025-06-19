@@ -3,150 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Việt Hóa - Khám Phá Game Hay</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>Danh Sách Game Việt Hóa</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Header -->
-    <header class="hero-section bg-primary text-white py-5">
-        <div class="hero-overlay"></div>
-        <div class="container text-center hero-content position-relative">
-            <div class="hero-icon mb-3">
-                <i class="fas fa-gamepad fa-4x"></i>
-            </div>
-            <h1 class="hero-title display-2 fw-bold mb-3">Game Việt Hóa</h1>
-            <p class="hero-subtitle lead mb-4">Khám phá thế giới game với ngôn ngữ Việt Nam</p>
-            <div class="hero-stats row justify-content-center">
-                <div class="col-4 col-md-2">
-                    <div class="stat-item">
-                        <div class="stat-number h2 fw-bold" id="gameCount">1</div>
-                        <div class="stat-label">Game</div>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="stat-item">
-                        <div class="stat-number h2 fw-bold">100%</div>
-                        <div class="stat-label">Việt Hóa</div>
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="stat-item">
-                        <div class="stat-number h2 fw-bold">5★</div>
-                        <div class="stat-label">Chất Lượng</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x mb-3">
-            <i class="fas fa-chevron-down fa-2x animate-bounce"></i>
-        </div>
-    </header>
-
-    <!-- Games Section -->
-    <section class="games-section py-5">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
         <div class="container">
-            <div class="section-header text-center mb-5">
-                <h2 class="section-title display-4 fw-bold mb-3">Danh Sách Game Đặc Sắc</h2>
-                <p class="section-subtitle lead text-muted">Những tựa game được Việt hóa chất lượng cao nhất</p>
+            <a class="navbar-brand fw-bold" href="#">🎮 Game Việt Hóa</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#games">Danh sách Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Giới thiệu</a>
+                    </li>
+                </ul>
             </div>
-            
-            <!-- Search and Filter Controls -->
-            <div class="controls-bar mb-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-6 mb-3">
-                        <div class="search-container position-relative">
-                            <input type="text" class="form-control form-control-lg ps-5" id="search-input" placeholder="Tìm kiếm game yêu thích...">
-                            <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select form-select-lg" id="genre-filter">
-                            <option value="all">Tất cả thể loại</option>
-                        </select>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section text-white text-center py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Khám Phá Thế Giới Game Việt Hóa</h1>
+                    <p class="lead mb-4">Trải nghiệm những tựa game hay nhất với phiên bản tiếng Việt hoàn chỉnh</p>
+                    <a href="#games" class="btn btn-warning btn-lg px-4 py-2">Xem Danh Sách</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-image">
+                        <i class="display-1">🎯</i>
                     </div>
                 </div>
-            </div>
-
-            <!-- Game Grid -->
-            <div class="row" id="games-list">
-                <!-- Games will be rendered here by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Game Details Modal -->
-    <div class="modal fade" id="game-modal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title fw-bold" id="gameModalLabel">Chi Tiết Game</h5>
-                    <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Games Section -->
+    <section id="games" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title">Danh Sách Game Việt Hóa</h2>
+            
+            <!-- Search and Filter -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="searchInput" placeholder="🔍 Tìm kiếm game...">
                 </div>
-                <div class="modal-body p-4 modal-game-info">
-                    <!-- Game details will be loaded here by JavaScript -->
+                <div class="col-md-6">
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">Tất cả thể loại</option>
+                        <option value="rpg">RPG</option>
+                        <option value="action">Hành động</option>
+                        <option value="adventure">Phiêu lưu</option>
+                        <option value="strategy">Chiến thuật</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="row" id="gamesContainer">
+                <!-- Game cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title mb-4">Về Chúng Tôi</h2>
+                    <p class="lead">Chúng tôi là cộng đồng game thủ Việt Nam, chuyên sưu tầm và chia sẻ những tựa game hay nhất với phiên bản việt hóa chất lượng cao.</p>
+                    <p>Mục tiêu của chúng tôi là mang đến cho game thủ Việt những trải nghiệm tuyệt vời nhất mà không gặp rào cản ngôn ngữ.</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="footer-section bg-dark text-white py-5">
+    <footer class="bg-dark text-white py-4">
         <div class="container">
-            <div class="footer-content row align-items-center">
+            <div class="row">
                 <div class="col-md-6">
-                    <div class="footer-logo d-flex align-items-center mb-3">
-                        <i class="fas fa-gamepad fa-2x me-3"></i>
-                        <span class="h4 mb-0">Game Việt Hóa</span>
-                    </div>
-                    <div class="footer-text">
-                        <p class="mb-3">Nơi chia sẻ và khám phá những tựa game Việt hóa chất lượng cao</p>
-                        <div class="footer-links">
-                            <a href="#" class="text-white me-3"><i class="fab fa-facebook fa-2x"></i></a>
-                            <a href="#" class="text-white me-3"><i class="fab fa-youtube fa-2x"></i></a>
-                            <a href="#" class="text-white"><i class="fab fa-discord fa-2x"></i></a>
-                        </div>
-                    </div>
+                    <h5>Game Việt Hóa</h5>
+                    <p>Nơi chia sẻ những tựa game hay nhất với phiên bản tiếng Việt</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <div class="footer-stats">
-                        <div class="row text-center">
-                            <div class="col-4">
-                                <div class="h5 fw-bold mb-1">1M+</div>
-                                <small class="text-muted">Lượt tải</small>
-                            </div>
-                            <div class="col-4">
-                                <div class="h5 fw-bold mb-1">50+</div>
-                                <small class="text-muted">Game hay</small>
-                            </div>
-                            <div class="col-4">
-                                <div class="h5 fw-bold mb-1">24/7</div>
-                                <small class="text-muted">Hỗ trợ</small>
-                            </div>
-                        </div>
-                    </div>
+                    <p>&copy; 2025 Game Việt Hóa. Tất cả quyền được bảo lưu.</p>
                 </div>
-            </div>
-            <hr class="my-4">
-            <div class="footer-bottom text-center">
-                <p class="mb-0">&copy; 2025 Game Việt Hóa. Made with <i class="fas fa-heart text-danger"></i> for Vietnamese gamers</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scroll to Top Button -->
-    <button class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle scroll-to-top" id="scrollToTop" style="display: none; width: 50px; height: 50px;">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
 </html>
