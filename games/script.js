@@ -4,7 +4,7 @@
 const gameData = {
     neighbours: {
         title: "Neighbours from Hell",
-        description: "Neighbours from Hell là một game giải đố hài hước nơi bạn vào vai Woody - một chàng trai muốn trả thù hàng xóm khó tính của mình. Sử dụng trí thông minh và sự sáng tạo để tạo ra những trò đùa vui nhộn, từ việc đặt bẫy trong nhà bếp đến những màn khăm khổ ngoài sân vườn. Game mang đến tiếng cười và thử thách tư duy logic.",
+        description: "Chào mừng bạn đến với cuộc sống của Woody - chàng trai có sở thích đặc biệt là làm khổ hàng xóm! 🏠💥 Trong thế giới tuyệt vời này, bạn sẽ được thỏa mãn mọi ước mơ 'trả thù' mà không cần lo lắng về hậu quả pháp lý. Hãy sử dụng trí tuệ và sự sáng tạo để biến ngôi nhà hàng xóm thành một 'chiến trường' đầy tiếng cười! Từ việc thay đổi chương trình TV thành kênh opera (khi ông ta đang xem bóng đá), đến việc 'trang trí' bánh sinh nhật bằng kem cạo râu, mỗi trò đùa đều là một tác phẩm nghệ thuật! Game này không chỉ rèn luyện tư duy logic mà còn giúp bạn trở thành một 'thiên tài của sự troll' - một kỹ năng vô cùng hữu ích trong cuộc sống! 😂🎭 Lưu ý: Đây là game, đừng áp dụng vào đời thực nhé!",
         genre: "Puzzle",
         rating: "4.2/5",
         size: "2.5 GB",
