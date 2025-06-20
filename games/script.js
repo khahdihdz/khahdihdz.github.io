@@ -36,7 +36,6 @@ const gameData = {
             ]
         },
         downloadLinks: {
-            primary: "https://drive.google.com/file/d/1234567890abcdef/view?usp=sharing",
             mirror1: "https://mega.nz/#!abc123def456",
             mirror2: "https://mediafire.com/file/neighbours-from-hell-vn/file"
         }
@@ -202,9 +201,7 @@ function loadGameDetails(game) {
                     <h6><i class="fas fa-download me-2"></i>Link tải xuống:</h6>
                     <div class="download-links">
                         <div class="btn-group-vertical w-100" role="group">
-                            <button type="button" class="btn btn-success mb-2" onclick="handleDownloadLink('${game.downloadLinks.primary}', 'Google Drive')">
-                                <i class="fab fa-google-drive me-2"></i>Tải từ Google Drive (Chính)
-                            </button>
+                            
                             <button type="button" class="btn btn-info mb-2" onclick="handleDownloadLink('${game.downloadLinks.mirror1}', 'MEGA')">
                                 <i class="fas fa-cloud me-2"></i>Tải từ MEGA (Mirror 1)
                             </button>
@@ -219,7 +216,7 @@ function loadGameDetails(game) {
                     <div class="download-note mt-3">
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Lưu ý:</strong> Nếu link chính không hoạt động, hãy thử các link mirror khác.
+                            <strong>Lưu ý:</strong> Nếu link không hoạt động, hãy thử các link mirror khác.
                             Đối với Torrent, bạn cần phần mềm BitTorrent client.
                         </div>
                     </div>
