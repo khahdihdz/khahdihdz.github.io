@@ -1,164 +1,143 @@
-// Vietnamese Games List JavaScript
+// Vietnamese Games Website JavaScript
 
-// Sample game data
-const gamesData = [
-    {
-        id: 1,
-        title: "The Witcher 3: Wild Hunt",
-        description: "Một trong những tựa game RPG hay nhất mọi thời đại với thế giới mở rộng lớn và câu chuyện hấp dẫn. Phiên bản việt hóa đầy đủ với lồng tiếng và phụ đề.",
-        category: "rpg",
-        status: "completed",
-        statusText: "Hoàn thành 100%",
-        icon: "🗡️",
-        downloadLink: "#",
-        releaseYear: 2015,
-        size: "35GB"
-    },
-    {
-        id: 2,
+// Game data
+const gameData = {
+    cyberpunk: {
         title: "Cyberpunk 2077",
-        description: "Game nhập vai thế giới mở với bối cảnh tương lai đầy công nghệ. Việt hóa bao gồm phụ đề và menu hoàn chỉnh.",
-        category: "rpg",
-        status: "progress",
-        statusText: "Đang việt hóa 85%",
-        icon: "🤖",
-        downloadLink: "#",
-        releaseYear: 2020,
-        size: "70GB"
+        description: "Cyberpunk 2077 là một game nhập vai thế giới mở lấy bối cảnh trong tương lai dystopian. Người chơi vào vai V, một mercenary đang cố gắng tìm kiếm một implant độc đáo là chìa khóa đến sự bất tử. Với đồ họa tuyệt đẹp, gameplay sâu sắc và cốt truyện hấp dẫn, đây là một trong những tựa game RPG đáng chơi nhất.",
+        genre: "RPG",
+        rating: "4.5/5",
+        size: "70 GB",
+        language: "Việt hóa 100%",
+        developer: "CD Projekt Red",
+        releaseDate: "10/12/2020",
+        mainImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+        screenshots: [
+            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=300&h=200&fit=crop"
+        ],
+        systemRequirements: {
+            minimum: [
+                "OS: Windows 10 64-bit",
+                "Processor: Intel Core i5-3570K hoặc AMD FX-8310",
+                "Memory: 8 GB RAM",
+                "Graphics: NVIDIA GeForce GTX 780 hoặc AMD Radeon RX 470",
+                "DirectX: Version 12",
+                "Storage: 70 GB available space"
+            ],
+            recommended: [
+                "OS: Windows 10 64-bit",
+                "Processor: Intel Core i7-4790 hoặc AMD Ryzen 3 3200G",
+                "Memory: 12 GB RAM",
+                "Graphics: NVIDIA GeForce GTX 1060 hoặc AMD Radeon R9 Fury",
+                "DirectX: Version 12",
+                "Storage: 70 GB available space"
+            ]
+        },
+        downloadLink: "https://example.com/download/cyberpunk2077"
     },
-    {
-        id: 3,
-        title: "Assassin's Creed Valhalla",
-        description: "Hành trình của một warrior Viking trong thế giới Anh thời trung cổ. Phiên bản việt hóa với phụ đề đầy đủ.",
-        category: "action",
-        status: "completed",
-        statusText: "Hoàn thành 100%",
-        icon: "⚔️",
-        downloadLink: "#",
-        releaseYear: 2020,
-        size: "50GB"
+    witcher3: {
+        title: "The Witcher 3: Wild Hunt",
+        description: "The Witcher 3: Wild Hunt là một game nhập vai thế giới mở epic, theo chân Geralt of Rivia trong cuộc hành trình tìm kiếm con gái nuôi Ciri. Với thế giới rộng lớn, cốt truyện phong phú và gameplay chất lượng cao, đây được coi là một trong những tựa game RPG hay nhất mọi thời đại.",
+        genre: "RPG",
+        rating: "5.0/5",
+        size: "50 GB",
+        language: "Việt hóa 100%",
+        developer: "CD Projekt Red",
+        releaseDate: "19/05/2015",
+        mainImage: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600&h=400&fit=crop",
+        screenshots: [
+            "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=200&fit=crop"
+        ],
+        systemRequirements: {
+            minimum: [
+                "OS: Windows 7 64-bit",
+                "Processor: Intel CPU Core i5-2500K 3.3GHz",
+                "Memory: 6 GB RAM",
+                "Graphics: Nvidia GPU GeForce GTX 660",
+                "DirectX: Version 11",
+                "Storage: 35 GB available space"
+            ],
+            recommended: [
+                "OS: Windows 10 64-bit",
+                "Processor: Intel CPU Core i7 3770 3.4 GHz",
+                "Memory: 8 GB RAM",
+                "Graphics: Nvidia GPU GeForce GTX 770",
+                "DirectX: Version 11",
+                "Storage: 35 GB available space"
+            ]
+        },
+        downloadLink: "https://example.com/download/witcher3"
     },
-    {
-        id: 4,
-        title: "Red Dead Redemption 2",
-        description: "Câu chuyện miền Tây hoang dã với đồ họa tuyệt đẹp và gameplay sâu sắc. Việt hóa hoàn chỉnh cả phụ đề và menu.",
-        category: "adventure",
-        status: "completed",
-        statusText: "Hoàn thành 100%",
-        icon: "🤠",
-        downloadLink: "#",
-        releaseYear: 2018,
-        size: "120GB"
-    },
-    {
-        id: 5,
-        title: "Age of Empires IV",
-        description: "Game chiến thuật thời gian thực kinh điển với đồ họa hiện đại. Việt hóa đầy đủ interface và tutorial.",
-        category: "strategy",
-        status: "progress",
-        statusText: "Đang việt hóa 70%",
-        icon: "🏰",
-        downloadLink: "#",
-        releaseYear: 2021,
-        size: "25GB"
-    },
-    {
-        id: 6,
-        title: "Horizon Zero Dawn",
-        description: "Phiêu lưu trong thế giới hậu tận thế với robot khủng long. Việt hóa hoàn chỉnh với phụ đề tiếng Việt.",
-        category: "adventure",
-        status: "completed",
-        statusText: "Hoàn thành 100%",
-        icon: "🏹",
-        downloadLink: "#",
-        releaseYear: 2017,
-        size: "67GB"
+    gta5: {
+        title: "Grand Theft Auto V",
+        description: "Grand Theft Auto V là một game hành động thế giới mở diễn ra tại thành phố Los Santos. Người chơi có thể khám phá thành phố rộng lớn, tham gia vào các hoạt động đa dạng từ đua xe, cướp ngân hàng đến các mini-game thú vị. Với chế độ Online phong phú, GTA V mang đến trải nghiệm gaming không giới hạn.",
+        genre: "Action",
+        rating: "4.8/5",
+        size: "95 GB",
+        language: "Việt hóa 95%",
+        developer: "Rockstar Games",
+        releaseDate: "17/09/2013",
+        mainImage: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop",
+        screenshots: [
+            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=200&fit=crop"
+        ],
+        systemRequirements: {
+            minimum: [
+                "OS: Windows 10 64-bit",
+                "Processor: Intel Core 2 Quad CPU Q6600 @ 2.40GHz",
+                "Memory: 4 GB RAM",
+                "Graphics: NVIDIA 9800 GT 1GB / AMD HD 4870 1GB",
+                "DirectX: Version 10",
+                "Storage: 72 GB available space"
+            ],
+            recommended: [
+                "OS: Windows 10 64-bit",
+                "Processor: Intel Core i5 3470 @ 3.2GHz",
+                "Memory: 8 GB RAM",
+                "Graphics: NVIDIA GTX 660 2GB / AMD HD 7870 2GB",
+                "DirectX: Version 11",
+                "Storage: 72 GB available space"
+            ]
+        },
+        downloadLink: "https://example.com/download/gta5"
     }
-];
+};
 
-// DOM Elements
-const gamesContainer = document.getElementById('gamesContainer');
-const searchInput = document.getElementById('searchInput');
-const categoryFilter = document.getElementById('categoryFilter');
+// DOM elements
+let searchInput, categoryFilter, gamesContainer, gameModal, modalTitle, modalBody, downloadBtn;
 
-// State
-let filteredGames = [...gamesData];
-
-// Initialize the app
+// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    renderGames(gamesData);
-    initializeEventListeners();
-    addScrollAnimations();
+    // Get DOM elements
+    searchInput = document.getElementById('searchInput');
+    categoryFilter = document.getElementById('categoryFilter');
+    gamesContainer = document.getElementById('gamesContainer');
+    gameModal = document.getElementById('gameModal');
+    modalTitle = document.getElementById('modalTitle');
+    modalBody = document.getElementById('modalBody');
+    downloadBtn = document.getElementById('downloadBtn');
+    
+    // Initialize features
+    initSmoothScrolling();
+    initAnimations();
+    initSearch();
+    initModal();
+    initNavbarEffects();
+    initGameCardEffects();
+    initEasterEgg();
+    initNotificationSystem();
+    
+    console.log('Website initialized successfully!');
 });
 
-// Render games to the DOM
-function renderGames(games) {
-    if (games.length === 0) {
-        gamesContainer.innerHTML = `
-            <div class="col-12 text-center py-5">
-                <div class="display-1 mb-3">😔</div>
-                <h3>Không tìm thấy game nào</h3>
-                <p class="text-muted">Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc</p>
-            </div>
-        `;
-        return;
-    }
-
-    const gamesHTML = games.map(game => `
-        <div class="col-lg-4 col-md-6 game-item fade-in" data-category="${game.category}">
-            <div class="game-card h-100">
-                <div class="game-image">
-                    <span>${game.icon}</span>
-                </div>
-                <div class="game-body">
-                    <h5 class="game-title">${game.title}</h5>
-                    <p class="game-description">${game.description}</p>
-                    <span class="game-category">${getCategoryName(game.category)}</span>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <small class="game-status ${game.status === 'completed' ? 'status-completed' : 'status-progress'}">
-                            ${game.statusText}
-                        </small>
-                        <small class="text-muted">${game.size}</small>
-                    </div>
-                    <div class="mt-3">
-                        <a href="${game.downloadLink}" class="download-btn" onclick="handleDownload('${game.title}')">
-                            📥 Tải về
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-
-    gamesContainer.innerHTML = gamesHTML;
-    
-    // Add animation delay for each card
-    const gameCards = document.querySelectorAll('.game-item');
-    gameCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-    });
-}
-
-// Get category display name
-function getCategoryName(category) {
-    const categories = {
-        'rpg': 'RPG',
-        'action': 'Hành động',
-        'adventure': 'Phiêu lưu',
-        'strategy': 'Chiến thuật'
-    };
-    return categories[category] || category;
-}
-
-// Initialize event listeners
-function initializeEventListeners() {
-    // Search functionality
-    searchInput.addEventListener('input', debounce(handleSearch, 300));
-    
-    // Category filter
-    categoryFilter.addEventListener('change', handleCategoryFilter);
-    
-    // Smooth scrolling for navigation links
+// Smooth scrolling for navigation links
+function initSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -173,71 +152,368 @@ function initializeEventListeners() {
     });
 }
 
-// Handle search
-function handleSearch(e) {
-    const searchTerm = e.target.value.toLowerCase().trim();
-    applyFilters(searchTerm, categoryFilter.value);
+// Initialize animations
+function initAnimations() {
+    const gameCards = document.querySelectorAll('.game-card');
+    gameCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.classList.add('fade-in');
+    });
 }
 
-// Handle category filter
-function handleCategoryFilter(e) {
-    const category = e.target.value;
-    applyFilters(searchInput.value.toLowerCase().trim(), category);
+// Initialize search functionality
+function initSearch() {
+    if (searchInput) {
+        searchInput.addEventListener('input', filterGames);
+    }
+    
+    if (categoryFilter) {
+        categoryFilter.addEventListener('change', filterGames);
+    }
 }
 
-// Apply filters
-function applyFilters(searchTerm, category) {
-    filteredGames = gamesData.filter(game => {
-        const matchesSearch = !searchTerm || 
-            game.title.toLowerCase().includes(searchTerm) ||
-            game.description.toLowerCase().includes(searchTerm);
+// Search and filter functionality
+function filterGames() {
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    const selectedCategory = categoryFilter ? categoryFilter.value : '';
+    const gameCards = document.querySelectorAll('.game-card');
+
+    gameCards.forEach(card => {
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const categoryBadges = card.querySelectorAll('.badge');
+        let category = '';
         
-        const matchesCategory = !category || game.category === category;
+        // Find the category badge (not the language badge)
+        categoryBadges.forEach(badge => {
+            if (!badge.textContent.includes('Việt hóa') && !badge.textContent.includes('%')) {
+                category = badge.textContent;
+            }
+        });
         
-        return matchesSearch && matchesCategory;
+        const matchesSearch = title.includes(searchTerm);
+        const matchesCategory = selectedCategory === '' || category === selectedCategory;
+        
+        if (matchesSearch && matchesCategory) {
+            card.parentElement.style.display = 'block';
+            card.classList.add('fade-in');
+        } else {
+            card.parentElement.style.display = 'none';
+        }
+    });
+}
+
+// Initialize modal functionality
+function initModal() {
+    const modalTriggers = document.querySelectorAll('[data-bs-toggle="modal"]');
+    
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const gameKey = this.getAttribute('data-game');
+            if (gameKey && gameData[gameKey]) {
+                loadGameDetails(gameData[gameKey]);
+            }
+        });
     });
     
-    renderGames(filteredGames);
+    // Initialize download button
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', handleDownload);
+    }
 }
 
-// Handle download click
-function handleDownload(gameTitle) {
-    // Show download notification
-    showNotification(`Bắt đầu tải "${gameTitle}"`, 'success');
+// Load game details into modal
+function loadGameDetails(game) {
+    if (!modalTitle || !modalBody || !downloadBtn) return;
     
-    // In a real application, this would handle the actual download
-    console.log(`Downloading: ${gameTitle}`);
+    modalTitle.textContent = game.title;
+    downloadBtn.href = game.downloadLink;
+    
+    const modalContent = `
+        <div class="row">
+            <div class="col-md-6">
+                <img src="${game.mainImage}" alt="${game.title}" class="game-detail-image" id="mainGameImage">
+                <div class="game-screenshots">
+                    ${game.screenshots.map(screenshot => 
+                        `<img src="${screenshot}" alt="Screenshot" class="screenshot" onclick="changeMainImage('${screenshot}')">`
+                    ).join('')}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="game-info-detail">
+                    <h6><i class="fas fa-gamepad me-2"></i>Thể loại:</h6>
+                    <p>${game.genre}</p>
+                    
+                    <h6><i class="fas fa-star me-2"></i>Đánh giá:</h6>
+                    <p>${game.rating}</p>
+                    
+                    <h6><i class="fas fa-hdd me-2"></i>Dung lượng:</h6>
+                    <p>${game.size}</p>
+                    
+                    <h6><i class="fas fa-language me-2"></i>Ngôn ngữ:</h6>
+                    <p>${game.language}</p>
+                    
+                    <h6><i class="fas fa-user me-2"></i>Nhà phát triển:</h6>
+                    <p>${game.developer}</p>
+                    
+                    <h6><i class="fas fa-calendar me-2"></i>Ngày phát hành:</h6>
+                    <p>${game.releaseDate}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <h6><i class="fas fa-info-circle me-2"></i>Mô tả:</h6>
+                <p>${game.description}</p>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="system-requirements">
+                    <h6><i class="fas fa-desktop me-2"></i>Cấu hình hệ thống:</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-primary">Tối thiểu:</h6>
+                            <ul>
+                                ${game.systemRequirements.minimum.map(req => `<li>${req}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-success">Khuyến nghị:</h6>
+                            <ul>
+                                ${game.systemRequirements.recommended.map(req => `<li>${req}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    modalBody.innerHTML = modalContent;
 }
 
-// Show notification
-function showNotification(message, type = 'info') {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = `
-        top: 20px;
-        right: 20px;
-        z-index: 1050;
-        min-width: 300px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    `;
-    
-    notification.innerHTML = `
-        <strong>${type === 'success' ? '✅' : 'ℹ️'}</strong> ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        if (notification && notification.parentNode) {
-            notification.remove();
+// Change main image in modal
+function changeMainImage(newSrc) {
+    const mainImg = document.getElementById('mainGameImage');
+    if (mainImg) {
+        mainImg.style.transform = 'scale(0.95)';
+        mainImg.style.opacity = '0.7';
+        
+        setTimeout(() => {
+            mainImg.src = newSrc;
+            mainImg.style.transform = 'scale(1)';
+            mainImg.style.opacity = '1';
+        }, 150);
+    }
+}
+
+// Initialize navbar scroll effects
+function initNavbarEffects() {
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(13, 110, 253, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+                navbar.style.transition = 'all 0.3s ease';
+            } else {
+                navbar.style.backgroundColor = '';
+                navbar.style.backdropFilter = '';
+            }
         }
+    });
+}
+
+// Handle download button click
+function handleDownload(e) {
+    e.preventDefault();
+    
+    if (!downloadBtn) return;
+    
+    // Show loading state
+    const originalText = downloadBtn.innerHTML;
+    downloadBtn.innerHTML = '<span class="loading"></span> Đang tải...';
+    downloadBtn.disabled = true;
+    
+    // Simulate download process
+    setTimeout(() => {
+        // Reset button
+        downloadBtn.innerHTML = originalText;
+        downloadBtn.disabled = false;
+        
+        // Show success message
+        showNotification('Bắt đầu tải xuống! Kiểm tra thư mục Downloads của bạn.', 'success');
+        
+        // Close modal after a short delay
+        setTimeout(() => {
+            const modal = bootstrap.Modal.getInstance(gameModal);
+            if (modal) {
+                modal.hide();
+            }
+        }, 2000);
     }, 3000);
 }
 
-// Debounce function for search
+// Initialize notification system
+function initNotificationSystem() {
+    // Add notification container if it doesn't exist
+    if (!document.getElementById('notificationContainer')) {
+        const container = document.createElement('div');
+        container.id = 'notificationContainer';
+        container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            pointer-events: none;
+        `;
+        document.body.appendChild(container);
+    }
+}
+
+// Notification system
+function showNotification(message, type = 'info') {
+    const container = document.getElementById('notificationContainer');
+    if (!container) return;
+    
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} notification`;
+    notification.style.cssText = `
+        min-width: 300px;
+        margin-bottom: 10px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        pointer-events: auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border: none;
+        border-radius: 8px;
+    `;
+    
+    const iconClass = type === 'success' ? 'check-circle' : 
+                     type === 'danger' ? 'exclamation-circle' : 
+                     type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+    
+    notification.innerHTML = `
+        <i class="fas fa-${iconClass} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" onclick="removeNotification(this.parentElement)"></button>
+    `;
+    
+    container.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        removeNotification(notification);
+    }, 5000);
+}
+
+// Remove notification
+function removeNotification(notification) {
+    if (notification && notification.parentElement) {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 300);
+    }
+}
+
+// Initialize game card hover effects
+function initGameCardEffects() {
+    document.querySelectorAll('.game-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02)';
+            this.style.transition = 'all 0.3s ease';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}
+
+// Initialize lazy loading for images
+function initLazyLoading() {
+    if ('IntersectionObserver' in window) {
+        const images = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    }
+}
+
+// Initialize Easter egg - Konami Code
+function initEasterEgg() {
+    let konamiCode = [];
+    const konamiSequence = [
+        'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+        'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+        'KeyB', 'KeyA'
+    ];
+
+    document.addEventListener('keydown', function(e) {
+        konamiCode.push(e.code);
+        
+        if (konamiCode.length > konamiSequence.length) {
+            konamiCode.shift();
+        }
+        
+        if (konamiCode.join(',') === konamiSequence.join(',')) {
+            showNotification('🎮 Konami Code activated! Bạn là một game thủ thực thụ!', 'success');
+            activateRainbowEffect();
+            konamiCode = []; // Reset
+        }
+    });
+}
+
+// Activate rainbow effect
+function activateRainbowEffect() {
+    // Add rainbow animation to CSS if not exists
+    if (!document.getElementById('rainbowStyle')) {
+        const style = document.createElement('style');
+        style.id = 'rainbowStyle';
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                25% { filter: hue-rotate(90deg); }
+                50% { filter: hue-rotate(180deg); }
+                75% { filter: hue-rotate(270deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+            .rainbow-effect {
+                animation: rainbow 2s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    document.body.classList.add('rainbow-effect');
+    setTimeout(() => {
+        document.body.classList.remove('rainbow-effect');
+    }, 2000);
+}
+
+// Utility function to debounce function calls
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -250,92 +526,58 @@ function debounce(func, wait) {
     };
 }
 
-// Add scroll animations
-function addScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Observe elements that should animate on scroll
-    setTimeout(() => {
-        document.querySelectorAll('.game-item').forEach(item => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(30px)';
-            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(item);
-        });
-    }, 100);
+// Apply debounce to search
+if (typeof filterGames === 'function') {
+    const debouncedFilter = debounce(filterGames, 300);
+    // Re-assign the debounced version when initializing search
 }
 
-// Add some interactive features
-document.addEventListener('DOMContentLoaded', function() {
-    // Add loading effect for images
-    const gameImages = document.querySelectorAll('.game-image');
-    gameImages.forEach(img => {
-        img.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
+// Performance monitoring
+function logPerformance() {
+    if ('performance' in window) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const perfData = performance.timing;
+                const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+                console.log(`Page load time: ${loadTime}ms`);
+            }, 0);
         });
-        
-        img.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-    
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === '/' && e.ctrlKey) {
-            e.preventDefault();
-            searchInput.focus();
-        }
-    });
+    }
+}
+
+// Initialize performance monitoring
+logPerformance();
+
+// Export functions for global access
+window.changeMainImage = changeMainImage;
+window.removeNotification = removeNotification;
+window.showNotification = showNotification;
+
+// Console welcome message
+console.log(`
+🎮 Vietnamese Games Website Loaded Successfully!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Features:
+• Game search and filtering
+• Detailed game modals
+• Smooth animations
+• Responsive design
+• Easter egg (try Konami Code!)
+• Notification system
+
+Try searching for games or clicking on game cards!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`);
+
+// Error handling
+window.addEventListener('error', function(e) {
+    console.error('Website Error:', e.error);
+    showNotification('Đã xảy ra lỗi. Vui lòng tải lại trang.', 'danger');
 });
 
-// Stats counter animation
-function animateStats() {
-    const statsElements = document.querySelectorAll('[data-count]');
-    
-    statsElements.forEach(element => {
-        const finalCount = parseInt(element.dataset.count);
-        const duration = 2000;
-        const startTime = performance.now();
-        
-        function updateCount(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const currentCount = Math.floor(progress * finalCount);
-            
-            element.textContent = currentCount;
-            
-            if (progress < 1) {
-                requestAnimationFrame(updateCount);
-            }
-        }
-        
-        requestAnimationFrame(updateCount);
-    });
-}
-
-// Initialize stats animation when section is visible
-const statsSection = document.querySelector('#stats');
-if (statsSection) {
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateStats();
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    });
-    
-    statsObserver.observe(statsSection);
-}
+// Prevent right-click context menu on images (optional)
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+    }
+});
