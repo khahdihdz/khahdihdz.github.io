@@ -2,110 +2,40 @@
 
 // Game data
 const gameData = {
-    cyberpunk: {
-        title: "Cyberpunk 2077",
-        description: "Cyberpunk 2077 là một game nhập vai thế giới mở lấy bối cảnh trong tương lai dystopian. Người chơi vào vai V, một mercenary đang cố gắng tìm kiếm một implant độc đáo là chìa khóa đến sự bất tử. Với đồ họa tuyệt đẹp, gameplay sâu sắc và cốt truyện hấp dẫn, đây là một trong những tựa game RPG đáng chơi nhất.",
-        genre: "RPG",
-        rating: "4.5/5",
-        size: "70 GB",
+    neighbours: {
+        title: "Neighbours from Hell",
+        description: "Neighbours from Hell là một game giải đố hài hước nơi bạn vào vai Woody - một chàng trai muốn trả thù hàng xóm khó tính của mình. Sử dụng trí thông minh và sự sáng tạo để tạo ra những trò đùa vui nhộn, từ việc đặt bẫy trong nhà bếp đến những màn khăm khổ ngoài sân vườn. Game mang đến tiếng cười và thử thách tư duy logic.",
+        genre: "Puzzle",
+        rating: "4.2/5",
+        size: "2.5 GB",
         language: "Việt hóa 100%",
-        developer: "CD Projekt Red",
-        releaseDate: "10/12/2020",
-        mainImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+        developer: "JoWooD Entertainment",
+        releaseDate: "25/06/2003",
+        mainImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
         screenshots: [
-            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=300&h=200&fit=crop"
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=300&h=200&fit=crop",
+            "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop"
         ],
         systemRequirements: {
             minimum: [
-                "OS: Windows 10 64-bit",
-                "Processor: Intel Core i5-3570K hoặc AMD FX-8310",
-                "Memory: 8 GB RAM",
-                "Graphics: NVIDIA GeForce GTX 780 hoặc AMD Radeon RX 470",
-                "DirectX: Version 12",
-                "Storage: 70 GB available space"
+                "OS: Windows XP/Vista/7/8/10",
+                "Processor: Intel Pentium III 800 MHz",
+                "Memory: 256 MB RAM",
+                "Graphics: DirectX 8.1 compatible",
+                "DirectX: Version 8.1",
+                "Storage: 3 GB available space"
             ],
             recommended: [
                 "OS: Windows 10 64-bit",
-                "Processor: Intel Core i7-4790 hoặc AMD Ryzen 3 3200G",
-                "Memory: 12 GB RAM",
-                "Graphics: NVIDIA GeForce GTX 1060 hoặc AMD Radeon R9 Fury",
-                "DirectX: Version 12",
-                "Storage: 70 GB available space"
+                "Processor: Intel Core i3-2100 hoặc AMD equivalent",
+                "Memory: 512 MB RAM",
+                "Graphics: DirectX 9.0c compatible",
+                "DirectX: Version 9.0c",
+                "Storage: 3 GB available space"
             ]
         },
-        downloadLink: "https://example.com/download/cyberpunk2077"
-    },
-    witcher3: {
-        title: "The Witcher 3: Wild Hunt",
-        description: "The Witcher 3: Wild Hunt là một game nhập vai thế giới mở epic, theo chân Geralt of Rivia trong cuộc hành trình tìm kiếm con gái nuôi Ciri. Với thế giới rộng lớn, cốt truyện phong phú và gameplay chất lượng cao, đây được coi là một trong những tựa game RPG hay nhất mọi thời đại.",
-        genre: "RPG",
-        rating: "5.0/5",
-        size: "50 GB",
-        language: "Việt hóa 100%",
-        developer: "CD Projekt Red",
-        releaseDate: "19/05/2015",
-        mainImage: "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600&h=400&fit=crop",
-        screenshots: [
-            "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=200&fit=crop"
-        ],
-        systemRequirements: {
-            minimum: [
-                "OS: Windows 7 64-bit",
-                "Processor: Intel CPU Core i5-2500K 3.3GHz",
-                "Memory: 6 GB RAM",
-                "Graphics: Nvidia GPU GeForce GTX 660",
-                "DirectX: Version 11",
-                "Storage: 35 GB available space"
-            ],
-            recommended: [
-                "OS: Windows 10 64-bit",
-                "Processor: Intel CPU Core i7 3770 3.4 GHz",
-                "Memory: 8 GB RAM",
-                "Graphics: Nvidia GPU GeForce GTX 770",
-                "DirectX: Version 11",
-                "Storage: 35 GB available space"
-            ]
-        },
-        downloadLink: "https://example.com/download/witcher3"
-    },
-    gta5: {
-        title: "Grand Theft Auto V",
-        description: "Grand Theft Auto V là một game hành động thế giới mở diễn ra tại thành phố Los Santos. Người chơi có thể khám phá thành phố rộng lớn, tham gia vào các hoạt động đa dạng từ đua xe, cướp ngân hàng đến các mini-game thú vị. Với chế độ Online phong phú, GTA V mang đến trải nghiệm gaming không giới hạn.",
-        genre: "Action",
-        rating: "4.8/5",
-        size: "95 GB",
-        language: "Việt hóa 95%",
-        developer: "Rockstar Games",
-        releaseDate: "17/09/2013",
-        mainImage: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop",
-        screenshots: [
-            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&h=200&fit=crop"
-        ],
-        systemRequirements: {
-            minimum: [
-                "OS: Windows 10 64-bit",
-                "Processor: Intel Core 2 Quad CPU Q6600 @ 2.40GHz",
-                "Memory: 4 GB RAM",
-                "Graphics: NVIDIA 9800 GT 1GB / AMD HD 4870 1GB",
-                "DirectX: Version 10",
-                "Storage: 72 GB available space"
-            ],
-            recommended: [
-                "OS: Windows 10 64-bit",
-                "Processor: Intel Core i5 3470 @ 3.2GHz",
-                "Memory: 8 GB RAM",
-                "Graphics: NVIDIA GTX 660 2GB / AMD HD 7870 2GB",
-                "DirectX: Version 11",
-                "Storage: 72 GB available space"
-            ]
-        },
-        downloadLink: "https://example.com/download/gta5"
+        downloadLink: "https://example.com/download/neighbours-from-hell"
     }
 };
 
