@@ -11,11 +11,11 @@ const gameData = {
         language: "Việt hóa 100%",
         developer: "JoWooD Entertainment",
         releaseDate: "25/06/2003",
-        mainImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
+        mainImage: "https://i.ibb.co/F4kF3sxn/Blitzkrieg-II-Screenshot-2025-06-19-11-03-56-20.png",
         screenshots: [
-            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=300&h=200&fit=crop",
-            "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop"
+            "https://i.ibb.co/nMs0sJHF/Blitzkrieg-II-Screenshot-2025-06-19-11-01-28-46.png",
+            "https://i.ibb.co/v6n1Fwrs/Blitzkrieg-II-Screenshot-2025-06-20-20-07-44-53.png",
+            "https://i.ibb.co/QvVFNXDD/Blitzkrieg-II-Screenshot-2025-06-20-20-07-48-24.png"
         ],
         systemRequirements: {
             minimum: [
@@ -36,7 +36,7 @@ const gameData = {
             ]
         },
         downloadGameLink: "https://drive.google.com/file/d/1abcdefghijklmnop/view?usp=sharing",
-        downloadVietnameseLink: "https://mega.nz/file/AbCdEfGh#hijklmnopqrstuvwxyz1234567890"
+        downloadVietnameseLink: "https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/games/upload/Neighbours%20from%20Hell%20-%20Revenge%20Is%20a%20Sweet%20Game.zip"
     }
 };
 
