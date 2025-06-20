@@ -41,7 +41,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <h1 class="hero-title">Khám Phá Thế Giới Game Việt Hóa</h1>
-                    <p class="hero-subtitle">Tổng hợp những tựa game hay nhất đã được Việt hóa, mang đến trải nghiệm gaming tuyệt vời bằng tiếng Việt.</p>
+                    <p class="hero-subtitle">Những tựa game hay đã được Việt hóa, chơi game bằng tiếng Việt.</p>
                     <a href="#games" class="btn btn-success btn-lg">
                         <i class="fas fa-download me-2"></i>Khám Phá Ngay
                     </a>
@@ -75,25 +75,24 @@
                 <div class="col-md-6">
                     <select class="form-select" id="categoryFilter">
                         <option value="">Tất cả thể loại</option>
-                        <option value="RPG">RPG</option>
-                        <option value="Action">Hành động</option>
-                        <option value="Adventure">Phiêu lưu</option>
                         <option value="Strategy">Chiến thuật</option>
+                        <option value="Puzzle">Giải đố</option>
+                        <option value="Simulation">Mô phỏng</option>
                     </select>
                 </div>
             </div>
 
             <!-- Games Grid -->
             <div class="row" id="gamesContainer">
-                <!-- Game Card 1 - Cyberpunk 2077 -->
+                <!-- Game Card 1 - Neighbours from Hell -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card game-card h-100">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=250&fit=crop" class="card-img-top" alt="Cyberpunk 2077">
+                        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=250&fit=crop" class="card-img-top" alt="Neighbours from Hell">
                         <div class="card-body">
-                            <h5 class="card-title">Cyberpunk 2077</h5>
-                            <p class="card-text">Game nhập vai thế giới mở lấy bối cảnh tương lai với đồ họa tuyệt đẹp và cốt truyện hấp dẫn.</p>
+                            <h5 class="card-title">Neighbours from Hell</h5>
+                            <p class="card-text">Game giải đố hài hước về việc trêu đùa hàng xóm khó tính. Sử dụng trí thông minh để tạo ra những trò đùa vui nhộn.</p>
                             <div class="game-info">
-                                <span class="badge bg-primary me-2">RPG</span>
+                                <span class="badge bg-info me-2">Puzzle</span>
                                 <span class="badge bg-success">Việt hóa 100%</span>
                             </div>
                             <div class="rating mt-2">
@@ -102,67 +101,11 @@
                                 <i class="fas fa-star text-warning"></i>
                                 <i class="fas fa-star text-warning"></i>
                                 <i class="fas fa-star-half-alt text-warning"></i>
-                                <span class="ms-2">4.5/5</span>
+                                <span class="ms-2">4.2/5</span>
                             </div>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="cyberpunk">
-                                <i class="fas fa-eye me-2"></i>Xem Chi Tiết
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Card 2 -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card game-card h-100">
-                        <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=250&fit=crop" class="card-img-top" alt="The Witcher 3">
-                        <div class="card-body">
-                            <h5 class="card-title">The Witcher 3: Wild Hunt</h5>
-                            <p class="card-text">Cuộc phiêu lưu epic của Geralt of Rivia trong thế giới fantasy đầy màu sắc và nguy hiểm.</p>
-                            <div class="game-info">
-                                <span class="badge bg-primary me-2">RPG</span>
-                                <span class="badge bg-success">Việt hóa 100%</span>
-                            </div>
-                            <div class="rating mt-2">
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <span class="ms-2">5.0/5</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="witcher3">
-                                <i class="fas fa-eye me-2"></i>Xem Chi Tiết
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Game Card 3 -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card game-card h-100">
-                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop" class="card-img-top" alt="Grand Theft Auto V">
-                        <div class="card-body">
-                            <h5 class="card-title">Grand Theft Auto V</h5>
-                            <p class="card-text">Game thế giới mở cho phép bạn khám phá thành phố Los Santos với vô số hoạt động thú vị.</p>
-                            <div class="game-info">
-                                <span class="badge bg-warning text-dark me-2">Action</span>
-                                <span class="badge bg-success">Việt hóa 95%</span>
-                            </div>
-                            <div class="rating mt-2">
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <span class="ms-2">4.8/5</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent">
-                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="gta5">
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="neighbours">
                                 <i class="fas fa-eye me-2"></i>Xem Chi Tiết
                             </button>
                         </div>
@@ -199,7 +142,7 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
                     <h2 class="section-title mb-4">Về Chúng Tôi</h2>
-                    <p class="lead">Chúng tôi là một cộng đồng yêu thích game, tập trung vào việc chia sẻ và cung cấp những tựa game hay đã được Việt hóa. Mục tiêu của chúng tôi là mang đến cho game thủ Việt Nam những trải nghiệm gaming tuyệt vời bằng tiếng mẹ đẻ.</p>
+                    <p class="lead">Chia sẻ game Việt hóa chất lượng cho cộng đồng game thủ Việt Nam.</p>
                 </div>
             </div>
         </div>
