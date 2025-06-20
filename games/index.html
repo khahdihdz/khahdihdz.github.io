@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Game Việt Hóa</title>
+    <title>Game Việt Hóa - Tổng Hợp Game Hay</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">🎮 Game Việt Hóa</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-gamepad me-2"></i>
+                Game Việt Hóa
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Trang chủ</a>
+                        <a class="nav-link active" href="#home">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#games">Danh sách Game</a>
+                        <a class="nav-link" href="#games">Game</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">Giới thiệu</a>
+                        <a class="nav-link" href="#about">Về chúng tôi</a>
                     </li>
                 </ul>
             </div>
@@ -32,18 +36,18 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-section text-white text-center py-5">
+    <section id="home" class="hero-section">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Khám Phá Thế Giới Game Việt Hóa</h1>
-                    <p class="lead mb-4">Trải nghiệm những tựa game hay nhất với phiên bản tiếng Việt hoàn chỉnh</p>
-                    <a href="#games" class="btn btn-warning btn-lg px-4 py-2">Xem Danh Sách</a>
+                    <h1 class="hero-title">Khám Phá Thế Giới Game Việt Hóa</h1>
+                    <p class="hero-subtitle">Tổng hợp những tựa game hay nhất đã được Việt hóa, mang đến trải nghiệm gaming tuyệt vời bằng tiếng Việt.</p>
+                    <a href="#games" class="btn btn-success btn-lg">
+                        <i class="fas fa-download me-2"></i>Khám Phá Ngay
+                    </a>
                 </div>
                 <div class="col-lg-6">
-                    <div class="hero-image">
-                        <i class="display-1">🎯</i>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=400&fit=crop" alt="Gaming" class="img-fluid rounded shadow">
                 </div>
             </div>
         </div>
@@ -52,30 +56,142 @@
     <!-- Games Section -->
     <section id="games" class="py-5">
         <div class="container">
-            <h2 class="text-center mb-5 section-title">Danh Sách Game Việt Hóa</h2>
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title text-center mb-5">Danh Sách Game Việt Hóa</h2>
+                </div>
+            </div>
             
             <!-- Search and Filter -->
             <div class="row mb-4">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="searchInput" placeholder="🔍 Tìm kiếm game...">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm game...">
+                        <button class="btn btn-outline-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <select class="form-select" id="categoryFilter">
                         <option value="">Tất cả thể loại</option>
-                        <option value="rpg">RPG</option>
-                        <option value="action">Hành động</option>
-                        <option value="adventure">Phiêu lưu</option>
-                        <option value="strategy">Chiến thuật</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Action">Hành động</option>
+                        <option value="Adventure">Phiêu lưu</option>
+                        <option value="Strategy">Chiến thuật</option>
                     </select>
                 </div>
             </div>
 
             <!-- Games Grid -->
             <div class="row" id="gamesContainer">
-                <!-- Game cards will be populated by JavaScript -->
+                <!-- Game Card 1 - Cyberpunk 2077 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card game-card h-100">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=250&fit=crop" class="card-img-top" alt="Cyberpunk 2077">
+                        <div class="card-body">
+                            <h5 class="card-title">Cyberpunk 2077</h5>
+                            <p class="card-text">Game nhập vai thế giới mở lấy bối cảnh tương lai với đồ họa tuyệt đẹp và cốt truyện hấp dẫn.</p>
+                            <div class="game-info">
+                                <span class="badge bg-primary me-2">RPG</span>
+                                <span class="badge bg-success">Việt hóa 100%</span>
+                            </div>
+                            <div class="rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                                <span class="ms-2">4.5/5</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="cyberpunk">
+                                <i class="fas fa-eye me-2"></i>Xem Chi Tiết
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Card 2 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card game-card h-100">
+                        <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=400&h=250&fit=crop" class="card-img-top" alt="The Witcher 3">
+                        <div class="card-body">
+                            <h5 class="card-title">The Witcher 3: Wild Hunt</h5>
+                            <p class="card-text">Cuộc phiêu lưu epic của Geralt of Rivia trong thế giới fantasy đầy màu sắc và nguy hiểm.</p>
+                            <div class="game-info">
+                                <span class="badge bg-primary me-2">RPG</span>
+                                <span class="badge bg-success">Việt hóa 100%</span>
+                            </div>
+                            <div class="rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="ms-2">5.0/5</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="witcher3">
+                                <i class="fas fa-eye me-2"></i>Xem Chi Tiết
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Card 3 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card game-card h-100">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=250&fit=crop" class="card-img-top" alt="Grand Theft Auto V">
+                        <div class="card-body">
+                            <h5 class="card-title">Grand Theft Auto V</h5>
+                            <p class="card-text">Game thế giới mở cho phép bạn khám phá thành phố Los Santos với vô số hoạt động thú vị.</p>
+                            <div class="game-info">
+                                <span class="badge bg-warning text-dark me-2">Action</span>
+                                <span class="badge bg-success">Việt hóa 95%</span>
+                            </div>
+                            <div class="rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="ms-2">4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#gameModal" data-game="gta5">
+                                <i class="fas fa-eye me-2"></i>Xem Chi Tiết
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Game Detail Modal -->
+    <div class="modal fade" id="gameModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Chi Tiết Game</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Content will be loaded by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <a href="#" class="btn btn-success" id="downloadBtn">
+                        <i class="fas fa-download me-2"></i>Tải Game
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- About Section -->
     <section id="about" class="py-5 bg-light">
@@ -83,8 +199,7 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
                     <h2 class="section-title mb-4">Về Chúng Tôi</h2>
-                    <p class="lead">Chúng tôi là cộng đồng game thủ Việt Nam, chuyên sưu tầm và chia sẻ những tựa game hay nhất với phiên bản việt hóa chất lượng cao.</p>
-                    <p>Mục tiêu của chúng tôi là mang đến cho game thủ Việt những trải nghiệm tuyệt vời nhất mà không gặp rào cản ngôn ngữ.</p>
+                    <p class="lead">Chúng tôi là một cộng đồng yêu thích game, tập trung vào việc chia sẻ và cung cấp những tựa game hay đã được Việt hóa. Mục tiêu của chúng tôi là mang đến cho game thủ Việt Nam những trải nghiệm gaming tuyệt vời bằng tiếng mẹ đẻ.</p>
                 </div>
             </div>
         </div>
@@ -95,17 +210,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Game Việt Hóa</h5>
-                    <p>Nơi chia sẻ những tựa game hay nhất với phiên bản tiếng Việt</p>
+                    <p>&copy; 2024 Game Việt Hóa. Tất cả quyền được bảo lưu.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p>&copy; 2025 Game Việt Hóa. Tất cả quyền được bảo lưu.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
