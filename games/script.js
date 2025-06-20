@@ -35,15 +35,13 @@ const gameData = {
                 "Storage: 3 GB available space"
             ]
         },
-        downloadLinks: {
-            mirror1: "https://mega.nz/#!abc123def456",
-            mirror2: "https://mediafire.com/file/neighbours-from-hell-vn/file"
-        }
+        downloadGameLink: "https://drive.google.com/file/d/1abcdefghijklmnop/view?usp=sharing",
+        downloadVietnameseLink: "https://mega.nz/file/AbCdEfGh#hijklmnopqrstuvwxyz1234567890"
     }
 };
 
 // DOM elements
-let searchInput, categoryFilter, gamesContainer, gameModal, modalTitle, modalBody, downloadBtn;
+let searchInput, categoryFilter, gamesContainer, gameModal, modalTitle, modalBody, downloadGameBtn, downloadVietnameseBtn;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -54,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
     gameModal = document.getElementById('gameModal');
     modalTitle = document.getElementById('modalTitle');
     modalBody = document.getElementById('modalBody');
-    downloadBtn = document.getElementById('downloadBtn');
+    downloadGameBtn = document.getElementById('downloadGameBtn');
+    downloadVietnameseBtn = document.getElementById('downloadVietnameseBtn');
     
     // Initialize features
     initSmoothScrolling();
@@ -147,11 +146,20 @@ function initModal() {
             }
         });
     });
+    
+    // Initialize download buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.id === 'downloadGameBtn') {
+            handleDownload(e, 'game');
+        } else if (e.target.id === 'downloadVietnameseBtn') {
+            handleDownload(e, 'vietnamese');
+        }
+    });
 }
 
 // Load game details into modal
 function loadGameDetails(game) {
-    if (!modalTitle || !modalBody || !downloadBtn) return;
+    if (!modalTitle || !modalBody) return;
     
     modalTitle.textContent = game.title;
     
@@ -197,35 +205,6 @@ function loadGameDetails(game) {
         
         <div class="row mt-4">
             <div class="col-12">
-                <div class="download-section">
-                    <h6><i class="fas fa-download me-2"></i>Link tải xuống:</h6>
-                    <div class="download-links">
-                        <div class="btn-group-vertical w-100" role="group">
-                            
-                            <button type="button" class="btn btn-info mb-2" onclick="handleDownloadLink('${game.downloadLinks.mirror1}', 'MEGA')">
-                                <i class="fas fa-cloud me-2"></i>Tải từ MEGA (Mirror 1)
-                            </button>
-                            <button type="button" class="btn btn-warning mb-2" onclick="handleDownloadLink('${game.downloadLinks.mirror2}', 'MediaFire')">
-                                <i class="fas fa-fire me-2"></i>Tải từ MediaFire (Mirror 2)
-                            </button>
-                            <button type="button" class="btn btn-dark" onclick="handleDownloadLink('${game.downloadLinks.torrent}', 'Torrent')">
-                                <i class="fas fa-magnet me-2"></i>Tải bằng Torrent
-                            </button>
-                        </div>
-                    </div>
-                    <div class="download-note mt-3">
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <strong>Lưu ý:</strong> Nếu link không hoạt động, hãy thử các link mirror khác.
-                            Đối với Torrent, bạn cần phần mềm BitTorrent client.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row mt-4">
-            <div class="col-12">
                 <div class="system-requirements">
                     <h6><i class="fas fa-desktop me-2"></i>Cấu hình hệ thống:</h6>
                     <div class="row">
@@ -248,66 +227,22 @@ function loadGameDetails(game) {
         
         <div class="row mt-4">
             <div class="col-12">
-                <div class="install-guide">
-                    <h6><i class="fas fa-cog me-2"></i>Hướng dẫn cài đặt:</h6>
-                    <ol>
-                        <li>Tải file game từ một trong các link trên</li>
-                        <li>Giải nén file bằng WinRAR hoặc 7-Zip</li>
-                        <li>Chạy file setup.exe để cài đặt</li>
-                        <li>Copy crack (nếu có) vào thư mục cài đặt</li>
-                        <li>Chạy game và thưởng thức!</li>
-                    </ol>
+                <div class="download-links text-center">
+                    <h6><i class="fas fa-download me-2"></i>Tải về:</h6>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button class="btn btn-success btn-lg me-md-2" id="downloadGameBtn" data-link="${game.downloadGameLink}">
+                            <i class="fas fa-gamepad me-2"></i>Tải Game Gốc
+                        </button>
+                        <button class="btn btn-primary btn-lg" id="downloadVietnameseBtn" data-link="${game.downloadVietnameseLink}">
+                            <i class="fas fa-language me-2"></i>Tải Việt Hóa
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     `;
     
     modalBody.innerHTML = modalContent;
-    
-    // Update the main download button to show download options
-    if (downloadBtn) {
-        downloadBtn.style.display = 'none'; // Hide the main download button since we have multiple options now
-    }
-}
-
-// Handle download link clicks
-function handleDownloadLink(url, platform) {
-    // Show loading state
-    const clickedButton = event.target.closest('button');
-    const originalText = clickedButton.innerHTML;
-    clickedButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang chuyển hướng...';
-    clickedButton.disabled = true;
-    
-    // Show notification
-    showNotification(`Đang chuyển hướng đến ${platform}...`, 'info');
-    
-    // Simulate processing time
-    setTimeout(() => {
-        // Reset button
-        clickedButton.innerHTML = originalText;
-        clickedButton.disabled = false;
-        
-        // Check if it's a magnet link (torrent)
-        if (url.startsWith('magnet:')) {
-            // Try to open magnet link
-            window.location.href = url;
-            showNotification('Đã mở Torrent client. Nếu không tự động mở, hãy copy link thủ công.', 'success');
-        } else {
-            // Open regular download link
-            window.open(url, '_blank');
-            showNotification(`Đã mở link tải từ ${platform} trong tab mới.`, 'success');
-        }
-        
-        // Track download attempt
-        trackDownload(platform);
-    }, 1500);
-}
-
-// Track download attempts (for analytics)
-function trackDownload(platform) {
-    console.log(`Download attempted from: ${platform}`);
-    // Here you could send analytics data to your server
-    // Example: gtag('event', 'download', { platform: platform });
 }
 
 // Change main image in modal
@@ -340,6 +275,44 @@ function initNavbarEffects() {
             }
         }
     });
+}
+
+// Handle download button click
+function handleDownload(e, type) {
+    e.preventDefault();
+    
+    const button = e.target;
+    const downloadLink = button.getAttribute('data-link');
+    
+    if (!button || !downloadLink) return;
+    
+    // Show loading state
+    const originalText = button.innerHTML;
+    button.innerHTML = '<span class="loading"></span> Đang tải...';
+    button.disabled = true;
+    
+    const downloadType = type === 'game' ? 'game gốc' : 'bản việt hóa';
+    
+    // Simulate download process
+    setTimeout(() => {
+        // Reset button
+        button.innerHTML = originalText;
+        button.disabled = false;
+        
+        // Show success message
+        showNotification(`Bắt đầu tải ${downloadType}! Kiểm tra thư mục Downloads của bạn.`, 'success');
+        
+        // Open download link in new tab
+        window.open(downloadLink, '_blank');
+        
+        // Close modal after a short delay
+        setTimeout(() => {
+            const modal = bootstrap.Modal.getInstance(gameModal);
+            if (modal) {
+                modal.hide();
+            }
+        }, 2000);
+    }, 2000);
 }
 
 // Initialize notification system
@@ -538,7 +511,6 @@ logPerformance();
 window.changeMainImage = changeMainImage;
 window.removeNotification = removeNotification;
 window.showNotification = showNotification;
-window.handleDownloadLink = handleDownloadLink;
 
 // Console welcome message
 console.log(`
@@ -546,12 +518,11 @@ console.log(`
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Features:
 • Game search and filtering
-• Detailed game modals with multiple download links
+• Detailed game modals
 • Smooth animations
 • Responsive design
 • Easter egg (try Konami Code!)
 • Notification system
-• Download tracking
 
 Try searching for games or clicking on game cards!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -569,99 +540,3 @@ document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
     }
 });
-
-// Add CSS for download section
-const downloadStyles = document.createElement('style');
-downloadStyles.textContent = `
-    .game-detail-image {
-        width: 100%;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
-    }
-    
-    .game-screenshots {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    
-    .screenshot {
-        width: 80px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-    
-    .screenshot:hover {
-        border-color: #0d6efd;
-        transform: scale(1.1);
-    }
-    
-    .download-section {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-    }
-    
-    .download-links .btn {
-        text-align: left;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .download-links .btn:hover {
-        transform: translateX(5px);
-        transition: all 0.3s ease;
-    }
-    
-    .install-guide {
-        background: #e9ecef;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #28a745;
-    }
-    
-    .system-requirements {
-        background: #fff3cd;
-        padding: 15px;
-        border-radius: 8px;
-        border: 1px solid #ffeaa7;
-    }
-    
-    .system-requirements ul {
-        margin-bottom: 0;
-        padding-left: 20px;
-    }
-    
-    .system-requirements li {
-        margin-bottom: 5px;
-        font-size: 0.9em;
-    }
-    
-    .fade-in {
-        animation: fadeInUp 0.6s ease forwards;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .spinner-border-sm {
-        width: 1rem;
-        height: 1rem;
-    }
-`;
-
-document.head.appendChild(downloadStyles);
