@@ -47,11 +47,11 @@ const gameData = {
         language: "Việt hóa 100%",
         developer: "JoWooD Entertainment",
         releaseDate: "15/03/2004",
-        mainImage: "https://i.ibb.co/QvVFNXDD/Blitzkrieg-II-Screenshot-2025-06-20-20-07-48-24.png",
+        mainImage: "https://i.ibb.co/5x91x0ct/Blitzkrieg-II-Screenshot-2025-06-22-22-34-26-20.png",
         screenshots: [
-            "https://i.ibb.co/v6n1Fwrs/Blitzkrieg-II-Screenshot-2025-06-20-20-07-44-53.png",
-            "https://i.ibb.co/nMs0sJHF/Blitzkrieg-II-Screenshot-2025-06-19-11-01-28-46.png",
-            "https://i.ibb.co/F4kF3sxn/Blitzkrieg-II-Screenshot-2025-06-19-11-03-56-20.png"
+            "https://i.ibb.co/d06tW6cN/Blitzkrieg-II-Screenshot-2025-06-22-22-13-39-94.png",
+            "https://i.ibb.co/HfMxQfhZ/Blitzkrieg-II-Screenshot-2025-06-22-22-13-56-62.png",
+            "https://i.ibb.co/8gkqQLYB/Blitzkrieg-II-Screenshot-2025-06-22-22-14-03-55.png"
         ],
         systemRequirements: {
             minimum: [
