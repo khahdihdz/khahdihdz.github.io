@@ -37,6 +37,42 @@ const gameData = {
         },
         downloadGameLink: "https://drive.google.com/file/d/1abcdefghijklmnop/view?usp=sharing",
         downloadVietnameseLink: "https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/games/upload/Neighbours%20from%20Hell%20-%20Revenge%20Is%20a%20Sweet%20Game.zip"
+    },
+    neighbours2: {
+        title: "Neighbours from Hell 2: On Vacation",
+        description: "Woody trở lại với những trò đùa còn kinh khủng hơn! 🏖️✈️ Lần này, cuộc phiêu lưu mở rộng ra khỏi khu phố khi Woody quyết định 'đi nghỉ mát' cùng gia đình hàng xóm khó chịu của mình. Từ những bãi biển nhiệt đới đến những ngọn núi tuyết phủ, mọi địa điểm đều trở thành sân chơi cho những trò nghịch ngợm của chàng trai này! 🎪🎯 Với đồ họa được cải thiện, nhiều tình huống hài hước hơn và hàng loạt đạo cụ mới, bạn sẽ có cơ hội thực hiện những kế hoạch 'trả đũa' hoàn hảo. Từ việc thay kem chống nắng bằng mật ong (và xem hàng xóm trở thành 'nam châm' với ong bướm), đến việc biến chuyến đi trượt tuyết thành một 'cuộc phiêu lưu' đầy bất ngờ! Hãy chuẩn bị cho một kỳ nghỉ không bao giờ quên... với hàng xóm! 😈🎊",
+        genre: "Puzzle",
+        rating: "4.5/5",
+        size: "3.2 GB",
+        language: "Việt hóa 100%",
+        developer: "JoWooD Entertainment",
+        releaseDate: "15/03/2004",
+        mainImage: "https://i.ibb.co/QvVFNXDD/Blitzkrieg-II-Screenshot-2025-06-20-20-07-48-24.png",
+        screenshots: [
+            "https://i.ibb.co/v6n1Fwrs/Blitzkrieg-II-Screenshot-2025-06-20-20-07-44-53.png",
+            "https://i.ibb.co/nMs0sJHF/Blitzkrieg-II-Screenshot-2025-06-19-11-01-28-46.png",
+            "https://i.ibb.co/F4kF3sxn/Blitzkrieg-II-Screenshot-2025-06-19-11-03-56-20.png"
+        ],
+        systemRequirements: {
+            minimum: [
+                "OS: Windows XP/Vista/7/8/10/11",
+                "Processor: Intel Pentium III 1.0 GHz",
+                "Memory: 512 MB RAM",
+                "Graphics: DirectX 8.1 compatible",
+                "DirectX: Version 8.1",
+                "Storage: 4 GB available space"
+            ],
+            recommended: [
+                "OS: Windows 10/11 64-bit",
+                "Processor: Intel Core i3-3220 hoặc AMD equivalent",
+                "Memory: 1 GB RAM",
+                "Graphics: DirectX 9.0c compatible",
+                "DirectX: Version 9.0c",
+                "Storage: 4 GB available space"
+            ]
+        },
+        downloadGameLink: "https://drive.google.com/file/d/1neighbours2gamelink/view?usp=sharing",
+        downloadVietnameseLink: "https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/games/upload/Neighbours%20from%20Hell%202%20-%20On%20Vacation.zip"
     }
 };
 
