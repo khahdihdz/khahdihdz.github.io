@@ -35,7 +35,7 @@ const gameData = {
                 "Storage: 3 GB available space"
             ]
         },
-        downloadGameLink: "https://drive.google.com/file/d/1abcdefghijklmnop/view?usp=sharing",
+        downloadGameLink: "#",
         downloadVietnameseLink: "https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/games/upload/Neighbours%20from%20Hell%20-%20Revenge%20Is%20a%20Sweet%20Game.zip"
     },
     neighbours2: {
@@ -71,7 +71,7 @@ const gameData = {
                 "Storage: 4 GB available space"
             ]
         },
-        downloadGameLink: "https://drive.google.com/file/d/1neighbours2gamelink/view?usp=sharing",
+        downloadGameLink: "#",
         downloadVietnameseLink: "https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/games/upload/Neighbours%20from%20Hell%202%20-%20On%20Vacation.zip"
     }
 };
