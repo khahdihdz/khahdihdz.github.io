@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImgBB Image Uploader - Đóng dấu tùy chỉnh</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h2><i class="fas fa-cloud-upload-alt me-2"></i>ImgBB Image Uploader</h2>
+                        <p class="mb-0">Upload ảnh với đóng dấu tùy chỉnh</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Upload Section -->
+                        <div class="upload-section mb-4">
+                            <div class="upload-area" id="uploadArea">
+                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                <h4>Kéo thả ảnh vào đây hoặc click để chọn</h4>
+                                <p class="text-muted">Hỗ trợ: JPG, PNG, GIF (tối đa 32MB)</p>
+                                <input type="file" id="imageInput" accept="image/*" multiple hidden>
+                            </div>
+                        </div>
+
+                        <!-- Watermark Settings -->
+                        <div class="watermark-section mb-4">
+                            <h5><i class="fas fa-stamp me-2"></i>Cài đặt đóng dấu</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Văn bản đóng dấu</label>
+                                        <input type="text" class="form-control" id="watermarkText" placeholder="Nhập text đóng dấu">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Kích thước font</label>
+                                        <input type="range" class="form-range" id="fontSize" min="12" max="72" value="24">
+                                        <small class="text-muted">Size: <span id="fontSizeValue">24</span>px</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Vị trí đóng dấu</label>
+                                        <select class="form-select" id="watermarkPosition">
+                                            <option value="bottom-right">Góc dưới phải</option>
+                                            <option value="bottom-left">Góc dưới trái</option>
+                                            <option value="top-right">Góc trên phải</option>
+                                            <option value="top-left">Góc trên trái</option>
+                                            <option value="center">Giữa ảnh</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Độ trong suốt</label>
+                                        <input type="range" class="form-range" id="watermarkOpacity" min="0.1" max="1" step="0.1" value="0.7">
+                                        <small class="text-muted">Opacity: <span id="opacityValue">70</span>%</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Màu chữ</label>
+                                        <input type="color" class="form-control form-control-color" id="watermarkColor" value="#ffffff">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input" type="checkbox" id="enableWatermark" checked>
+                                        <label class="form-check-label" for="enableWatermark">
+                                            Bật đóng dấu
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Preview Section -->
+                        <div class="preview-section mb-4" id="previewSection" style="display: none;">
+                            <h5><i class="fas fa-eye me-2"></i>Xem trước</h5>
+                            <div class="preview-container">
+                                <canvas id="previewCanvas" class="img-fluid border rounded"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Upload Button -->
+                        <div class="text-center mb-4">
+                            <button class="btn btn-success btn-lg" id="uploadBtn" disabled>
+                                <i class="fas fa-upload me-2"></i>Upload to ImgBB
+                            </button>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress mb-4" id="progressBar" style="display: none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                        </div>
+
+                        <!-- Results Section -->
+                        <div class="results-section" id="resultsSection" style="display: none;">
+                            <h5><i class="fas fa-check-circle text-success me-2"></i>Upload thành công!</h5>
+                            <div id="uploadResults"></div>
+                        </div>
+
+                        <!-- Error Section -->
+                        <div class="alert alert-danger" id="errorSection" style="display: none;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span id="errorMessage"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Thông báo</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastBody">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
