@@ -2,7 +2,7 @@
 // Bảo mật: Thay thế API_KEY bằng key thực tế của bạn
 const CONFIG = {
     // Lấy API key từ: https://api.imgbb.com/
-    API_KEY: 'YOUR_IMGBB_API_KEY_HERE',
+    API_KEY: '2a83c5e55f02d5c99d5a8e6064ca0e00',
     
     // ImgBB API endpoint
     API_URL: 'https://api.imgbb.com/1/upload',
