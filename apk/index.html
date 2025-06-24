@@ -1,1 +1,161 @@
-/* html */<a  title="Download Roblox latest version xapk From APKPure"  rel="nofollow"  download="Roblox_latest_version"  src="https://d.apkpure.com/b/APK/com.roblox.client?version=latest"><img src="https://static.apkpure.com/www/static/imgs/logo_new@2x.png"  alt="APKPure Logo" /></a>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Manager - Tải xuống tùy chỉnh</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="bg-primary text-white py-4 mb-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="h3 mb-0">
+                            <i class="fas fa-download me-2"></i>
+                            Trình tải xuống
+                        </h1>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <span class="text-white fs-5">
+                            <i class="fas fa-cloud-download-alt me-2"></i>
+                            Download Manager
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Custom Address Form -->
+                    <div class="card shadow mb-5">
+                        <div class="card-header bg-secondary text-white">
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-link me-2"></i>
+                                Nhập địa chỉ tải xuống
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="customAddressForm">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label for="customUrl" class="form-label">
+                                                <i class="fas fa-globe me-1"></i>
+                                                URL tải xuống
+                                            </label>
+                                            <input type="url" 
+                                                   class="form-control" 
+                                                   id="customUrl" 
+                                                   placeholder="https://example.com/file-download-link"
+                                                   required>
+                                            <div class="form-text">
+                                                Nhập địa chỉ file bạn muốn tải xuống
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">&nbsp;</label>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-outline-primary">
+                                                <i class="fas fa-check me-2"></i>
+                                                Tạo liên kết
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <!-- Custom Download Button (Hidden initially) -->
+                            <div id="customDownloadSection" class="mt-4" style="display: none;">
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Liên kết tải xuống đã sẵn sàng!
+                                </div>
+                                <div class="text-center">
+                                    <a href="#" 
+                                       id="customDownloadBtn"
+                                       class="btn btn-success btn-lg download-btn"
+                                       target="_blank">
+                                        <i class="fas fa-download me-2"></i>
+                                        Bắt đầu tải xuống
+                                    </a>
+                                    <div class="mt-3">
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="copyToClipboard(document.getElementById('customDownloadBtn').href)">
+                                            <i class="fas fa-copy me-1"></i>
+                                            Sao chép liên kết
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features Info -->
+                    <div class="card shadow mb-5">
+                        <div class="card-header bg-info text-white">
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Tính năng
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5>Tính năng chính:</h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success me-2"></i>Tải xuống từ URL tùy chỉnh</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Giao diện thân thiện</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Sao chép liên kết nhanh</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Responsive trên mọi thiết bị</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5>Hỗ trợ:</h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-globe text-success me-2"></i>Mọi loại file</li>
+                                        <li><i class="fas fa-link text-success me-2"></i>HTTPS/HTTP</li>
+                                        <li><i class="fas fa-mobile-alt text-success me-2"></i>Mobile friendly</li>
+                                        <li><i class="fas fa-shield-alt text-success me-2"></i>An toàn bảo mật</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-light py-4 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-0">
+                            <i class="fas fa-copyright me-1"></i>
+                            2024 Download Manager
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p class="mb-0">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            An toàn & Bảo mật
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
