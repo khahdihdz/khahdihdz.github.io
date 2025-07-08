@@ -13,6 +13,177 @@ function formatNumber(number) {
     return new Intl.NumberFormat('vi-VN').format(number);
 }
 
+// Biến toàn cục để lưu trữ phụ cấp tùy chỉnh và khấu trừ
+let customAllowances = [];
+let deductions = [];
+
+// Hàm tạo ID ngẫu nhiên
+function generateId() {
+    return Date.now() + Math.random().toString(36).substr(2, 9);
+}
+
+// Hàm thêm phụ cấp tùy chỉnh
+function addCustomAllowance() {
+    const id = generateId();
+    const allowanceItem = {
+        id: id,
+        name: '',
+        amount: 0
+    };
+    
+    customAllowances.push(allowanceItem);
+    renderCustomAllowances();
+    
+    // Focus vào trường tên mới thêm
+    setTimeout(() => {
+        document.getElementById(`customAllowanceName_${id}`).focus();
+    }, 100);
+}
+
+// Hàm render phụ cấp tùy chỉnh
+function renderCustomAllowances() {
+    const container = document.getElementById('customAllowancesList');
+    container.innerHTML = '';
+    
+    customAllowances.forEach(allowance => {
+        const itemHtml = `
+            <div class="custom-item mb-2" id="customAllowance_${allowance.id}">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" class="form-control form-control-sm" 
+                               id="customAllowanceName_${allowance.id}"
+                               placeholder="Tên phụ cấp" 
+                               value="${allowance.name}"
+                               onchange="updateCustomAllowance('${allowance.id}', 'name', this.value)">
+                    </div>
+                    <div class="col-5">
+                        <input type="number" class="form-control form-control-sm" 
+                               id="customAllowanceAmount_${allowance.id}"
+                               placeholder="Số tiền" 
+                               value="${allowance.amount}"
+                               onchange="updateCustomAllowance('${allowance.id}', 'amount', this.value)"
+                               onkeydown="preventNegativeInput(event)">
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-outline-danger btn-sm" 
+                                onclick="removeCustomAllowance('${allowance.id}')"
+                                title="Xóa">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += itemHtml;
+    });
+}
+
+// Hàm cập nhật phụ cấp tùy chỉnh
+function updateCustomAllowance(id, field, value) {
+    const allowance = customAllowances.find(item => item.id === id);
+    if (allowance) {
+        if (field === 'amount') {
+            allowance[field] = parseFloat(value) || 0;
+        } else {
+            allowance[field] = value;
+        }
+        saveTemporaryData();
+    }
+}
+
+// Hàm xóa phụ cấp tùy chỉnh
+function removeCustomAllowance(id) {
+    customAllowances = customAllowances.filter(item => item.id !== id);
+    renderCustomAllowances();
+    saveTemporaryData();
+}
+
+// Hàm thêm khấu trừ
+function addDeduction() {
+    const id = generateId();
+    const deductionItem = {
+        id: id,
+        name: '',
+        amount: 0
+    };
+    
+    deductions.push(deductionItem);
+    renderDeductions();
+    
+    // Focus vào trường tên mới thêm
+    setTimeout(() => {
+        document.getElementById(`deductionName_${id}`).focus();
+    }, 100);
+}
+
+// Hàm render khấu trừ
+function renderDeductions() {
+    const container = document.getElementById('deductionsList');
+    container.innerHTML = '';
+    
+    deductions.forEach(deduction => {
+        const itemHtml = `
+            <div class="custom-item mb-2" id="deduction_${deduction.id}">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" class="form-control form-control-sm" 
+                               id="deductionName_${deduction.id}"
+                               placeholder="Tên khấu trừ" 
+                               value="${deduction.name}"
+                               onchange="updateDeduction('${deduction.id}', 'name', this.value)">
+                    </div>
+                    <div class="col-5">
+                        <input type="number" class="form-control form-control-sm" 
+                               id="deductionAmount_${deduction.id}"
+                               placeholder="Số tiền" 
+                               value="${deduction.amount}"
+                               onchange="updateDeduction('${deduction.id}', 'amount', this.value)"
+                               onkeydown="preventNegativeInput(event)">
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-outline-danger btn-sm" 
+                                onclick="removeDeduction('${deduction.id}')"
+                                title="Xóa">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.innerHTML += itemHtml;
+    });
+}
+
+// Hàm cập nhật khấu trừ
+function updateDeduction(id, field, value) {
+    const deduction = deductions.find(item => item.id === id);
+    if (deduction) {
+        if (field === 'amount') {
+            deduction[field] = parseFloat(value) || 0;
+        } else {
+            deduction[field] = value;
+        }
+        saveTemporaryData();
+    }
+}
+
+// Hàm xóa khấu trừ
+function removeDeduction(id) {
+    deductions = deductions.filter(item => item.id !== id);
+    renderDeductions();
+    saveTemporaryData();
+}
+
+// Hàm tính tổng phụ cấp tùy chỉnh
+function calculateCustomAllowanceTotal() {
+    return customAllowances.reduce((total, allowance) => total + allowance.amount, 0);
+}
+
+// Hàm tính tổng khấu trừ
+function calculateDeductionTotal() {
+    return deductions.reduce((total, deduction) => total + deduction.amount, 0);
+}
+
 // Hàm kiểm tra validation
 function validateInput(value, fieldName, minValue = 0) {
     if (value === '' || value === null || value === undefined) {
@@ -116,21 +287,29 @@ function calculateSalary() {
     const actualDays = parseFloat(document.getElementById('actualDays').value);
     const otherAllowance = parseFloat(document.getElementById('otherAllowance').value);
     
+    // Tính tổng phụ cấp tùy chỉnh và khấu trừ
+    const customAllowanceTotal = calculateCustomAllowanceTotal();
+    const deductionTotal = calculateDeductionTotal();
+    
     // Tính toán
     const fullSalary = basicSalary + allowance; // Tổng lương đủ công
     const dailySalary = fullSalary / standardDays; // Lương 1 ngày
-    const actualSalary = (dailySalary * actualDays) + otherAllowance; // Lương thực nhận
+    const salaryByDays = dailySalary * actualDays; // Lương theo ngày công
+    const totalAllowances = otherAllowance + customAllowanceTotal; // Tổng phụ cấp
+    const actualSalary = salaryByDays + totalAllowances - deductionTotal; // Lương thực nhận
     
     // Hiển thị kết quả
     document.getElementById('fullSalary').textContent = formatCurrency(fullSalary);
     document.getElementById('dailySalary').textContent = formatCurrency(dailySalary);
     document.getElementById('otherAllowanceResult').textContent = formatCurrency(otherAllowance);
+    document.getElementById('customAllowanceTotal').textContent = formatCurrency(customAllowanceTotal);
+    document.getElementById('deductionTotal').textContent = formatCurrency(deductionTotal);
     document.getElementById('actualSalary').textContent = formatCurrency(actualSalary);
     
     // Tạo các bước tính toán
-    const stepsHtml = `
+    let stepsHtml = `
         <div class="step-item">
-            <strong>Bước 1:</strong> Tính tổng lương đủ công = Lương cơ bản + Phụ cấp<br>
+            <strong>Bước 1:</strong> Tính tổng lương đủ công = Lương cơ bản + Phụ cấp nặng nhọc<br>
             = ${formatCurrency(basicSalary)} + ${formatCurrency(allowance)} = ${formatCurrency(fullSalary)}
         </div>
         <div class="step-item">
@@ -139,11 +318,35 @@ function calculateSalary() {
         </div>
         <div class="step-item">
             <strong>Bước 3:</strong> Tính lương theo ngày công thực tế = Lương 1 ngày × Số ngày làm thực tế<br>
-            = ${formatCurrency(dailySalary)} × ${formatNumber(actualDays)} = ${formatCurrency(dailySalary * actualDays)}
+            = ${formatCurrency(dailySalary)} × ${formatNumber(actualDays)} = ${formatCurrency(salaryByDays)}
         </div>
+    `;
+    
+    // Thêm bước tính phụ cấp nếu có
+    if (totalAllowances > 0) {
+        stepsHtml += `
+            <div class="step-item">
+                <strong>Bước 4:</strong> Tính tổng phụ cấp = Phụ cấp khác + Phụ cấp tùy chỉnh<br>
+                = ${formatCurrency(otherAllowance)} + ${formatCurrency(customAllowanceTotal)} = ${formatCurrency(totalAllowances)}
+            </div>
+        `;
+    }
+    
+    // Thêm bước tính khấu trừ nếu có
+    if (deductionTotal > 0) {
+        stepsHtml += `
+            <div class="step-item">
+                <strong>Bước ${totalAllowances > 0 ? '5' : '4'}:</strong> Tính tổng khấu trừ = ${formatCurrency(deductionTotal)}
+            </div>
+        `;
+    }
+    
+    // Bước cuối cùng
+    const lastStep = (totalAllowances > 0 ? 1 : 0) + (deductionTotal > 0 ? 1 : 0) + 4;
+    stepsHtml += `
         <div class="step-item">
-            <strong>Bước 4:</strong> Tính lương thực nhận = Lương theo ngày công + Phụ cấp khác<br>
-            = ${formatCurrency(dailySalary * actualDays)} + ${formatCurrency(otherAllowance)} = ${formatCurrency(actualSalary)}
+            <strong>Bước ${lastStep}:</strong> Tính lương thực nhận = Lương theo ngày công + Tổng phụ cấp - Tổng khấu trừ<br>
+            = ${formatCurrency(salaryByDays)} + ${formatCurrency(totalAllowances)} - ${formatCurrency(deductionTotal)} = ${formatCurrency(actualSalary)}
         </div>
     `;
     
@@ -162,18 +365,27 @@ function calculateSalary() {
 
 // Hàm reset form
 function resetForm() {
-    // Reset các giá trị về mặc định
-    document.getElementById('basicSalary').value = '4976000';
-    document.getElementById('allowance').value = '248800';
-    document.getElementById('standardDays').value = '26';
-    document.getElementById('actualDays').value = '16';
+    // Reset các giá trị về 0
+    document.getElementById('basicSalary').value = '0';
+    document.getElementById('allowance').value = '0';
+    document.getElementById('standardDays').value = '0';
+    document.getElementById('actualDays').value = '0';
     document.getElementById('otherAllowance').value = '0';
+    
+    // Reset phụ cấp tùy chỉnh và khấu trừ
+    customAllowances = [];
+    deductions = [];
+    renderCustomAllowances();
+    renderDeductions();
     
     // Ẩn tất cả lỗi
     hideAllErrors();
     
     // Ẩn kết quả
     document.getElementById('resultCard').style.display = 'none';
+    
+    // Xóa dữ liệu tạm thời
+    window.tempSalaryData = null;
     
     // Focus vào trường đầu tiên
     document.getElementById('basicSalary').focus();
@@ -191,6 +403,7 @@ function handleEnterKey(event) {
 function handleInputChange(event) {
     const fieldId = event.target.id;
     hideError(fieldId);
+    saveTemporaryData();
 }
 
 // Hàm định dạng input số khi nhập
@@ -198,6 +411,7 @@ function formatInputNumber(event) {
     const value = event.target.value;
     if (value && !isNaN(value)) {
         // Có thể thêm logic định dạng số khi nhập ở đây
+        saveTemporaryData();
     }
 }
 
@@ -209,164 +423,146 @@ function preventNegativeInput(event) {
     }
 }
 
-// Hàm tính lương nhanh (có thể dùng cho tính năng mở rộng)
-function quickCalculate(basicSalary, allowance, standardDays, actualDays, otherAllowance = 0) {
-    const fullSalary = basicSalary + allowance;
-    const dailySalary = fullSalary / standardDays;
-    const actualSalary = (dailySalary * actualDays) + otherAllowance;
-    
-    return {
-        fullSalary: fullSalary,
-        dailySalary: dailySalary,
-        actualSalary: actualSalary,
-        otherAllowance: otherAllowance
-    };
-}
-
-// Hàm tính phần trăm công việc đã hoàn thành
-function calculateWorkPercentage() {
-    const standardDays = parseFloat(document.getElementById('standardDays').value) || 0;
-    const actualDays = parseFloat(document.getElementById('actualDays').value) || 0;
-    
-    if (standardDays > 0) {
-        return Math.round((actualDays / standardDays) * 100);
-    }
-    return 0;
-}
-
-// Hàm hiển thị thông tin thêm về tính lương
-function showSalaryInfo() {
-    const percentage = calculateWorkPercentage();
-    if (percentage > 0) {
-        console.log(`Tỷ lệ công việc hoàn thành: ${percentage}%`);
-    }
-}
-
 // Hàm lưu dữ liệu tạm thời (trong session hiện tại)
 function saveTemporaryData() {
-    const formData = {
-        basicSalary: document.getElementById('basicSalary').value,
-        allowance: document.getElementById('allowance').value,
-        standardDays: document.getElementById('standardDays').value,
-        actualDays: document.getElementById('actualDays').value,
-        otherAllowance: document.getElementById('otherAllowance').value
-    };
+    const basicSalaryEl = document.getElementById('basicSalary');
+    const allowanceEl = document.getElementById('allowance');
+    const standardDaysEl = document.getElementById('standardDays');
+    const actualDaysEl = document.getElementById('actualDays');
+    const otherAllowanceEl = document.getElementById('otherAllowance');
     
-    // Lưu vào biến toàn cục (chỉ trong session hiện tại)
-    window.tempSalaryData = formData;
+    if (basicSalaryEl && allowanceEl && standardDaysEl && actualDaysEl && otherAllowanceEl) {
+        const formData = {
+            basicSalary: basicSalaryEl.value,
+            allowance: allowanceEl.value,
+            standardDays: standardDaysEl.value,
+            actualDays: actualDaysEl.value,
+            otherAllowance: otherAllowanceEl.value,
+            customAllowances: customAllowances,
+            deductions: deductions
+        };
+        
+        // Lưu vào biến toàn cục (chỉ trong session hiện tại)
+        window.tempSalaryData = formData;
+    }
 }
 
 // Hàm khôi phục dữ liệu tạm thời
 function restoreTemporaryData() {
     if (window.tempSalaryData) {
-        document.getElementById('basicSalary').value = window.tempSalaryData.basicSalary;
-        document.getElementById('allowance').value = window.tempSalaryData.allowance;
-        document.getElementById('standardDays').value = window.tempSalaryData.standardDays;
-        document.getElementById('actualDays').value = window.tempSalaryData.actualDays;
-        document.getElementById('otherAllowance').value = window.tempSalaryData.otherAllowance;
+        const data = window.tempSalaryData;
+        
+        // Khôi phục các giá trị cơ bản
+        document.getElementById('basicSalary').value = data.basicSalary || '0';
+        document.getElementById('allowance').value = data.allowance || '0';
+        document.getElementById('standardDays').value = data.standardDays || '0';
+        document.getElementById('actualDays').value = data.actualDays || '0';
+        document.getElementById('otherAllowance').value = data.otherAllowance || '0';
+        
+        // Khôi phục phụ cấp tùy chỉnh và khấu trừ
+        customAllowances = data.customAllowances || [];
+        deductions = data.deductions || [];
+        
+        renderCustomAllowances();
+        renderDeductions();
     }
 }
 
-// Hàm thêm hiệu ứng loading
-function showLoadingState() {
-    const calculateBtn = document.getElementById('calculateBtn');
-    const originalText = calculateBtn.innerHTML;
+// Hàm hiển thị thông báo
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        ${message}
+    `;
     
-    calculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang tính toán...';
-    calculateBtn.disabled = true;
+    document.body.appendChild(notification);
     
+    // Tự động ẩn sau 3 giây
     setTimeout(() => {
-        calculateBtn.innerHTML = originalText;
-        calculateBtn.disabled = false;
-    }, 1000);
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
-// Khởi tạo khi trang web load
-document.addEventListener('DOMContentLoaded', function() {
-    // Thêm event listeners cho buttons
-    document.getElementById('calculateBtn').addEventListener('click', function() {
-        showLoadingState();
-        setTimeout(calculateSalary, 500);
+// Hàm khởi tạo các sự kiện
+function initializeEvents() {
+    // Sự kiện cho nút tính lương
+    const calculateBtn = document.getElementById('calculateBtn');
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', calculateSalary);
+    }
+    
+    // Sự kiện cho nút reset
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', resetForm);
+    }
+    
+    // Sự kiện cho nút thêm phụ cấp tùy chỉnh
+    const addCustomAllowanceBtn = document.getElementById('addCustomAllowance');
+    if (addCustomAllowanceBtn) {
+        addCustomAllowanceBtn.addEventListener('click', addCustomAllowance);
+    }
+    
+    // Sự kiện cho nút thêm khấu trừ
+    const addDeductionBtn = document.getElementById('addDeduction');
+    if (addDeductionBtn) {
+        addDeductionBtn.addEventListener('click', addDeduction);
+    }
+    
+    // Sự kiện cho các input chính
+    const mainInputs = ['basicSalary', 'allowance', 'standardDays', 'actualDays', 'otherAllowance'];
+    mainInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', handleInputChange);
+            input.addEventListener('keydown', handleEnterKey);
+            input.addEventListener('keydown', preventNegativeInput);
+            input.addEventListener('blur', formatInputNumber);
+        }
     });
     
-    document.getElementById('resetBtn').addEventListener('click', resetForm);
+    // Sự kiện cho form
+    const form = document.getElementById('salaryForm');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            calculateSalary();
+        });
+    }
+}
+
+// Hàm khởi tạo ứng dụng
+function initializeApp() {
+    // Khởi tạo các sự kiện
+    initializeEvents();
     
-    // Thêm event listeners cho các input
-    const inputs = document.querySelectorAll('.form-control');
-    inputs.forEach(input => {
-        input.addEventListener('keypress', handleEnterKey);
-        input.addEventListener('input', handleInputChange);
-        input.addEventListener('blur', formatInputNumber);
-        input.addEventListener('keydown', preventNegativeInput);
-        
-        // Lưu dữ liệu tạm thời khi có thay đổi
-        input.addEventListener('change', saveTemporaryData);
-    });
+    // Khôi phục dữ liệu tạm thời nếu có
+    restoreTemporaryData();
+    
+    // Render các danh sách ban đầu
+    renderCustomAllowances();
+    renderDeductions();
     
     // Focus vào trường đầu tiên
-    document.getElementById('basicSalary').focus();
-    
-    // Thêm tooltip hoặc help text
-    const tooltips = {
-        'basicSalary': 'Nhập lương cơ bản hàng tháng',
-        'allowance': 'Nhập phụ cấp nặng nhọc, độc hại',
-        'standardDays': 'Số ngày công chuẩn trong tháng (thường là 26)',
-        'actualDays': 'Số ngày bạn thực tế làm việc',
-        'otherAllowance': 'Các phụ cấp khác như ăn trưa, chuyên cần, tăng ca...'
-    };
-    
-    // Thêm placeholder động
-    Object.keys(tooltips).forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.setAttribute('title', tooltips[fieldId]);
-        }
-    });
-    
-    // Thêm sự kiện cuộn mượt khi click vào kết quả
-    document.addEventListener('click', function(event) {
-        if (event.target.closest('.result-card')) {
-            event.target.closest('.result-card').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'nearest' 
-            });
-        }
-    });
-    
-    // Khôi phục dữ liệu nếu có
-    restoreTemporaryData();
+    const firstInput = document.getElementById('basicSalary');
+    if (firstInput) {
+        firstInput.focus();
+    }
+}
+
+// Chạy khi DOM đã load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
 });
 
-// Hàm xuất kết quả (có thể mở rộng để xuất PDF, Excel)
-function exportResults() {
-    const resultCard = document.getElementById('resultCard');
-    if (resultCard.style.display === 'none') {
-        alert('Vui lòng tính lương trước khi xuất kết quả!');
-        return;
-    }
-    
-    const results = {
-        fullSalary: document.getElementById('fullSalary').textContent,
-        dailySalary: document.getElementById('dailySalary').textContent,
-        otherAllowance: document.getElementById('otherAllowanceResult').textContent,
-        actualSalary: document.getElementById('actualSalary').textContent,
-        timestamp: new Date().toLocaleString('vi-VN')
-    };
-    
-    console.log('Kết quả tính lương:', results);
-    // Có thể mở rộng để xuất file Excel, PDF...
-}
-
-// Hàm kiểm tra trình duyệt hỗ trợ
-function checkBrowserSupport() {
-    const isSupported = 'Intl' in window && 'NumberFormat' in window.Intl;
-    if (!isSupported) {
-        console.warn('Trình duyệt không hỗ trợ định dạng số quốc tế');
-    }
-    return isSupported;
-}
-
-// Khởi tạo kiểm tra trình duyệt
-document.addEventListener('DOMContentLoaded', function() {
-    checkBrowserSupport();
+// Xử lý khi trang sắp đóng/tải lại
+window.addEventListener('beforeunload', function() {
+    saveTemporaryData();
 });
