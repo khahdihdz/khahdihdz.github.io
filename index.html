@@ -3,323 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Basic Meta Tags -->
-    <title>Mua Cho Tôi Ly Cà Phê | Buy Me A Coffee - Ủng hộ công việc của tôi</title>
-    <meta name="description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hàng hoặc quét mã QR để ủng hộ. Support my work with a small coffee donation.">
-    <meta name="keywords" content="buy me coffee, ủng hộ, donation, cà phê, coffee, support, chuyển khoản, QR code">
-    <meta name="author" content="Khanh Dinh">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://khahdihdz.github.io">
-
-    <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Mua Cho Tôi Ly Cà Phê | Buy Me A Coffee">
-    <meta property="og:description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hàng hoặc quét mã QR để ủng hộ.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Buy Me A Coffee - Support Page">
-    <meta property="og:url" content="https://khahdihdz.github.io">
-    <meta property="og:site_name" content="Buy Me A Coffee">
-    <meta property="og:locale" content="vi_VN">
-    <meta property="og:locale:alternate" content="en_US">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@dtkxx00">
-    <meta name="twitter:creator" content="@dtkxx00">
-    <meta name="twitter:title" content="Mua Cho Tôi Ly Cà Phê | Buy Me A Coffee">
-    <meta name="twitter:description" content="Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hàng hoặc quét mã QR để ủng hộ.">
-    <meta property="twitter:image" content="https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg">
-    <meta name="twitter:image:alt" content="Buy Me A Coffee - Support Page">
-
-    <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#8B4513">
-    <meta name="msapplication-TileColor" content="#8B4513">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Buy Me Coffee">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Mua Cho Tôi Ly Cà Phê | Buy Me A Coffee",
-        "description": "Hỗ trợ công việc của tôi bằng một ly cà phê nhỏ. Chuyển khoản ngân hhàng hoặc quét mã QR để ủng hộ.",
-        "url": "https://khahdihdz.github.io",
-        "image": "https://raw.githubusercontent.com/khahdihdz/khahdihdz.github.io/refs/heads/main/407705520_3225513647741173_1720265737589728516_n.jpg",
-        "author": {
-            "@type": "Person",
-            "name": "Dinh Trong Khanh"
-        },
-        "mainEntity": {
-            "@type": "DonateAction",
-            "name": "Buy Me A Coffee",
-            "description": "Support through coffee donation",
-            "recipient": {
-                "@type": "Person",
-                "name": "Dinh Trong Khanh"
-            }
-        }
-    }
-    </script>
-
-    <!-- External CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <title>Buy Me a Coffee ☕</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Language Toggle -->
     <div class="language-toggle">
-        <button id="langToggle" class="btn">
-            <i class="fas fa-language"></i>
-            <span id="langText">Vietnamese</span>
+        <button class="btn btn-sm btn-outline-light" id="langToggle">
+            <i class="fas fa-globe"></i> <span id="langText">English</span>
         </button>
     </div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-xl-6">
-                <div class="coffee-card">
-                    <!-- Header -->
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
                     <div class="coffee-icon">
-                        <i class="fas fa-coffee"></i>
+                        <i class="fas fa-mug-hot"></i>
                     </div>
-                    
-                    <h1 class="title" data-vi="Mua Cho Tôi Ly Cà Phê" data-en="Buy Me a Coffee">
-                        Mua Cho Tôi Ly Cà Phê
+                    <h1 class="display-4 fw-bold mb-3" data-vi="Mua Cho Tôi Một Ly Cà Phê" data-en="Buy Me a Coffee">
+                        Mua Cho Tôi Một Ly Cà Phê
                     </h1>
-                    
-                    <p class="subtitle" data-vi="Hỗ trợ tôi bằng cách mua một ly cà phê! ☕" data-en="Support me by buying me a coffee! ☕">
-                        Hỗ trợ tôi bằng cách mua một ly cà phê! ☕
+                    <p class="lead mb-4" data-vi="Hỗ trợ công việc của tôi bằng một tách cà phê ☕" data-en="Support my work with a cup of coffee ☕">
+                        Hỗ trợ công việc của tôi bằng một tách cà phê ☕
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Coffee Selection -->
-                    <div class="section-title" data-vi="Chọn số lượng cà phê:" data-en="Choose number of coffees:">
-                        Chọn số lượng cà phê:
-                    </div>
-                    
-                    <div class="coffee-options">
-                        <div class="coffee-btn" data-amount="1">
-                            <i class="fas fa-coffee"></i>
-                            <span>x1</span>
-                        </div>
-                        <div class="coffee-btn" data-amount="3">
-                            <i class="fas fa-coffee"></i>
-                            <span>x3</span>
-                        </div>
-                        <div class="coffee-btn" data-amount="5">
-                            <i class="fas fa-coffee"></i>
-                            <span>x5</span>
-                        </div>
-                        <div class="coffee-btn active" data-amount="10">
-                            <i class="fas fa-coffee"></i>
-                            <span>x10</span>
-                        </div>
-                    </div>
-
-                    <!-- Custom Amount -->
-                    <div class="custom-amount">
-                        <label for="customAmount" class="form-label" data-vi="Hoặc nhập số tiền tùy chọn:" data-en="Or enter custom amount:">
-                            Hoặc nhập số tiền tùy chọn:
-                        </label>
-                        <input type="number" class="form-control" id="customAmount" placeholder="0" min="1">
-                    </div>
-
-                    <!-- Payment Section -->
-                    <div class="payment-section">
-                        <!-- Payment Tabs -->
-                        <div class="payment-tabs">
-                            <button class="payment-tab active" data-payment="bank">
-                                <i class="fas fa-university"></i>
-                                <span data-vi="Ngân hàng" data-en="Bank Transfer">Ngân hàng</span>
-                            </button>
-                            <button class="payment-tab" data-payment="crypto">
-                                <i class="fab fa-bitcoin"></i>
-                                <span data-vi="Cryptocurrency" data-en="Cryptocurrency">Cryptocurrency</span>
-                            </button>
-                        </div>
-
-                        <!-- Bank Payment Option -->
-                        <div class="payment-option active" id="bankPayment">
-                            <div class="payment-header">
-                                <div>
-                                    <i class="fas fa-university"></i>
-                                    <span data-vi="Chuyển khoản ngân hàng" data-en="Bank Transfer">Chuyển khoản ngân hàng</span>
-                                </div>
-                                <div class="currency">VND</div>
+    <!-- Payment Section -->
+    <section class="payment-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <!-- Vietnamese Payment -->
+                    <div class="payment-card vi-payment">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-header bg-gradient-primary text-white py-4">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-credit-card me-2"></i>
+                                    <span data-vi="Chuyển Khoản Ngân Hàng" data-en="Bank Transfer">
+                                        Chuyển Khoản Ngân Hàng
+                                    </span>
+                                </h3>
                             </div>
-                            
-                            <div class="payment-content">
-                                <div class="price-display">
-                                    <span class="amount" id="priceVND">250,000</span>
-                                    <span class="currency-text">VND</span>
+                            <div class="card-body p-4">
+                                <!-- Coffee Selection -->
+                                <div class="coffee-selection mb-4">
+                                    <label class="form-label fw-bold" data-vi="Chọn số lượng cà phê ☕" data-en="Select number of coffees ☕">
+                                        Chọn số lượng cà phê ☕
+                                    </label>
+                                    <div class="coffee-options">
+                                        <button class="coffee-btn active" data-amount="25000" onclick="selectCoffee(this, 25000)">
+                                            <i class="fas fa-mug-hot"></i>
+                                            <span class="amount">25K</span>
+                                            <span class="label">1 ly</span>
+                                        </button>
+                                        <button class="coffee-btn" data-amount="50000" onclick="selectCoffee(this, 50000)">
+                                            <i class="fas fa-mug-hot"></i><i class="fas fa-mug-hot"></i>
+                                            <span class="amount">50K</span>
+                                            <span class="label">2 ly</span>
+                                        </button>
+                                        <button class="coffee-btn" data-amount="75000" onclick="selectCoffee(this, 75000)">
+                                            <i class="fas fa-mug-hot"></i><i class="fas fa-mug-hot"></i><i class="fas fa-mug-hot"></i>
+                                            <span class="amount">75K</span>
+                                            <span class="label">3 ly</span>
+                                        </button>
+                                        <button class="coffee-btn" data-amount="100000" onclick="selectCoffee(this, 100000)">
+                                            <i class="fas fa-coffee"></i>
+                                            <span class="amount">100K</span>
+                                            <span class="label">Đặc biệt</span>
+                                        </button>
+                                    </div>
+                                    <div class="custom-amount mt-3">
+                                        <label class="form-label small" data-vi="Hoặc nhập số tiền khác:" data-en="Or enter custom amount:">
+                                            Hoặc nhập số tiền khác:
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="customAmount" 
+                                                   placeholder="50000" min="2000" step="2000">
+                                            <span class="input-group-text">VNĐ</span>
+                                            <button class="btn btn-primary" onclick="updateCustomAmount()">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="qr-section">
-                                    <div class="qr-code">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 text-center mb-4 mb-md-0">
                                         <div class="qr-container">
-                                            <img src="" alt="QR Code" id="qrCodeImg">
-                                            <div class="qr-loading" id="qrLoading">
-                                                <div class="spinner-border text-primary" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>
+                                            <img id="qrCode" src="https://api.vietqr.io/image/970426-13001011869246-GuEo6F2.jpg?accountName=DINH%20TRONG%20KHANH&amount=25000" 
+                                                 alt="VietQR Code" 
+                                                 class="img-fluid rounded shadow">
+                                        </div>
+                                        <p class="text-muted mt-3 small" data-vi="Quét mã QR để chuyển khoản" data-en="Scan QR code to transfer">
+                                            Quét mã QR để chuyển khoản
+                                        </p>
+                                        <div class="selected-amount-display">
+                                            <span data-vi="Số tiền:" data-en="Amount:">Số tiền:</span>
+                                            <strong id="displayAmount">25,000 VNĐ</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bank-info">
+                                            <div class="info-item">
+                                                <label data-vi="Ngân hàng:" data-en="Bank:">Ngân hàng:</label>
+                                                <span>Maritime Bank (MSB)</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <label data-vi="Chủ tài khoản:" data-en="Account Name:">Chủ tài khoản:</label>
+                                                <span>DINH TRONG KHANH</span>
+                                            </div>
+                                            <div class="info-item">
+                                                <label data-vi="Số tài khoản:" data-en="Account Number:">Số tài khoản:</label>
+                                                <span class="copy-text" onclick="copyToClipboard('13001011869246', this)">
+                                                    13001011869246
+                                                    <i class="fas fa-copy ms-2"></i>
+                                                </span>
+                                            </div>
+                                            <div class="info-item">
+                                                <label data-vi="Nội dung:" data-en="Message:">Nội dung:</label>
+                                                <span class="copy-text" onclick="copyToClipboard('Buy Me a Coffee', this)">
+                                                    Buy Me a Coffee
+                                                    <i class="fas fa-copy ms-2"></i>
+                                                </span>
                                             </div>
                                         </div>
-                                        <p class="mt-2 text-muted" data-vi="Quét mã QR để thanh toán" data-en="Scan QR code to pay">
-                                            Quét mã QR để thanh toán
-                                        </p>
                                     </div>
-                                    
-                                    <div class="bank-info">
-                                        <h6 data-vi="Thông tin chuyển khoản:" data-en="Transfer Information:">Thông tin chuyển khoản:</h6>
-                                        
-                                        <div class="info-item">
-                                            <strong data-vi="Ngân hàng:" data-en="Bank:">Ngân hàng:</strong>
-                                            <span class="copyable">Maritime Bank (MSB)</span>
-                                            <button class="copy-btn" data-copy="Maritime Bank (MSB)">
-                                                <i class="fas fa-copy"></i>
-                                            </button>
-                                        </div>
-                                        
-                                        <div class="info-item">
-                                            <strong data-vi="Số TK:" data-en="Account:">Số TK:</strong>
-                                            <span class="copyable">13001011869246</span>
-                                            <button class="copy-btn" data-copy="13001011869246">
-                                                <i class="fas fa-copy"></i>
-                                            </button>
-                                        </div>
-                                        
-                                        <div class="info-item">
-                                            <strong data-vi="Chủ TK:" data-en="Owner:">Chủ TK:</strong>
-                                            <span class="copyable">DINH TRONG KHANH</span>
-                                            <button class="copy-btn" data-copy="DINH TRONG KHANH">
-                                                <i class="fas fa-copy"></i>
-                                            </button>
-                                        </div>
-                                        
-                                        <div class="info-item">
-                                            <strong data-vi="Nội dung:" data-en="Content:">Nội dung:</strong>
-                                            <span class="copyable" id="transferContent">Buy me coffee</span>
-                                            <button class="copy-btn" data-copy-id="transferContent">
-                                                <i class="fas fa-copy"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="warning-text">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <span data-vi="Vui lòng ghi đúng nội dung chuyển khoản để tôi có thể xác nhận." data-en="Please include the correct transfer content for confirmation.">
-                                        Vui lòng ghi đúng nội dung chuyển khoản để tôi có thể xác nhận.
-                                    </span>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Crypto Payment Option -->
-                        <div class="payment-option" id="cryptoPayment">
-                            <div class="payment-header">
-                                <div>
-                                    <i class="fab fa-bitcoin"></i>
-                                    <span data-vi="Cryptocurrency" data-en="Cryptocurrency">Cryptocurrency</span>
-                                </div>
-                                <div class="currency">USD</div>
+                    <!-- Crypto Payment -->
+                    <div class="payment-card en-payment" style="display: none;">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-header bg-gradient-crypto text-white py-4">
+                                <h3 class="mb-0">
+                                    <i class="fab fa-bitcoin me-2"></i>
+                                    <span data-vi="Thanh Toán Crypto" data-en="Cryptocurrency Payment">
+                                        Cryptocurrency Payment
+                                    </span>
+                                </h3>
                             </div>
-                            
-                            <div class="payment-content">
-                                <div class="price-display">
-                                    <span class="amount" id="priceUSD">10</span>
-                                    <span class="currency-text">USD</span>
-                                </div>
-
-                                <!-- Crypto Selection -->
-                                <div class="crypto-selection mb-4">
-                                    <h6 data-vi="Chọn loại tiền điện tử:" data-en="Select cryptocurrency:">Select cryptocurrency:</h6>
-                                    <div class="d-flex gap-3 justify-content-center flex-wrap">
-                                        <button class="crypto-btn active" data-crypto="btc">
-                                            <i class="fab fa-bitcoin"></i>
-                                            <span>Bitcoin</span>
-                                        </button>
-                                        <button class="crypto-btn" data-crypto="usdt">
-                                            <i class="fas fa-dollar-sign"></i>
-                                            <span>USDT</span>
-                                        </button>
-                                        <button class="crypto-btn" data-crypto="bnb">
-                                            <i class="fas fa-coins"></i>
-                                            <span>BNB</span>
-                                        </button>
+                            <div class="card-body p-4">
+                                <p class="lead mb-4" data-vi="Chọn loại tiền điện tử của bạn:" data-en="Choose your cryptocurrency:">
+                                    Choose your cryptocurrency:
+                                </p>
+                                
+                                <!-- BTC -->
+                                <div class="crypto-item">
+                                    <div class="crypto-header">
+                                        <i class="fab fa-bitcoin"></i>
+                                        <h5>Bitcoin (BTC)</h5>
                                     </div>
-                                </div>
-
-                                <div class="crypto-info">
-                                    <h6 id="cryptoTitle">Bitcoin (BTC) Address:</h6>
-                                    
-                                    <div class="info-item">
-                                        <strong data-vi="Địa chỉ ví:" data-en="Wallet Address:">Wallet Address:</strong>
-                                        <div class="d-flex gap-2 flex-1">
-                                            <span class="copyable crypto-address" id="cryptoAddress">375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9</span>
-                                            <button class="copy-btn" data-copy-id="cryptoAddress">
-                                                <i class="fas fa-copy"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="info-item">
-                                        <strong data-vi="Mạng:" data-en="Network:">Network:</strong>
-                                        <span class="copyable" id="cryptoNetwork">Bitcoin Mainnet</span>
-                                        <button class="copy-btn" data-copy-id="cryptoNetwork">
+                                    <div class="crypto-address">
+                                        <input type="text" class="form-control" value="375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9" readonly>
+                                        <button class="btn btn-outline-primary" onclick="copyToClipboard('375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9', this)">
                                             <i class="fas fa-copy"></i>
                                         </button>
                                     </div>
                                 </div>
 
-                                <div class="warning-text">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    <span data-vi="Hãy chắc chắn bạn gửi đúng loại tiền và mạng lưới!" data-en="Make sure you send the correct currency and network!">
-                                        Make sure you send the correct currency and network!
+                                <!-- USDT -->
+                                <div class="crypto-item">
+                                    <div class="crypto-header">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <h5>Tether (USDT) - TRC20</h5>
+                                    </div>
+                                    <div class="crypto-address">
+                                        <input type="text" class="form-control" value="TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp" readonly>
+                                        <button class="btn btn-outline-primary" onclick="copyToClipboard('TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp', this)">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- BNB -->
+                                <div class="crypto-item">
+                                    <div class="crypto-header">
+                                        <i class="fas fa-coins"></i>
+                                        <h5>Binance Coin (BNB) - BEP20</h5>
+                                    </div>
+                                    <div class="crypto-address">
+                                        <input type="text" class="form-control" value="0xAb173125a0d4Be248e7463695555092e306A2ddc" readonly>
+                                        <button class="btn btn-outline-primary" onclick="copyToClipboard('0xAb173125a0d4Be248e7463695555092e306A2ddc', this)">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info mt-4" role="alert">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <span data-vi="Vui lòng kiểm tra kỹ địa chỉ ví và mạng lưới trước khi gửi." 
+                                          data-en="Please double-check the wallet address and network before sending.">
+                                        Please double-check the wallet address and network before sending.
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Thank You Section -->
-                    <div class="thank-you-section">
-                        <h6 data-vi="💖 Cảm ơn bạn rất nhiều!" data-en="💖 Thank you so much!">💖 Cảm ơn bạn rất nhiều!</h6>
-                        <p class="mb-0" data-vi="Sự hỗ trợ của bạn có ý nghĩa rất lớn với tôi và giúp tôi tiếp tục tạo ra những nội dung tuyệt vời hơn!" 
-                           data-en="Your support means the world to me and helps me continue creating amazing content!">
-                            Sự hỗ trợ của bạn có ý nghĩa rất lớn với tôi và giúp tôi tiếp tục tạo ra những nội dung tuyệt vời hơn!
+    <!-- Thank You Section -->
+    <section class="thankyou-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="thank-card">
+                        <i class="fas fa-heart"></i>
+                        <h2 data-vi="Cảm Ơn Sự Hỗ Trợ Của Bạn!" data-en="Thank You For Your Support!">
+                            Cảm Ơn Sự Hỗ Trợ Của Bạn!
+                        </h2>
+                        <p data-vi="Mỗi đóng góp của bạn giúp tôi tiếp tục tạo ra nội dung chất lượng." 
+                           data-en="Every contribution helps me continue creating quality content.">
+                            Mỗi đóng góp của bạn giúp tôi tiếp tục tạo ra nội dung chất lượng.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Toast for copy notifications -->
-    <div class="toast-container position-fixed top-0 end-0 p-3">
-        <div id="copyToast" class="toast" role="alert">
-            <div class="toast-body">
-                <i class="fas fa-check-circle me-2"></i>
-                <span id="toastMessage">Đã sao chép!</span>
-            </div>
+    <!-- Footer -->
+    <footer class="footer py-4">
+        <div class="container text-center">
+            <p class="mb-0">
+                <span data-vi="Được tạo với" data-en="Made with">Được tạo với</span>
+                <i class="fas fa-heart text-danger"></i>
+                <span data-vi="và" data-en="and">và</span>
+                <i class="fas fa-coffee"></i>
+            </p>
         </div>
-    </div>
+    </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Include the external JavaScript file -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
