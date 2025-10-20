@@ -1,48 +1,25 @@
-/* CSS tối ưu cho trang Buy Me a Coffee - Loại bỏ khoảng trắng thừa */
-
-/* Khai báo biến CSS */
 :root {
-    --primary-color: #4f46e5;
-    --secondary-color: #f59e0b;
-    --success-color: #10b981;
-    --danger-color: #ef4444;
-    --dark-color: #1f2937;
-    --light-color: #f8fafc;
-    --coffee-brown: #8b4513;
-    --coffee-light: #d2b48c;
-    --border-radius: 15px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
+    --primary-color: #6f42c1;
+    --secondary-color: #ff6b6b;
+    --crypto-color: #f7931a;
+    --dark-bg: #1a1a2e;
+    --light-bg: #f8f9fa;
+    --text-dark: #2d3436;
+    --text-light: #636e72;
 }
 
-/* Reset và Base Styles */
-*,
-*::before,
-*::after {
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px 0;
-    margin: 0;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-dark);
 }
-
-/* Utilities - Tối ưu hóa */
-.d-flex { display: flex; }
-.align-items-center { align-items: center; }
-.justify-content-center { justify-content: center; }
-.text-center { text-align: center; }
-.w-100 { width: 100%; }
-.mb-3 { margin-bottom: 1rem; }
-.mb-4 { margin-bottom: 1.5rem; }
-.p-3 { padding: 1rem; }
 
 /* Language Toggle */
 .language-toggle {
@@ -52,473 +29,63 @@ body {
     z-index: 1000;
 }
 
-#langToggle {
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    transition: var(--transition);
-    padding: 0.5rem 1rem;
+.language-toggle .btn {
     border-radius: 25px;
-    cursor: pointer;
-}
-
-#langToggle:hover {
+    padding: 10px 20px;
+    backdrop-filter: blur(10px);
     background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
 }
 
-/* Main Card */
-.coffee-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 2.5rem;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    margin: 20px auto;
-    max-width: 600px;
-    animation: fadeInUp 0.8s ease-out;
-    will-change: transform;
+.language-toggle .btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
 }
 
-/* Header Section */
+/* Hero Section */
+.hero-section {
+    padding: 100px 0 50px;
+    text-align: center;
+    color: white;
+}
+
 .coffee-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--coffee-brown), var(--coffee-light));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.25rem;
-    box-shadow: 0 10px 20px rgba(139, 69, 19, 0.3);
+    font-size: 80px;
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
 }
 
-.coffee-icon i {
-    font-size: 2.25rem;
-    color: white;
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
-.title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.625rem;
-    text-align: center;
+.hero-section h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
 }
 
-.subtitle {
-    color: #6b7280;
-    font-size: 1.1rem;
-    margin-bottom: 0;
-    text-align: center;
+.hero-section .lead {
+    font-size: 1.3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-.section-title {
-    color: var(--dark-color);
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-}
-
-/* Coffee Selection */
-.coffee-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-}
-
-.coffee-btn {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #e5e7eb;
-    background: white;
-    border-radius: var(--border-radius);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    user-select: none;
-}
-
-.coffee-btn i {
-    font-size: 1.5rem;
-    color: var(--coffee-brown);
-    margin-bottom: 0.3125rem;
-}
-
-.coffee-btn span {
-    font-weight: 600;
-    color: var(--dark-color);
-    font-size: 0.875rem;
-}
-
-.coffee-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-sm);
-}
-
-.coffee-btn.active {
-    border-color: var(--primary-color);
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-}
-
-.coffee-btn.active i,
-.coffee-btn.active span {
-    color: white;
-}
-
-.coffee-btn.active::after {
-    content: '✓';
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: var(--success-color);
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: bold;
-}
-
-/* Custom Amount Input */
-.custom-amount {
-    margin-top: 1rem;
-}
-
-#customAmount {
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    padding: 0.75rem;
-    width: 100%;
-    transition: border-color 0.3s ease;
-    font-size: 1rem;
-}
-
-#customAmount:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
-    outline: none;
-}
-
-/* Payment Section - Loại bỏ tất cả khoảng trắng thừa */
+/* Payment Section */
 .payment-section {
-    margin-top: 1.5rem;
-}
-
-/* Payment Container - Tạo khung chứa liền mạch */
-.payment-container {
     position: relative;
-    background: rgba(0, 0, 0, 0.02);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    /* Loại bỏ tất cả margin và padding thừa */
-    margin: 0;
-    padding: 0;
 }
 
-/* Payment Tabs - Gắn chặt với container */
-.payment-tabs {
-    display: flex;
-    /* QUAN TRỌNG: Loại bỏ margin và padding thừa */
-    margin: 0;
-    padding: 0;
-    background: rgba(0, 0, 0, 0.03);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Đảm bảo không có gap */
-    gap: 0;
+.payment-card {
+    margin-bottom: 30px;
+    animation: slideUp 0.6s ease-out;
 }
 
-.payment-tab {
-    flex: 1;
-    background: transparent;
-    border: none;
-    padding: 1rem;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    color: #666;
-    position: relative;
-    border-bottom: 3px solid transparent;
-    /* Loại bỏ margin thừa */
-    margin: 0;
-}
-
-.payment-tab:hover {
-    background: rgba(255, 255, 255, 0.5);
-    color: #333;
-}
-
-.payment-tab.active {
-    background: white;
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-    font-weight: 600;
-}
-
-.payment-tab i {
-    font-size: 1.2rem;
-}
-
-/* Payment Options Container - Loại bỏ hoàn toàn khoảng trắng */
-.payment-options-container {
-    position: relative;
-    background: white;
-    overflow: hidden;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    /* QUAN TRỌNG: Loại bỏ tất cả margin và padding */
-    margin: 0;
-    padding: 0;
-}
-
-.payment-option {
-    display: none;
-    background: white;
-    /* QUAN TRỌNG: Loại bỏ tất cả padding và margin */
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: auto;
-    position: static;
-    /* Đảm bảo không có border hoặc outline */
-    border: none;
-    outline: none;
-}
-
-.payment-option.active {
-    display: block;
-}
-
-/* Payment Header - Gắn liền với content */
-.payment-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* QUAN TRỌNG: Loại bỏ margin */
-    margin: 0;
-    border-radius: 0;
-    /* Đảm bảo không có border */
-    border: none;
-}
-
-.payment-header i {
-    font-size: 1.25rem;
-    margin-right: 0.625rem;
-}
-
-.payment-header .currency {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-/* Payment Content - Gắn liền với header */
-.payment-content {
-    padding: 1.25rem;
-    /* QUAN TRỌNG: Loại bỏ margin */
-    margin: 0;
-    /* Đảm bảo không có border */
-    border: none;
-    /* Đảm bảo background liền mạch */
-    background: white;
-}
-
-/* Price Display */
-.price-display {
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.price-display .amount {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-.price-display .currency-text {
-    font-size: 1.2rem;
-    color: #6b7280;
-    margin-left: 0.5rem;
-}
-
-/* QR Code Section */
-.qr-section {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-}
-
-.qr-code {
-    flex-shrink: 0;
-    text-align: center;
-}
-
-.qr-code img {
-    width: 200px;
-    height: 200px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-}
-
-/* Bank & Crypto Info - Loại bỏ khoảng trắng thừa */
-.bank-info,
-.crypto-info {
-    flex: 1;
-    min-width: 250px;
-    /* QUAN TRỌNG: Loại bỏ margin và padding thừa */
-    margin: 0;
-    padding: 0;
-}
-
-.bank-info h6,
-.crypto-info h6 {
-    color: var(--dark-color);
-    font-weight: 600;
-    /* Giảm margin bottom để loại bỏ khoảng trắng */
-    margin-bottom: 0.75rem;
-    margin-top: 0;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.625rem;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-    /* Loại bỏ margin top */
-    margin-top: 0;
-}
-
-.info-item strong {
-    min-width: 100px;
-    color: var(--dark-color);
-}
-
-.copyable {
-    font-family: 'Courier New', monospace;
-    background: #f3f4f6;
-    padding: 0.375rem 0.625rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    flex: 1;
-}
-
-.crypto-address {
-    word-break: break-all;
-    line-height: 1.3;
-}
-
-.copy-btn {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: var(--transition);
-    flex-shrink: 0;
-}
-
-.copy-btn:hover {
-    background: var(--secondary-color);
-    transform: scale(1.1);
-}
-
-/* Warning Text */
-.warning-text {
-    background: #fef3cd;
-    color: #856404;
-    padding: 0.625rem;
-    border-radius: 8px;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.warning-text i {
-    color: var(--secondary-color);
-}
-
-/* Message Section */
-.message-section {
-    margin-top: 1.5rem;
-}
-
-.message-section textarea {
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    resize: vertical;
-    transition: border-color 0.3s ease;
-    width: 100%;
-    padding: 0.75rem;
-    font-family: inherit;
-}
-
-.message-section textarea:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
-    outline: none;
-}
-
-/* Thank You Section */
-.thank-you-section {
-    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
-    padding: 1.25rem;
-    border-radius: var(--border-radius);
-    border: 2px solid #bbf7d0;
-    margin-top: 1.5rem;
-}
-
-.thank-you-section h6 {
-    color: var(--success-color);
-    font-weight: 600;
-    margin-bottom: 0.625rem;
-}
-
-/* Toast Styles */
-.toast {
-    background: var(--success-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
-}
-
-.toast .toast-body {
-    display: flex;
-    align-items: center;
-}
-
-/* Animations */
-@keyframes fadeInUp {
+@keyframes slideUp {
     from {
         opacity: 0;
         transform: translateY(30px);
@@ -529,430 +96,413 @@ body {
     }
 }
 
-/* Language Transitions */
-[data-vi], [data-en] {
-    transition: opacity 0.3s ease;
+.card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.lang-transition {
-    opacity: 0;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .coffee-card {
-        padding: 1.25rem;
-        margin: 10px;
-    }
-    
-    .title {
-        font-size: 2rem;
-    }
-    
-    .qr-section {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .bank-info,
-    .crypto-info {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .info-item {
-        justify-content: center;
-        text-align: center;
-    }
-    
-    .coffee-options {
-        justify-content: center;
-    }
-    
-    .payment-tabs {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    
-    .payment-tab {
-        flex: 1;
-        min-width: 120px;
-    }
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #5a32a3 100%);
 }
 
-@media (max-width: 576px) {
-    .coffee-card {
-        padding: 1rem;
-    }
-    
-    .coffee-btn {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .coffee-btn i {
-        font-size: 1.25rem;
-    }
-    
-    .price-display .amount {
-        font-size: 2rem;
-    }
-    
-    .qr-code img {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .payment-tabs {
-        flex-direction: column;
-    }
-    
-    .payment-tab {
-        flex: none;
-        justify-content: flex-start;
-    }
+.bg-gradient-crypto {
+    background: linear-gradient(135deg, var(--crypto-color) 0%, #e67e22 100%);
 }
 
-/* Performance Optimizations */
-.payment-option,
-.coffee-btn,
-.copy-btn {
-    will-change: transform;
-}
-
-/* Preload critical animations */
-@media (prefers-reduced-motion: no-preference) {
-    .payment-option.active {
-        animation: none;
-    }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* CSS nâng cao cho các nút Cryptocurrency */
-
-/* Container cho crypto selection */
-.crypto-selection {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.crypto-selection h6 {
-    color: var(--dark-color);
+.card-header h3 {
     font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-size: 1.1rem;
-    position: relative;
 }
 
-.crypto-selection h6::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 3px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 2px;
-}
-
-/* Container cho các nút crypto */
-.crypto-buttons-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    justify-content: center;
-}
-
-/* Styling cho các nút cryptocurrency */
-.crypto-btn {
-    background: white;
-    border: 2px solid #e5e7eb;
+/* Coffee Selection */
+.coffee-selection {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
     border-radius: 15px;
-    padding: 1rem;
+    border: 2px solid #dee2e6;
+}
+
+.coffee-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.coffee-btn {
+    background: white;
+    border: 3px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px 10px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    font-weight: 500;
+    gap: 8px;
     position: relative;
     overflow: hidden;
-    min-height: 100px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Icon styling cho từng loại crypto */
-.crypto-btn i {
-    font-size: 2rem;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 2;
-}
-
-/* Text styling */
-.crypto-btn span {
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
-}
-
-/* Bitcoin styling */
-.crypto-btn[data-crypto="btc"] {
-    border-color: #f7931a;
-}
-
-.crypto-btn[data-crypto="btc"] i {
-    color: #f7931a;
-}
-
-.crypto-btn[data-crypto="btc"]:hover {
-    border-color: #f7931a;
-    background: linear-gradient(135deg, #f7931a, #ff9500);
-    color: white;
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(247, 147, 26, 0.3);
-}
-
-.crypto-btn[data-crypto="btc"]:hover i,
-.crypto-btn[data-crypto="btc"]:hover span {
-    color: white;
-}
-
-.crypto-btn[data-crypto="btc"].active {
-    border-color: #f7931a;
-    background: linear-gradient(135deg, #f7931a, #ff9500);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(247, 147, 26, 0.4);
-}
-
-.crypto-btn[data-crypto="btc"].active i,
-.crypto-btn[data-crypto="btc"].active span {
-    color: white;
-}
-
-/* USDT styling */
-.crypto-btn[data-crypto="usdt"] {
-    border-color: #26a17b;
-}
-
-.crypto-btn[data-crypto="usdt"] i {
-    color: #26a17b;
-}
-
-.crypto-btn[data-crypto="usdt"]:hover {
-    border-color: #26a17b;
-    background: linear-gradient(135deg, #26a17b, #2dd4aa);
-    color: white;
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(38, 161, 123, 0.3);
-}
-
-.crypto-btn[data-crypto="usdt"]:hover i,
-.crypto-btn[data-crypto="usdt"]:hover span {
-    color: white;
-}
-
-.crypto-btn[data-crypto="usdt"].active {
-    border-color: #26a17b;
-    background: linear-gradient(135deg, #26a17b, #2dd4aa);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(38, 161, 123, 0.4);
-}
-
-.crypto-btn[data-crypto="usdt"].active i,
-.crypto-btn[data-crypto="usdt"].active span {
-    color: white;
-}
-
-/* BNB styling */
-.crypto-btn[data-crypto="bnb"] {
-    border-color: #f3ba2f;
-}
-
-.crypto-btn[data-crypto="bnb"] i {
-    color: #f3ba2f;
-}
-
-.crypto-btn[data-crypto="bnb"]:hover {
-    border-color: #f3ba2f;
-    background: linear-gradient(135deg, #f3ba2f, #ffd700);
-    color: white;
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(243, 186, 47, 0.3);
-}
-
-.crypto-btn[data-crypto="bnb"]:hover i,
-.crypto-btn[data-crypto="bnb"]:hover span {
-    color: white;
-}
-
-.crypto-btn[data-crypto="bnb"].active {
-    border-color: #f3ba2f;
-    background: linear-gradient(135deg, #f3ba2f, #ffd700);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(243, 186, 47, 0.4);
-}
-
-.crypto-btn[data-crypto="bnb"].active i,
-.crypto-btn[data-crypto="bnb"].active span {
-    color: white;
-}
-
-/* Hiệu ứng ripple khi click */
-.crypto-btn::before {
+.coffee-btn::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-    z-index: 1;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(111, 66, 193, 0.1), transparent);
+    transition: left 0.5s ease;
 }
 
-.crypto-btn:active::before {
-    width: 300px;
-    height: 300px;
+.coffee-btn:hover::before {
+    left: 100%;
 }
 
-/* Hiệu ứng glow cho nút active */
-.crypto-btn.active::after {
-    content: '✓';
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: var(--success-color);
+.coffee-btn i {
+    font-size: 1.2rem;
+    color: #6f42c1;
+    display: inline-block;
+    margin: 0 2px;
+}
+
+.coffee-btn .amount {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.coffee-btn .label {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.coffee-btn:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 20px rgba(111, 66, 193, 0.3);
+}
+
+.coffee-btn.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #5a32a3 100%);
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(111, 66, 193, 0.4);
+}
+
+.coffee-btn.active i,
+.coffee-btn.active .amount,
+.coffee-btn.active .label {
     color: white;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+}
+
+.custom-amount .input-group {
+    max-width: 350px;
+}
+
+.custom-amount input {
+    border: 2px solid #dee2e6;
+    padding: 12px;
+}
+
+.custom-amount input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+}
+
+.custom-amount .btn-primary {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.selected-amount-display {
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+    color: white;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+.selected-amount-display strong {
+    font-size: 1.3rem;
+    margin-left: 8px;
+}
+
+/* QR Code */
+.qr-container {
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.qr-container img {
+    max-width: 280px;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Bank Info */
+.bank-info {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.info-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.info-item label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-item span {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.copy-text {
+    cursor: pointer;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid transparent;
+}
+
+.copy-text:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.copy-text i {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* Crypto Items */
+.crypto-item {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.crypto-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.crypto-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-    animation: bounceIn 0.5s ease;
-    z-index: 3;
+    margin-bottom: 15px;
 }
 
-/* Animation cho check mark */
-@keyframes bounceIn {
-    0% {
-        transform: scale(0);
-        opacity: 0;
+.crypto-header i {
+    font-size: 2rem;
+    margin-right: 15px;
+    color: var(--crypto-color);
+}
+
+.crypto-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.crypto-address {
+    display: flex;
+    gap: 10px;
+}
+
+.crypto-address input {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    background: white;
+    border: 2px solid #dee2e6;
+    padding: 12px;
+}
+
+.crypto-address button {
+    min-width: 50px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.crypto-address button:hover {
+    transform: scale(1.05);
+}
+
+/* Thank You Section */
+.thankyou-section {
+    color: white;
+}
+
+.thank-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.thank-card i {
+    font-size: 60px;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
     }
     50% {
-        transform: scale(1.2);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
+        transform: scale(1.1);
     }
 }
 
-/* Hiệu ứng hover cho container */
-.crypto-buttons-container:hover .crypto-btn:not(:hover) {
-    opacity: 0.7;
-    transform: scale(0.95);
+.thank-card h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
 }
 
-/* Responsive design */
+.thank-card p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Footer */
+.footer {
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    margin-top: 50px;
+}
+
+.footer p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.footer i {
+    margin: 0 5px;
+}
+
+/* Alert */
+.alert-info {
+    background: rgba(13, 202, 240, 0.1);
+    border: 1px solid rgba(13, 202, 240, 0.3);
+    border-radius: 10px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .crypto-buttons-container {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 0.75rem;
+    .hero-section {
+        padding: 80px 0 30px;
     }
-    
-    .crypto-btn {
-        min-height: 85px;
-        padding: 0.75rem;
+
+    .coffee-icon {
+        font-size: 60px;
     }
-    
-    .crypto-btn i {
-        font-size: 1.6rem;
+
+    .hero-section h1 {
+        font-size: 2rem;
     }
-    
-    .crypto-btn span {
-        font-size: 0.85rem;
+
+    .hero-section .lead {
+        font-size: 1.1rem;
+    }
+
+    .coffee-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .coffee-btn {
+        padding: 15px 8px;
+    }
+
+    .coffee-btn .amount {
+        font-size: 1rem;
+    }
+
+    .bank-info {
+        padding: 20px;
+    }
+
+    .thank-card {
+        padding: 30px 20px;
+    }
+
+    .thank-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .qr-container img {
+        max-width: 220px;
+    }
+
+    .crypto-address {
+        flex-direction: column;
+    }
+
+    .crypto-address button {
+        width: 100%;
     }
 }
 
 @media (max-width: 576px) {
-    .crypto-selection {
-        padding: 0.75rem;
-        margin-bottom: 1.5rem;
+    .language-toggle {
+        top: 10px;
+        right: 10px;
     }
-    
-    .crypto-buttons-container {
-        grid-template-columns: 1fr;
-        max-width: 200px;
-        margin: 0 auto;
-    }
-    
-    .crypto-btn {
-        min-height: 80px;
+
+    .language-toggle .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
     }
 }
 
-/* Thêm hiệu ứng loading cho crypto buttons */
-.crypto-btn.loading {
-    pointer-events: none;
-    opacity: 0.7;
+/* Copy Animation */
+@keyframes copied {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
-.crypto-btn.loading::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin: -10px 0 0 -10px;
-    border: 2px solid transparent;
-    border-top-color: currentColor;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 3;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Thêm hiệu ứng pulse cho active state */
-.crypto-btn.active {
-    animation: cryptoPulse 2s infinite;
-}
-
-@keyframes cryptoPulse {
-    0% { box-shadow: 0 8px 20px rgba(var(--crypto-color), 0.4); }
-    50% { box-shadow: 0 8px 30px rgba(var(--crypto-color), 0.6); }
-    100% { box-shadow: 0 8px 20px rgba(var(--crypto-color), 0.4); }
+.copied {
+    animation: copied 0.3s ease;
+    background: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
 }
