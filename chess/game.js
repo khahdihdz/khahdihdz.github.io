@@ -1,439 +1,385 @@
-// Game State
-const game = {
-    gold: 100,
-    hp: 100,
-    level: 1,
-    round: 1,
-    board: Array(64).fill(null),
-    bench: Array(8).fill(null),
-    shop: [],
-    inBattle: false,
-    autoPlay: false
+// Game Constants
+const COLORS = ['green', 'yellow', 'blue', 'red'];
+const COLOR_MAP = {
+    green: '#28a745',
+    yellow: '#ffc107',
+    blue: '#007bff',
+    red: '#dc3545'
 };
 
-// Unit Types
-const unitTypes = [
-    { icon: '⚔️', name: 'Warrior', hp: 100, atk: 15, cost: 1, range: 1 },
-    { icon: '🏹', name: 'Archer', hp: 70, atk: 20, cost: 2, range: 3 },
-    { icon: '🛡️', name: 'Tank', hp: 150, atk: 10, cost: 2, range: 1 },
-    { icon: '🔮', name: 'Mage', hp: 60, atk: 25, cost: 3, range: 4 },
-    { icon: '🗡️', name: 'Assassin', hp: 80, atk: 30, cost: 3, range: 1 },
-    { icon: '⚡', name: 'Lightning', hp: 90, atk: 35, cost: 4, range: 3 },
-    { icon: '🐉', name: 'Dragon', hp: 200, atk: 40, cost: 5, range: 2 }
-];
+const PLAYER_NAMES = {
+    green: 'Xanh lá',
+    yellow: 'Vàng',
+    blue: 'Xanh dương',
+    red: 'Đỏ'
+};
 
-// Initialize
-function init() {
-    createBoard();
-    createBench();
-    refreshShop();
-    updateUI();
-    setupEventListeners();
-}
+// Game State
+let gameState = {
+    currentPlayer: 0,
+    diceValue: 0,
+    canRoll: true,
+    selectedPiece: null,
+    players: [],
+    winner: null
+};
 
-function createBoard() {
-    const board = document.getElementById('board');
-    board.innerHTML = '';
+// Canvas Setup
+const canvas = document.getElementById('gameBoard');
+const ctx = canvas.getContext('2d');
+
+// Path coordinates (simplified Ludo board)
+const PATH = [];
+const HOME_POSITIONS = {
+    green: [{x: 60, y: 60}, {x: 140, y: 60}, {x: 60, y: 140}, {x: 140, y: 140}],
+    yellow: [{x: 460, y: 60}, {x: 540, y: 60}, {x: 460, y: 140}, {x: 540, y: 140}],
+    blue: [{x: 60, y: 460}, {x: 140, y: 460}, {x: 60, y: 540}, {x: 140, y: 540}],
+    red: [{x: 460, y: 460}, {x: 540, y: 460}, {x: 460, y: 540}, {x: 540, y: 540}]
+};
+
+// Initialize path coordinates
+function initPath() {
+    const center = 300;
+    const cellSize = 40;
     
-    for (let i = 0; i < 64; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.dataset.index = i;
-        
-        const row = Math.floor(i / 8);
-        if (row >= 4) {
-            cell.classList.add('player-zone');
-        } else {
-            cell.classList.add('ai-zone');
-        }
-        
-        cell.addEventListener('click', () => handleCellClick(i));
-        board.appendChild(cell);
+    // Green starting path (left side, going down)
+    for (let i = 0; i < 5; i++) {
+        PATH.push({x: 40, y: center + i * cellSize});
+    }
+    // Bottom left corner
+    for (let i = 0; i < 6; i++) {
+        PATH.push({x: 40 + i * cellSize, y: center + 5 * cellSize});
+    }
+    // Yellow path (bottom, going right)
+    for (let i = 0; i < 5; i++) {
+        PATH.push({x: center + i * cellSize, y: center + 5 * cellSize});
+    }
+    // Bottom right corner
+    for (let i = 0; i < 6; i++) {
+        PATH.push({x: center + 5 * cellSize, y: center + 5 * cellSize - i * cellSize});
+    }
+    // Blue path (right side, going up)
+    for (let i = 0; i < 5; i++) {
+        PATH.push({x: center + 5 * cellSize, y: center - i * cellSize});
+    }
+    // Top right corner
+    for (let i = 0; i < 6; i++) {
+        PATH.push({x: center + 5 * cellSize - i * cellSize, y: 40});
+    }
+    // Red path (top, going left)
+    for (let i = 0; i < 5; i++) {
+        PATH.push({x: center - i * cellSize, y: 40});
+    }
+    // Top left corner
+    for (let i = 0; i < 6; i++) {
+        PATH.push({x: 40, y: 40 + i * cellSize});
     }
 }
 
-function createBench() {
-    const bench = document.getElementById('bench');
-    bench.innerHTML = '';
-    
-    for (let i = 0; i < 8; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'bench-slot';
-        slot.dataset.index = i;
-        slot.addEventListener('click', () => handleBenchClick(i));
-        bench.appendChild(slot);
-    }
+// Initialize players
+function initPlayers() {
+    gameState.players = COLORS.map((color, index) => ({
+        color: color,
+        isAI: index !== 0,
+        pieces: [
+            {id: 0, position: -1, isHome: true, isSafe: false},
+            {id: 1, position: -1, isHome: true, isSafe: false},
+            {id: 2, position: -1, isHome: true, isSafe: false},
+            {id: 3, position: -1, isHome: true, isSafe: false}
+        ],
+        startIndex: index * (PATH.length / 4),
+        finishedPieces: 0
+    }));
 }
 
-function refreshShop() {
-    game.shop = [];
-    const shopCount = Math.min(5, game.level + 2);
+// Draw board
+function drawBoard() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    for (let i = 0; i < shopCount; i++) {
-        const maxCost = Math.min(game.level + 1, 5);
-        const availableUnits = unitTypes.filter(u => u.cost <= maxCost);
-        const unit = {...availableUnits[Math.floor(Math.random() * availableUnits.length)]};
-        unit.currentHp = unit.hp;
-        unit.stars = 1;
-        unit.id = Date.now() + Math.random();
-        game.shop.push(unit);
-    }
+    // Draw background
+    ctx.fillStyle = '#f0f0f0';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    renderShop();
-}
-
-function renderShop() {
-    const shop = document.getElementById('shop');
-    shop.innerHTML = '';
+    // Draw home areas
+    drawHomeArea('green', 20, 20, 180, 180);
+    drawHomeArea('yellow', 400, 20, 180, 180);
+    drawHomeArea('blue', 20, 400, 180, 180);
+    drawHomeArea('red', 400, 400, 180, 180);
     
-    game.shop.forEach((unit, idx) => {
-        if (!unit) return;
-        
-        const item = document.createElement('div');
-        item.className = 'shop-item';
-        if (unit.sold) item.classList.add('sold');
-        
-        item.innerHTML = `
-            <div class="unit-icon">${unit.icon}</div>
-            <div class="unit-cost">${unit.cost} 💰</div>
-        `;
-        
-        item.addEventListener('click', () => buyUnit(idx));
-        shop.appendChild(item);
+    // Draw path
+    PATH.forEach((pos, index) => {
+        ctx.fillStyle = '#fff';
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+    });
+    
+    // Draw center (finish area)
+    ctx.fillStyle = '#ffd700';
+    ctx.beginPath();
+    ctx.moveTo(300, 250);
+    ctx.lineTo(350, 300);
+    ctx.lineTo(300, 350);
+    ctx.lineTo(250, 300);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    
+    // Draw pieces
+    gameState.players.forEach(player => {
+        player.pieces.forEach((piece, index) => {
+            if (piece.isHome) {
+                const homePos = HOME_POSITIONS[player.color][index];
+                drawPiece(homePos.x, homePos.y, player.color, piece.id);
+            } else if (piece.position >= 0 && piece.position < PATH.length) {
+                const pathIndex = (player.startIndex + piece.position) % PATH.length;
+                const pos = PATH[pathIndex];
+                drawPiece(pos.x, pos.y, player.color, piece.id);
+            }
+        });
     });
 }
 
-function buyUnit(idx) {
-    const unit = game.shop[idx];
-    if (!unit || unit.sold || game.gold < unit.cost) return;
-    
-    const emptySlot = game.bench.findIndex(slot => slot === null);
-    if (emptySlot === -1) {
-        addLog('Ghế dự bị đã đầy!', 'player');
-        return;
-    }
-    
-    game.gold -= unit.cost;
-    game.bench[emptySlot] = {...unit};
-    game.shop[idx].sold = true;
-    
-    renderBench();
-    renderShop();
-    updateUI();
-    addLog(`Mua ${unit.name} (${unit.cost} 💰)`, 'player');
+function drawHomeArea(color, x, y, width, height) {
+    ctx.fillStyle = COLOR_MAP[color] + '40';
+    ctx.fillRect(x, y, width, height);
+    ctx.strokeStyle = COLOR_MAP[color];
+    ctx.lineWidth = 4;
+    ctx.strokeRect(x, y, width, height);
 }
 
-function renderBench() {
-    const benchSlots = document.querySelectorAll('.bench-slot');
+function drawPiece(x, y, color, id) {
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.beginPath();
+    ctx.arc(x + 2, y + 2, 18, 0, Math.PI * 2);
+    ctx.fill();
     
-    benchSlots.forEach((slot, idx) => {
-        const unit = game.bench[idx];
-        if (unit) {
-            slot.innerHTML = `
-                <div class="unit">${unit.icon}</div>
-                ${unit.stars > 1 ? `<div class="star">${'⭐'.repeat(unit.stars)}</div>` : ''}
-            `;
-        } else {
-            slot.innerHTML = '';
-        }
-    });
+    // Piece
+    ctx.fillStyle = COLOR_MAP[color];
+    ctx.beginPath();
+    ctx.arc(x, y, 18, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Border
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    
+    // Inner circle
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.fill();
 }
 
-let selectedBenchUnit = null;
-
-function handleBenchClick(idx) {
-    if (game.inBattle) return;
+// Dice roll
+function rollDice() {
+    if (!gameState.canRoll) return;
     
-    if (selectedBenchUnit === idx) {
-        selectedBenchUnit = null;
-        document.querySelectorAll('.bench-slot').forEach(s => s.style.border = '2px dashed #7f8c8d');
-    } else {
-        selectedBenchUnit = idx;
-        document.querySelectorAll('.bench-slot').forEach(s => s.style.border = '2px dashed #7f8c8d');
-        document.querySelectorAll('.bench-slot')[idx].style.border = '2px solid #2ecc71';
-    }
-}
-
-function handleCellClick(idx) {
-    if (game.inBattle) return;
+    gameState.canRoll = false;
+    const diceElement = document.getElementById('dice');
+    const diceFace = diceElement.querySelector('.dice-face');
+    const rollBtn = document.getElementById('rollBtn');
     
-    const row = Math.floor(idx / 8);
-    if (row < 4) return; // Can't place in AI zone
+    rollBtn.disabled = true;
+    diceElement.classList.add('rolling');
     
-    if (selectedBenchUnit !== null) {
-        if (game.board[idx] === null) {
-            game.board[idx] = game.bench[selectedBenchUnit];
-            game.bench[selectedBenchUnit] = null;
-            selectedBenchUnit = null;
-            renderBoard();
-            renderBench();
-            document.querySelectorAll('.bench-slot').forEach(s => s.style.border = '2px dashed #7f8c8d');
-        }
-    } else if (game.board[idx]) {
-        const emptySlot = game.bench.findIndex(slot => slot === null);
-        if (emptySlot !== -1) {
-            game.bench[emptySlot] = game.board[idx];
-            game.board[idx] = null;
-            renderBoard();
-            renderBench();
-        }
-    }
-}
-
-function renderBoard() {
-    const cells = document.querySelectorAll('.cell');
-    
-    cells.forEach((cell, idx) => {
-        const unit = game.board[idx];
-        if (unit) {
-            const hpPercent = (unit.currentHp / unit.hp) * 100;
-            const isPlayer = Math.floor(idx / 8) >= 4;
+    // Animate dice
+    let count = 0;
+    const interval = setInterval(() => {
+        diceFace.textContent = Math.floor(Math.random() * 6) + 1;
+        count++;
+        
+        if (count > 10) {
+            clearInterval(interval);
+            gameState.diceValue = Math.floor(Math.random() * 6) + 1;
+            diceFace.textContent = gameState.diceValue;
+            diceElement.classList.remove('rolling');
             
-            cell.innerHTML = `
-                <div class="unit">${unit.icon}</div>
-                ${unit.stars > 1 ? `<div class="star">${'⭐'.repeat(unit.stars)}</div>` : ''}
-                <div class="hp-bar">
-                    <div class="hp-fill ${isPlayer ? 'player' : ''}" style="width: ${hpPercent}%"></div>
-                </div>
-            `;
-        } else {
-            cell.innerHTML = '';
+            handleDiceRoll();
         }
-    });
+    }, 100);
 }
 
-function setupEventListeners() {
-    document.getElementById('refreshBtn').addEventListener('click', () => {
-        if (game.gold >= 2) {
-            game.gold -= 2;
-            refreshShop();
-            updateUI();
-            addLog('Làm mới cửa hàng', 'player');
-        }
-    });
+function handleDiceRoll() {
+    const currentPlayer = gameState.players[gameState.currentPlayer];
     
-    document.getElementById('levelUpBtn').addEventListener('click', () => {
-        if (game.gold >= 4) {
-            game.gold -= 4;
-            game.level++;
-            updateUI();
-            addLog(`Nâng cấp lên level ${game.level}!`, 'player');
-        }
-    });
+    // Check if player can move
+    const movablePieces = getMovablePieces(currentPlayer);
     
-    document.getElementById('startBattle').addEventListener('click', startBattle);
-    
-    document.getElementById('autoPlay').addEventListener('click', () => {
-        game.autoPlay = !game.autoPlay;
-        const btn = document.getElementById('autoPlay');
-        btn.textContent = game.autoPlay ? '⏸️ DỪNG AUTO' : '🤖 AUTO PLAY';
-        btn.className = game.autoPlay ? 'btn btn-warning btn-lg' : 'btn btn-secondary btn-lg';
-        
-        if (game.autoPlay) {
-            autoPlayLoop();
-        }
-    });
-}
-
-function autoPlayLoop() {
-    if (!game.autoPlay) return;
-    
-    setTimeout(() => {
-        if (!game.inBattle) {
-            aiPlaceUnits();
-            startBattle();
-        }
-    }, 1000);
-}
-
-function aiPlaceUnits() {
-    game.board.fill(null, 0, 32);
-    
-    const aiUnitCount = Math.min(game.level + 2, 8);
-    const positions = [];
-    
-    for (let i = 0; i < 32; i++) {
-        positions.push(i);
-    }
-    
-    for (let i = positions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [positions[i], positions[j]] = [positions[j], positions[i]];
-    }
-    
-    for (let i = 0; i < aiUnitCount; i++) {
-        const unitType = {...unitTypes[Math.floor(Math.random() * Math.min(unitTypes.length, game.round))]};
-        unitType.currentHp = unitType.hp;
-        unitType.stars = Math.min(Math.floor(game.round / 3) + 1, 3);
-        unitType.hp *= unitType.stars;
-        unitType.currentHp = unitType.hp;
-        unitType.atk *= unitType.stars;
-        unitType.id = Date.now() + Math.random();
-        
-        game.board[positions[i]] = unitType;
-    }
-    
-    renderBoard();
-}
-
-async function startBattle() {
-    if (game.inBattle) return;
-    
-    const playerUnits = game.board.filter((u, i) => u && Math.floor(i / 8) >= 4).length;
-    if (playerUnits === 0) {
-        addLog('Không có quân để chiến đấu!', 'player');
+    if (movablePieces.length === 0) {
+        // No valid moves
+        setTimeout(() => {
+            if (gameState.diceValue !== 6) {
+                nextPlayer();
+            } else {
+                gameState.canRoll = true;
+                document.getElementById('rollBtn').disabled = false;
+            }
+        }, 1000);
         return;
     }
     
-    if (game.board.filter((u, i) => u && Math.floor(i / 8) < 4).length === 0) {
-        aiPlaceUnits();
+    // If AI, make move automatically
+    if (currentPlayer.isAI) {
+        setTimeout(() => {
+            const piece = movablePieces[Math.floor(Math.random() * movablePieces.length)];
+            movePiece(currentPlayer, piece);
+        }, 1500);
+    } else {
+        // Player can select a piece
+        gameState.selectedPiece = null;
     }
-    
-    game.inBattle = true;
-    document.getElementById('startBattle').disabled = true;
-    addLog(`=== Round ${game.round} bắt đầu! ===`, 'win');
-    
-    let turn = 0;
-    const maxTurns = 50;
-    
-    while (turn < maxTurns) {
-        const playerUnits = game.board.filter((u, i) => u && u.currentHp > 0 && Math.floor(i / 8) >= 4).length;
-        const aiUnits = game.board.filter((u, i) => u && u.currentHp > 0 && Math.floor(i / 8) < 4).length;
-        
-        if (playerUnits === 0 || aiUnits === 0) break;
-        
-        await battleTurn();
-        turn++;
-        await sleep(300);
-    }
-    
-    endBattle();
 }
 
-async function battleTurn() {
-    for (let i = 0; i < 64; i++) {
-        const unit = game.board[i];
-        if (!unit || unit.currentHp <= 0) continue;
-        
-        const isPlayer = Math.floor(i / 8) >= 4;
-        const target = findTarget(i, isPlayer);
-        
-        if (target !== null) {
-            await attackTarget(i, target);
+function getMovablePieces(player) {
+    return player.pieces.filter(piece => {
+        if (gameState.diceValue === 6 && piece.isHome) return true;
+        if (!piece.isHome && piece.position >= 0 && piece.position + gameState.diceValue <= PATH.length) {
+            return true;
         }
-    }
+        return false;
+    });
 }
 
-function findTarget(pos, isPlayer) {
-    const unit = game.board[pos];
-    const row = Math.floor(pos / 8);
-    const col = pos % 8;
-    
-    let closestDist = Infinity;
-    let closestTarget = null;
-    
-    for (let i = 0; i < 64; i++) {
-        const targetUnit = game.board[i];
-        if (!targetUnit || targetUnit.currentHp <= 0) continue;
-        
-        const targetRow = Math.floor(i / 8);
-        const targetIsPlayer = targetRow >= 4;
-        
-        if (targetIsPlayer === isPlayer) continue;
-        
-        const targetCol = i % 8;
-        const dist = Math.abs(row - targetRow) + Math.abs(col - targetCol);
-        
-        if (dist <= unit.range && dist < closestDist) {
-            closestDist = dist;
-            closestTarget = i;
-        }
+function movePiece(player, piece) {
+    if (piece.isHome && gameState.diceValue === 6) {
+        piece.isHome = false;
+        piece.position = 0;
+    } else {
+        piece.position += gameState.diceValue;
     }
     
-    return closestTarget;
-}
-
-async function attackTarget(attacker, target) {
-    const unit = game.board[attacker];
-    const targetUnit = game.board[target];
-    
-    if (!unit || !targetUnit || targetUnit.currentHp <= 0) return;
-    
-    const cells = document.querySelectorAll('.cell');
-    cells[attacker].querySelector('.unit')?.classList.add('attacking');
-    
-    await sleep(200);
-    
-    const damage = unit.atk;
-    targetUnit.currentHp = Math.max(0, targetUnit.currentHp - damage);
-    
-    renderBoard();
-    
-    cells[attacker].querySelector('.unit')?.classList.remove('attacking');
-    
-    if (targetUnit.currentHp <= 0) {
-        const isPlayer = Math.floor(target / 8) >= 4;
-        addLog(`${unit.name} đánh bại ${targetUnit.name}!`, isPlayer ? 'ai' : 'player');
-    }
-}
-
-function endBattle() {
-    game.inBattle = false;
-    document.getElementById('startBattle').disabled = false;
-    
-    const playerUnits = game.board.filter((u, i) => u && u.currentHp > 0 && Math.floor(i / 8) >= 4).length;
-    const aiUnits = game.board.filter((u, i) => u && u.currentHp > 0 && Math.floor(i / 8) < 4).length;
-    
-    if (playerUnits > aiUnits) {
-        game.gold += 10 + game.round;
-        addLog(`🎉 Thắng! +${10 + game.round} 💰`, 'win');
-    } else if (aiUnits > playerUnits) {
-        const damage = 5 + Math.floor(game.round / 2);
-        game.hp = Math.max(0, game.hp - damage);
-        addLog(`💀 Thua! -${damage} HP`, 'lose');
+    // Check if reached finish
+    if (piece.position >= PATH.length) {
+        piece.position = PATH.length;
+        player.finishedPieces++;
+        updateProgress();
         
-        if (game.hp <= 0) {
-            addLog('=== GAME OVER ===', 'lose');
-            game.autoPlay = false;
+        if (player.finishedPieces === 4) {
+            gameState.winner = player.color;
+            showWinner();
             return;
         }
+    }
+    
+    drawBoard();
+    
+    // Extra turn on 6
+    if (gameState.diceValue === 6) {
+        setTimeout(() => {
+            gameState.canRoll = true;
+            if (!player.isAI) {
+                document.getElementById('rollBtn').disabled = false;
+            } else {
+                setTimeout(rollDice, 1000);
+            }
+        }, 500);
     } else {
-        game.gold += 5;
-        addLog(`🤝 Hòa! +5 💰`, 'player');
-    }
-    
-    game.round++;
-    game.gold += 5;
-    refreshShop();
-    updateUI();
-    
-    if (game.autoPlay && game.hp > 0) {
-        autoPlayLoop();
+        setTimeout(nextPlayer, 1000);
     }
 }
 
-function updateUI() {
-    document.getElementById('gold').textContent = game.gold;
-    document.getElementById('hp').textContent = game.hp;
-    document.getElementById('level').textContent = game.level;
-    document.getElementById('round').textContent = game.round;
-}
-
-function addLog(msg, type = '') {
-    const log = document.getElementById('log');
-    const entry = document.createElement('div');
-    entry.className = `log-entry ${type}`;
-    entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-    log.insertBefore(entry, log.firstChild);
+function nextPlayer() {
+    gameState.currentPlayer = (gameState.currentPlayer + 1) % 4;
+    gameState.canRoll = true;
     
-    if (log.children.length > 50) {
-        log.removeChild(log.lastChild);
+    updateTurnInfo();
+    
+    const currentPlayer = gameState.players[gameState.currentPlayer];
+    if (currentPlayer.isAI) {
+        setTimeout(rollDice, 1000);
+    } else {
+        document.getElementById('rollBtn').disabled = false;
     }
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function updateTurnInfo() {
+    const player = gameState.players[gameState.currentPlayer];
+    document.getElementById('currentTurn').textContent = PLAYER_NAMES[player.color];
+    document.getElementById('turnInfo').style.borderColor = COLOR_MAP[player.color];
+}
+
+function updateProgress() {
+    gameState.players.forEach(player => {
+        const progress = (player.finishedPieces / 4) * 100;
+        document.getElementById(player.color + 'Progress').style.width = progress + '%';
+    });
+}
+
+function showWinner() {
+    const winnerName = PLAYER_NAMES[gameState.winner];
+    const statusElement = document.getElementById('gameStatus');
+    statusElement.textContent = `🎉 ${winnerName} đã thắng! 🎉`;
+    statusElement.style.display = 'block';
+    document.getElementById('rollBtn').disabled = true;
+}
+
+// Canvas click handler
+canvas.addEventListener('click', (e) => {
+    if (gameState.canRoll || gameState.winner) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const currentPlayer = gameState.players[gameState.currentPlayer];
+    if (currentPlayer.isAI) return;
+    
+    const movablePieces = getMovablePieces(currentPlayer);
+    
+    // Check if clicked on a movable piece
+    currentPlayer.pieces.forEach((piece, index) => {
+        if (!movablePieces.includes(piece)) return;
+        
+        let px, py;
+        if (piece.isHome) {
+            const homePos = HOME_POSITIONS[currentPlayer.color][index];
+            px = homePos.x;
+            py = homePos.y;
+        } else {
+            const pathIndex = (currentPlayer.startIndex + piece.position) % PATH.length;
+            const pos = PATH[pathIndex];
+            px = pos.x;
+            py = pos.y;
+        }
+        
+        const distance = Math.sqrt((x - px) ** 2 + (y - py) ** 2);
+        if (distance < 20) {
+            movePiece(currentPlayer, piece);
+        }
+    });
+});
+
+// Event listeners
+document.getElementById('rollBtn').addEventListener('click', rollDice);
+document.getElementById('resetBtn').addEventListener('click', () => {
+    initGame();
+});
+
+// Initialize game
+function initGame() {
+    initPath();
+    initPlayers();
+    gameState.currentPlayer = 0;
+    gameState.canRoll = true;
+    gameState.winner = null;
+    gameState.diceValue = 0;
+    
+    document.getElementById('dice').querySelector('.dice-face').textContent = '?';
+    document.getElementById('rollBtn').disabled = false;
+    document.getElementById('gameStatus').style.display = 'none';
+    
+    updateTurnInfo();
+    updateProgress();
+    drawBoard();
 }
 
 // Start game
-init();
+initGame();
