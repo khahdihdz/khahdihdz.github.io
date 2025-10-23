@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Chess - Battle AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Left Panel - Shop & Info -->
+            <div class="col-lg-3">
+                <div class="card mb-3 info-panel">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Thông Tin</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <strong>Vàng:</strong> <span id="gold" class="text-warning">100</span> 💰
+                        </div>
+                        <div class="mb-2">
+                            <strong>HP:</strong> <span id="hp" class="text-danger">100</span> ❤️
+                        </div>
+                        <div class="mb-2">
+                            <strong>Cấp độ:</strong> <span id="level">1</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Round:</strong> <span id="round">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shop-panel">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Cửa Hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="shop" class="shop-container mb-3"></div>
+                        <button id="refreshBtn" class="btn btn-warning w-100 mb-2">
+                            🔄 Làm Mới (2 💰)
+                        </button>
+                        <button id="levelUpBtn" class="btn btn-info w-100">
+                            ⬆️ Nâng Cấp (4 💰)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center - Board -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h4 class="mb-0">⚔️ Auto Chess Battle ⚔️</h4>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="text-center mb-2">
+                            <span class="badge bg-danger">AI ZONE</span>
+                        </div>
+                        <div id="board" class="board"></div>
+                        <div class="text-center mt-2">
+                            <span class="badge bg-primary">YOUR ZONE</span>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button id="startBattle" class="btn btn-danger btn-lg">
+                                ⚔️ BẮT ĐẦU CHIẾN ĐẤU
+                            </button>
+                            <button id="autoPlay" class="btn btn-secondary btn-lg">
+                                🤖 AUTO PLAY
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Bench & Log -->
+            <div class="col-lg-3">
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Ghế Dự Bị</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="bench" class="bench-container"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">Nhật Ký</h5>
+                    </div>
+                    <div class="card-body p-2">
+                        <div id="log" class="battle-log"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
