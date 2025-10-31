@@ -1,34 +1,158 @@
-/* styles.css - CSS riêng, không gộp */
-
-/* Đặt các tag giống chip */
-.tag-item {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #f1f3f5;
-  border: 1px solid #e9ecef;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* hover */
-.tag-item:hover {
-  background: #e9ecef;
+.container {
+    max-width: 1200px;
 }
 
-/* highlight khi quay */
-.tag-highlight {
-  background: #fff3cd !important;
-  border-color: #ffe8a1 !important;
-  transform: scale(1.08);
-  transition: transform 120ms ease;
+h1 {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-weight: bold;
 }
 
-/* khu vực wheel */
-#wheel {
-  transition: box-shadow 200ms;
+.card {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
-#wheel.spinning {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+.wheel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+#wheelCanvas {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+}
+
+.arrow {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    color: #ff4444;
+    z-index: 10;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-remove {
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+#result {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+    #wheelCanvas {
+        width: 100%;
+        height: auto;
+    }
+    
+    .wheel-container {
+        padding: 15px;
+    }
+}
+
+/* Modal animations */
+.modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.result-animation {
+    animation: bounce 1s ease-in-out infinite;
+}
+
+.trophy-icon {
+    font-size: 80px;
+    display: inline-block;
+    animation: rotate 2s linear infinite;
+}
+
+.result-value {
+    color: #28a745;
+    font-weight: bold;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Confetti effect */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #f0f;
+    position: absolute;
+    animation: confetti-fall 3s linear forwards;
+}
+
+@keyframes confetti-fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }
