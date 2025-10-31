@@ -1,253 +1,259 @@
-// script.js - JS riêng, không gộp
-// Chú thích tiếng Việt trong file
+// Khởi tạo dữ liệu
+let items = ['Giải 1', 'Giải 2', 'Giải 3', 'Giải 4', 'Giải 5', 'Giải 6'];
+let itemWeights = {}; // Lưu trọng số cho mỗi item (xác suất 1:1000000)
+let isSpinning = false;
+let currentRotation = 0;
 
-// Data model: mảng chứa các giá trị
-let items = [];
+// Khởi tạo trọng số mặc định cho các item ban đầu
+items.forEach(item => {
+    itemWeights[item] = 1; // Mỗi item có trọng số bằng nhau
+});
 
-// DOM
-const valueInput = document.getElementById('valueInput');
+// Màu sắc cho vòng quay
+const colors = [
+    '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A',
+    '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2',
+    '#F8B739', '#52B788', '#E63946', '#A8DADC'
+];
+
+// Canvas setup
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const radius = 220;
+
+// Elements
+const itemInput = document.getElementById('itemInput');
 const addBtn = document.getElementById('addBtn');
-const bulkTextarea = document.getElementById('bulkTextarea');
-const bulkAddBtn = document.getElementById('bulkAddBtn');
-const clearAllBtn = document.getElementById('clearAllBtn');
-const tagsDiv = document.getElementById('tags');
-const countBadge = document.getElementById('countBadge');
+const clearBtn = document.getElementById('clearBtn');
 const spinBtn = document.getElementById('spinBtn');
-const pickCount = document.getElementById('pickCount');
-const speedRange = document.getElementById('speedRange');
-const speedLabel = document.getElementById('speedLabel');
-const resultList = document.getElementById('resultList');
-const subText = document.getElementById('subText');
-const copyResult = document.getElementById('copyResult');
-const resetSelection = document.getElementById('resetSelection');
-const exportBtn = document.getElementById('exportBtn');
-const importBtn = document.getElementById('importBtn');
-const importModal = new bootstrap.Modal(document.getElementById('importModal'));
-const importTextarea = document.getElementById('importTextarea');
-const confirmImport = document.getElementById('confirmImport');
-const wheel = document.getElementById('wheel');
+const itemsList = document.getElementById('itemsList');
+const result = document.getElementById('result');
+const resultText = document.getElementById('resultText');
+const modalResultText = document.getElementById('modalResultText');
 
-// Cập nhật hiển thị số lượng
-function updateCount() {
-  countBadge.textContent = items.length;
-}
-
-// Tạo 1 tag HTML cho item
-function createTag(value, index) {
-  const span = document.createElement('span');
-  span.className = 'tag-item';
-  span.dataset.index = index;
-  span.innerHTML = `${escapeHtml(value)} <button type="button" class="btn btn-sm btn-link p-0 ms-2 remove-btn" title="Xóa">&times;</button>`;
-  return span;
-}
-
-// render danh sách tags
-function renderTags() {
-  tagsDiv.innerHTML = '';
-  items.forEach((v, i) => {
-    const tag = createTag(v, i);
-    tagsDiv.appendChild(tag);
-  });
-  updateCount();
-}
-
-// escape html an toàn
-function escapeHtml(text) {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-// Thêm 1 giá trị
-addBtn.addEventListener('click', () => {
-  const v = valueInput.value.trim();
-  if (!v) return;
-  items.push(v);
-  valueInput.value = '';
-  renderTags();
+// Bootstrap Modal
+let resultModal;
+document.addEventListener('DOMContentLoaded', function() {
+    resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
 });
 
-// Thêm nhiều từ textarea (mỗi dòng 1 giá trị)
-bulkAddBtn.addEventListener('click', () => {
-  const raw = bulkTextarea.value;
-  if (!raw.trim()) return;
-  const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-  items.push(...lines);
-  bulkTextarea.value = '';
-  renderTags();
-});
+// Vẽ vòng quay
+function drawWheel() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    if (items.length === 0) {
+        ctx.fillStyle = '#ddd';
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#666';
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Chưa có mục nào', centerX, centerY);
+        return;
+    }
+    
+    const anglePerItem = (2 * Math.PI) / items.length;
+    
+    items.forEach((item, index) => {
+        const startAngle = index * anglePerItem + currentRotation;
+        const endAngle = startAngle + anglePerItem;
+        
+        // Vẽ phần vòng
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+        ctx.fillStyle = colors[index % colors.length];
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        
+        // Vẽ text
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(startAngle + anglePerItem / 2);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 18px Arial';
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 3;
+        ctx.fillText(item, radius / 1.5, 5);
+        ctx.restore();
+    });
+    
+    // Vẽ tâm vòng quay
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 20, 0, 2 * Math.PI);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+}
+
+// Cập nhật danh sách
+function updateList() {
+    itemsList.innerHTML = '';
+    items.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.innerHTML = `
+            <span>${item}</span>
+            <button class="btn btn-sm btn-danger btn-remove" onclick="removeItem(${index})">Xóa</button>
+        `;
+        itemsList.appendChild(li);
+    });
+    drawWheel();
+}
+
+// Thêm mục
+function addItem() {
+    const value = itemInput.value.trim();
+    if (value) {
+        items.push(value);
+        itemWeights[value] = 1; // Trọng số mặc định
+        itemInput.value = '';
+        updateList();
+    }
+}
+
+// Xóa mục
+function removeItem(index) {
+    const removedItem = items[index];
+    delete itemWeights[removedItem];
+    items.splice(index, 1);
+    updateList();
+}
 
 // Xóa tất cả
-clearAllBtn.addEventListener('click', () => {
-  if (!confirm('Xóa toàn bộ giá trị?')) return;
-  items = [];
-  renderTags();
-  resultList.textContent = '';
-  subText.textContent = 'Kết quả sẽ hiển thị ở đây';
-});
-
-// click vào nút xóa trên tag (delegation)
-tagsDiv.addEventListener('click', (e) => {
-  if (e.target.matches('.remove-btn')) {
-    const tag = e.target.closest('.tag-item');
-    const idx = Number(tag.dataset.index);
-    items.splice(idx, 1);
-    renderTags();
-  }
-});
-
-// spin button - main
-spinBtn.addEventListener('click', async () => {
-  if (items.length === 0) {
-    alert('Chưa có giá trị nào để quay.');
-    return;
-  }
-
-  const count = Math.max(1, Math.floor(Number(pickCount.value) || 1));
-  const speed = Math.max(100, Number(speedRange.value) || 400);
-  spinBtn.disabled = true;
-  wheel.classList.add('spinning');
-
-  // copy items and shuffle repeatedly for animation
-  const available = [...items];
-  const results = [];
-
-  // animation: highlight tag vài lần trước khi chọn
-  const totalFlashes = 20; // số lần highlight tổng
-  for (let t = 0; t < totalFlashes; t++) {
-    // chọn random index để highlight
-    const i = Math.floor(Math.random() * Math.max(1, available.length));
-    // render highlight
-    highlightTemp(i);
-    await sleep(Math.max(60, speed / (1 + t * 0.08)));
-    clearTempHighlight();
-  }
-
-  // Thực tế chọn 'count' mục khác nhau nếu có thể
-  const pool = [...available];
-  for (let k = 0; k < count; k++) {
-    if (pool.length === 0) break;
-    const idx = Math.floor(Math.random() * pool.length);
-    const picked = pool.splice(idx, 1)[0];
-    results.push(picked);
-    // hiển thị incremental
-    resultList.textContent = results.join(' , ');
-    await sleep(120);
-  }
-
-  // animate final highlight: tìm tag(s) và tô
-  highlightFinal(results);
-  subText.textContent = `Đã chọn ${results.length} mục`;
-  spinBtn.disabled = false;
-  wheel.classList.remove('spinning');
-});
-
-// helper sleep
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// highlight tạm (animation) - hiển thị bằng cách thêm class vào tag element nếu có
-function highlightTemp(idx) {
-  clearTempHighlight();
-  const tag = tagsDiv.children[idx];
-  if (tag) tag.classList.add('tag-highlight');
-}
-
-// clear temp
-function clearTempHighlight() {
-  for (const c of tagsDiv.children) {
-    c.classList.remove('tag-highlight');
-  }
-}
-
-// highlight final: highlight tất cả tag khớp với kết quả
-function highlightFinal(results) {
-  // xóa highlight trước
-  clearTempHighlight();
-  for (const c of tagsDiv.children) {
-    // text trong tag (lúc trước đã escapeHtml), nên so sánh bằng dataset index
-    const idx = Number(c.dataset.index);
-    const val = items[idx];
-    if (results.includes(val)) {
-      c.classList.add('tag-highlight');
+function clearAll() {
+    if (confirm('Bạn có chắc muốn xóa tất cả?')) {
+        items = [];
+        itemWeights = {};
+        updateList();
+        result.style.display = 'none';
     }
-  }
 }
 
-// copy kết quả
-copyResult.addEventListener('click', () => {
-  if (!resultList.textContent.trim()) {
-    alert('Chưa có kết quả để sao chép.');
-    return;
-  }
-  navigator.clipboard?.writeText(resultList.textContent).then(() => {
-    alert('Đã sao chép kết quả vào bộ nhớ tạm.');
-  }, () => {
-    alert('Không thể sao chép — trình duyệt không hỗ trợ.');
-  });
-});
-
-// reset highlight selection
-resetSelection.addEventListener('click', () => {
-  clearTempHighlight();
-  resultList.textContent = '';
-  subText.textContent = 'Kết quả sẽ hiển thị ở đây';
-});
-
-// export JSON (download)
-exportBtn.addEventListener('click', () => {
-  if (items.length === 0) {
-    alert('Không có gì để xuất.');
-    return;
-  }
-  const blob = new Blob([JSON.stringify(items, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'random-values.json';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-});
-
-// import modal
-importBtn.addEventListener('click', () => {
-  importTextarea.value = '';
-  importModal.show();
-});
-
-// confirm import từ modal
-confirmImport.addEventListener('click', () => {
-  const raw = importTextarea.value.trim();
-  if (!raw) return;
-  try {
-    if (raw.startsWith('[')) {
-      // JSON array
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        items.push(...parsed.map(String));
-      } else {
-        alert('JSON phải là mảng.');
-      }
-    } else {
-      // mỗi dòng 1 giá trị
-      const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-      items.push(...lines);
+// Thuật toán chọn ngẫu nhiên với trọng số (xác suất 1:1,000,000)
+function weightedRandomSelection() {
+    // Tạo mảng với tổng 1,000,000 phần tử
+    const totalParts = 1000000;
+    const weightedArray = [];
+    
+    // Tính tổng trọng số
+    const totalWeight = Object.values(itemWeights).reduce((sum, weight) => sum + weight, 0);
+    
+    // Phân bổ số phần cho mỗi item dựa trên trọng số
+    items.forEach(item => {
+        const parts = Math.floor((itemWeights[item] / totalWeight) * totalParts);
+        for (let i = 0; i < parts; i++) {
+            weightedArray.push(item);
+        }
+    });
+    
+    // Bù đắp phần còn lại (do làm tròn)
+    while (weightedArray.length < totalParts) {
+        weightedArray.push(items[Math.floor(Math.random() * items.length)]);
     }
-    renderTags();
-  } catch (err) {
-    alert('Không parse được nội dung. Hãy dùng JSON array hoặc mỗi dòng 1 giá trị.');
-  }
-});
+    
+    // Chọn ngẫu nhiên từ mảng đã trọng số hóa
+    const randomIndex = Math.floor(Math.random() * weightedArray.length);
+    return weightedArray[randomIndex];
+}
 
-// cập nhật label tốc độ
-speedRange.addEventListener('input', () => {
-  speedLabel.textContent = speedRange.value;
-});
+// Hiệu ứng pháo hoa
+function createConfetti() {
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = '-10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.position = 'fixed';
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+    }
+}
 
-// khởi tạo
-renderTags();
-speedLabel.textContent = speedRange.value;
+// Quay vòng
+function spin() {
+    if (isSpinning || items.length === 0) return;
+    
+    isSpinning = true;
+    spinBtn.disabled = true;
+    result.style.display = 'none';
+    
+    // Chọn kết quả trước khi quay bằng thuật toán trọng số
+    const selectedItem = weightedRandomSelection();
+    const selectedIndex = items.indexOf(selectedItem);
+    
+    // Tính toán góc quay để dừng đúng vị trí
+    const anglePerItem = (2 * Math.PI) / items.length;
+    const targetAngle = selectedIndex * anglePerItem;
+    
+    // Số vòng quay (8-12 vòng để tạo hiệu ứng kịch tính)
+    const spins = 8 + Math.random() * 4;
+    const totalRotation = spins * 360 * (Math.PI / 180);
+    
+    // Điều chỉnh để dừng chính xác tại item được chọn
+    // Mũi tên ở trên (góc π/2), cần tính toán để item dừng đúng dưới mũi tên
+    const finalRotation = totalRotation - targetAngle + (Math.PI / 2);
+    
+    const duration = 5000; // 5 giây cho animation mượt hơn
+    const startTime = Date.now();
+    const startRotation = currentRotation;
+    
+    function animate() {
+        const now = Date.now();
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function (ease-out cubic) - chậm dần tự nhiên
+        const easeOut = 1 - Math.pow(1 - progress, 4);
+        
+        currentRotation = startRotation + finalRotation * easeOut;
+        drawWheel();
+        
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            // Hiển thị kết quả
+            resultText.textContent = selectedItem;
+            modalResultText.textContent = selectedItem;
+            result.style.display = 'block';
+            
+            // Hiệu ứng pháo hoa
+            createConfetti();
+            
+            // Hiển thị modal sau 500ms
+            setTimeout(() => {
+                resultModal.show();
+            }, 500);
+            
+            isSpinning = false;
+            spinBtn.disabled = false;
+        }
+    }
+    
+    animate();
+}
+
+// Event listeners
+addBtn.addEventListener('click', addItem);
+itemInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') addItem();
+});
+clearBtn.addEventListener('click', clearAll);
+spinBtn.addEventListener('click', spin);
+
+// Khởi tạo
+updateList();
