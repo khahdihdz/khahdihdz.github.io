@@ -108,6 +108,22 @@ body {
     margin-bottom: 20px;
 }
 
+.json-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.json-controls .btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.json-controls .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .supporters-list {
     max-height: 300px;
     overflow-y: auto;
