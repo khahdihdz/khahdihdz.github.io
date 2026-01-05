@@ -1,172 +1,337 @@
-// Language Management
-let currentLang = 'vi';
-let selectedAmount = 25000; // Default amount
-
-const translations = {
-    vi: {
-        langText: 'English'
-    },
-    en: {
-        langText: 'Tiếng Việt'
-    }
+// Configuration
+const CONFIG = {
+    API_BASE_URL: 'https://msb-y56j.onrender.com',
+    ACCOUNT_NUMBER: '13001011869246',
+    BANK_CODE: '970426',
+    ACCOUNT_NAME: 'DINH TRONG KHANH',
+    REFRESH_INTERVAL: 30000, // 30 seconds
+    MAX_SUPPORTERS_DISPLAY: 5
 };
 
-// Select Coffee Amount
+// Global state
+let currentLanguage = 'vi';
+let currentAmount = 25000;
+let lastTransactionId = null;
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    initializeLanguage();
+    loadRecentTransactions();
+    startAutoRefresh();
+});
+
+// Language Toggle
+document.getElementById('langToggle').addEventListener('click', function() {
+    currentLanguage = currentLanguage === 'vi' ? 'en' : 'vi';
+    updateLanguage();
+    togglePaymentMethods();
+});
+
+function initializeLanguage() {
+    updateLanguage();
+}
+
+function updateLanguage() {
+    const elements = document.querySelectorAll('[data-vi][data-en]');
+    elements.forEach(element => {
+        element.textContent = element.getAttribute(`data-${currentLanguage}`);
+    });
+    
+    document.getElementById('langText').textContent = currentLanguage === 'vi' ? 'English' : 'Tiếng Việt';
+}
+
+function togglePaymentMethods() {
+    const viPayment = document.querySelector('.vi-payment');
+    const enPayment = document.querySelector('.en-payment');
+    
+    if (currentLanguage === 'vi') {
+        viPayment.style.display = 'block';
+        enPayment.style.display = 'none';
+    } else {
+        viPayment.style.display = 'none';
+        enPayment.style.display = 'block';
+    }
+}
+
+// Coffee Selection
 function selectCoffee(button, amount) {
     // Remove active class from all buttons
     document.querySelectorAll('.coffee-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     
-    // Add active class to clicked button
+    // Add active class to selected button
     button.classList.add('active');
     
-    // Update selected amount
-    selectedAmount = amount;
-    
-    // Update QR code
+    // Update amount
+    currentAmount = amount;
     updateQRCode(amount);
-    
-    // Update display amount
     updateDisplayAmount(amount);
     
     // Clear custom amount input
     document.getElementById('customAmount').value = '';
 }
 
-// Update Custom Amount
 function updateCustomAmount() {
     const customInput = document.getElementById('customAmount');
     const amount = parseInt(customInput.value);
     
-    if (amount && amount >= 1000) {
-        // Remove active class from all preset buttons
-        document.querySelectorAll('.coffee-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        selectedAmount = amount;
-        updateQRCode(amount);
-        updateDisplayAmount(amount);
-    } else {
-        alert(currentLang === 'vi' 
-            ? 'Vui lòng nhập số tiền từ 1,000 VNĐ trở lên' 
-            : 'Please enter amount from 1,000 VNĐ or more');
+    if (!amount || amount < 2000) {
+        showNotification('Vui lòng nhập số tiền tối thiểu 2,000 VNĐ', 'warning');
+        return;
     }
+    
+    // Remove active class from preset buttons
+    document.querySelectorAll('.coffee-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    currentAmount = amount;
+    updateQRCode(amount);
+    updateDisplayAmount(amount);
 }
 
-// Update QR Code
 function updateQRCode(amount) {
-    const qrImg = document.getElementById('qrCode');
-    qrImg.src = `https://api.vietqr.io/image/970426-13001011869246-GuEo6F2.jpg?accountName=DINH%20TRONG%20KHANH&amount=${amount}`;
+    const qrImage = document.getElementById('qrCode');
+    const baseUrl = 'https://api.vietqr.io/image';
+    const accountName = encodeURIComponent(CONFIG.ACCOUNT_NAME);
+    
+    qrImage.src = `${baseUrl}/${CONFIG.BANK_CODE}-${CONFIG.ACCOUNT_NUMBER}-GuEo6F2.jpg?accountName=${accountName}&amount=${amount}`;
 }
 
-// Update Display Amount
 function updateDisplayAmount(amount) {
     const displayElement = document.getElementById('displayAmount');
-    const formattedAmount = amount.toLocaleString('vi-VN');
-    displayElement.textContent = `${formattedAmount} VNĐ`;
+    displayElement.textContent = formatCurrency(amount);
 }
 
-// Allow Enter key on custom amount input
-document.addEventListener('DOMContentLoaded', function() {
-    const customInput = document.getElementById('customAmount');
-    if (customInput) {
-        customInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                updateCustomAmount();
-            }
-        });
-    }
-});
-
-// Toggle Language
-document.getElementById('langToggle').addEventListener('click', function() {
-    currentLang = currentLang === 'vi' ? 'en' : 'vi';
-    updateLanguage();
-    togglePaymentCards();
-});
-
-// Update all translatable elements
-function updateLanguage() {
-    const elements = document.querySelectorAll('[data-vi][data-en]');
-    
-    elements.forEach(element => {
-        const text = currentLang === 'vi' ? element.getAttribute('data-vi') : element.getAttribute('data-en');
-        element.textContent = text;
-    });
-
-    // Update language button text
-    document.getElementById('langText').textContent = translations[currentLang].langText;
-    
-    // Update HTML lang attribute
-    document.documentElement.lang = currentLang;
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(amount);
 }
 
-// Toggle Payment Cards based on language
-function togglePaymentCards() {
-    const viPayment = document.querySelector('.vi-payment');
-    const enPayment = document.querySelector('.en-payment');
-    
-    if (currentLang === 'vi') {
-        viPayment.style.display = 'block';
-        enPayment.style.display = 'none';
-        
-        // Animation
-        setTimeout(() => {
-            viPayment.style.animation = 'none';
-            setTimeout(() => {
-                viPayment.style.animation = 'slideUp 0.6s ease-out';
-            }, 10);
-        }, 10);
-    } else {
-        viPayment.style.display = 'none';
-        enPayment.style.display = 'block';
-        
-        // Animation
-        setTimeout(() => {
-            enPayment.style.animation = 'none';
-            setTimeout(() => {
-                enPayment.style.animation = 'slideUp 0.6s ease-out';
-            }, 10);
-        }, 10);
-    }
-}
-
-// Copy to Clipboard Function
+// Copy to Clipboard
 function copyToClipboard(text, element) {
-    // Create temporary input
-    const tempInput = document.createElement('input');
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    tempInput.setSelectionRange(0, 99999); // For mobile devices
-
-    try {
-        // Copy text
-        document.execCommand('copy');
+    navigator.clipboard.writeText(text).then(() => {
+        const originalHTML = element.innerHTML;
+        element.innerHTML = text + ' <i class="fas fa-check ms-2 text-success"></i>';
         
-        // Visual feedback
-        const originalText = element.innerHTML;
-        element.classList.add('copied');
-        element.innerHTML = '<i class="fas fa-check"></i> ' + (currentLang === 'vi' ? 'Đã sao chép!' : 'Copied!');
-        
-        // Reset after 2 seconds
         setTimeout(() => {
-            element.classList.remove('copied');
-            element.innerHTML = originalText;
+            element.innerHTML = originalHTML;
         }, 2000);
         
-    } catch (err) {
-        console.error('Failed to copy: ', err);
-        alert(currentLang === 'vi' ? 'Không thể sao chép. Vui lòng thử lại.' : 'Failed to copy. Please try again.');
-    }
-
-    // Remove temporary input
-    document.body.removeChild(tempInput);
+        showNotification(
+            currentLanguage === 'vi' ? 'Đã sao chép!' : 'Copied!',
+            'success'
+        );
+    }).catch(err => {
+        showNotification(
+            currentLanguage === 'vi' ? 'Không thể sao chép' : 'Failed to copy',
+            'error'
+        );
+    });
 }
 
-// Smooth scroll for any anchor links
+// API Integration
+async function loadRecentTransactions() {
+    try {
+        const response = await fetch(`${CONFIG.API_BASE_URL}/api/transactions?accountNumber=${CONFIG.ACCOUNT_NUMBER}&limit=${CONFIG.MAX_SUPPORTERS_DISPLAY}`);
+        
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data.success && data.transactions && data.transactions.length > 0) {
+            displaySupporters(data.transactions);
+            checkNewTransaction(data.transactions[0]);
+        } else {
+            displayNoSupporters();
+        }
+    } catch (error) {
+        console.error('Error loading transactions:', error);
+        displayErrorState();
+    }
+}
+
+function displaySupporters(transactions) {
+    const supportersList = document.getElementById('supportersList');
+    
+    if (transactions.length === 0) {
+        displayNoSupporters();
+        return;
+    }
+    
+    const html = transactions.map(transaction => {
+        const amount = formatCurrency(transaction.amount);
+        const time = formatTransactionTime(transaction.transactionDate);
+        const description = transaction.description || 'Buy Me a Coffee';
+        
+        return `
+            <div class="supporter-item animate-slide-in">
+                <div class="supporter-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="supporter-info">
+                    <div class="supporter-name">${escapeHtml(description)}</div>
+                    <div class="supporter-time">${time}</div>
+                </div>
+                <div class="supporter-amount">${amount}</div>
+            </div>
+        `;
+    }).join('');
+    
+    supportersList.innerHTML = html;
+}
+
+function displayNoSupporters() {
+    const supportersList = document.getElementById('supportersList');
+    supportersList.innerHTML = `
+        <div class="text-center text-muted py-3">
+            <i class="fas fa-coffee me-2"></i>
+            <span data-vi="Chưa có người ủng hộ. Hãy là người đầu tiên!" data-en="No supporters yet. Be the first!">
+                ${currentLanguage === 'vi' ? 'Chưa có người ủng hộ. Hãy là người đầu tiên!' : 'No supporters yet. Be the first!'}
+            </span>
+        </div>
+    `;
+}
+
+function displayErrorState() {
+    const supportersList = document.getElementById('supportersList');
+    supportersList.innerHTML = `
+        <div class="text-center text-muted py-3">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span data-vi="Không thể tải dữ liệu. Đang thử lại..." data-en="Unable to load data. Retrying...">
+                ${currentLanguage === 'vi' ? 'Không thể tải dữ liệu. Đang thử lại...' : 'Unable to load data. Retrying...'}
+            </span>
+        </div>
+    `;
+}
+
+function checkNewTransaction(latestTransaction) {
+    if (!latestTransaction) return;
+    
+    const transactionId = latestTransaction.transactionId || latestTransaction.id;
+    
+    if (lastTransactionId && transactionId !== lastTransactionId) {
+        showNewSupporterNotification(latestTransaction);
+        playNotificationSound();
+    }
+    
+    lastTransactionId = transactionId;
+}
+
+function showNewSupporterNotification(transaction) {
+    const amount = formatCurrency(transaction.amount);
+    const message = currentLanguage === 'vi' 
+        ? `Cảm ơn sự ủng hộ ${amount}!`
+        : `Thank you for ${amount} support!`;
+    
+    showNotification(message, 'success', 5000);
+}
+
+function playNotificationSound() {
+    // Create a simple notification sound using Web Audio API
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (error) {
+        console.log('Audio notification not supported');
+    }
+}
+
+function formatTransactionTime(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) {
+        return currentLanguage === 'vi' ? 'Vừa xong' : 'Just now';
+    } else if (diffMins < 60) {
+        return currentLanguage === 'vi' ? `${diffMins} phút trước` : `${diffMins} minutes ago`;
+    } else if (diffHours < 24) {
+        return currentLanguage === 'vi' ? `${diffHours} giờ trước` : `${diffHours} hours ago`;
+    } else if (diffDays < 7) {
+        return currentLanguage === 'vi' ? `${diffDays} ngày trước` : `${diffDays} days ago`;
+    } else {
+        return date.toLocaleDateString(currentLanguage === 'vi' ? 'vi-VN' : 'en-US');
+    }
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Auto-refresh transactions
+function startAutoRefresh() {
+    setInterval(() => {
+        loadRecentTransactions();
+    }, CONFIG.REFRESH_INTERVAL);
+}
+
+// Notification System
+function showNotification(message, type = 'info', duration = 3000) {
+    // Remove existing notifications
+    const existingNotification = document.querySelector('.custom-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `custom-notification custom-notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${getNotificationIcon(type)} me-2"></i>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Trigger animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Remove notification
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, duration);
+}
+
+function getNotificationIcon(type) {
+    const icons = {
+        success: 'check-circle',
+        error: 'exclamation-circle',
+        warning: 'exclamation-triangle',
+        info: 'info-circle'
+    };
+    return icons[type] || 'info-circle';
+}
+
+// Smooth scroll for internal links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -180,32 +345,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Add hover effect for cards
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-5px)';
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0)';
-    });
-});
+// Add animation on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    // Set initial language display
-    updateLanguage();
-    togglePaymentCards();
-    
-    // Add animation classes
-    const paymentCards = document.querySelectorAll('.payment-card');
-    paymentCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in');
+        }
     });
-});
+}, observerOptions);
 
-// Prevent right-click on QR code (optional security)
-document.querySelector('.qr-container img')?.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    return false;
+document.querySelectorAll('.payment-card, .thank-card').forEach(el => {
+    observer.observe(el);
 });
