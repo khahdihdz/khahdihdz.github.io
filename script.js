@@ -5,20 +5,172 @@ const CONFIG = {
     BANK_CODE: '970426',
     ACCOUNT_NAME: 'DINH TRONG KHANH',
     REFRESH_INTERVAL: 30000, // 30 seconds
-    MAX_SUPPORTERS_DISPLAY: 5
+    MAX_SUPPORTERS_DISPLAY: 5,
+    STORAGE_KEY: 'buyMeCoffee_donators',
+    MAX_STORAGE_RECORDS: 100,
+    AUTO_EXPORT_JSON: true, // Auto export to JSON file
+    EXPORT_INTERVAL: 60000 // Export every 60 seconds
 };
 
 // Global state
 let currentLanguage = 'vi';
 let currentAmount = 25000;
 let lastTransactionId = null;
+let donatorsData = {
+    lastUpdate: null,
+    totalAmount: 0,
+    totalDonations: 0,
+    donators: []
+};
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     initializeLanguage();
+    loadFromLocalStorage();
     loadRecentTransactions();
     startAutoRefresh();
+    addExportButton();
+    if (CONFIG.AUTO_EXPORT_JSON) {
+        startAutoExport();
+    }
 });
+
+// Local Storage Management
+function loadFromLocalStorage() {
+    try {
+        const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
+        if (stored) {
+            donatorsData = JSON.parse(stored);
+            console.log('Loaded donators data from localStorage:', donatorsData);
+        }
+    } catch (error) {
+        console.error('Error loading from localStorage:', error);
+    }
+}
+
+function saveToLocalStorage() {
+    try {
+        donatorsData.lastUpdate = new Date().toISOString();
+        localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(donatorsData));
+        console.log('Saved donators data to localStorage');
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
+    }
+}
+
+// JSON Export/Import Functions
+function exportToJSON() {
+    const dataToExport = {
+        ...donatorsData,
+        exportDate: new Date().toISOString(),
+        accountInfo: {
+            accountNumber: CONFIG.ACCOUNT_NUMBER,
+            accountName: CONFIG.ACCOUNT_NAME,
+            bankCode: CONFIG.BANK_CODE
+        }
+    };
+    
+    const jsonString = JSON.stringify(dataToExport, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    link.href = url;
+    link.download = `donators_${timestamp}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    showNotification(
+        currentLanguage === 'vi' ? 'Đã xuất dữ liệu JSON!' : 'JSON data exported!',
+        'success'
+    );
+    
+    console.log('Exported donators data to JSON file');
+}
+
+function importFromJSON(file) {
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+            
+            // Validate data structure
+            if (imported.donators && Array.isArray(imported.donators)) {
+                donatorsData = {
+                    lastUpdate: imported.lastUpdate || new Date().toISOString(),
+                    totalAmount: imported.totalAmount || 0,
+                    totalDonations: imported.totalDonations || 0,
+                    donators: imported.donators
+                };
+                
+                saveToLocalStorage();
+                displaySupporters(donatorsData.donators.slice(0, CONFIG.MAX_SUPPORTERS_DISPLAY));
+                
+                showNotification(
+                    currentLanguage === 'vi' ? 'Đã nhập dữ liệu JSON!' : 'JSON data imported!',
+                    'success'
+                );
+                
+                console.log('Imported donators data from JSON file');
+            } else {
+                throw new Error('Invalid JSON structure');
+            }
+        } catch (error) {
+            console.error('Error importing JSON:', error);
+            showNotification(
+                currentLanguage === 'vi' ? 'Lỗi nhập dữ liệu!' : 'Error importing data!',
+                'error'
+            );
+        }
+    };
+    
+    reader.readAsText(file);
+}
+
+function addExportButton() {
+    const supportersCard = document.querySelector('.supporters-card h5');
+    if (supportersCard) {
+        const buttonGroup = document.createElement('div');
+        buttonGroup.className = 'json-controls';
+        buttonGroup.innerHTML = `
+            <button class="btn btn-sm btn-outline-primary me-2" onclick="exportToJSON()" title="${currentLanguage === 'vi' ? 'Xuất JSON' : 'Export JSON'}">
+                <i class="fas fa-download"></i>
+            </button>
+            <label class="btn btn-sm btn-outline-secondary" title="${currentLanguage === 'vi' ? 'Nhập JSON' : 'Import JSON'}">
+                <i class="fas fa-upload"></i>
+                <input type="file" accept=".json" onchange="handleFileImport(event)" style="display: none;">
+            </label>
+        `;
+        
+        const header = supportersCard.parentElement;
+        header.style.display = 'flex';
+        header.style.justifyContent = 'space-between';
+        header.style.alignItems = 'center';
+        header.appendChild(buttonGroup);
+    }
+}
+
+function handleFileImport(event) {
+    const file = event.target.files[0];
+    if (file) {
+        importFromJSON(file);
+    }
+    event.target.value = ''; // Reset input
+}
+
+function startAutoExport() {
+    setInterval(() => {
+        if (donatorsData.donators.length > 0) {
+            // Auto-save to localStorage (not file download)
+            saveToLocalStorage();
+            console.log('Auto-saved donators data');
+        }
+    }, CONFIG.EXPORT_INTERVAL);
+}
 
 // Language Toggle
 document.getElementById('langToggle').addEventListener('click', function() {
@@ -136,7 +288,7 @@ function copyToClipboard(text, element) {
 // API Integration
 async function loadRecentTransactions() {
     try {
-        const response = await fetch(`${CONFIG.API_BASE_URL}/api/transactions?accountNumber=${CONFIG.ACCOUNT_NUMBER}&limit=${CONFIG.MAX_SUPPORTERS_DISPLAY}`);
+        const response = await fetch(`${CONFIG.API_BASE_URL}/api/transactions?accountNumber=${CONFIG.ACCOUNT_NUMBER}&limit=50`);
         
         if (!response.ok) {
             throw new Error('API request failed');
@@ -145,15 +297,58 @@ async function loadRecentTransactions() {
         const data = await response.json();
         
         if (data.success && data.transactions && data.transactions.length > 0) {
-            displaySupporters(data.transactions);
+            processTransactions(data.transactions);
+            displaySupporters(data.transactions.slice(0, CONFIG.MAX_SUPPORTERS_DISPLAY));
             checkNewTransaction(data.transactions[0]);
         } else {
-            displayNoSupporters();
+            // Display from cached data if available
+            if (donatorsData.donators.length > 0) {
+                displaySupporters(donatorsData.donators.slice(0, CONFIG.MAX_SUPPORTERS_DISPLAY));
+            } else {
+                displayNoSupporters();
+            }
         }
     } catch (error) {
         console.error('Error loading transactions:', error);
-        displayErrorState();
+        // Display from cached data if available
+        if (donatorsData.donators.length > 0) {
+            displaySupporters(donatorsData.donators.slice(0, CONFIG.MAX_SUPPORTERS_DISPLAY));
+        } else {
+            displayErrorState();
+        }
     }
+}
+
+function processTransactions(transactions) {
+    // Update donators data
+    transactions.forEach(transaction => {
+        const existingIndex = donatorsData.donators.findIndex(
+            d => d.transactionId === (transaction.transactionId || transaction.id)
+        );
+        
+        if (existingIndex === -1) {
+            // New transaction
+            const donator = {
+                transactionId: transaction.transactionId || transaction.id,
+                amount: transaction.amount,
+                description: transaction.description || 'Buy Me a Coffee',
+                transactionDate: transaction.transactionDate,
+                addedDate: new Date().toISOString()
+            };
+            
+            donatorsData.donators.unshift(donator);
+            donatorsData.totalAmount += transaction.amount;
+            donatorsData.totalDonations += 1;
+        }
+    });
+    
+    // Keep only MAX_STORAGE_RECORDS
+    if (donatorsData.donators.length > CONFIG.MAX_STORAGE_RECORDS) {
+        donatorsData.donators = donatorsData.donators.slice(0, CONFIG.MAX_STORAGE_RECORDS);
+    }
+    
+    // Save to localStorage
+    saveToLocalStorage();
 }
 
 function displaySupporters(transactions) {
