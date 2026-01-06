@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Me a Coffee ☕</title>
+    <title>Buy Me a Coffee ☕ - MSB Payment Integration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -12,14 +12,25 @@
             --secondary-color: #4ECDC4;
             --dark-color: #2C3E50;
             --light-color: #ECF0F1;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
+        /* Language Toggle */
         .language-toggle {
             position: fixed;
             top: 20px;
@@ -27,15 +38,32 @@
             z-index: 1000;
         }
 
+        .language-toggle .btn {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
         .hero-section {
             padding: 80px 0 40px;
             color: white;
+            text-align: center;
         }
 
         .coffee-icon {
             font-size: 80px;
             margin-bottom: 20px;
             animation: bounce 2s infinite;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
         }
 
         @keyframes bounce {
@@ -43,6 +71,16 @@
             50% { transform: translateY(-20px); }
         }
 
+        .hero-section h1 {
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        .hero-section .lead {
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Payment Section */
         .payment-section {
             padding: 40px 0;
         }
@@ -54,11 +92,13 @@
         .card {
             border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            border: none;
         }
 
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
         }
 
         .bg-gradient-primary {
@@ -67,6 +107,16 @@
 
         .bg-gradient-crypto {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .card-header h3 {
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Coffee Selection */
+        .coffee-selection {
+            margin-bottom: 30px;
         }
 
         .coffee-options {
@@ -82,22 +132,41 @@
             border-radius: 15px;
             padding: 20px 10px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coffee-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .coffee-btn:hover::before {
+            left: 100%;
         }
 
         .coffee-btn:hover {
             transform: scale(1.05);
             border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
         }
 
         .coffee-btn.active {
             background: linear-gradient(135deg, var(--primary-color) 0%, #FF8E53 100%);
             color: white;
             border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
 
         .coffee-btn i {
@@ -112,49 +181,88 @@
 
         .coffee-btn .label {
             font-size: 12px;
+            opacity: 0.9;
         }
 
+        .custom-amount {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .custom-amount .form-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* QR Code Section */
         .qr-container {
             background: white;
             padding: 15px;
             border-radius: 15px;
             display: inline-block;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-container:hover {
+            transform: scale(1.05);
         }
 
         .qr-container img {
             max-width: 100%;
             height: auto;
+            border-radius: 10px;
         }
 
         .selected-amount-display {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             padding: 15px;
             border-radius: 10px;
             margin-top: 15px;
+            font-size: 18px;
         }
 
+        .selected-amount-display strong {
+            font-size: 24px;
+        }
+
+        /* Bank Info */
         .bank-info {
             background: #f8f9fa;
             padding: 25px;
             border-radius: 15px;
+            border: 2px solid #e9ecef;
         }
 
         .info-item {
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid #dee2e6;
+            transition: all 0.3s ease;
         }
 
         .info-item:last-child {
             border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 107, 107, 0.05);
+            padding: 10px;
+            margin: 0 -10px 20px -10px;
+            border-radius: 8px;
         }
 
         .info-item label {
             font-weight: 600;
             color: #6c757d;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .info-item span {
@@ -165,20 +273,41 @@
 
         .copy-text {
             cursor: pointer;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: white;
         }
 
         .copy-text:hover {
             color: var(--primary-color);
+            background: #fff5f5;
         }
 
+        .copy-text i {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-text:hover i {
+            opacity: 1;
+        }
+
+        /* Crypto Payment */
         .crypto-item {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .crypto-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .crypto-header {
@@ -193,6 +322,11 @@
             color: var(--primary-color);
         }
 
+        .crypto-header h5 {
+            margin: 0;
+            font-weight: 600;
+        }
+
         .crypto-address {
             display: flex;
             gap: 10px;
@@ -200,6 +334,13 @@
 
         .crypto-address input {
             flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        /* Thank You Section */
+        .thankyou-section {
+            padding: 60px 0;
         }
 
         .thank-card {
@@ -207,27 +348,79 @@
             padding: 50px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .thank-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
         .thank-card i {
             font-size: 60px;
             color: var(--primary-color);
             margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
         }
 
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        .thank-card h2 {
+            color: var(--dark-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .thank-card p {
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        /* Footer */
         .footer {
             background: rgba(0,0,0,0.2);
             color: white;
+            backdrop-filter: blur(10px);
         }
 
+        .footer p {
+            font-size: 16px;
+        }
+
+        .footer i.fa-heart {
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Toast Container */
         .toast-container {
             position: fixed;
-            top: 20px;
+            top: 80px;
             right: 20px;
             z-index: 9999;
+            max-width: 350px;
         }
 
-        /* Admin Panel Styles */
+        .alert {
+            animation: slideInRight 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Admin Panel */
         .admin-panel {
             position: fixed;
             bottom: 20px;
@@ -236,18 +429,56 @@
         }
 
         .admin-toggle {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, #FF8E53 100%);
             color: white;
             border: none;
-            padding: 15px 20px;
+            padding: 15px 25px;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 16px;
         }
 
         .admin-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+
+        .admin-toggle i {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .admin-toggle:hover i {
+            animation: spin 0.5s linear infinite;
+        }
+
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-backdrop.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .admin-modal {
@@ -269,43 +500,82 @@
 
         .admin-modal.active {
             display: block;
+            animation: zoomIn 0.3s ease;
         }
 
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+        @keyframes zoomIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
         }
 
-        .modal-backdrop.active {
-            display: block;
+        .admin-modal h4 {
+            color: var(--dark-color);
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
         }
 
+        .admin-modal .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .admin-modal .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
+        }
+
+        .admin-modal .btn {
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-modal .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Transaction Items */
         .transaction-item {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 10px;
             border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .transaction-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
         }
 
         .transaction-item.credit {
-            border-left-color: #28a745;
+            border-left-color: var(--success-color);
+            background: linear-gradient(90deg, rgba(40, 167, 69, 0.05) 0%, transparent 100%);
         }
 
         .transaction-item.debit {
-            border-left-color: #dc3545;
+            border-left-color: var(--danger-color);
+            background: linear-gradient(90deg, rgba(220, 53, 69, 0.05) 0%, transparent 100%);
         }
 
+        /* Loading */
         .loading {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 30px;
         }
 
         .loading.active {
@@ -315,6 +585,91 @@
         .spinner-border {
             width: 3rem;
             height: 3rem;
+            border-width: 0.3em;
+        }
+
+        /* API Status Indicator */
+        #apiStatus {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 12px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        #apiStatus:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        #statusIndicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #6c757d;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0 30px;
+            }
+
+            .coffee-icon {
+                font-size: 60px;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .thank-card {
+                padding: 30px 20px;
+            }
+
+            .bank-info {
+                margin-top: 20px;
+            }
+
+            .admin-modal {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .coffee-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #FF8E53 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
         }
     </style>
 </head>
@@ -336,28 +691,37 @@
         </button>
     </div>
 
+    <!-- API Status Indicator -->
+    <div id="apiStatus" style="display: none;">
+        <div class="d-flex align-items-center gap-2">
+            <div id="statusIndicator"></div>
+            <span id="statusText">Checking API...</span>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
     <div class="modal-backdrop" id="adminBackdrop" onclick="toggleAdmin()"></div>
     <div class="admin-modal" id="adminModal">
-        <h4 class="mb-4"><i class="fas fa-user-shield"></i> Admin Panel</h4>
+        <h4><i class="fas fa-user-shield"></i> Admin Panel - MSB Integration</h4>
         
         <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-control" id="adminUsername" placeholder="MSB Username">
+            <label class="form-label"><i class="fas fa-user"></i> Username MSB</label>
+            <input type="text" class="form-control" id="adminUsername" placeholder="Nhập username MSB">
         </div>
         
         <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" id="adminPassword" placeholder="MSB Password">
+            <label class="form-label"><i class="fas fa-lock"></i> Password MSB</label>
+            <input type="password" class="form-control" id="adminPassword" placeholder="Nhập password MSB">
         </div>
         
         <div class="mb-3">
-            <label class="form-label">Account Number</label>
-            <input type="text" class="form-control" id="adminAccount" value="13001011869246">
+            <label class="form-label"><i class="fas fa-credit-card"></i> Account Number</label>
+            <input type="text" class="form-control" id="adminAccount" value="13001011869246" placeholder="Số tài khoản">
         </div>
 
         <div class="d-grid gap-2 mb-3">
             <button class="btn btn-primary" onclick="loginMSB()">
-                <i class="fas fa-sign-in-alt"></i> Login
+                <i class="fas fa-sign-in-alt"></i> Login to MSB
             </button>
             <button class="btn btn-success" onclick="getBalance()">
                 <i class="fas fa-wallet"></i> Get Balance
@@ -371,6 +735,7 @@
             <div class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
+            <p class="mt-3 text-muted">Processing... Please wait</p>
         </div>
 
         <div id="adminResult" class="mt-3"></div>
@@ -406,7 +771,7 @@
                 <div class="col-lg-10">
                     <!-- Vietnamese Payment -->
                     <div class="payment-card vi-payment">
-                        <div class="card shadow-lg border-0">
+                        <div class="card shadow-lg">
                             <div class="card-header bg-gradient-primary text-white py-4">
                                 <h3 class="mb-0">
                                     <i class="fas fa-credit-card me-2"></i>
@@ -417,7 +782,7 @@
                             </div>
                             <div class="card-body p-4">
                                 <!-- Coffee Selection -->
-                                <div class="coffee-selection mb-4">
+                                <div class="coffee-selection">
                                     <label class="form-label fw-bold" data-vi="Chọn số lượng cà phê ☕" data-en="Select number of coffees ☕">
                                         Chọn số lượng cà phê ☕
                                     </label>
@@ -449,7 +814,7 @@
                                         </label>
                                         <div class="input-group">
                                             <input type="number" class="form-control" id="customAmount" 
-                                                   placeholder="50000" min="2000" step="2000">
+                                                   placeholder="50000" min="2000" step="1000">
                                             <span class="input-group-text">VNĐ</span>
                                             <button class="btn btn-primary" onclick="updateCustomAmount()">
                                                 <i class="fas fa-check"></i>
@@ -458,7 +823,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row align-items-center">
+                                <div class="row align-items-center mt-4">
                                     <div class="col-md-6 text-center mb-4 mb-md-0">
                                         <div class="qr-container">
                                             <img id="qrCode" src="https://api.vietqr.io/image/970426-13001011869246-GuEo6F2.jpg?accountName=DINH%20TRONG%20KHANH&amount=25000" 
@@ -466,7 +831,7 @@
                                                  class="img-fluid rounded shadow">
                                         </div>
                                         <p class="text-muted mt-3 small" data-vi="Quét mã QR để chuyển khoản" data-en="Scan QR code to transfer">
-                                            Quét mã QR để chuyển khoản
+                                            <i class="fas fa-qrcode"></i> Quét mã QR để chuyển khoản
                                         </p>
                                         <div class="selected-amount-display">
                                             <span data-vi="Số tiền:" data-en="Amount:">Số tiền:</span>
@@ -476,22 +841,22 @@
                                     <div class="col-md-6">
                                         <div class="bank-info">
                                             <div class="info-item">
-                                                <label data-vi="Ngân hàng:" data-en="Bank:">Ngân hàng:</label>
+                                                <label data-vi="Ngân hàng:" data-en="Bank:"><i class="fas fa-university"></i> Ngân hàng:</label>
                                                 <span>Maritime Bank (MSB)</span>
                                             </div>
                                             <div class="info-item">
-                                                <label data-vi="Chủ tài khoản:" data-en="Account Name:">Chủ tài khoản:</label>
+                                                <label data-vi="Chủ tài khoản:" data-en="Account Name:"><i class="fas fa-user"></i> Chủ tài khoản:</label>
                                                 <span>DINH TRONG KHANH</span>
                                             </div>
                                             <div class="info-item">
-                                                <label data-vi="Số tài khoản:" data-en="Account Number:">Số tài khoản:</label>
+                                                <label data-vi="Số tài khoản:" data-en="Account Number:"><i class="fas fa-hashtag"></i> Số tài khoản:</label>
                                                 <span class="copy-text" onclick="copyToClipboard('13001011869246', this)">
                                                     13001011869246
                                                     <i class="fas fa-copy ms-2"></i>
                                                 </span>
                                             </div>
                                             <div class="info-item">
-                                                <label data-vi="Nội dung:" data-en="Message:">Nội dung:</label>
+                                                <label data-vi="Nội dung:" data-en="Message:"><i class="fas fa-comment"></i> Nội dung:</label>
                                                 <span class="copy-text" onclick="copyToClipboard('Buy Me a Coffee', this)">
                                                     Buy Me a Coffee
                                                     <i class="fas fa-copy ms-2"></i>
@@ -506,7 +871,7 @@
 
                     <!-- Crypto Payment -->
                     <div class="payment-card en-payment" style="display: none;">
-                        <div class="card shadow-lg border-0">
+                        <div class="card shadow-lg">
                             <div class="card-header bg-gradient-crypto text-white py-4">
                                 <h3 class="mb-0">
                                     <i class="fab fa-bitcoin me-2"></i>
@@ -602,19 +967,22 @@
         <div class="container text-center">
             <p class="mb-0">
                 <span data-vi="Được tạo với" data-en="Made with">Được tạo với</span>
-                <i class="fas fa-heart text-danger"></i>
+                <i class="fas fa-heart text-danger mx-1"></i>
                 <span data-vi="và" data-en="and">và</span>
-                <i class="fas fa-coffee"></i>
+                <i class="fas fa-coffee mx-1"></i>
+                <span data-vi="bởi MSB API Integration" data-en="by MSB API Integration">bởi MSB API Integration</span>
             </p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ===== CONFIGURATION =====
         const API_BASE_URL = 'https://msb-y56j.onrender.com';
+        const API_TIMEOUT = 30000; // 30 seconds timeout
         let currentLang = 'vi';
 
-        // Language Toggle
+        // ===== LANGUAGE TOGGLE =====
         document.getElementById('langToggle').addEventListener('click', function() {
             currentLang = currentLang === 'vi' ? 'en' : 'vi';
             document.getElementById('langText').textContent = currentLang === 'vi' ? 'English' : 'Tiếng Việt';
@@ -633,7 +1001,7 @@
             }
         });
 
-        // Coffee Selection
+        // ===== COFFEE SELECTION =====
         function selectCoffee(button, amount) {
             document.querySelectorAll('.coffee-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -649,6 +1017,7 @@
                     btn.classList.remove('active');
                 });
                 updateQRCode(parseInt(customAmount));
+                showToast('Đã cập nhật số tiền: ' + formatNumber(customAmount) + ' VNĐ', 'success');
             } else {
                 showToast('Vui lòng nhập số tiền tối thiểu 2,000 VNĐ', 'warning');
             }
@@ -666,29 +1035,30 @@
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        // Copy to Clipboard
+        // ===== COPY TO CLIPBOARD =====
         function copyToClipboard(text, element) {
             navigator.clipboard.writeText(text).then(() => {
-                showToast('Đã sao chép: ' + text, 'success');
+                showToast('✓ Đã sao chép: ' + text, 'success');
                 const icon = element.querySelector('i');
                 if (icon) {
-                    icon.classList.remove('fa-copy');
-                    icon.classList.add('fa-check');
+                    const originalClass = icon.className;
+                    icon.className = 'fas fa-check';
                     setTimeout(() => {
-                        icon.classList.remove('fa-check');
-                        icon.classList.add('fa-copy');
+                        icon.className = originalClass;
                     }, 2000);
                 }
+            }).catch(() => {
+                showToast('Không thể sao chép. Vui lòng thử lại.', 'danger');
             });
         }
 
-        // Toast Notification
+        // ===== TOAST NOTIFICATION =====
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `alert alert-${type} alert-dismissible fade show`;
             toast.style.cssText = 'min-width: 300px; margin-bottom: 10px;';
             toast.innerHTML = `
-                ${message}
+                <strong>${type === 'success' ? '✓' : type === 'danger' ? '✗' : 'ℹ'}</strong> ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
             
@@ -699,7 +1069,7 @@
             }, 5000);
         }
 
-        // Admin Panel Functions
+        // ===== ADMIN PANEL =====
         function toggleAdmin() {
             const modal = document.getElementById('adminModal');
             const backdrop = document.getElementById('adminBackdrop');
@@ -724,26 +1094,30 @@
             if (type === 'balance') {
                 html = `
                     <div class="alert alert-success">
-                        <h5><i class="fas fa-wallet"></i> Balance Information</h5>
-                        <p class="mb-0"><strong>Account:</strong> ${data.data.account_number}</p>
-                        <p class="mb-0"><strong>Balance:</strong> ${formatNumber(data.data.balance)} VNĐ</p>
+                        <h5><i class="fas fa-wallet"></i> Thông Tin Số Dư</h5>
+                        <hr>
+                        <p class="mb-1"><strong>Số tài khoản:</strong> ${data.data.account_number}</p>
+                        <p class="mb-0"><strong>Số dư:</strong> <span class="fs-4 text-success">${formatNumber(data.data.balance)} VNĐ</span></p>
                     </div>
                 `;
             } else if (type === 'transactions') {
-                html = '<div class="alert alert-info"><h5><i class="fas fa-history"></i> Recent Transactions</h5></div>';
+                html = '<div class="alert alert-info mb-3"><h5><i class="fas fa-history"></i> Lịch Sử Giao Dịch Gần Đây</h5></div>';
                 if (data.data.transactions && data.data.transactions.length > 0) {
                     data.data.transactions.forEach(tx => {
-                        const isCredit = parseFloat(tx.creditAmt) > 0;
+                        const isCredit = parseFloat(tx.creditAmt || 0) > 0;
+                        const amount = isCredit ? tx.creditAmt : tx.debitAmt;
                         html += `
                             <div class="transaction-item ${isCredit ? 'credit' : 'debit'}">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <strong>${tx.description || 'N/A'}</strong>
-                                        <p class="mb-0 small text-muted">${tx.postingDate || ''}</p>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div style="flex: 1;">
+                                        <strong>${tx.description || 'Không có mô tả'}</strong>
+                                        <p class="mb-0 small text-muted">
+                                            <i class="far fa-calendar"></i> ${tx.postingDate || tx.valueDate || 'N/A'}
+                                        </p>
                                     </div>
-                                    <div class="text-end">
-                                        <strong class="${isCredit ? 'text-success' : 'text-danger'}">
-                                            ${isCredit ? '+' : '-'}${formatNumber(Math.abs(parseFloat(isCredit ? tx.creditAmt : tx.debitAmt)))} VNĐ
+                                    <div class="text-end ms-3">
+                                        <strong class="${isCredit ? 'text-success' : 'text-danger'}" style="font-size: 1.1rem;">
+                                            ${isCredit ? '+' : '-'}${formatNumber(Math.abs(parseFloat(amount)))} VNĐ
                                         </strong>
                                     </div>
                                 </div>
@@ -751,20 +1125,24 @@
                         `;
                     });
                 } else {
-                    html += '<p class="text-muted">No transactions found</p>';
+                    html += '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Không tìm thấy giao dịch nào</div>';
                 }
             } else if (type === 'error') {
                 html = `
                     <div class="alert alert-danger">
-                        <h5><i class="fas fa-exclamation-triangle"></i> Error</h5>
-                        <p class="mb-0">${data.message || 'Unknown error occurred'}</p>
+                        <h5><i class="fas fa-exclamation-triangle"></i> Lỗi</h5>
+                        <hr>
+                        <p class="mb-0">${data.message || 'Đã xảy ra lỗi không xác định'}</p>
                     </div>
                 `;
             } else {
                 html = `
                     <div class="alert alert-${data.success ? 'success' : 'danger'}">
-                        <h5>${data.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'} ${data.message}</h5>
-                        ${data.data ? `<pre class="mb-0 mt-2">${JSON.stringify(data.data, null, 2)}</pre>` : ''}
+                        <h5>
+                            <i class="fas fa-${data.success ? 'check-circle' : 'times-circle'}"></i> 
+                            ${data.message || (data.success ? 'Thành công' : 'Thất bại')}
+                        </h5>
+                        ${data.data ? `<hr><pre class="mb-0 mt-2" style="background: #f8f9fa; padding: 10px; border-radius: 5px; font-size: 12px;">${JSON.stringify(data.data, null, 2)}</pre>` : ''}
                     </div>
                 `;
             }
@@ -772,14 +1150,48 @@
             resultDiv.innerHTML = html;
         }
 
-        // API Functions
+        // ===== API FUNCTIONS =====
+        async function fetchWithTimeout(url, options, timeout = API_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                throw error;
+            }
+        }
+
+        async function testAPIConnection() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/`, {
+                    method: 'GET'
+                }, 10000);
+                
+                const data = await response.json();
+                if (data.Hello === "World") {
+                    console.log('✓ API connection successful');
+                    return true;
+                }
+            } catch (error) {
+                console.warn('⚠ API may be sleeping (Render free tier)');
+                return false;
+            }
+        }
+
         async function loginMSB() {
             const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
             const accountNumber = document.getElementById('adminAccount').value;
 
             if (!username || !password || !accountNumber) {
-                showToast('Please fill in all fields', 'warning');
+                showToast('Vui lòng điền đầy đủ thông tin!', 'warning');
                 return;
             }
 
@@ -787,10 +1199,13 @@
             document.getElementById('adminResult').innerHTML = '';
 
             try {
-                const response = await fetch(`${API_BASE_URL}/login`, {
+                showToast('Đang kết nối MSB API... Có thể mất 30-60 giây nếu server đang khởi động', 'info');
+                
+                const response = await fetchWithTimeout(`${API_BASE_URL}/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         username: username,
@@ -799,18 +1214,32 @@
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
                 
                 if (data.success) {
-                    showToast('Login successful!', 'success');
+                    showToast('✓ Đăng nhập thành công!', 'success');
                     displayResult(data);
                 } else {
-                    showToast(data.message || 'Login failed', 'danger');
+                    showToast('✗ ' + (data.message || 'Đăng nhập thất bại'), 'danger');
                     displayResult(data, 'error');
                 }
             } catch (error) {
-                showToast('Connection error: ' + error.message, 'danger');
-                displayResult({message: error.message}, 'error');
+                let errorMessage = '';
+                
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Hết thời gian chờ. Server có thể đang khởi động (Render free tier). Vui lòng thử lại sau 1 phút.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Không thể kết nối đến API server. Vui lòng kiểm tra:\n1. Server đang chạy tại ' + API_BASE_URL + '\n2. CORS đã được bật\n3. Server có thể đang cold start (30-60s)';
+                } else {
+                    errorMessage = error.message;
+                }
+                
+                showToast('✗ Lỗi kết nối', 'danger');
+                displayResult({message: errorMessage}, 'error');
             } finally {
                 showLoading(false);
             }
@@ -822,7 +1251,7 @@
             const accountNumber = document.getElementById('adminAccount').value;
 
             if (!username || !password || !accountNumber) {
-                showToast('Please fill in all fields', 'warning');
+                showToast('Vui lòng điền đầy đủ thông tin!', 'warning');
                 return;
             }
 
@@ -830,10 +1259,11 @@
             document.getElementById('adminResult').innerHTML = '';
 
             try {
-                const response = await fetch(`${API_BASE_URL}/get_balance`, {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/get_balance`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         username: username,
@@ -842,18 +1272,32 @@
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
                 
                 if (data.success) {
-                    showToast('Balance retrieved successfully!', 'success');
+                    showToast('✓ Lấy số dư thành công!', 'success');
                     displayResult(data, 'balance');
                 } else {
-                    showToast(data.message || 'Failed to get balance', 'danger');
+                    showToast('✗ ' + (data.message || 'Không thể lấy số dư'), 'danger');
                     displayResult(data, 'error');
                 }
             } catch (error) {
-                showToast('Connection error: ' + error.message, 'danger');
-                displayResult({message: error.message}, 'error');
+                let errorMessage = '';
+                
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Hết thời gian chờ. Vui lòng thử lại.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Không thể kết nối đến API server.';
+                } else {
+                    errorMessage = error.message;
+                }
+                
+                showToast('✗ Lỗi kết nối', 'danger');
+                displayResult({message: errorMessage}, 'error');
             } finally {
                 showLoading(false);
             }
@@ -865,11 +1309,10 @@
             const accountNumber = document.getElementById('adminAccount').value;
 
             if (!username || !password || !accountNumber) {
-                showToast('Please fill in all fields', 'warning');
+                showToast('Vui lòng điền đầy đủ thông tin!', 'warning');
                 return;
             }
 
-            // Get dates for last 7 days
             const today = new Date();
             const sevenDaysAgo = new Date(today);
             sevenDaysAgo.setDate(today.getDate() - 7);
@@ -881,10 +1324,11 @@
             document.getElementById('adminResult').innerHTML = '';
 
             try {
-                const response = await fetch(`${API_BASE_URL}/get_transactions`, {
+                const response = await fetchWithTimeout(`${API_BASE_URL}/get_transactions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         username: username,
@@ -895,18 +1339,32 @@
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
                 
                 if (data.success) {
-                    showToast('Transactions retrieved successfully!', 'success');
+                    showToast('✓ Lấy lịch sử giao dịch thành công!', 'success');
                     displayResult(data, 'transactions');
                 } else {
-                    showToast(data.message || 'Failed to get transactions', 'danger');
+                    showToast('✗ ' + (data.message || 'Không thể lấy lịch sử'), 'danger');
                     displayResult(data, 'error');
                 }
             } catch (error) {
-                showToast('Connection error: ' + error.message, 'danger');
-                displayResult({message: error.message}, 'error');
+                let errorMessage = '';
+                
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Hết thời gian chờ. Vui lòng thử lại.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Không thể kết nối đến API server.';
+                } else {
+                    errorMessage = error.message;
+                }
+                
+                showToast('✗ Lỗi kết nối', 'danger');
+                displayResult({message: errorMessage}, 'error');
             } finally {
                 showLoading(false);
             }
@@ -919,69 +1377,47 @@
             return `${day}/${month}/${year}`;
         }
 
-        // Auto-check for new transactions (polling every 30 seconds when admin panel is open)
-        let transactionPolling = null;
-
-        function startTransactionPolling() {
-            if (transactionPolling) return;
+        // ===== API STATUS INDICATOR =====
+        function addAPIStatusIndicator() {
+            const statusDiv = document.getElementById('apiStatus');
+            const indicator = document.getElementById('statusIndicator');
+            const text = document.getElementById('statusText');
             
-            transactionPolling = setInterval(() => {
-                const modal = document.getElementById('adminModal');
-                if (modal.classList.contains('active')) {
-                    const username = document.getElementById('adminUsername').value;
-                    const password = document.getElementById('adminPassword').value;
-                    if (username && password) {
-                        checkNewTransactions();
-                    }
-                }
-            }, 30000); // Check every 30 seconds
+            statusDiv.style.display = 'block';
+            
+            setInterval(updateAPIStatus, 30000);
+            updateAPIStatus();
         }
 
-        async function checkNewTransactions() {
-            const username = document.getElementById('adminUsername').value;
-            const password = document.getElementById('adminPassword').value;
-            const accountNumber = document.getElementById('adminAccount').value;
-
-            if (!username || !password || !accountNumber) return;
-
-            const today = new Date();
-            const fromDate = formatDate(today);
-            const toDate = formatDate(today);
-
+        async function updateAPIStatus() {
+            const indicator = document.getElementById('statusIndicator');
+            const text = document.getElementById('statusText');
+            
             try {
-                const response = await fetch(`${API_BASE_URL}/get_transactions`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        account_number: accountNumber,
-                        from_date: fromDate,
-                        to_date: toDate
-                    })
-                });
-
-                const data = await response.json();
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
                 
-                if (data.success && data.data.transactions && data.data.transactions.length > 0) {
-                    // Check for new incoming transactions
-                    const newCredits = data.data.transactions.filter(tx => parseFloat(tx.creditAmt) > 0);
-                    if (newCredits.length > 0) {
-                        const latestCredit = newCredits[0];
-                        showToast(`New payment received: ${formatNumber(parseFloat(latestCredit.creditAmt))} VNĐ`, 'success');
-                    }
+                const response = await fetch(`${API_BASE_URL}/`, {
+                    method: 'GET',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    indicator.style.background = '#28a745';
+                    text.textContent = 'API Online';
+                } else {
+                    indicator.style.background = '#ffc107';
+                    text.textContent = 'API Error';
                 }
             } catch (error) {
-                console.error('Error checking transactions:', error);
+                indicator.style.background = '#dc3545';
+                text.textContent = 'API Offline';
             }
         }
 
-        // Start polling when page loads
-        startTransactionPolling();
-
-        // Close admin panel with Escape key
+        // ===== KEYBOARD SHORTCUTS =====
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 const modal = document.getElementById('adminModal');
@@ -991,10 +1427,17 @@
             }
         });
 
-        // Initialize
+        // ===== INITIALIZE =====
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Buy Me a Coffee - MSB Integration Ready');
-            console.log('API Base URL:', API_BASE_URL);
+            console.log('🚀 Buy Me a Coffee - MSB Integration Ready');
+            console.log('📡 API Base URL:', API_BASE_URL);
+            
+            setTimeout(() => {
+                testAPIConnection();
+                addAPIStatusIndicator();
+            }, 1000);
+            
+            showToast('✓ Trang web đã sẵn sàng! Click "Admin" để quản lý thanh toán.', 'info');
         });
     </script>
 </body>
