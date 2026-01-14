@@ -490,7 +490,7 @@
                 el.className = 'alert alert-warning alert-custom';
                 
                 try {
-                    await fetch('https://api.example.com/health', {
+                    await fetch('https://msb-y56j.onrender.com/health', {
                         signal: AbortSignal.timeout(5000)
                     });
                     el.innerHTML = this.t[this.lang].apiSuccess;
@@ -513,7 +513,7 @@
                 this.showLoading(true);
                 
                 try {
-                    const res = await fetch('https://api.msb.com.vn/login', {
+                    const res = await fetch('https://msb-y56j.onrender.com/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ username: user, password: pass }),
