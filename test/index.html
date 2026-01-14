@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elaina's Mod 1.4</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #4834df;
+            --accent-color: #ff6348;
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-light: #eaeaea;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f3460 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(108, 99, 255, 0.1);
+            animation: float 25s infinite;
+            border-radius: 50%;
+        }
+        
+        .bg-animation span:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+        
+        .bg-animation span:nth-child(2) {
+            left: 30%;
+            animation-delay: 4s;
+            animation-duration: 25s;
+        }
+        
+        .bg-animation span:nth-child(3) {
+            left: 50%;
+            animation-delay: 2s;
+            animation-duration: 30s;
+        }
+        
+        .bg-animation span:nth-child(4) {
+            left: 70%;
+            animation-delay: 6s;
+            animation-duration: 22s;
+        }
+        
+        .bg-animation span:nth-child(5) {
+            left: 90%;
+            animation-delay: 8s;
+            animation-duration: 28s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Header */
+        .header {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Feature Cards */
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px 30px;
+            height: 100%;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 0.1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.3);
+        }
+        
+        .feature-card > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .feature-card h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .feature-card p {
+            color: #b8b8b8;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+        
+        .badge-update {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        /* Buttons */
+        .btn-custom {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transition: left 0.3s ease;
+        }
+        
+        .btn-primary-custom:hover::before {
+            left: 0;
+        }
+        
+        .btn-primary-custom span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-primary-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.5);
+        }
+        
+        .btn-secondary-custom {
+            background: linear-gradient(135deg, #ee5a6f, #f29263);
+            color: white;
+        }
+        
+        .btn-secondary-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(238, 90, 111, 0.5);
+        }
+        
+        .btn-accent-custom {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-accent-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer p {
+            color: #888;
+            margin: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 30px;
+            }
+            
+            .btn-custom {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Card Animation on Scroll */
+        .feature-card {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .feature-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        
+        .feature-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        
+        .feature-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>Elaina's Mod 1.4</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="row g-4">
+            <!-- Download Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">📥</div>
+                    <h2>Tải Ngay</h2>
+                    <p>"Tải phiên bản mới nhất"</p>
+                    <a href="https://www.moddb.com/downloads/start/294047" class="btn-custom btn-primary-custom">
+                        <span>Tải Ngay</span>
+                    </a>
+                    <div class="badge-update">Đã cập nhật</div>
+                </div>
+            </div>
+
+            <!-- Tutorial Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">📚</div>
+                    <h2>Hướng Dẫn Tải</h2>
+                    <p>Hướng dẫn tải dễ dàng, nhanh chóng</p>
+                    <a href="Tutorial.html" class="btn-custom btn-secondary-custom">
+                        <span>Tôi Cần Trợ Giúp</span>
+                    </a>
+                    <div class="badge-update">Đã cập nhật</div>
+                </div>
+            </div>
+
+            <!-- Feedback Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">🐛</div>
+                    <h2>Lỗi & Góp Ý</h2>
+                    <p>Hãy báo cáo lỗi để chúng tôi chích điện Dev</p>
+                    <a href="https://docs.google.com/forms/d/19eyGzhm-P9GCwDnKh2Cu2koTfrnb3lB9Ba2M186uDX0/edit" class="btn-custom btn-accent-custom">
+                        <span>Tôi Muốn Báo Cáo/Góp Ý</span>
+                    </a>
+                    <div class="badge-update">Đã cập nhật</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Elaina's Mod. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
