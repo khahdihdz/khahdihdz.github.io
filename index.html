@@ -202,11 +202,13 @@
 
         <!-- Custom Amount -->
         <div class="mb-4">
-            <input type="number" 
+            <input type="text" 
                    class="form-control form-control-lg" 
                    id="customAmount" 
                    placeholder="Hoặc nhập số tiền khác (VNĐ)" 
+                   oninput="formatAmountInput(this)"
                    onchange="updateQR()">
+            <div id="amountInWords" class="mt-2 text-muted small text-center" style="min-height: 20px;"></div>
         </div>
 
         <!-- QR Section -->
@@ -239,32 +241,17 @@
             
             <div class="crypto-card p-3 mb-3">
                 <h6 class="mb-2 fw-semibold"><i class="bi bi-currency-bitcoin"></i> Bitcoin (BTC)</h6>
-                <div class="address-container">
-                    <div class="address-text p-2" id="btc-address">375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9</div>
-                    <button class="copy-btn" onclick="copyAddress('btc-address', this)">
-                        <i class="bi bi-clipboard"></i> Copy
-                    </button>
-                </div>
+                <div class="address-text p-2">375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9</div>
             </div>
 
             <div class="crypto-card p-3 mb-3">
                 <h6 class="mb-2 fw-semibold"><i class="bi bi-coin"></i> Tether (USDT) - TRC20</h6>
-                <div class="address-container">
-                    <div class="address-text p-2" id="usdt-address">TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp</div>
-                    <button class="copy-btn" onclick="copyAddress('usdt-address', this)">
-                        <i class="bi bi-clipboard"></i> Copy
-                    </button>
-                </div>
+                <div class="address-text p-2">TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp</div>
             </div>
 
             <div class="crypto-card p-3">
                 <h6 class="mb-2 fw-semibold"><i class="bi bi-currency-exchange"></i> Binance Coin (BNB) - BEP20</h6>
-                <div class="address-container">
-                    <div class="address-text p-2" id="bnb-address">0xAb173125a0d4Be248e7463695555092e306A2ddc</div>
-                    <button class="copy-btn" onclick="copyAddress('bnb-address', this)">
-                        <i class="bi bi-clipboard"></i> Copy
-                    </button>
-                </div>
+                <div class="address-text p-2">0xAb173125a0d4Be248e7463695555092e306A2ddc</div>
             </div>
         </div>
 
@@ -289,14 +276,33 @@
             
             // Clear custom amount
             document.getElementById('customAmount').value = '';
+            document.getElementById('amountInWords').textContent = '';
             
             // Update QR code
             updateQR(amount);
         }
 
+        function formatAmountInput(input) {
+            // Remove all non-numeric characters
+            let value = input.value.replace(/[^\d]/g, '');
+            
+            // Format with thousand separators
+            if (value) {
+                input.value = Number(value).toLocaleString('vi-VN');
+                // Convert to words
+                convertToWords(Number(value));
+                // Update QR
+                updateQR(Number(value));
+            } else {
+                input.value = '';
+                document.getElementById('amountInWords').textContent = '';
+            }
+        }
+
         function updateQR(amount) {
             if (!amount) {
-                amount = document.getElementById('customAmount').value || 25000;
+                const inputValue = document.getElementById('customAmount').value.replace(/[^\d]/g, '');
+                amount = inputValue || 25000;
             }
             
             const qrImage = document.getElementById('qrImage');
@@ -304,6 +310,77 @@
             
             qrImage.src = `https://api.vietqr.io/image/970426-13001011869246-GuEo6F2.jpg?accountName=DINH%20TRONG%20KHANH&amount=${amount}`;
             selectedAmountText.textContent = Number(amount).toLocaleString('vi-VN');
+        }
+
+        function convertToWords(num) {
+            if (!num || num === 0) {
+                document.getElementById('amountInWords').textContent = '';
+                return;
+            }
+
+            const units = ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+            const teens = ['mười', 'mười một', 'mười hai', 'mười ba', 'mười bốn', 'mười lăm', 'mười sáu', 'mười bảy', 'mười tám', 'mười chín'];
+            const tens = ['', '', 'hai mươi', 'ba mươi', 'bốn mươi', 'năm mươi', 'sáu mươi', 'bảy mươi', 'tám mươi', 'chín mươi'];
+            const scales = ['', 'nghìn', 'triệu', 'tỷ'];
+
+            function convertChunk(n) {
+                if (n === 0) return '';
+                
+                let result = '';
+                const hundreds = Math.floor(n / 100);
+                const remainder = n % 100;
+                
+                if (hundreds > 0) {
+                    result += units[hundreds] + ' trăm';
+                    if (remainder > 0) result += ' ';
+                }
+                
+                if (remainder >= 10 && remainder < 20) {
+                    result += teens[remainder - 10];
+                } else if (remainder >= 20) {
+                    const tensDigit = Math.floor(remainder / 10);
+                    const onesDigit = remainder % 10;
+                    result += tens[tensDigit];
+                    if (onesDigit > 0) {
+                        if (onesDigit === 5) {
+                            result += ' lăm';
+                        } else if (onesDigit === 1 && tensDigit > 1) {
+                            result += ' mốt';
+                        } else {
+                            result += ' ' + units[onesDigit];
+                        }
+                    }
+                } else if (remainder > 0) {
+                    if (hundreds > 0) {
+                        result += 'lẻ ' + units[remainder];
+                    } else {
+                        result += units[remainder];
+                    }
+                }
+                
+                return result.trim();
+            }
+
+            let result = [];
+            let chunkIndex = 0;
+            
+            while (num > 0) {
+                const chunk = num % 1000;
+                if (chunk > 0) {
+                    let chunkWords = convertChunk(chunk);
+                    if (chunkIndex > 0) {
+                        chunkWords += ' ' + scales[chunkIndex];
+                    }
+                    result.unshift(chunkWords);
+                }
+                num = Math.floor(num / 1000);
+                chunkIndex++;
+            }
+            
+            let finalWords = result.join(' ');
+            finalWords = finalWords.charAt(0).toUpperCase() + finalWords.slice(1) + ' đồng';
+            
+            document.getElementById('amountInWords').textContent = finalWords;
         }
 
         function toggleLanguage() {
@@ -351,28 +428,6 @@
                 
                 currentLang = 'vi';
             }
-        }
-
-        function copyAddress(addressId, button) {
-            const addressElement = document.getElementById(addressId);
-            const address = addressElement.textContent;
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(address).then(() => {
-                // Change button appearance
-                const originalHTML = button.innerHTML;
-                button.innerHTML = '<i class="bi bi-check-lg"></i> Copied!';
-                button.classList.add('copied');
-                
-                // Reset button after 2 seconds
-                setTimeout(() => {
-                    button.innerHTML = originalHTML;
-                    button.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Không thể sao chép. Vui lòng thử lại.');
-            });
         }
     </script>
 </body>
