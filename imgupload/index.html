@@ -282,6 +282,35 @@ input[type=color] {
 .stat { font-family:'DM Mono',monospace; font-size:.66rem; color:var(--muted);
   margin-top:.42rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
+/* URL row */
+.url-row {
+  display: flex; align-items: center; gap: .45rem;
+  margin-top: .42rem; min-width: 0; overflow: hidden;
+}
+.url-link {
+  flex: 1; min-width: 0;
+  font-family: 'DM Mono', monospace; font-size: .68rem;
+  color: #a0d8ff;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(160,216,255,.35);
+  transition: color .18s, border-color .18s;
+}
+.url-link:hover { color: #fff; border-color: rgba(160,216,255,.7); }
+.url-lbl {
+  font-family: 'DM Mono', monospace; font-size: .58rem;
+  color: var(--accent); text-transform: uppercase; letter-spacing: .1em;
+  margin-top: .55rem; margin-bottom: .2rem;
+}
+
+.gh-status {
+  font-family: 'DM Mono', monospace; font-size: .64rem;
+  margin-top: .55rem; padding: .3rem .6rem; border-radius: 5px;
+  display: none;
+}
+.gh-status.ok  { background: rgba(128,255,176,.1); color: #7cffb0; border: 1px solid rgba(128,255,176,.2); display:block; }
+.gh-status.err { background: rgba(255,100,100,.1); color: #ff8888; border: 1px solid rgba(255,100,100,.2); display:block; }
+
 /* TOAST */
 .toast {
   position: fixed; bottom: 1.1rem; right: 1.1rem; z-index: 9999;
@@ -302,7 +331,7 @@ input[type=color] {
 <header>
   <div class="logo-hex">W</div>
   <div class="logo-name">Water<em>Mark</em> Pro</div>
-  <span class="badge-v">v3.1</span>
+  <span class="badge-v">v3.4</span>
   <div class="hdr-sub">Đóng dấu chống đạo ảnh</div>
 </header>
 
@@ -378,6 +407,33 @@ input[type=color] {
         <label class="chk"><input type="checkbox" id="wb" checked><span>In đậm</span></label>
         <label class="chk"><input type="checkbox" id="wsh" checked><span>Đổ bóng</span></label>
       </div>
+
+      <div class="dl" style="margin:.85rem 0 .75rem"></div>
+
+      <!-- GITHUB CONFIG INLINE -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem">
+        <div>
+          <label class="cl">GitHub Owner</label>
+          <input class="ti" type="text" id="ghOwner" placeholder="username">
+        </div>
+        <div>
+          <label class="cl">Repository</label>
+          <input class="ti" type="text" id="ghRepo" placeholder="my-repo">
+        </div>
+        <div>
+          <label class="cl">Branch</label>
+          <input class="ti" type="text" id="ghBranch" value="main">
+        </div>
+        <div>
+          <label class="cl">Folder</label>
+          <input class="ti" type="text" id="ghFolder" value="img">
+        </div>
+      </div>
+      <div style="margin-bottom:.4rem">
+        <label class="cl">Personal Access Token</label>
+        <input class="ti" type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+      </div>
+      <div class="gh-status" id="ghStatus"></div>
     </div>
 
     <div style="display:flex;gap:.6rem;margin-top:.85rem">
@@ -430,6 +486,13 @@ input[type=color] {
         <button class="sm-btn" id="dlb" onclick="dlCurrent()">⬇ Tải</button>
       </div>
 
+      <!-- output URL -->
+      <div class="url-lbl" id="outUrlLbl" style="display:none">🔗 URL ảnh đã đóng dấu</div>
+      <div class="url-row" id="outUrlRow" style="display:none">
+        <a class="url-link" id="outUrl" href="#" target="_blank" title="">—</a>
+        <button class="sm-btn" onclick="copyUrl('outUrl',this)">Copy URL</button>
+      </div>
+
     </div>
 
     <!-- batch -->
@@ -446,10 +509,13 @@ input[type=color] {
 <div class="toast" id="toast"></div>
 
 <script>
-/* STATE */
-let files=[], urls=[], wms=[], idx=0;
+/* ─── STATE ──────────────────────────────────────── */
+let files=[], urls=[], wms=[], wmUrls=[], idx=0;
+// urls[i]   = blob URL (preview only, không lưu server)
+// wms[i]    = dataURL canvas watermarked
+// wmUrls[i] = raw.githubusercontent.com URL sau khi push
 
-/* DOM */
+/* ─── DOM ────────────────────────────────────────── */
 const DZ   = document.getElementById('dz');
 const FI   = document.getElementById('fi');
 const TABS = document.getElementById('tabs');
@@ -461,7 +527,7 @@ const IB   = document.getElementById('ib');
 const PILLS= document.getElementById('pills');
 const BATCH= document.getElementById('batch');
 
-/* RANGES */
+/* ─── RANGES ─────────────────────────────────────── */
 const RM = { ws:'fv', wo:'ov', wsp:'sv', wa:'av' };
 Object.keys(RM).forEach(id => {
   document.getElementById(id).addEventListener('input', function(){
@@ -472,23 +538,84 @@ document.getElementById('wc').addEventListener('input',function(){
   document.getElementById('hv').textContent = this.value;
 });
 
-/* DRAG DROP */
+/* ─── GITHUB HELPERS ─────────────────────────────── */
+function ghCfg(){
+  return {
+    owner  : document.getElementById('ghOwner').value.trim(),
+    repo   : document.getElementById('ghRepo').value.trim(),
+    branch : document.getElementById('ghBranch').value.trim() || 'main',
+    folder : document.getElementById('ghFolder').value.trim().replace(/\/+$/,'') || 'img',
+    token  : document.getElementById('ghToken').value.trim()
+  };
+}
+function ghValid(c){ return c.owner && c.repo && c.token; }
+
+// Push file PNG lên GitHub, trả raw URL
+// filename: tên file (vd: img_0_wm.png)
+// dataUrl : dataURL PNG
+async function ghPush(filename, dataUrl){
+  const c = ghCfg();
+  if(!ghValid(c)) throw new Error('Thiếu thông tin GitHub (owner/repo/token)');
+
+  const path    = `${c.folder}/${filename}`;
+  const apiUrl  = `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${path}`;
+  const base64  = dataUrl.replace(/^data:image\/png;base64,/,'');
+
+  // Kiểm tra file đã tồn tại chưa (lấy sha để update)
+  let sha = null;
+  try {
+    const chk = await fetch(`${apiUrl}?ref=${c.branch}`, {
+      headers: { Authorization: `Bearer ${c.token}`, Accept: 'application/vnd.github+json' }
+    });
+    if(chk.ok){ const j=await chk.json(); sha=j.sha; }
+  } catch(_){}
+
+  const body = {
+    message : `upload ${filename}`,
+    content : base64,
+    branch  : c.branch
+  };
+  if(sha) body.sha = sha;
+
+  const res = await fetch(apiUrl, {
+    method : 'PUT',
+    headers: {
+      Authorization: `Bearer ${c.token}`,
+      Accept       : 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if(!res.ok){
+    const err = await res.json();
+    throw new Error(err.message || res.statusText);
+  }
+
+  return `https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/${path}`;
+}
+
+/* ─── DRAG DROP ──────────────────────────────────── */
 DZ.addEventListener('dragover', e=>{ e.preventDefault(); DZ.classList.add('over'); });
 DZ.addEventListener('dragleave', ()=> DZ.classList.remove('over'));
 DZ.addEventListener('drop', e=>{ e.preventDefault(); DZ.classList.remove('over'); load([...e.dataTransfer.files]); });
 FI.addEventListener('change', ()=> load([...FI.files]));
 
-function load(nf) {
-  nf = nf.filter(f=>f.type.startsWith('image/'));
-  if (!nf.length) return;
+/* ─── LOAD (blob preview only) ───────────────────── */
+function load(nf){
+  nf=nf.filter(f=>f.type.startsWith('image/'));
+  if(!nf.length) return;
   urls.forEach(u=>URL.revokeObjectURL(u));
-  files=nf; urls=files.map(f=>URL.createObjectURL(f)); wms=new Array(files.length).fill(null); idx=0;
+  files=nf; urls=files.map(f=>URL.createObjectURL(f));
+  wms=new Array(files.length).fill(null);
+  wmUrls=new Array(files.length).fill(null);
+  idx=0;
   mkPills(); mkTabs(); showOrig(0);
-  BATCH.style.display = files.length>1 ? 'block':'none';
+  BATCH.style.display=files.length>1?'block':'none';
   toast(`✅ Đã tải ${files.length} ảnh`);
 }
 
-/* PILLS */
+/* ─── PILLS ──────────────────────────────────────── */
 function mkPills(){
   PILLS.innerHTML='';
   files.forEach((f,i)=>{
@@ -500,13 +627,13 @@ function mkPills(){
 }
 function rmFile(i){
   URL.revokeObjectURL(urls[i]);
-  files.splice(i,1); urls.splice(i,1); wms.splice(i,1);
+  files.splice(i,1); urls.splice(i,1); wms.splice(i,1); wmUrls.splice(i,1);
   if(!files.length){resetAll();return;}
   idx=Math.min(idx,files.length-1);
-  mkPills(); mkTabs(); showOrig(idx);
+  mkPills(); mkTabs(); showWMOrOrig(idx);
 }
 
-/* TABS */
+/* ─── TABS ───────────────────────────────────────── */
 function mkTabs(){
   TABS.innerHTML='';
   if(files.length<=1) return;
@@ -518,57 +645,57 @@ function mkTabs(){
   });
 }
 
-/* SHOW */
+/* ─── SHOW ───────────────────────────────────────── */
 function showOrig(i){
   const img=new Image();
-  img.onload=()=>{
-    CV.width=img.naturalWidth; CV.height=img.naturalHeight;
-    X.drawImage(img,0,0);
-    reveal();
-    setOrig(i,img);
-  };
+  img.onload=()=>{ CV.width=img.naturalWidth; CV.height=img.naturalHeight; X.drawImage(img,0,0); reveal(); setInfo(i,img); };
   img.src=urls[i];
 }
 function showWMOrOrig(i){
   if(wms[i]){
     const img=new Image();
     img.onload=()=>{ CV.width=img.naturalWidth; CV.height=img.naturalHeight; X.drawImage(img,0,0); reveal(); };
-    img.src=wms[i];
-    setWM(i);
+    img.src=wms[i]; setInfo(i,null);
   } else showOrig(i);
 }
-function reveal(){
-  PH.style.display='none';
-  CW.style.display='flex';
-  IB.classList.add('on');
-}
+function reveal(){ PH.style.display='none'; CW.style.display='flex'; IB.classList.add('on'); }
 
-/* INFO */
+/* ─── INFO BOX ───────────────────────────────────── */
 function ext(n){ const m=n.match(/\.([^.]+)$/); return m?m[1].toUpperCase():'—'; }
-function setOrig(i,img){
+function setInfo(i,img){
   const f=files[i];
   document.getElementById('origN').textContent=f.name;
   document.getElementById('origN').title=f.name;
   document.getElementById('origE').textContent=ext(f.name);
-  document.getElementById('stat').textContent=
+  if(img) document.getElementById('stat').textContent=
     `📐 ${img.naturalWidth}×${img.naturalHeight}px  ·  💾 ${(f.size/1024).toFixed(1)} KB  ·  ${f.type}`;
-  const base=f.name.replace(/\.[^.]+$/,'');
-  const outEl=document.getElementById('outN');
-  const extEl=document.getElementById('outE');
-  if(wms[i]){ outEl.textContent='watermarked_'+base+'.png'; extEl.style.display='inline'; }
-  else { outEl.textContent='Chưa áp dụng watermark...'; extEl.style.display='none'; }
+  const outEl=document.getElementById('outN'), extEl=document.getElementById('outE');
+  if(wms[i]){ outEl.textContent=`img_${i}_wm.png`; extEl.style.display='inline'; showOutUrl(i); }
+  else { outEl.textContent='Chưa áp dụng watermark...'; extEl.style.display='none'; hideOutUrl(); }
 }
-function setWM(i){
-  const f=files[i];
-  document.getElementById('origN').textContent=f.name;
-  document.getElementById('origN').title=f.name;
-  document.getElementById('origE').textContent=ext(f.name);
-  const base=f.name.replace(/\.[^.]+$/,'');
-  document.getElementById('outN').textContent='watermarked_'+base+'.png';
-  document.getElementById('outE').style.display='inline';
+function showOutUrl(i){
+  const u=wmUrls[i];
+  const el=document.getElementById('outUrl');
+  el.href= u||'#';
+  el.textContent= u ? u : '⏳ Đang push lên GitHub...';
+  el.title= u||'';
+  document.getElementById('outUrlLbl').style.display='';
+  document.getElementById('outUrlRow').style.display='';
+}
+function hideOutUrl(){
+  document.getElementById('outUrlLbl').style.display='none';
+  document.getElementById('outUrlRow').style.display='none';
 }
 
-/* COPY SPAN */
+/* ─── COPY ───────────────────────────────────────── */
+function copyUrl(id,btn){
+  const el=document.getElementById(id), v=el.getAttribute('href');
+  if(!v||v==='#') return;
+  navigator.clipboard.writeText(v).then(()=>{
+    btn.textContent='✓ OK'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='Copy URL'; btn.classList.remove('ok'); },1600);
+  });
+}
 function copySpan(id,btn){
   const v=document.getElementById(id).textContent.trim();
   if(!v||v==='—') return;
@@ -578,9 +705,12 @@ function copySpan(id,btn){
   });
 }
 
-/* WATERMARK ENGINE */
+/* ─── WATERMARK ENGINE ───────────────────────────── */
 function applyWM(){
   if(!files.length){ toast('⚠️ Hãy upload ảnh trước!'); return; }
+  const c=ghCfg();
+  if(!ghValid(c)){ setGhStatus('err','⚠️ Chưa điền GitHub Config (owner / repo / token)'); return; }
+
   const text=document.getElementById('wt').value||'© Watermark';
   const fs=+document.getElementById('ws').value;
   const op=+document.getElementById('wo').value/100;
@@ -602,60 +732,73 @@ function applyWM(){
       ox.save();
       ox.globalAlpha=op;
       ox.font=`${bd?'bold ':''}${fs}px ${fn}`;
-      ox.fillStyle=cl;
-      ox.textBaseline='middle';
+      ox.fillStyle=cl; ox.textBaseline='middle';
       if(sh){ ox.shadowColor='rgba(0,0,0,.65)'; ox.shadowBlur=Math.max(2,fs*.15); ox.shadowOffsetX=ox.shadowOffsetY=1; }
       const tw=ox.measureText(text).width;
       const diag=Math.hypot(oc.width,oc.height);
-      const cols=Math.ceil(diag/(tw+sp))+3;
-      const rows=Math.ceil(diag/(fs+sp))+3;
-      ox.translate(oc.width/2,oc.height/2);
-      ox.rotate(ag);
+      const cols=Math.ceil(diag/(tw+sp))+3, rows=Math.ceil(diag/(fs+sp))+3;
+      ox.translate(oc.width/2,oc.height/2); ox.rotate(ag);
       const sx=-diag/2, sy=-diag/2;
       for(let r=-rows;r<=rows*2;r++)
-        for(let c=-cols;c<=cols*2;c++)
-          ox.fillText(text, sx+c*(tw+sp), sy+r*(fs+sp));
+        for(let co=-cols;co<=cols*2;co++)
+          ox.fillText(text, sx+co*(tw+sp), sy+r*(fs+sp));
       ox.restore();
+
       wms[i]=oc.toDataURL('image/png');
-      if(i===idx){ CV.width=oc.width; CV.height=oc.height; X.drawImage(oc,0,0); reveal(); setWM(i); }
-      if(++done===files.length) toast(`✅ Đã đóng dấu ${done} ảnh!`);
+      wmUrls[i]=null;
+      if(i===idx){ CV.width=oc.width; CV.height=oc.height; X.drawImage(oc,0,0); reveal(); setInfo(i,null); }
+      if(++done===files.length) toast(`✅ Đã đóng dấu ${done} ảnh – đang push GitHub...`);
+
+      // Push ảnh WM lên GitHub
+      const fname=`img_${i}_wm.png`;
+      ghPush(fname, wms[i])
+        .then(rawUrl=>{
+          wmUrls[i]=rawUrl;
+          setGhStatus('ok',`✅ Đã lưu ${done} ảnh lên GitHub`);
+          if(i===idx) showOutUrl(i);
+        })
+        .catch(err=>{
+          setGhStatus('err',`❌ Push thất bại: ${err.message}`);
+          toast(`❌ img_${i}_wm.png lỗi: ${err.message}`);
+        });
     };
     img.src=urls[i];
   });
 }
 
-/* DOWNLOAD */
+function setGhStatus(type, msg){
+  const el=document.getElementById('ghStatus');
+  el.className=`gh-status ${type}`; el.textContent=msg;
+}
+
+/* ─── DOWNLOAD ───────────────────────────────────── */
 function dlCurrent(){
   if(!wms[idx]){ toast('⚠️ Hãy áp dụng watermark trước!'); return; }
   const a=document.createElement('a');
-  a.href=wms[idx];
-  a.download='watermarked_'+files[idx].name.replace(/\.[^.]+$/,'')+'.png';
-  a.click();
+  a.href=wms[idx]; a.download=`img_${idx}_wm.png`; a.click();
 }
 function dlAll(){
   const ok=wms.map((w,i)=>w?i:-1).filter(i=>i>=0);
   if(!ok.length){ toast('⚠️ Hãy áp dụng watermark trước!'); return; }
   ok.forEach((i,n)=>setTimeout(()=>{
     const a=document.createElement('a');
-    a.href=wms[i]; a.download='watermarked_'+files[i].name.replace(/\.[^.]+$/,'')+'.png';
-    a.click();
+    a.href=wms[i]; a.download=`img_${i}_wm.png`; a.click();
   },n*350));
   toast(`⬇ Đang tải ${ok.length} ảnh...`);
 }
 
-/* RESET */
+/* ─── RESET ──────────────────────────────────────── */
 function resetAll(){
   urls.forEach(u=>URL.revokeObjectURL(u));
-  files=[];urls=[];wms=[];idx=0;
+  files=[];urls=[];wms=[];wmUrls=[];idx=0;
   PILLS.innerHTML=''; TABS.innerHTML='';
   PH.style.display=''; CW.style.display='none';
-  IB.classList.remove('on');
-  BATCH.style.display='none';
-  FI.value='';
+  IB.classList.remove('on'); BATCH.style.display='none'; FI.value='';
+  hideOutUrl();
   toast('↺ Đã reset');
 }
 
-/* TOAST */
+/* ─── TOAST ──────────────────────────────────────── */
 function toast(msg){
   const el=document.getElementById('toast');
   el.textContent=msg; el.classList.add('on');
