@@ -1,49 +1,62 @@
-// ImgBB API Configuration
-// Bảo mật: Thay thế API_KEY bằng key thực tế của bạn
-const CONFIG = {
-    // Lấy API key từ: https://api.imgbb.com/
-    API_KEY: '2a83c5e55f02d5c99d5a8e6064ca0e00',
-    
-    // ImgBB API endpoint
-    API_URL: 'https://api.imgbb.com/1/upload',
-    
-    // Cài đặt upload mặc định
-    UPLOAD_SETTINGS: {
-        // Thời gian hết hạn (giây) - null là không hết hạn
-        expiration: null,
-        
-        // Kích thước file tối đa (bytes) - 32MB
-        maxFileSize: 32 * 1024 * 1024,
-        
-        // Các định dạng file được hỗ trợ
-        allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
-        
-        // Timeout cho request (ms)
-        requestTimeout: 30000
-    },
-    
-    // Cài đặt watermark mặc định
-    WATERMARK_DEFAULTS: {
-        text: 'Ảnh được upload từ https://khahdihdz.github.io/imgupload',
-        fontSize: 24,
-        position: 'bottom-right',
-        opacity: 0.7,
-        color: '#ffffff',
-        fontFamily: 'Arial, sans-serif',
-        fontWeight: 'bold'
-    }
-};
+import 'dotenv/config';
+import express from 'express';
+import fetch   from 'node-fetch';
 
-// Kiểm tra tính hợp lệ của cấu hình
-const validateConfig = () => {
-    if (!CONFIG.API_KEY || CONFIG.API_KEY === 'YOUR_IMGBB_API_KEY_HERE') {
-        console.warn('⚠️ Cảnh báo: Bạn cần cập nhật API_KEY trong file config.js');
-        return false;
-    }
-    return true;
-};
+const app  = express();
+const PORT = process.env.PORT || 3000;
 
-// Export config để sử dụng trong các file khác
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { CONFIG, validateConfig };
-}
+app.use(express.json({ limit: '20mb' }));
+app.use(express.static('public'));        // watermark-tool.html đặt trong /public
+
+/* ─── POST /api/github-push ─────────────────────────
+   Body: { filename: string, base64: string }
+   Token & repo config lấy từ .env, không lộ ra client
+─────────────────────────────────────────────────── */
+app.post('/api/github-push', async (req, res) => {
+  const { filename, base64 } = req.body;
+
+  if (!filename || !base64) {
+    return res.status(400).json({ error: 'Thiếu filename hoặc base64' });
+  }
+
+  const owner  = process.env.GH_OWNER;
+  const repo   = process.env.GH_REPO;
+  const branch = process.env.GH_BRANCH || 'main';
+  const folder = (process.env.GH_FOLDER || 'img').replace(/\/+$/, '');
+  const token  = process.env.GH_TOKEN;
+
+  if (!owner || !repo || !token) {
+    return res.status(500).json({ error: 'Server chưa cấu hình GitHub (.env)' });
+  }
+
+  const path   = `${folder}/${filename}`;
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const headers = {
+    Authorization : `Bearer ${token}`,
+    Accept        : 'application/vnd.github+json',
+    'Content-Type': 'application/json',
+    'User-Agent'  : 'watermark-tool'
+  };
+
+  // Lấy sha nếu file đã tồn tại (để update thay vì tạo mới)
+  let sha = null;
+  try {
+    const chk = await fetch(`${apiUrl}?ref=${branch}`, { headers });
+    if (chk.ok) { const j = await chk.json(); sha = j.sha; }
+  } catch (_) {}
+
+  const body = { message: `upload ${filename}`, content: base64, branch };
+  if (sha) body.sha = sha;
+
+  const ghRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+
+  if (!ghRes.ok) {
+    const err = await ghRes.json().catch(() => ({}));
+    return res.status(ghRes.status).json({ error: err.message || ghRes.statusText });
+  }
+
+  const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
+  res.json({ url: rawUrl });
+});
+
+app.listen(PORT, () => console.log(`WaterMark Pro server: http://localhost:${PORT}`));
