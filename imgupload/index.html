@@ -331,7 +331,7 @@ input[type=color] {
 <header>
   <div class="logo-hex">W</div>
   <div class="logo-name">Water<em>Mark</em> Pro</div>
-  <span class="badge-v">v3.4</span>
+  <span class="badge-v">v3.5</span>
   <div class="hdr-sub">Đóng dấu chống đạo ảnh</div>
 </header>
 
@@ -406,32 +406,6 @@ input[type=color] {
       <div style="display:flex;gap:1.2rem">
         <label class="chk"><input type="checkbox" id="wb" checked><span>In đậm</span></label>
         <label class="chk"><input type="checkbox" id="wsh" checked><span>Đổ bóng</span></label>
-      </div>
-
-      <div class="dl" style="margin:.85rem 0 .75rem"></div>
-
-      <!-- GITHUB CONFIG INLINE -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem">
-        <div>
-          <label class="cl">GitHub Owner</label>
-          <input class="ti" type="text" id="ghOwner" placeholder="username">
-        </div>
-        <div>
-          <label class="cl">Repository</label>
-          <input class="ti" type="text" id="ghRepo" placeholder="my-repo">
-        </div>
-        <div>
-          <label class="cl">Branch</label>
-          <input class="ti" type="text" id="ghBranch" value="main">
-        </div>
-        <div>
-          <label class="cl">Folder</label>
-          <input class="ti" type="text" id="ghFolder" value="img">
-        </div>
-      </div>
-      <div style="margin-bottom:.4rem">
-        <label class="cl">Personal Access Token</label>
-        <input class="ti" type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
       </div>
       <div class="gh-status" id="ghStatus"></div>
     </div>
@@ -538,16 +512,16 @@ document.getElementById('wc').addEventListener('input',function(){
   document.getElementById('hv').textContent = this.value;
 });
 
-/* ─── GITHUB HELPERS ─────────────────────────────── */
-function ghCfg(){
-  return {
-    owner  : document.getElementById('ghOwner').value.trim(),
-    repo   : document.getElementById('ghRepo').value.trim(),
-    branch : document.getElementById('ghBranch').value.trim() || 'main',
-    folder : document.getElementById('ghFolder').value.trim().replace(/\/+$/,'') || 'img',
-    token  : document.getElementById('ghToken').value.trim()
-  };
-}
+/* ─── GITHUB CONFIG ──────────────────────────────── */
+const GH = {
+  owner  : 'YOUR_USERNAME',
+  repo   : 'YOUR_REPO',
+  branch : 'main',
+  folder : 'img',
+  token  : 'ghp_xxxxxxxxxxxxxxxxxxxx'
+};
+
+function ghCfg(){ return GH; }
 function ghValid(c){ return c.owner && c.repo && c.token; }
 
 // Push file PNG lên GitHub, trả raw URL
