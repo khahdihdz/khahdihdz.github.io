@@ -1,137 +1,735 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ImgBB Image Uploader - Đóng dấu tùy chỉnh</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WaterMark Pro – Đóng Dấu Ảnh</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #2a2a3a;
+    --accent: #f0c060;
+    --accent2: #60c0f0;
+    --text: #e8e8f0;
+    --muted: #6a6a8a;
+    --danger: #f06060;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(240,192,96,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(240,192,96,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; }
+
+  /* Header */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    background: rgba(19,19,26,.9);
+    backdrop-filter: blur(12px);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 800; color: #000; flex-shrink: 0;
+  }
+  .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: -.02em; }
+  .logo-text span { color: var(--accent); }
+  .badge-pro {
+    font-family: 'DM Mono', monospace;
+    font-size: .6rem; background: var(--accent);
+    color: #000; padding: 2px 7px; border-radius: 3px; font-weight: 500;
+  }
+
+  /* Main layout */
+  .main { padding: 2.5rem 1.5rem; max-width: 1000px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem; letter-spacing: .15em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 3.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .25s, background .25s, transform .2s;
+    position: relative; overflow: hidden;
+  }
+  .upload-zone::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(240,192,96,.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(240,192,96,.05);
+    transform: translateY(-2px);
+  }
+  .upload-icon {
+    font-size: 3rem; margin-bottom: 1rem;
+    display: block; filter: drop-shadow(0 0 16px rgba(240,192,96,.4));
+  }
+  .upload-zone h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: .4rem; }
+  .upload-zone p { color: var(--muted); font-size: .88rem; }
+  .upload-zone input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+
+  /* Controls panel */
+  .controls-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  label.ctrl-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem; color: var(--muted);
+    letter-spacing: .05em; display: block; margin-bottom: .4rem;
+  }
+
+  .form-control, .form-select {
+    background: var(--bg) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    border-radius: 7px !important;
+    font-family: 'DM Mono', monospace !important;
+    font-size: .83rem !important;
+    padding: .55rem .85rem !important;
+    transition: border-color .2s !important;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(240,192,96,.12) !important;
+    outline: none !important;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none; width: 100%; height: 4px;
+    background: var(--border); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 16px; height: 16px;
+    background: var(--accent); border-radius: 50%; cursor: pointer;
+    box-shadow: 0 0 8px rgba(240,192,96,.5);
+  }
+  .range-val {
+    font-family: 'DM Mono', monospace;
+    font-size: .75rem; color: var(--accent); font-weight: 500;
+  }
+
+  input[type=color] {
+    -webkit-appearance: none; width: 36px; height: 36px;
+    border: 1px solid var(--border); border-radius: 7px;
+    background: var(--bg); cursor: pointer; padding: 2px;
+  }
+
+  /* Preview */
+  .preview-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .preview-wrap canvas {
+    max-width: 100%; max-height: 480px;
+    display: block; border-radius: 8px;
+  }
+  .preview-placeholder {
+    text-align: center; padding: 3rem;
+  }
+  .preview-placeholder svg { opacity: .2; margin-bottom: 1rem; }
+  .preview-placeholder p { color: var(--muted); font-size: .88rem; }
+
+  /* Buttons */
+  .btn-gold {
+    background: var(--accent);
+    color: #000; font-weight: 700; font-family: 'Syne', sans-serif;
+    border: none; padding: .65rem 1.6rem; border-radius: 8px;
+    font-size: .88rem; letter-spacing: .02em;
+    transition: transform .15s, box-shadow .2s;
+    cursor: pointer;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(240,192,96,.35);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text); font-weight: 600; font-family: 'Syne', sans-serif;
+    border: 1px solid var(--border); padding: .65rem 1.4rem;
+    border-radius: 8px; font-size: .88rem;
+    transition: border-color .2s, color .2s;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* Image URL result */
+  .result-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem 1.2rem;
+    display: none;
+  }
+  .result-box.show { display: block; }
+  .result-box .url-label {
+    font-family: 'DM Mono', monospace; font-size: .65rem;
+    color: var(--accent); text-transform: uppercase; letter-spacing: .1em;
+    margin-bottom: .5rem;
+  }
+  .url-display {
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .url-display input {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    color: var(--accent2) !important;
+    font-family: 'DM Mono', monospace !important;
+    font-size: .8rem !important;
+    padding: 0 !important;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .url-display input:focus { outline: none !important; box-shadow: none !important; }
+  .copy-btn {
+    background: var(--border); border: none;
+    color: var(--text); padding: .3rem .7rem; border-radius: 5px;
+    font-family: 'DM Mono', monospace; font-size: .72rem; cursor: pointer;
+    transition: background .2s; flex-shrink: 0;
+  }
+  .copy-btn:hover { background: var(--accent); color: #000; }
+  .copy-btn.copied { background: #3a8c5a; color: #fff; }
+
+  /* File info pill */
+  .file-pill {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(96,192,240,.1); border: 1px solid rgba(96,192,240,.25);
+    color: var(--accent2); border-radius: 20px;
+    padding: .3rem .9rem; font-family: 'DM Mono', monospace; font-size: .75rem;
+  }
+  .file-pill .rm { cursor: pointer; opacity: .6; }
+  .file-pill .rm:hover { opacity: 1; }
+
+  /* Toast */
+  .toast-msg {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    background: #1e3a2a; border: 1px solid #3a8c5a; color: #7cffb0;
+    padding: .7rem 1.2rem; border-radius: 8px;
+    font-family: 'DM Mono', monospace; font-size: .8rem;
+    transform: translateY(80px); opacity: 0;
+    transition: transform .3s, opacity .3s; z-index: 9999;
+  }
+  .toast-msg.show { transform: translateY(0); opacity: 1; }
+
+  /* Tabs */
+  .tab-nav { display: flex; gap: .3rem; margin-bottom: 1.2rem; }
+  .tab-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: .4rem 1rem; border-radius: 6px;
+    font-family: 'DM Mono', monospace; font-size: .75rem; cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn.active {
+    background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600;
+  }
+
+  /* Divider */
+  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+  /* Checkbox toggle */
+  .toggle-row { display: flex; align-items: center; gap: .8rem; }
+  .form-check-input {
+    width: 1.1em; height: 1.1em;
+    background-color: var(--bg) !important;
+    border: 1.5px solid var(--border) !important;
+    cursor: pointer;
+  }
+  .form-check-input:checked {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+  }
+</style>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h2><i class="fas fa-cloud-upload-alt me-2"></i>ImgBB Image Uploader</h2>
-                        <p class="mb-0">Upload ảnh với đóng dấu tùy chỉnh</p>
-                    </div>
-                    <div class="card-body p-4">
-                        <!-- Upload Section -->
-                        <div class="upload-section mb-4">
-                            <div class="upload-area" id="uploadArea">
-                                <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                                <h4>Kéo thả ảnh vào đây hoặc click để chọn</h4>
-                                <p class="text-muted">Hỗ trợ: JPG, PNG, GIF (tối đa 32MB)</p>
-                                <input type="file" id="imageInput" accept="image/*" multiple hidden>
-                            </div>
-                        </div>
+<div class="wrapper">
 
-                        <!-- Watermark Settings -->
-                        <div class="watermark-section mb-4">
-                            <h5><i class="fas fa-stamp me-2"></i>Cài đặt đóng dấu</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Văn bản đóng dấu</label>
-                                        <input type="text" class="form-control" id="watermarkText" 
-                                               placeholder="Để trống sẽ dùng text mặc định">
-                                        <small class="text-muted">Mặc định: "Ảnh được upload từ https://khahdihdz.github.io/imgupload"</small>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Kích thước font</label>
-                                        <input type="range" class="form-range" id="fontSize" min="12" max="72" value="24">
-                                        <small class="text-muted">Size: <span id="fontSizeValue">24</span>px</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Vị trí đóng dấu</label>
-                                        <select class="form-select" id="watermarkPosition">
-                                            <option value="bottom-right">Góc dưới phải</option>
-                                            <option value="bottom-left">Góc dưới trái</option>
-                                            <option value="top-right">Góc trên phải</option>
-                                            <option value="top-left">Góc trên trái</option>
-                                            <option value="center">Giữa ảnh</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Độ trong suốt</label>
-                                        <input type="range" class="form-range" id="watermarkOpacity" min="0.1" max="1" step="0.1" value="0.7">
-                                        <small class="text-muted">Opacity: <span id="opacityValue">70</span>%</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Màu chữ</label>
-                                        <input type="color" class="form-control form-control-color" id="watermarkColor" value="#ffffff">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check mt-4">
-                                        <input class="form-check-input" type="checkbox" id="enableWatermark" checked>
-                                        <label class="form-check-label" for="enableWatermark">
-                                            Bật đóng dấu
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+  <!-- Header -->
+  <header>
+    <div class="logo-mark">W</div>
+    <div>
+      <div class="logo-text">Water<span>Mark</span> Pro</div>
+    </div>
+    <span class="badge-pro ms-1">v2.0</span>
+    <div class="ms-auto" style="font-size:.78rem;color:var(--muted);font-family:'DM Mono',monospace;">
+      Đóng dấu chống đạo ảnh
+    </div>
+  </header>
 
-                        <!-- Preview Section -->
-                        <div class="preview-section mb-4" id="previewSection" style="display: none;">
-                            <h5><i class="fas fa-eye me-2"></i>Xem trước</h5>
-                            <div class="preview-container">
-                                <canvas id="previewCanvas" class="img-fluid border rounded"></canvas>
-                            </div>
-                        </div>
+  <div class="main">
+    <div class="row g-4">
 
-                        <!-- Upload Button -->
-                        <div class="text-center mb-4">
-                            <button class="btn btn-success btn-lg" id="uploadBtn" disabled>
-                                <i class="fas fa-upload me-2"></i>Upload to ImgBB
-                            </button>
-                        </div>
+      <!-- LEFT: Upload + Controls -->
+      <div class="col-lg-5">
 
-                        <!-- Progress Bar -->
-                        <div class="progress mb-4" id="progressBar" style="display: none;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
-                        </div>
-
-                        <!-- Results Section -->
-                        <div class="results-section" id="resultsSection" style="display: none;">
-                            <h5><i class="fas fa-check-circle text-success me-2"></i>Upload thành công!</h5>
-                            <div id="uploadResults"></div>
-                        </div>
-
-                        <!-- Error Section -->
-                        <div class="alert alert-danger" id="errorSection" style="display: none;">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            <span id="errorMessage"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Upload -->
+        <div class="section-label">01 / Chọn ảnh</div>
+        <div class="upload-zone" id="dropZone">
+          <input type="file" id="fileInput" accept="image/*" multiple>
+          <span class="upload-icon">🖼️</span>
+          <h3>Kéo & thả ảnh vào đây</h3>
+          <p>hoặc click để chọn — JPG, PNG, WEBP, GIF</p>
         </div>
+
+        <div id="fileList" class="d-flex flex-wrap gap-2 mt-2"></div>
+
+        <div class="divider"></div>
+
+        <!-- Controls -->
+        <div class="section-label">02 / Cài đặt watermark</div>
+        <div class="controls-card">
+
+          <!-- Watermark text -->
+          <div class="mb-3">
+            <label class="ctrl-label">Nội dung watermark</label>
+            <input type="text" class="form-control" id="wmText" value="© Bản quyền ảnh – Không được sao chép">
+          </div>
+
+          <!-- Font size + opacity row -->
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="ctrl-label">Cỡ chữ <span class="range-val" id="fsVal">22</span>px</label>
+              <input type="range" id="wmFontSize" min="8" max="72" value="22">
+            </div>
+            <div class="col-6">
+              <label class="ctrl-label">Độ mờ <span class="range-val" id="opVal">30</span>%</label>
+              <input type="range" id="wmOpacity" min="5" max="100" value="30">
+            </div>
+          </div>
+
+          <!-- Spacing + angle row -->
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="ctrl-label">Khoảng cách <span class="range-val" id="spVal">80</span>px</label>
+              <input type="range" id="wmSpacing" min="30" max="300" value="80">
+            </div>
+            <div class="col-6">
+              <label class="ctrl-label">Góc nghiêng <span class="range-val" id="angVal">-35</span>°</label>
+              <input type="range" id="wmAngle" min="-90" max="90" value="-35">
+            </div>
+          </div>
+
+          <!-- Color + font weight -->
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="ctrl-label">Màu chữ</label>
+              <div class="d-flex align-items-center gap-2">
+                <input type="color" id="wmColor" value="#ffffff">
+                <span style="font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted)" id="colorHex">#ffffff</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <label class="ctrl-label">Kiểu chữ</label>
+              <select class="form-select" id="wmFont">
+                <option value="Arial">Arial</option>
+                <option value="'Courier New'">Courier New</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Impact">Impact</option>
+                <option value="'Times New Roman'">Times New Roman</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bold / shadow toggles -->
+          <div class="d-flex gap-4">
+            <div class="toggle-row">
+              <input class="form-check-input" type="checkbox" id="wmBold" checked>
+              <label class="ctrl-label mb-0" for="wmBold">In đậm</label>
+            </div>
+            <div class="toggle-row">
+              <input class="form-check-input" type="checkbox" id="wmShadow" checked>
+              <label class="ctrl-label mb-0" for="wmShadow">Đổ bóng</label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+          <button class="btn-gold flex-fill" onclick="applyWatermark()">⚡ Áp dụng Watermark</button>
+          <button class="btn-ghost" onclick="resetAll()">↺ Reset</button>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Preview + Download -->
+      <div class="col-lg-7">
+
+        <div class="section-label">03 / Xem trước & tải xuống</div>
+
+        <!-- Tabs for multiple images -->
+        <div class="tab-nav" id="imageTabs"></div>
+
+        <!-- Canvas preview -->
+        <div class="preview-wrap" id="previewWrap">
+          <div class="preview-placeholder">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="4" y="12" width="56" height="40" rx="4" stroke="#6a6a8a" stroke-width="2"/>
+              <circle cx="22" cy="28" r="6" stroke="#6a6a8a" stroke-width="2"/>
+              <path d="M4 44L20 30L30 40L42 26L60 44" stroke="#6a6a8a" stroke-width="2"/>
+            </svg>
+            <p>Chưa có ảnh — hãy upload ảnh trước</p>
+          </div>
+        </div>
+
+        <div id="canvasContainer" style="display:none">
+          <canvas id="previewCanvas"></canvas>
+        </div>
+
+        <!-- Result URL box -->
+        <div class="result-box mt-3" id="resultBox">
+          <div class="url-label">🔗 Link ảnh gốc (đã upload)</div>
+          <div class="url-display">
+            <input type="text" id="originalUrl" readonly>
+            <button class="copy-btn" onclick="copyUrl('originalUrl', this)">Copy</button>
+          </div>
+          <div class="divider" style="margin:.7rem 0"></div>
+          <div class="url-label">💾 Tải ảnh đã đóng dấu</div>
+          <div class="url-display">
+            <input type="text" id="dataUrlShort" readonly placeholder="Nhấn 'Áp dụng Watermark' để tạo...">
+            <button class="copy-btn" onclick="downloadCurrent()">⬇ Tải</button>
+          </div>
+        </div>
+
+        <!-- File stats -->
+        <div id="fileStats" class="mt-3" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);display:none">
+          <span id="statInfo"></span>
+        </div>
+
+      </div>
     </div>
 
-    <!-- Toast Container -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="toast" class="toast" role="alert">
-            <div class="toast-header">
-                <strong class="me-auto">Thông báo</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body" id="toastBody">
-            </div>
-        </div>
+    <!-- Batch download -->
+    <div class="mt-4 text-center" id="batchSection" style="display:none">
+      <div class="divider"></div>
+      <button class="btn-gold" onclick="downloadAll()" style="padding:.7rem 3rem;">
+        ⬇ Tải tất cả ảnh đã đóng dấu (ZIP)
+      </button>
+      <p style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);margin-top:.6rem">
+        Tải từng ảnh một — ZIP sẽ dùng JSZip tự động
+      </p>
     </div>
+  </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
+<!-- Toast -->
+<div class="toast-msg" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let files = [];          // File objects
+let objectUrls = [];     // object URLs for originals
+let watermarked = [];    // data URLs after processing
+let activeIdx = 0;
+
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+const dropZone   = document.getElementById('dropZone');
+const fileInput  = document.getElementById('fileInput');
+const tabsEl     = document.getElementById('imageTabs');
+const prevWrap   = document.getElementById('previewWrap');
+const canvasCont = document.getElementById('canvasContainer');
+const canvas     = document.getElementById('previewCanvas');
+const ctx        = canvas.getContext('2d');
+const resultBox  = document.getElementById('resultBox');
+const fileList   = document.getElementById('fileList');
+const batchSec   = document.getElementById('batchSection');
+const statInfo   = document.getElementById('statInfo');
+
+// ─── Range live display ───────────────────────────────────────────────────────
+['wmFontSize','wmOpacity','wmSpacing','wmAngle'].forEach(id => {
+  const el = document.getElementById(id);
+  const map = {wmFontSize:'fsVal',wmOpacity:'opVal',wmSpacing:'spVal',wmAngle:'angVal'};
+  el.addEventListener('input', () => {
+    document.getElementById(map[id]).textContent = el.value;
+  });
+});
+document.getElementById('wmColor').addEventListener('input', function(){
+  document.getElementById('colorHex').textContent = this.value;
+});
+
+// ─── Drag & Drop ──────────────────────────────────────────────────────────────
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  handleFiles([...e.dataTransfer.files]);
+});
+fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+
+function handleFiles(newFiles) {
+  newFiles = newFiles.filter(f => f.type.startsWith('image/'));
+  if (!newFiles.length) return;
+
+  // Revoke old URLs to prevent memory leaks
+  objectUrls.forEach(u => URL.revokeObjectURL(u));
+  files = newFiles;
+  objectUrls = files.map(f => URL.createObjectURL(f));
+  watermarked = new Array(files.length).fill(null);
+  activeIdx = 0;
+
+  renderFilePills();
+  renderTabs();
+  showOriginal(0);
+  document.getElementById('fileStats').style.display = 'block';
+
+  if (files.length > 1) batchSec.style.display = 'block';
+  else batchSec.style.display = 'none';
+
+  showToast(`✅ Đã tải ${files.length} ảnh`);
+}
+
+function renderFilePills() {
+  fileList.innerHTML = '';
+  files.forEach((f, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'file-pill';
+    pill.innerHTML = `<span>📄 ${f.name.length > 18 ? f.name.slice(0,16)+'…' : f.name}</span>
+                      <span class="rm" onclick="removeFile(${i})">✕</span>`;
+    fileList.appendChild(pill);
+  });
+}
+
+function removeFile(i) {
+  URL.revokeObjectURL(objectUrls[i]);
+  files.splice(i,1); objectUrls.splice(i,1); watermarked.splice(i,1);
+  if (!files.length) { resetAll(); return; }
+  activeIdx = Math.min(activeIdx, files.length - 1);
+  renderFilePills(); renderTabs(); showOriginal(activeIdx);
+}
+
+function renderTabs() {
+  tabsEl.innerHTML = '';
+  if (files.length <= 1) return;
+  files.forEach((f, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (i === activeIdx ? ' active' : '');
+    btn.textContent = `#${i+1}`;
+    btn.onclick = () => { activeIdx = i; renderTabs(); showWatermarkedOrOriginal(i); };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function showOriginal(idx) {
+  const img = new Image();
+  img.onload = () => {
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+    prevWrap.style.display = 'none';
+    canvasCont.style.display = 'block';
+    canvasCont.appendChild(canvas);
+    // Show result URL
+    document.getElementById('originalUrl').value = objectUrls[idx];
+    document.getElementById('dataUrlShort').value = watermarked[idx]
+      ? `[đã đóng dấu] ${files[idx].name}` : 'Chưa áp dụng watermark...';
+    resultBox.classList.add('show');
+    statInfo.textContent = `📐 ${img.naturalWidth} × ${img.naturalHeight}px  |  💾 ${(files[idx].size/1024).toFixed(1)} KB  |  ${files[idx].type}`;
+  };
+  img.src = objectUrls[idx];
+}
+
+function showWatermarkedOrOriginal(idx) {
+  if (watermarked[idx]) {
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = watermarked[idx];
+    document.getElementById('dataUrlShort').value = `[đã đóng dấu] ${files[idx].name}`;
+  } else {
+    showOriginal(idx);
+  }
+}
+
+// ─── Watermark engine ─────────────────────────────────────────────────────────
+function applyWatermark() {
+  if (!files.length) { showToast('⚠️ Hãy upload ảnh trước!'); return; }
+
+  const text     = document.getElementById('wmText').value || '© Watermark';
+  const fontSize = parseInt(document.getElementById('wmFontSize').value);
+  const opacity  = parseInt(document.getElementById('wmOpacity').value) / 100;
+  const spacing  = parseInt(document.getElementById('wmSpacing').value);
+  const angle    = parseInt(document.getElementById('wmAngle').value) * Math.PI / 180;
+  const color    = document.getElementById('wmColor').value;
+  const fontFam  = document.getElementById('wmFont').value;
+  const bold     = document.getElementById('wmBold').checked;
+  const shadow   = document.getElementById('wmShadow').checked;
+
+  // Process all images (or just active if only one)
+  const indices = files.length > 1 ? files.map((_,i)=>i) : [0];
+
+  let processed = 0;
+  indices.forEach(idx => {
+    const img = new Image();
+    img.onload = () => {
+      const offCanvas = document.createElement('canvas');
+      offCanvas.width  = img.naturalWidth;
+      offCanvas.height = img.naturalHeight;
+      const offCtx = offCanvas.getContext('2d');
+
+      offCtx.drawImage(img, 0, 0);
+
+      // Watermark layer
+      offCtx.save();
+      offCtx.globalAlpha = opacity;
+
+      const fontStr = `${bold ? 'bold ' : ''}${fontSize}px ${fontFam}`;
+      offCtx.font = fontStr;
+      offCtx.fillStyle = color;
+      offCtx.textBaseline = 'middle';
+
+      if (shadow) {
+        offCtx.shadowColor = 'rgba(0,0,0,0.6)';
+        offCtx.shadowBlur  = Math.max(2, fontSize * 0.15);
+        offCtx.shadowOffsetX = 1;
+        offCtx.shadowOffsetY = 1;
+      }
+
+      const textWidth  = offCtx.measureText(text).width;
+      const diagonal   = Math.sqrt(offCanvas.width**2 + offCanvas.height**2);
+      const cols = Math.ceil(diagonal / (textWidth + spacing)) + 2;
+      const rows = Math.ceil(diagonal / (fontSize  + spacing)) + 2;
+
+      offCtx.translate(offCanvas.width / 2, offCanvas.height / 2);
+      offCtx.rotate(angle);
+
+      const startX = -diagonal / 2;
+      const startY = -diagonal / 2;
+
+      for (let r = -rows; r <= rows * 2; r++) {
+        for (let c = -cols; c <= cols * 2; c++) {
+          const x = startX + c * (textWidth + spacing);
+          const y = startY + r * (fontSize  + spacing);
+          offCtx.fillText(text, x, y);
+        }
+      }
+      offCtx.restore();
+
+      watermarked[idx] = offCanvas.toDataURL('image/png');
+
+      // Show on canvas if active
+      if (idx === activeIdx) {
+        canvas.width  = offCanvas.width;
+        canvas.height = offCanvas.height;
+        ctx.drawImage(offCanvas, 0, 0);
+        prevWrap.style.display = 'none';
+        canvasCont.style.display = 'block';
+        document.getElementById('dataUrlShort').value = `[đã đóng dấu] ${files[idx].name}`;
+      }
+
+      processed++;
+      if (processed === indices.length) {
+        showToast(`✅ Đã đóng dấu ${processed} ảnh!`);
+      }
+    };
+    img.src = objectUrls[idx];
+  });
+}
+
+// ─── Download ─────────────────────────────────────────────────────────────────
+function downloadCurrent() {
+  if (!watermarked[activeIdx]) { showToast('⚠️ Hãy áp dụng watermark trước!'); return; }
+  const a = document.createElement('a');
+  a.href = watermarked[activeIdx];
+  a.download = `watermarked_${files[activeIdx].name.replace(/\.[^.]+$/, '')}.png`;
+  a.click();
+}
+
+function downloadAll() {
+  const pending = watermarked.map((w,i) => w ? i : -1).filter(i => i >= 0);
+  if (!pending.length) { showToast('⚠️ Hãy áp dụng watermark trước!'); return; }
+  pending.forEach(i => {
+    setTimeout(() => {
+      const a = document.createElement('a');
+      a.href = watermarked[i];
+      a.download = `watermarked_${files[i].name.replace(/\.[^.]+$/, '')}.png`;
+      a.click();
+    }, i * 300);
+  });
+  showToast(`⬇ Đang tải ${pending.length} ảnh...`);
+}
+
+// ─── Copy URL ─────────────────────────────────────────────────────────────────
+function copyUrl(inputId, btn) {
+  const val = document.getElementById(inputId).value;
+  if (!val || val.includes('Chưa')) { showToast('⚠️ Chưa có URL để copy'); return; }
+  navigator.clipboard.writeText(val).then(() => {
+    btn.textContent = '✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+// ─── Reset ────────────────────────────────────────────────────────────────────
+function resetAll() {
+  objectUrls.forEach(u => URL.revokeObjectURL(u));
+  files = []; objectUrls = []; watermarked = []; activeIdx = 0;
+  fileList.innerHTML = '';
+  tabsEl.innerHTML = '';
+  prevWrap.style.display = 'flex';
+  canvasCont.style.display = 'none';
+  resultBox.classList.remove('show');
+  batchSec.style.display = 'none';
+  document.getElementById('fileStats').style.display = 'none';
+  fileInput.value = '';
+  showToast('↺ Đã reset');
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
 </body>
 </html>
