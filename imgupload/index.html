@@ -166,10 +166,23 @@
     min-height: 300px;
     display: flex; align-items: center; justify-content: center;
     position: relative;
+    width: 100%;
   }
-  .preview-wrap canvas {
-    max-width: 100%; max-height: 480px;
-    display: block; border-radius: 8px;
+  /* Canvas container bên trong preview-wrap */
+  #canvasContainer {
+    width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    padding: 8px;
+  }
+  #previewCanvas {
+    max-width: 100%;
+    max-height: 460px;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    border-radius: 6px;
+    object-fit: contain;
   }
   .preview-placeholder {
     text-align: center; padding: 3rem;
@@ -206,6 +219,8 @@
     border: 1px solid var(--border);
     border-radius: 10px; padding: 1rem 1.2rem;
     display: none;
+    overflow: hidden;
+    min-width: 0;
   }
   .result-box.show { display: block; }
   .result-box .url-label {
@@ -215,9 +230,11 @@
   }
   .url-display {
     display: flex; align-items: center; gap: .6rem;
+    min-width: 0;
   }
   .url-display input {
     flex: 1;
+    min-width: 0;
     background: transparent !important;
     border: none !important;
     color: var(--accent2) !important;
@@ -225,6 +242,7 @@
     font-size: .8rem !important;
     padding: 0 !important;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    width: 0;
   }
   .url-display input:focus { outline: none !important; box-shadow: none !important; }
   .copy-btn {
@@ -407,7 +425,7 @@
 
         <!-- Canvas preview -->
         <div class="preview-wrap" id="previewWrap">
-          <div class="preview-placeholder">
+          <div class="preview-placeholder" id="previewPlaceholder">
             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
               <rect x="4" y="12" width="56" height="40" rx="4" stroke="#6a6a8a" stroke-width="2"/>
               <circle cx="22" cy="28" r="6" stroke="#6a6a8a" stroke-width="2"/>
@@ -415,24 +433,23 @@
             </svg>
             <p>Chưa có ảnh — hãy upload ảnh trước</p>
           </div>
-        </div>
-
-        <div id="canvasContainer" style="display:none">
-          <canvas id="previewCanvas"></canvas>
+          <div id="canvasContainer" style="display:none">
+            <canvas id="previewCanvas"></canvas>
+          </div>
         </div>
 
         <!-- Result URL box -->
         <div class="result-box mt-3" id="resultBox">
-          <div class="url-label">🔗 Link ảnh gốc (đã upload)</div>
+          <div class="url-label">📁 Tên file gốc</div>
           <div class="url-display">
             <input type="text" id="originalUrl" readonly>
             <button class="copy-btn" onclick="copyUrl('originalUrl', this)">Copy</button>
           </div>
           <div class="divider" style="margin:.7rem 0"></div>
-          <div class="url-label">💾 Tải ảnh đã đóng dấu</div>
+          <div class="url-label">💾 Tên file đã đóng dấu (sau khi tải)</div>
           <div class="url-display">
             <input type="text" id="dataUrlShort" readonly placeholder="Nhấn 'Áp dụng Watermark' để tạo...">
-            <button class="copy-btn" onclick="downloadCurrent()">⬇ Tải</button>
+            <button class="copy-btn" id="downloadBtn" onclick="downloadCurrent()">⬇ Tải</button>
           </div>
         </div>
 
@@ -561,13 +578,14 @@ function showOriginal(idx) {
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
     ctx.drawImage(img, 0, 0);
-    prevWrap.style.display = 'none';
-    canvasCont.style.display = 'block';
-    canvasCont.appendChild(canvas);
-    // Show result URL
-    document.getElementById('originalUrl').value = objectUrls[idx];
+    document.getElementById('previewPlaceholder').style.display = 'none';
+    canvasCont.style.display = 'flex';
+    // Tên file gốc đúng extension
+    document.getElementById('originalUrl').value = files[idx].name;
+    // Tên file đầu ra sau watermark
+    const baseName = files[idx].name.replace(/\.[^.]+$/, '');
     document.getElementById('dataUrlShort').value = watermarked[idx]
-      ? `[đã đóng dấu] ${files[idx].name}` : 'Chưa áp dụng watermark...';
+      ? `watermarked_${baseName}.png` : 'Chưa áp dụng watermark...';
     resultBox.classList.add('show');
     statInfo.textContent = `📐 ${img.naturalWidth} × ${img.naturalHeight}px  |  💾 ${(files[idx].size/1024).toFixed(1)} KB  |  ${files[idx].type}`;
   };
@@ -581,9 +599,13 @@ function showWatermarkedOrOriginal(idx) {
       canvas.width = img.naturalWidth;
       canvas.height = img.naturalHeight;
       ctx.drawImage(img, 0, 0);
+      document.getElementById('previewPlaceholder').style.display = 'none';
+      canvasCont.style.display = 'flex';
     };
     img.src = watermarked[idx];
-    document.getElementById('dataUrlShort').value = `[đã đóng dấu] ${files[idx].name}`;
+    const baseName = files[idx].name.replace(/\.[^.]+$/, '');
+    document.getElementById('originalUrl').value = files[idx].name;
+    document.getElementById('dataUrlShort').value = `watermarked_${baseName}.png`;
   } else {
     showOriginal(idx);
   }
@@ -660,9 +682,10 @@ function applyWatermark() {
         canvas.width  = offCanvas.width;
         canvas.height = offCanvas.height;
         ctx.drawImage(offCanvas, 0, 0);
-        prevWrap.style.display = 'none';
-        canvasCont.style.display = 'block';
-        document.getElementById('dataUrlShort').value = `[đã đóng dấu] ${files[idx].name}`;
+        document.getElementById('previewPlaceholder').style.display = 'none';
+        canvasCont.style.display = 'flex';
+        const baseName = files[idx].name.replace(/\.[^.]+$/, '');
+        document.getElementById('dataUrlShort').value = `watermarked_${baseName}.png`;
       }
 
       processed++;
@@ -714,7 +737,7 @@ function resetAll() {
   files = []; objectUrls = []; watermarked = []; activeIdx = 0;
   fileList.innerHTML = '';
   tabsEl.innerHTML = '';
-  prevWrap.style.display = 'flex';
+  document.getElementById('previewPlaceholder').style.display = 'flex';
   canvasCont.style.display = 'none';
   resultBox.classList.remove('show');
   batchSec.style.display = 'none';
