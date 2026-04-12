@@ -55,7 +55,7 @@ app.post('/api/github-push', async (req, res) => {
     return res.status(ghRes.status).json({ error: err.message || ghRes.statusText });
   }
 
-  const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
+  const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${path}`;
   res.json({ url: rawUrl });
 });
 
