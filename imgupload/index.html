@@ -7,751 +7,660 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --border: #2a2a3a;
-    --accent: #f0c060;
-    --accent2: #60c0f0;
-    --text: #e8e8f0;
-    --muted: #6a6a8a;
-    --danger: #f06060;
-  }
+:root {
+  --bg: #09090f;
+  --surface: #12121a;
+  --card: #1a1a25;
+  --border: #252535;
+  --accent: #f0c060;
+  --accent2: #60c0f0;
+  --text: #e2e2ee;
+  --muted: #5a5a7a;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; overflow-x: hidden; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(240,192,96,.034) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,192,96,.034) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.wrapper { position: relative; z-index: 1; }
 
-  /* Background grid */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(240,192,96,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(240,192,96,.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none; z-index: 0;
-  }
+/* HEADER */
+header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(9,9,15,.93);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: .8rem 1.2rem;
+  display: flex; align-items: center; gap: .75rem;
+  overflow: hidden;
+}
+.logo-hex {
+  flex-shrink: 0; width: 32px; height: 32px;
+  background: var(--accent);
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display: grid; place-items: center;
+  font-size: .65rem; font-weight: 800; color: #000;
+}
+.logo-name { font-size: .95rem; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
+.logo-name em { color: var(--accent); font-style: normal; }
+.badge-v {
+  font-family: 'DM Mono', monospace; font-size: .55rem;
+  background: var(--accent); color: #000;
+  padding: 2px 6px; border-radius: 3px; font-weight: 600;
+}
+.hdr-sub {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace; font-size: .65rem;
+  color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 
-  .wrapper { position: relative; z-index: 1; }
+/* MAIN */
+.main {
+  max-width: 1060px; margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
 
-  /* Header */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 1.2rem 2rem;
-    display: flex; align-items: center; gap: 1rem;
-    background: rgba(19,19,26,.9);
-    backdrop-filter: blur(12px);
-    position: sticky; top: 0; z-index: 100;
-  }
-  .logo-mark {
-    width: 38px; height: 38px;
-    background: var(--accent);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: .75rem; font-weight: 800; color: #000; flex-shrink: 0;
-  }
-  .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: -.02em; }
-  .logo-text span { color: var(--accent); }
-  .badge-pro {
-    font-family: 'DM Mono', monospace;
-    font-size: .6rem; background: var(--accent);
-    color: #000; padding: 2px 7px; border-radius: 3px; font-weight: 500;
-  }
+/* TWO-COLUMN GRID */
+.g2 {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.4rem;
+  align-items: start;
+}
+@media (max-width: 840px) {
+  .g2 { grid-template-columns: 1fr; }
+}
 
-  /* Main layout */
-  .main { padding: 2.5rem 1.5rem; max-width: 1000px; margin: 0 auto; }
+/* STEP LABEL */
+.step {
+  font-family: 'DM Mono', monospace;
+  font-size: .58rem; letter-spacing: .18em;
+  color: var(--accent); text-transform: uppercase;
+  margin-bottom: .4rem;
+}
 
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: .65rem; letter-spacing: .15em;
-    color: var(--accent); text-transform: uppercase;
-    margin-bottom: .5rem;
-  }
+/* DROP ZONE */
+.drop {
+  position: relative; overflow: hidden;
+  border: 2px dashed var(--border); border-radius: 12px;
+  background: var(--surface);
+  padding: 2rem 1.4rem; text-align: center; cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.drop::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(240,192,96,.07) 0%, transparent 65%);
+}
+.drop:hover, .drop.over { border-color: var(--accent); background: rgba(240,192,96,.04); }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.drop-ic { font-size: 2.2rem; line-height: 1; margin-bottom: .6rem; display: block;
+  filter: drop-shadow(0 0 13px rgba(240,192,96,.45)); }
+.drop h3 { font-size: .95rem; font-weight: 700; margin-bottom: .25rem; }
+.drop p  { color: var(--muted); font-size: .78rem; }
 
-  /* Upload zone */
-  .upload-zone {
-    border: 2px dashed var(--border);
-    border-radius: 12px;
-    background: var(--surface);
-    padding: 3.5rem 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color .25s, background .25s, transform .2s;
-    position: relative; overflow: hidden;
-  }
-  .upload-zone::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(240,192,96,.06) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .upload-zone:hover, .upload-zone.drag-over {
-    border-color: var(--accent);
-    background: rgba(240,192,96,.05);
-    transform: translateY(-2px);
-  }
-  .upload-icon {
-    font-size: 3rem; margin-bottom: 1rem;
-    display: block; filter: drop-shadow(0 0 16px rgba(240,192,96,.4));
-  }
-  .upload-zone h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: .4rem; }
-  .upload-zone p { color: var(--muted); font-size: .88rem; }
-  .upload-zone input[type=file] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-  }
+/* PILLS */
+.pills { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .55rem; }
+.pill {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: rgba(96,192,240,.08); border: 1px solid rgba(96,192,240,.2);
+  color: var(--accent2); border-radius: 20px;
+  padding: .22rem .7rem; font-family: 'DM Mono', monospace; font-size: .7rem;
+  max-width: 220px;
+}
+.pill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pill .rm { cursor: pointer; opacity: .5; flex-shrink: 0; }
+.pill .rm:hover { opacity: 1; }
 
-  /* Controls panel */
-  .controls-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-  }
+/* DIVIDER */
+.dl { height: 1px; background: var(--border); margin: 1rem 0; }
 
-  label.ctrl-label {
-    font-family: 'DM Mono', monospace;
-    font-size: .72rem; color: var(--muted);
-    letter-spacing: .05em; display: block; margin-bottom: .4rem;
-  }
+/* CTRL CARD */
+.cc {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.1rem;
+}
+.cl {
+  font-family: 'DM Mono', monospace;
+  font-size: .66rem; color: var(--muted); letter-spacing: .04em;
+  display: block; margin-bottom: .32rem;
+}
+.rv { color: var(--accent); font-weight: 600; }
 
-  .form-control, .form-select {
-    background: var(--bg) !important;
-    border: 1px solid var(--border) !important;
-    color: var(--text) !important;
-    border-radius: 7px !important;
-    font-family: 'DM Mono', monospace !important;
-    font-size: .83rem !important;
-    padding: .55rem .85rem !important;
-    transition: border-color .2s !important;
-  }
-  .form-control:focus, .form-select:focus {
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 0 3px rgba(240,192,96,.12) !important;
-    outline: none !important;
-  }
+input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 3px;
+  background: var(--border); border-radius: 2px; outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px;
+  background: var(--accent); border-radius: 50%;
+  box-shadow: 0 0 6px rgba(240,192,96,.5);
+}
 
-  input[type=range] {
-    -webkit-appearance: none; width: 100%; height: 4px;
-    background: var(--border); border-radius: 2px; outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 16px; height: 16px;
-    background: var(--accent); border-radius: 50%; cursor: pointer;
-    box-shadow: 0 0 8px rgba(240,192,96,.5);
-  }
-  .range-val {
-    font-family: 'DM Mono', monospace;
-    font-size: .75rem; color: var(--accent); font-weight: 500;
-  }
+.ti {
+  width: 100%; background: var(--bg);
+  border: 1px solid var(--border); color: var(--text);
+  border-radius: 7px; font-family: 'DM Mono', monospace;
+  font-size: .78rem; padding: .48rem .78rem;
+  transition: border-color .2s;
+}
+.ti:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(240,192,96,.1); }
+select.ti { cursor: pointer; }
 
-  input[type=color] {
-    -webkit-appearance: none; width: 36px; height: 36px;
-    border: 1px solid var(--border); border-radius: 7px;
-    background: var(--bg); cursor: pointer; padding: 2px;
-  }
+input[type=color] {
+  -webkit-appearance: none; width: 30px; height: 30px;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg); cursor: pointer; padding: 2px; flex-shrink: 0;
+}
 
-  /* Preview */
-  .preview-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    min-height: 300px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    width: 100%;
-  }
-  /* Canvas container bên trong preview-wrap */
-  #canvasContainer {
-    width: 100%;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-    padding: 8px;
-  }
-  #previewCanvas {
-    max-width: 100%;
-    max-height: 460px;
-    width: auto !important;
-    height: auto !important;
-    display: block;
-    border-radius: 6px;
-    object-fit: contain;
-  }
-  .preview-placeholder {
-    text-align: center; padding: 3rem;
-  }
-  .preview-placeholder svg { opacity: .2; margin-bottom: 1rem; }
-  .preview-placeholder p { color: var(--muted); font-size: .88rem; }
+.chk {
+  display: inline-flex; align-items: center; gap: .5rem; cursor: pointer;
+}
+.chk input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+.chk span { font-family: 'DM Mono', monospace; font-size: .7rem; color: var(--muted); }
 
-  /* Buttons */
-  .btn-gold {
-    background: var(--accent);
-    color: #000; font-weight: 700; font-family: 'Syne', sans-serif;
-    border: none; padding: .65rem 1.6rem; border-radius: 8px;
-    font-size: .88rem; letter-spacing: .02em;
-    transition: transform .15s, box-shadow .2s;
-    cursor: pointer;
-  }
-  .btn-gold:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(240,192,96,.35);
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text); font-weight: 600; font-family: 'Syne', sans-serif;
-    border: 1px solid var(--border); padding: .65rem 1.4rem;
-    border-radius: 8px; font-size: .88rem;
-    transition: border-color .2s, color .2s;
-    cursor: pointer;
-  }
-  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+/* BUTTONS */
+.btn-g {
+  background: var(--accent); color: #000;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  border: none; border-radius: 8px;
+  padding: .58rem 1.3rem; font-size: .83rem;
+  cursor: pointer; white-space: nowrap;
+  transition: box-shadow .2s, transform .15s;
+}
+.btn-g:hover { box-shadow: 0 6px 20px rgba(240,192,96,.35); transform: translateY(-1px); }
+.btn-gh {
+  background: transparent; color: var(--text);
+  font-family: 'Syne', sans-serif; font-weight: 600;
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: .58rem 1.1rem; font-size: .83rem;
+  cursor: pointer; white-space: nowrap;
+  transition: border-color .2s, color .2s;
+}
+.btn-gh:hover { border-color: var(--accent2); color: var(--accent2); }
 
-  /* Image URL result */
-  .result-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px; padding: 1rem 1.2rem;
-    display: none;
-    overflow: hidden;
-    min-width: 0;
-  }
-  .result-box.show { display: block; }
-  .result-box .url-label {
-    font-family: 'DM Mono', monospace; font-size: .65rem;
-    color: var(--accent); text-transform: uppercase; letter-spacing: .1em;
-    margin-bottom: .5rem;
-  }
-  .url-display {
-    display: flex; align-items: center; gap: .6rem;
-    min-width: 0;
-  }
-  .url-display input {
-    flex: 1;
-    min-width: 0;
-    background: transparent !important;
-    border: none !important;
-    color: var(--accent2) !important;
-    font-family: 'DM Mono', monospace !important;
-    font-size: .8rem !important;
-    padding: 0 !important;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    width: 0;
-  }
-  .url-display input:focus { outline: none !important; box-shadow: none !important; }
-  .copy-btn {
-    background: var(--border); border: none;
-    color: var(--text); padding: .3rem .7rem; border-radius: 5px;
-    font-family: 'DM Mono', monospace; font-size: .72rem; cursor: pointer;
-    transition: background .2s; flex-shrink: 0;
-  }
-  .copy-btn:hover { background: var(--accent); color: #000; }
-  .copy-btn.copied { background: #3a8c5a; color: #fff; }
+/* PREVIEW BOX — KEY RULES */
+.prev-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;          /* clip any overflow absolutely */
+  min-height: 240px;
+  width: 100%;
+  max-width: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.prev-ph { text-align: center; padding: 2.2rem 1.2rem; }
+.prev-ph svg { opacity: .18; display: block; margin: 0 auto .7rem; }
+.prev-ph p { color: var(--muted); font-size: .8rem; }
 
-  /* File info pill */
-  .file-pill {
-    display: inline-flex; align-items: center; gap: .5rem;
-    background: rgba(96,192,240,.1); border: 1px solid rgba(96,192,240,.25);
-    color: var(--accent2); border-radius: 20px;
-    padding: .3rem .9rem; font-family: 'DM Mono', monospace; font-size: .75rem;
-  }
-  .file-pill .rm { cursor: pointer; opacity: .6; }
-  .file-pill .rm:hover { opacity: 1; }
+/* Canvas wrapper — constrains the actual canvas */
+.cv-wrap {
+  width: 100%; max-width: 100%;
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px; overflow: hidden;
+}
+.cv-wrap canvas {
+  /* Scale DOWN to container, never scale up, preserve aspect ratio */
+  display: block;
+  max-width: 100%;
+  max-height: 420px;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+}
 
-  /* Toast */
-  .toast-msg {
-    position: fixed; bottom: 1.5rem; right: 1.5rem;
-    background: #1e3a2a; border: 1px solid #3a8c5a; color: #7cffb0;
-    padding: .7rem 1.2rem; border-radius: 8px;
-    font-family: 'DM Mono', monospace; font-size: .8rem;
-    transform: translateY(80px); opacity: 0;
-    transition: transform .3s, opacity .3s; z-index: 9999;
-  }
-  .toast-msg.show { transform: translateY(0); opacity: 1; }
+/* TABS */
+.tabs { display: flex; flex-wrap: wrap; gap: .25rem; margin-bottom: .75rem; }
+.tab {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); padding: .28rem .85rem; border-radius: 6px;
+  font-family: 'DM Mono', monospace; font-size: .7rem; cursor: pointer;
+  transition: all .18s;
+}
+.tab.on { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
 
-  /* Tabs */
-  .tab-nav { display: flex; gap: .3rem; margin-bottom: 1.2rem; }
-  .tab-btn {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--muted); padding: .4rem 1rem; border-radius: 6px;
-    font-family: 'DM Mono', monospace; font-size: .75rem; cursor: pointer;
-    transition: all .2s;
-  }
-  .tab-btn.active {
-    background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600;
-  }
+/* INFO BOX */
+.ib {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: .85rem 1rem;
+  margin-top: .75rem;
+  display: none; overflow: hidden; min-width: 0;
+}
+.ib.on { display: block; }
+.ib-lbl {
+  font-family: 'DM Mono', monospace; font-size: .58rem;
+  color: var(--accent); text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: .38rem;
+}
 
-  /* Divider */
-  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+/* Filename row: icon + name (truncated) + ext badge + button */
+.fn-row {
+  display: flex; align-items: center; gap: .45rem;
+  min-width: 0; overflow: hidden;
+}
+.fn-name {
+  flex: 1; min-width: 0;
+  font-family: 'DM Mono', monospace; font-size: .76rem;
+  color: var(--accent2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.fn-ext {
+  flex-shrink: 0;
+  font-family: 'DM Mono', monospace; font-size: .62rem;
+  background: rgba(96,192,240,.11); border: 1px solid rgba(96,192,240,.22);
+  color: var(--accent2); border-radius: 4px; padding: 2px 6px;
+}
+.fn-out { color: #80ffb0; }
+.fn-ext-out {
+  background: rgba(128,255,176,.1); border: 1px solid rgba(128,255,176,.22);
+  color: #80ffb0;
+}
+.sm-btn {
+  flex-shrink: 0;
+  background: var(--border); border: none;
+  color: var(--text); padding: .25rem .6rem; border-radius: 5px;
+  font-family: 'DM Mono', monospace; font-size: .66rem; cursor: pointer;
+  transition: background .18s;
+}
+.sm-btn:hover { background: var(--accent); color: #000; }
+.sm-btn.ok { background: #2a6640; color: #7cffb0; }
 
-  /* Checkbox toggle */
-  .toggle-row { display: flex; align-items: center; gap: .8rem; }
-  .form-check-input {
-    width: 1.1em; height: 1.1em;
-    background-color: var(--bg) !important;
-    border: 1.5px solid var(--border) !important;
-    cursor: pointer;
-  }
-  .form-check-input:checked {
-    background-color: var(--accent) !important;
-    border-color: var(--accent) !important;
-  }
+.stat { font-family:'DM Mono',monospace; font-size:.66rem; color:var(--muted);
+  margin-top:.42rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 1.1rem; right: 1.1rem; z-index: 9999;
+  background: #1b3828; border: 1px solid #2e7a52; color: #7cffb0;
+  padding: .55rem 1rem; border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: .76rem;
+  opacity: 0; transform: translateY(60px);
+  transition: opacity .26s, transform .26s;
+  pointer-events: none;
+}
+.toast.on { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- Header -->
-  <header>
-    <div class="logo-mark">W</div>
-    <div>
-      <div class="logo-text">Water<span>Mark</span> Pro</div>
+<!-- HEADER -->
+<header>
+  <div class="logo-hex">W</div>
+  <div class="logo-name">Water<em>Mark</em> Pro</div>
+  <span class="badge-v">v3.1</span>
+  <div class="hdr-sub">Đóng dấu chống đạo ảnh</div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+<div class="g2">
+
+  <!-- ═══ LEFT ═══ -->
+  <div>
+    <div class="step">01 / Chọn ảnh</div>
+    <div class="drop" id="dz">
+      <input type="file" id="fi" accept="image/*" multiple>
+      <span class="drop-ic">🖼️</span>
+      <h3>Kéo & thả ảnh vào đây</h3>
+      <p>hoặc click để chọn · JPG · PNG · WEBP · GIF</p>
     </div>
-    <span class="badge-pro ms-1">v2.0</span>
-    <div class="ms-auto" style="font-size:.78rem;color:var(--muted);font-family:'DM Mono',monospace;">
-      Đóng dấu chống đạo ảnh
-    </div>
-  </header>
+    <div class="pills" id="pills"></div>
 
-  <div class="main">
-    <div class="row g-4">
+    <div class="dl"></div>
 
-      <!-- LEFT: Upload + Controls -->
-      <div class="col-lg-5">
+    <div class="step">02 / Cài đặt Watermark</div>
+    <div class="cc">
 
-        <!-- Upload -->
-        <div class="section-label">01 / Chọn ảnh</div>
-        <div class="upload-zone" id="dropZone">
-          <input type="file" id="fileInput" accept="image/*" multiple>
-          <span class="upload-icon">🖼️</span>
-          <h3>Kéo & thả ảnh vào đây</h3>
-          <p>hoặc click để chọn — JPG, PNG, WEBP, GIF</p>
-        </div>
-
-        <div id="fileList" class="d-flex flex-wrap gap-2 mt-2"></div>
-
-        <div class="divider"></div>
-
-        <!-- Controls -->
-        <div class="section-label">02 / Cài đặt watermark</div>
-        <div class="controls-card">
-
-          <!-- Watermark text -->
-          <div class="mb-3">
-            <label class="ctrl-label">Nội dung watermark</label>
-            <input type="text" class="form-control" id="wmText" value="© Bản quyền ảnh – Không được sao chép">
-          </div>
-
-          <!-- Font size + opacity row -->
-          <div class="row g-3 mb-3">
-            <div class="col-6">
-              <label class="ctrl-label">Cỡ chữ <span class="range-val" id="fsVal">22</span>px</label>
-              <input type="range" id="wmFontSize" min="8" max="72" value="22">
-            </div>
-            <div class="col-6">
-              <label class="ctrl-label">Độ mờ <span class="range-val" id="opVal">30</span>%</label>
-              <input type="range" id="wmOpacity" min="5" max="100" value="30">
-            </div>
-          </div>
-
-          <!-- Spacing + angle row -->
-          <div class="row g-3 mb-3">
-            <div class="col-6">
-              <label class="ctrl-label">Khoảng cách <span class="range-val" id="spVal">80</span>px</label>
-              <input type="range" id="wmSpacing" min="30" max="300" value="80">
-            </div>
-            <div class="col-6">
-              <label class="ctrl-label">Góc nghiêng <span class="range-val" id="angVal">-35</span>°</label>
-              <input type="range" id="wmAngle" min="-90" max="90" value="-35">
-            </div>
-          </div>
-
-          <!-- Color + font weight -->
-          <div class="row g-3 mb-3">
-            <div class="col-6">
-              <label class="ctrl-label">Màu chữ</label>
-              <div class="d-flex align-items-center gap-2">
-                <input type="color" id="wmColor" value="#ffffff">
-                <span style="font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted)" id="colorHex">#ffffff</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <label class="ctrl-label">Kiểu chữ</label>
-              <select class="form-select" id="wmFont">
-                <option value="Arial">Arial</option>
-                <option value="'Courier New'">Courier New</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Impact">Impact</option>
-                <option value="'Times New Roman'">Times New Roman</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Bold / shadow toggles -->
-          <div class="d-flex gap-4">
-            <div class="toggle-row">
-              <input class="form-check-input" type="checkbox" id="wmBold" checked>
-              <label class="ctrl-label mb-0" for="wmBold">In đậm</label>
-            </div>
-            <div class="toggle-row">
-              <input class="form-check-input" type="checkbox" id="wmShadow" checked>
-              <label class="ctrl-label mb-0" for="wmShadow">Đổ bóng</label>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="mt-3 d-flex gap-2">
-          <button class="btn-gold flex-fill" onclick="applyWatermark()">⚡ Áp dụng Watermark</button>
-          <button class="btn-ghost" onclick="resetAll()">↺ Reset</button>
-        </div>
-
+      <div style="margin-bottom:.85rem">
+        <label class="cl">Nội dung watermark</label>
+        <input class="ti" type="text" id="wt" value="© Bản quyền ảnh – Không được sao chép">
       </div>
 
-      <!-- RIGHT: Preview + Download -->
-      <div class="col-lg-7">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem">
+        <div>
+          <label class="cl">Cỡ chữ <span class="rv" id="fv">22</span>px</label>
+          <input type="range" id="ws" min="8" max="72" value="22">
+        </div>
+        <div>
+          <label class="cl">Độ mờ <span class="rv" id="ov">30</span>%</label>
+          <input type="range" id="wo" min="5" max="100" value="30">
+        </div>
+      </div>
 
-        <div class="section-label">03 / Xem trước & tải xuống</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem">
+        <div>
+          <label class="cl">Khoảng cách <span class="rv" id="sv">80</span>px</label>
+          <input type="range" id="wsp" min="20" max="300" value="80">
+        </div>
+        <div>
+          <label class="cl">Góc nghiêng <span class="rv" id="av">-35</span>°</label>
+          <input type="range" id="wa" min="-90" max="90" value="-35">
+        </div>
+      </div>
 
-        <!-- Tabs for multiple images -->
-        <div class="tab-nav" id="imageTabs"></div>
-
-        <!-- Canvas preview -->
-        <div class="preview-wrap" id="previewWrap">
-          <div class="preview-placeholder" id="previewPlaceholder">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <rect x="4" y="12" width="56" height="40" rx="4" stroke="#6a6a8a" stroke-width="2"/>
-              <circle cx="22" cy="28" r="6" stroke="#6a6a8a" stroke-width="2"/>
-              <path d="M4 44L20 30L30 40L42 26L60 44" stroke="#6a6a8a" stroke-width="2"/>
-            </svg>
-            <p>Chưa có ảnh — hãy upload ảnh trước</p>
-          </div>
-          <div id="canvasContainer" style="display:none">
-            <canvas id="previewCanvas"></canvas>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.85rem">
+        <div>
+          <label class="cl">Màu chữ</label>
+          <div style="display:flex;align-items:center;gap:.5rem">
+            <input type="color" id="wc" value="#ffffff">
+            <span style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted)" id="hv">#ffffff</span>
           </div>
         </div>
-
-        <!-- Result URL box -->
-        <div class="result-box mt-3" id="resultBox">
-          <div class="url-label">📁 Tên file gốc</div>
-          <div class="url-display">
-            <input type="text" id="originalUrl" readonly>
-            <button class="copy-btn" onclick="copyUrl('originalUrl', this)">Copy</button>
-          </div>
-          <div class="divider" style="margin:.7rem 0"></div>
-          <div class="url-label">💾 Tên file đã đóng dấu (sau khi tải)</div>
-          <div class="url-display">
-            <input type="text" id="dataUrlShort" readonly placeholder="Nhấn 'Áp dụng Watermark' để tạo...">
-            <button class="copy-btn" id="downloadBtn" onclick="downloadCurrent()">⬇ Tải</button>
-          </div>
+        <div>
+          <label class="cl">Kiểu chữ</label>
+          <select class="ti" id="wf">
+            <option value="Arial">Arial</option>
+            <option value="'Courier New'">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Impact">Impact</option>
+            <option value="'Times New Roman'">Times New Roman</option>
+          </select>
         </div>
+      </div>
 
-        <!-- File stats -->
-        <div id="fileStats" class="mt-3" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);display:none">
-          <span id="statInfo"></span>
-        </div>
-
+      <div style="display:flex;gap:1.2rem">
+        <label class="chk"><input type="checkbox" id="wb" checked><span>In đậm</span></label>
+        <label class="chk"><input type="checkbox" id="wsh" checked><span>Đổ bóng</span></label>
       </div>
     </div>
 
-    <!-- Batch download -->
-    <div class="mt-4 text-center" id="batchSection" style="display:none">
-      <div class="divider"></div>
-      <button class="btn-gold" onclick="downloadAll()" style="padding:.7rem 3rem;">
-        ⬇ Tải tất cả ảnh đã đóng dấu (ZIP)
-      </button>
-      <p style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);margin-top:.6rem">
-        Tải từng ảnh một — ZIP sẽ dùng JSZip tự động
-      </p>
+    <div style="display:flex;gap:.6rem;margin-top:.85rem">
+      <button class="btn-g" style="flex:1" onclick="applyWM()">⚡ Áp dụng Watermark</button>
+      <button class="btn-gh" onclick="resetAll()">↺ Reset</button>
     </div>
   </div>
-</div>
 
-<!-- Toast -->
-<div class="toast-msg" id="toast"></div>
+  <!-- ═══ RIGHT ═══ -->
+  <div style="min-width:0;overflow:hidden">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="step">03 / Xem trước & tải xuống</div>
+
+    <div class="tabs" id="tabs"></div>
+
+    <!-- PREVIEW — canvas lives inside here, fully contained -->
+    <div class="prev-box" id="pb">
+      <div class="prev-ph" id="ph">
+        <svg width="52" height="52" viewBox="0 0 64 64" fill="none">
+          <rect x="4" y="12" width="56" height="40" rx="4" stroke="#5a5a7a" stroke-width="2"/>
+          <circle cx="22" cy="28" r="6" stroke="#5a5a7a" stroke-width="2"/>
+          <path d="M4 44L20 30L30 40L42 26L60 44" stroke="#5a5a7a" stroke-width="2"/>
+        </svg>
+        <p>Chưa có ảnh — hãy upload ảnh trước</p>
+      </div>
+      <div class="cv-wrap" id="cw">
+        <canvas id="cv"></canvas>
+      </div>
+    </div>
+
+    <!-- INFO BOX -->
+    <div class="ib" id="ib">
+
+      <!-- original -->
+      <div class="ib-lbl">📁 File gốc đã upload</div>
+      <div class="fn-row">
+        <span class="fn-name" id="origN" title="">—</span>
+        <span class="fn-ext"  id="origE">—</span>
+        <button class="sm-btn" onclick="copySpan('origN',this)">Copy tên</button>
+      </div>
+      <div class="stat" id="stat"></div>
+
+      <div class="dl" style="margin:.65rem 0"></div>
+
+      <!-- output -->
+      <div class="ib-lbl">💾 File xuất sau khi đóng dấu</div>
+      <div class="fn-row">
+        <span class="fn-name fn-out" id="outN">Chưa áp dụng watermark...</span>
+        <span class="fn-ext fn-ext-out" id="outE" style="display:none">PNG</span>
+        <button class="sm-btn" id="dlb" onclick="dlCurrent()">⬇ Tải</button>
+      </div>
+
+    </div>
+
+    <!-- batch -->
+    <div id="batch" style="display:none;margin-top:.75rem;text-align:center">
+      <div class="dl"></div>
+      <button class="btn-g" onclick="dlAll()" style="padding:.58rem 2.2rem">⬇ Tải tất cả ảnh đã đóng dấu</button>
+    </div>
+
+  </div><!-- /right -->
+</div><!-- /g2 -->
+</div><!-- /main -->
+</div><!-- /wrapper -->
+
+<div class="toast" id="toast"></div>
+
 <script>
-// ─── State ───────────────────────────────────────────────────────────────────
-let files = [];          // File objects
-let objectUrls = [];     // object URLs for originals
-let watermarked = [];    // data URLs after processing
-let activeIdx = 0;
+/* STATE */
+let files=[], urls=[], wms=[], idx=0;
 
-// ─── DOM refs ─────────────────────────────────────────────────────────────────
-const dropZone   = document.getElementById('dropZone');
-const fileInput  = document.getElementById('fileInput');
-const tabsEl     = document.getElementById('imageTabs');
-const prevWrap   = document.getElementById('previewWrap');
-const canvasCont = document.getElementById('canvasContainer');
-const canvas     = document.getElementById('previewCanvas');
-const ctx        = canvas.getContext('2d');
-const resultBox  = document.getElementById('resultBox');
-const fileList   = document.getElementById('fileList');
-const batchSec   = document.getElementById('batchSection');
-const statInfo   = document.getElementById('statInfo');
+/* DOM */
+const DZ   = document.getElementById('dz');
+const FI   = document.getElementById('fi');
+const TABS = document.getElementById('tabs');
+const PH   = document.getElementById('ph');
+const CW   = document.getElementById('cw');
+const CV   = document.getElementById('cv');
+const X    = CV.getContext('2d');
+const IB   = document.getElementById('ib');
+const PILLS= document.getElementById('pills');
+const BATCH= document.getElementById('batch');
 
-// ─── Range live display ───────────────────────────────────────────────────────
-['wmFontSize','wmOpacity','wmSpacing','wmAngle'].forEach(id => {
-  const el = document.getElementById(id);
-  const map = {wmFontSize:'fsVal',wmOpacity:'opVal',wmSpacing:'spVal',wmAngle:'angVal'};
-  el.addEventListener('input', () => {
-    document.getElementById(map[id]).textContent = el.value;
+/* RANGES */
+const RM = { ws:'fv', wo:'ov', wsp:'sv', wa:'av' };
+Object.keys(RM).forEach(id => {
+  document.getElementById(id).addEventListener('input', function(){
+    document.getElementById(RM[id]).textContent = this.value;
   });
 });
-document.getElementById('wmColor').addEventListener('input', function(){
-  document.getElementById('colorHex').textContent = this.value;
+document.getElementById('wc').addEventListener('input',function(){
+  document.getElementById('hv').textContent = this.value;
 });
 
-// ─── Drag & Drop ──────────────────────────────────────────────────────────────
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault(); dropZone.classList.remove('drag-over');
-  handleFiles([...e.dataTransfer.files]);
-});
-fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+/* DRAG DROP */
+DZ.addEventListener('dragover', e=>{ e.preventDefault(); DZ.classList.add('over'); });
+DZ.addEventListener('dragleave', ()=> DZ.classList.remove('over'));
+DZ.addEventListener('drop', e=>{ e.preventDefault(); DZ.classList.remove('over'); load([...e.dataTransfer.files]); });
+FI.addEventListener('change', ()=> load([...FI.files]));
 
-function handleFiles(newFiles) {
-  newFiles = newFiles.filter(f => f.type.startsWith('image/'));
-  if (!newFiles.length) return;
-
-  // Revoke old URLs to prevent memory leaks
-  objectUrls.forEach(u => URL.revokeObjectURL(u));
-  files = newFiles;
-  objectUrls = files.map(f => URL.createObjectURL(f));
-  watermarked = new Array(files.length).fill(null);
-  activeIdx = 0;
-
-  renderFilePills();
-  renderTabs();
-  showOriginal(0);
-  document.getElementById('fileStats').style.display = 'block';
-
-  if (files.length > 1) batchSec.style.display = 'block';
-  else batchSec.style.display = 'none';
-
-  showToast(`✅ Đã tải ${files.length} ảnh`);
+function load(nf) {
+  nf = nf.filter(f=>f.type.startsWith('image/'));
+  if (!nf.length) return;
+  urls.forEach(u=>URL.revokeObjectURL(u));
+  files=nf; urls=files.map(f=>URL.createObjectURL(f)); wms=new Array(files.length).fill(null); idx=0;
+  mkPills(); mkTabs(); showOrig(0);
+  BATCH.style.display = files.length>1 ? 'block':'none';
+  toast(`✅ Đã tải ${files.length} ảnh`);
 }
 
-function renderFilePills() {
-  fileList.innerHTML = '';
-  files.forEach((f, i) => {
-    const pill = document.createElement('div');
-    pill.className = 'file-pill';
-    pill.innerHTML = `<span>📄 ${f.name.length > 18 ? f.name.slice(0,16)+'…' : f.name}</span>
-                      <span class="rm" onclick="removeFile(${i})">✕</span>`;
-    fileList.appendChild(pill);
+/* PILLS */
+function mkPills(){
+  PILLS.innerHTML='';
+  files.forEach((f,i)=>{
+    const d=document.createElement('div'); d.className='pill';
+    const n=f.name.length>24?f.name.slice(0,22)+'…':f.name;
+    d.innerHTML=`<span title="${f.name}">📄 ${n}</span><span class="rm" onclick="rmFile(${i})">✕</span>`;
+    PILLS.appendChild(d);
   });
 }
-
-function removeFile(i) {
-  URL.revokeObjectURL(objectUrls[i]);
-  files.splice(i,1); objectUrls.splice(i,1); watermarked.splice(i,1);
-  if (!files.length) { resetAll(); return; }
-  activeIdx = Math.min(activeIdx, files.length - 1);
-  renderFilePills(); renderTabs(); showOriginal(activeIdx);
+function rmFile(i){
+  URL.revokeObjectURL(urls[i]);
+  files.splice(i,1); urls.splice(i,1); wms.splice(i,1);
+  if(!files.length){resetAll();return;}
+  idx=Math.min(idx,files.length-1);
+  mkPills(); mkTabs(); showOrig(idx);
 }
 
-function renderTabs() {
-  tabsEl.innerHTML = '';
-  if (files.length <= 1) return;
-  files.forEach((f, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'tab-btn' + (i === activeIdx ? ' active' : '');
-    btn.textContent = `#${i+1}`;
-    btn.onclick = () => { activeIdx = i; renderTabs(); showWatermarkedOrOriginal(i); };
-    tabsEl.appendChild(btn);
+/* TABS */
+function mkTabs(){
+  TABS.innerHTML='';
+  if(files.length<=1) return;
+  files.forEach((_,i)=>{
+    const b=document.createElement('button'); b.className='tab'+(i===idx?' on':'');
+    b.textContent=`Ảnh ${i+1}`;
+    b.onclick=()=>{ idx=i; mkTabs(); showWMOrOrig(i); };
+    TABS.appendChild(b);
   });
 }
 
-function showOriginal(idx) {
-  const img = new Image();
-  img.onload = () => {
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-    ctx.drawImage(img, 0, 0);
-    document.getElementById('previewPlaceholder').style.display = 'none';
-    canvasCont.style.display = 'flex';
-    // Tên file gốc đúng extension
-    document.getElementById('originalUrl').value = files[idx].name;
-    // Tên file đầu ra sau watermark
-    const baseName = files[idx].name.replace(/\.[^.]+$/, '');
-    document.getElementById('dataUrlShort').value = watermarked[idx]
-      ? `watermarked_${baseName}.png` : 'Chưa áp dụng watermark...';
-    resultBox.classList.add('show');
-    statInfo.textContent = `📐 ${img.naturalWidth} × ${img.naturalHeight}px  |  💾 ${(files[idx].size/1024).toFixed(1)} KB  |  ${files[idx].type}`;
+/* SHOW */
+function showOrig(i){
+  const img=new Image();
+  img.onload=()=>{
+    CV.width=img.naturalWidth; CV.height=img.naturalHeight;
+    X.drawImage(img,0,0);
+    reveal();
+    setOrig(i,img);
   };
-  img.src = objectUrls[idx];
+  img.src=urls[i];
+}
+function showWMOrOrig(i){
+  if(wms[i]){
+    const img=new Image();
+    img.onload=()=>{ CV.width=img.naturalWidth; CV.height=img.naturalHeight; X.drawImage(img,0,0); reveal(); };
+    img.src=wms[i];
+    setWM(i);
+  } else showOrig(i);
+}
+function reveal(){
+  PH.style.display='none';
+  CW.style.display='flex';
+  IB.classList.add('on');
 }
 
-function showWatermarkedOrOriginal(idx) {
-  if (watermarked[idx]) {
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      ctx.drawImage(img, 0, 0);
-      document.getElementById('previewPlaceholder').style.display = 'none';
-      canvasCont.style.display = 'flex';
-    };
-    img.src = watermarked[idx];
-    const baseName = files[idx].name.replace(/\.[^.]+$/, '');
-    document.getElementById('originalUrl').value = files[idx].name;
-    document.getElementById('dataUrlShort').value = `watermarked_${baseName}.png`;
-  } else {
-    showOriginal(idx);
-  }
+/* INFO */
+function ext(n){ const m=n.match(/\.([^.]+)$/); return m?m[1].toUpperCase():'—'; }
+function setOrig(i,img){
+  const f=files[i];
+  document.getElementById('origN').textContent=f.name;
+  document.getElementById('origN').title=f.name;
+  document.getElementById('origE').textContent=ext(f.name);
+  document.getElementById('stat').textContent=
+    `📐 ${img.naturalWidth}×${img.naturalHeight}px  ·  💾 ${(f.size/1024).toFixed(1)} KB  ·  ${f.type}`;
+  const base=f.name.replace(/\.[^.]+$/,'');
+  const outEl=document.getElementById('outN');
+  const extEl=document.getElementById('outE');
+  if(wms[i]){ outEl.textContent='watermarked_'+base+'.png'; extEl.style.display='inline'; }
+  else { outEl.textContent='Chưa áp dụng watermark...'; extEl.style.display='none'; }
+}
+function setWM(i){
+  const f=files[i];
+  document.getElementById('origN').textContent=f.name;
+  document.getElementById('origN').title=f.name;
+  document.getElementById('origE').textContent=ext(f.name);
+  const base=f.name.replace(/\.[^.]+$/,'');
+  document.getElementById('outN').textContent='watermarked_'+base+'.png';
+  document.getElementById('outE').style.display='inline';
 }
 
-// ─── Watermark engine ─────────────────────────────────────────────────────────
-function applyWatermark() {
-  if (!files.length) { showToast('⚠️ Hãy upload ảnh trước!'); return; }
-
-  const text     = document.getElementById('wmText').value || '© Watermark';
-  const fontSize = parseInt(document.getElementById('wmFontSize').value);
-  const opacity  = parseInt(document.getElementById('wmOpacity').value) / 100;
-  const spacing  = parseInt(document.getElementById('wmSpacing').value);
-  const angle    = parseInt(document.getElementById('wmAngle').value) * Math.PI / 180;
-  const color    = document.getElementById('wmColor').value;
-  const fontFam  = document.getElementById('wmFont').value;
-  const bold     = document.getElementById('wmBold').checked;
-  const shadow   = document.getElementById('wmShadow').checked;
-
-  // Process all images (or just active if only one)
-  const indices = files.length > 1 ? files.map((_,i)=>i) : [0];
-
-  let processed = 0;
-  indices.forEach(idx => {
-    const img = new Image();
-    img.onload = () => {
-      const offCanvas = document.createElement('canvas');
-      offCanvas.width  = img.naturalWidth;
-      offCanvas.height = img.naturalHeight;
-      const offCtx = offCanvas.getContext('2d');
-
-      offCtx.drawImage(img, 0, 0);
-
-      // Watermark layer
-      offCtx.save();
-      offCtx.globalAlpha = opacity;
-
-      const fontStr = `${bold ? 'bold ' : ''}${fontSize}px ${fontFam}`;
-      offCtx.font = fontStr;
-      offCtx.fillStyle = color;
-      offCtx.textBaseline = 'middle';
-
-      if (shadow) {
-        offCtx.shadowColor = 'rgba(0,0,0,0.6)';
-        offCtx.shadowBlur  = Math.max(2, fontSize * 0.15);
-        offCtx.shadowOffsetX = 1;
-        offCtx.shadowOffsetY = 1;
-      }
-
-      const textWidth  = offCtx.measureText(text).width;
-      const diagonal   = Math.sqrt(offCanvas.width**2 + offCanvas.height**2);
-      const cols = Math.ceil(diagonal / (textWidth + spacing)) + 2;
-      const rows = Math.ceil(diagonal / (fontSize  + spacing)) + 2;
-
-      offCtx.translate(offCanvas.width / 2, offCanvas.height / 2);
-      offCtx.rotate(angle);
-
-      const startX = -diagonal / 2;
-      const startY = -diagonal / 2;
-
-      for (let r = -rows; r <= rows * 2; r++) {
-        for (let c = -cols; c <= cols * 2; c++) {
-          const x = startX + c * (textWidth + spacing);
-          const y = startY + r * (fontSize  + spacing);
-          offCtx.fillText(text, x, y);
-        }
-      }
-      offCtx.restore();
-
-      watermarked[idx] = offCanvas.toDataURL('image/png');
-
-      // Show on canvas if active
-      if (idx === activeIdx) {
-        canvas.width  = offCanvas.width;
-        canvas.height = offCanvas.height;
-        ctx.drawImage(offCanvas, 0, 0);
-        document.getElementById('previewPlaceholder').style.display = 'none';
-        canvasCont.style.display = 'flex';
-        const baseName = files[idx].name.replace(/\.[^.]+$/, '');
-        document.getElementById('dataUrlShort').value = `watermarked_${baseName}.png`;
-      }
-
-      processed++;
-      if (processed === indices.length) {
-        showToast(`✅ Đã đóng dấu ${processed} ảnh!`);
-      }
-    };
-    img.src = objectUrls[idx];
+/* COPY SPAN */
+function copySpan(id,btn){
+  const v=document.getElementById(id).textContent.trim();
+  if(!v||v==='—') return;
+  navigator.clipboard.writeText(v).then(()=>{
+    btn.textContent='✓ OK'; btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent='Copy tên'; btn.classList.remove('ok'); },1600);
   });
 }
 
-// ─── Download ─────────────────────────────────────────────────────────────────
-function downloadCurrent() {
-  if (!watermarked[activeIdx]) { showToast('⚠️ Hãy áp dụng watermark trước!'); return; }
-  const a = document.createElement('a');
-  a.href = watermarked[activeIdx];
-  a.download = `watermarked_${files[activeIdx].name.replace(/\.[^.]+$/, '')}.png`;
+/* WATERMARK ENGINE */
+function applyWM(){
+  if(!files.length){ toast('⚠️ Hãy upload ảnh trước!'); return; }
+  const text=document.getElementById('wt').value||'© Watermark';
+  const fs=+document.getElementById('ws').value;
+  const op=+document.getElementById('wo').value/100;
+  const sp=+document.getElementById('wsp').value;
+  const ag=+document.getElementById('wa').value*Math.PI/180;
+  const cl=document.getElementById('wc').value;
+  const fn=document.getElementById('wf').value;
+  const bd=document.getElementById('wb').checked;
+  const sh=document.getElementById('wsh').checked;
+
+  let done=0;
+  files.forEach((_,i)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const oc=document.createElement('canvas');
+      oc.width=img.naturalWidth; oc.height=img.naturalHeight;
+      const ox=oc.getContext('2d');
+      ox.drawImage(img,0,0);
+      ox.save();
+      ox.globalAlpha=op;
+      ox.font=`${bd?'bold ':''}${fs}px ${fn}`;
+      ox.fillStyle=cl;
+      ox.textBaseline='middle';
+      if(sh){ ox.shadowColor='rgba(0,0,0,.65)'; ox.shadowBlur=Math.max(2,fs*.15); ox.shadowOffsetX=ox.shadowOffsetY=1; }
+      const tw=ox.measureText(text).width;
+      const diag=Math.hypot(oc.width,oc.height);
+      const cols=Math.ceil(diag/(tw+sp))+3;
+      const rows=Math.ceil(diag/(fs+sp))+3;
+      ox.translate(oc.width/2,oc.height/2);
+      ox.rotate(ag);
+      const sx=-diag/2, sy=-diag/2;
+      for(let r=-rows;r<=rows*2;r++)
+        for(let c=-cols;c<=cols*2;c++)
+          ox.fillText(text, sx+c*(tw+sp), sy+r*(fs+sp));
+      ox.restore();
+      wms[i]=oc.toDataURL('image/png');
+      if(i===idx){ CV.width=oc.width; CV.height=oc.height; X.drawImage(oc,0,0); reveal(); setWM(i); }
+      if(++done===files.length) toast(`✅ Đã đóng dấu ${done} ảnh!`);
+    };
+    img.src=urls[i];
+  });
+}
+
+/* DOWNLOAD */
+function dlCurrent(){
+  if(!wms[idx]){ toast('⚠️ Hãy áp dụng watermark trước!'); return; }
+  const a=document.createElement('a');
+  a.href=wms[idx];
+  a.download='watermarked_'+files[idx].name.replace(/\.[^.]+$/,'')+'.png';
   a.click();
 }
-
-function downloadAll() {
-  const pending = watermarked.map((w,i) => w ? i : -1).filter(i => i >= 0);
-  if (!pending.length) { showToast('⚠️ Hãy áp dụng watermark trước!'); return; }
-  pending.forEach(i => {
-    setTimeout(() => {
-      const a = document.createElement('a');
-      a.href = watermarked[i];
-      a.download = `watermarked_${files[i].name.replace(/\.[^.]+$/, '')}.png`;
-      a.click();
-    }, i * 300);
-  });
-  showToast(`⬇ Đang tải ${pending.length} ảnh...`);
+function dlAll(){
+  const ok=wms.map((w,i)=>w?i:-1).filter(i=>i>=0);
+  if(!ok.length){ toast('⚠️ Hãy áp dụng watermark trước!'); return; }
+  ok.forEach((i,n)=>setTimeout(()=>{
+    const a=document.createElement('a');
+    a.href=wms[i]; a.download='watermarked_'+files[i].name.replace(/\.[^.]+$/,'')+'.png';
+    a.click();
+  },n*350));
+  toast(`⬇ Đang tải ${ok.length} ảnh...`);
 }
 
-// ─── Copy URL ─────────────────────────────────────────────────────────────────
-function copyUrl(inputId, btn) {
-  const val = document.getElementById(inputId).value;
-  if (!val || val.includes('Chưa')) { showToast('⚠️ Chưa có URL để copy'); return; }
-  navigator.clipboard.writeText(val).then(() => {
-    btn.textContent = '✓ Copied';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
-  });
+/* RESET */
+function resetAll(){
+  urls.forEach(u=>URL.revokeObjectURL(u));
+  files=[];urls=[];wms=[];idx=0;
+  PILLS.innerHTML=''; TABS.innerHTML='';
+  PH.style.display=''; CW.style.display='none';
+  IB.classList.remove('on');
+  BATCH.style.display='none';
+  FI.value='';
+  toast('↺ Đã reset');
 }
 
-// ─── Reset ────────────────────────────────────────────────────────────────────
-function resetAll() {
-  objectUrls.forEach(u => URL.revokeObjectURL(u));
-  files = []; objectUrls = []; watermarked = []; activeIdx = 0;
-  fileList.innerHTML = '';
-  tabsEl.innerHTML = '';
-  document.getElementById('previewPlaceholder').style.display = 'flex';
-  canvasCont.style.display = 'none';
-  resultBox.classList.remove('show');
-  batchSec.style.display = 'none';
-  document.getElementById('fileStats').style.display = 'none';
-  fileInput.value = '';
-  showToast('↺ Đã reset');
-}
-
-// ─── Toast ────────────────────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+/* TOAST */
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('on');
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.classList.remove('on'),2600);
 }
 </script>
 </body>
