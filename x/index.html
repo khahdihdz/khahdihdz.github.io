@@ -697,43 +697,60 @@
   function renderCards(data, platform) {
     dlCards.innerHTML = "";
 
-    // Collect all downloadable URLs from response
     const items = [];
 
-    function pushUrl(url, label) {
-      if (typeof url === "string" && url.startsWith("http")) {
-        items.push({ url, label });
+    // Recursively walk the response and collect every object that has a "url" field
+    function walk(node, labelHint, depth) {
+      if (depth > 5 || !node) return;
+
+      if (Array.isArray(node)) {
+        node.forEach((item, i) => walk(item, `Link ${i + 1}`, depth + 1));
+        return;
+      }
+
+      if (typeof node === "object") {
+        if (typeof node.url === "string" && node.url.startsWith("http")) {
+          // Found a url field — use quality/label/type as label if available
+          const label = node.quality || node.label || node.type || node.ext
+                     || node.resolution || node.format || labelHint || `Link ${items.length + 1}`;
+          items.push({ url: node.url, label: String(label) });
+        } else {
+          // Dive deeper — prioritise known array keys first
+          const ARRAY_KEYS = ["downloads", "medias", "data", "links", "sources", "results"];
+          for (const k of ARRAY_KEYS) {
+            if (Array.isArray(node[k])) walk(node[k], k, depth + 1);
+          }
+          // Then walk remaining keys
+          for (const [k, v] of Object.entries(node)) {
+            if (!ARRAY_KEYS.includes(k)) walk(v, k, depth + 1);
+          }
+        }
+        return;
+      }
+
+      // Plain string that looks like a URL
+      if (typeof node === "string" && node.startsWith("http")) {
+        items.push({ url: node, label: labelHint || `Link ${items.length + 1}` });
       }
     }
 
-    // Common response shapes from btch-downloader
-    if (Array.isArray(data)) {
-      data.forEach((item, i) => {
-        const url = item.url || item.download || item.link || item.src || item;
-        pushUrl(typeof url === "string" ? url : "", item.quality || item.label || `Link ${i+1}`);
+    // Unwrap top-level wrapper keys so we start from the real payload
+    let root = data;
+    if (root && typeof root === "object" && !Array.isArray(root)) {
+      for (const k of ["result", "data", "body", "response"]) {
+        if (root[k] && typeof root[k] === "object") { root = root[k]; break; }
+      }
+    }
+
+    // Also collect plain image arrays (e.g. result.images: ["http://..."])
+    if (root && Array.isArray(root.images)) {
+      root.images.forEach((url, i) => {
+        if (typeof url === "string" && url.startsWith("http"))
+          items.push({ url, label: `Ảnh ${i + 1}` });
       });
-    } else if (typeof data === "object" && data !== null) {
-      // Try known keys
-      const keys = ["url","download","link","src","video","audio","hd","sd","Normal","HD","thumbnail"];
-      keys.forEach(k => { if (data[k]) pushUrl(data[k], k.toUpperCase()); });
-
-      // medias array (Instagram, TikTok patterns)
-      if (Array.isArray(data.medias)) {
-        data.medias.forEach((m, i) => pushUrl(m.url || m, m.quality || `Media ${i+1}`));
-      }
-      if (Array.isArray(data.data)) {
-        data.data.forEach((m, i) => {
-          const u = typeof m === "string" ? m : (m.url || m.download || "");
-          pushUrl(u, m.quality || m.label || `Link ${i+1}`);
-        });
-      }
-      // Nested data object
-      if (data.data && typeof data.data === "object" && !Array.isArray(data.data)) {
-        Object.entries(data.data).forEach(([k,v]) => {
-          if (typeof v === "string") pushUrl(v, k.toUpperCase());
-        });
-      }
     }
+
+    walk(root, "", 0);
 
     if (items.length === 0) {
       // Fallback: show raw JSON, hint user
