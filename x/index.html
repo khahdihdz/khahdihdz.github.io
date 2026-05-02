@@ -238,16 +238,93 @@
       margin-bottom: 12px;
     }
 
+    /* ── Media info card (thumbnail + meta) ── */
+    .media-info-card {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      animation: fadeUp .3s ease both;
+    }
+    .media-thumb-wrap {
+      flex: 0 0 160px;
+      position: relative;
+      background: #000;
+    }
+    .media-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: .92;
+    }
+    .media-thumb-badge {
+      position: absolute;
+      bottom: 8px; left: 8px;
+      background: rgba(0,0,0,.65);
+      color: #fff;
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+      padding: 2px 8px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+    .media-meta {
+      flex: 1;
+      padding: 18px 20px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .media-meta-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .media-meta-desc {
+      font-size: 12px;
+      color: var(--text-muted2);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+    .media-meta-stats {
+      display: flex;
+      gap: 14px;
+      margin-top: 4px;
+    }
+    .media-stat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #64748b;
+    }
+    @media (max-width: 500px) {
+      .media-thumb-wrap { flex: 0 0 110px; }
+    }
+
     /* Download cards */
-    .dl-cards { display: flex; flex-direction: column; gap: 12px; }
+    .dl-cards { display: flex; flex-direction: column; gap: 10px; }
     .dl-card {
       background: var(--bg-card2);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 16px 20px;
+      padding: 14px 18px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       animation: fadeUp .3s ease both;
       transition: border-color .2s;
     }
@@ -257,12 +334,12 @@
       to   { opacity:1; transform:translateY(0); }
     }
     .dl-card-icon {
-      width: 40px; height: 40px;
+      width: 38px; height: 38px;
       border-radius: 10px;
       background: var(--accent-glow);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      font-size: 18px;
+      font-size: 17px;
       color: var(--accent);
     }
     .dl-card-info { flex: 1; min-width: 0; }
@@ -276,9 +353,12 @@
       margin-bottom: 3px;
     }
     .dl-card-meta {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted2);
       font-family: 'Space Mono', monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .btn-download {
       flex-shrink: 0;
@@ -697,43 +777,6 @@
   function renderCards(data, platform) {
     dlCards.innerHTML = "";
 
-    const items = [];
-
-    // Recursively walk the response and collect every object that has a "url" field
-    function walk(node, labelHint, depth) {
-      if (depth > 5 || !node) return;
-
-      if (Array.isArray(node)) {
-        node.forEach((item, i) => walk(item, `Link ${i + 1}`, depth + 1));
-        return;
-      }
-
-      if (typeof node === "object") {
-        if (typeof node.url === "string" && node.url.startsWith("http")) {
-          // Found a url field — use quality/label/type as label if available
-          const label = node.quality || node.label || node.type || node.ext
-                     || node.resolution || node.format || labelHint || `Link ${items.length + 1}`;
-          items.push({ url: node.url, label: String(label) });
-        } else {
-          // Dive deeper — prioritise known array keys first
-          const ARRAY_KEYS = ["downloads", "medias", "data", "links", "sources", "results"];
-          for (const k of ARRAY_KEYS) {
-            if (Array.isArray(node[k])) walk(node[k], k, depth + 1);
-          }
-          // Then walk remaining keys
-          for (const [k, v] of Object.entries(node)) {
-            if (!ARRAY_KEYS.includes(k)) walk(v, k, depth + 1);
-          }
-        }
-        return;
-      }
-
-      // Plain string that looks like a URL
-      if (typeof node === "string" && node.startsWith("http")) {
-        items.push({ url: node, label: labelHint || `Link ${items.length + 1}` });
-      }
-    }
-
     // Unwrap top-level wrapper keys so we start from the real payload
     let root = data;
     if (root && typeof root === "object" && !Array.isArray(root)) {
@@ -742,19 +785,77 @@
       }
     }
 
-    // Also collect plain image arrays (e.g. result.images: ["http://..."])
-    if (root && Array.isArray(root.images)) {
-      root.images.forEach((url, i) => {
-        if (typeof url === "string" && url.startsWith("http"))
-          items.push({ url, label: `Ảnh ${i + 1}` });
-      });
+    // ── Extract metadata for info card ──
+    const meta = {
+      title:     root.title || root.nickname || root.author || root.uploader || "",
+      desc:      root.desc || root.description || root.caption || "",
+      thumbnail: null,
+      duration:  root.duration || "",
+      likes:     root.engagement?.likes || root.likes || "",
+      comments:  root.engagement?.comments || root.comments || "",
+    };
+    // Thumbnail: images array or thumbnail field
+    if (Array.isArray(root.images) && root.images[0]) meta.thumbnail = root.images[0];
+    else if (root.thumbnail) meta.thumbnail = root.thumbnail;
+    else if (root.cover)     meta.thumbnail = root.cover;
+
+    // ── Collect downloadable items ──
+    const items = [];
+
+    function walk(node, labelHint, depth) {
+      if (depth > 6 || !node) return;
+      if (Array.isArray(node)) {
+        node.forEach((item, i) => walk(item, labelHint || `Link ${i + 1}`, depth + 1));
+        return;
+      }
+      if (typeof node === "object") {
+        if (typeof node.url === "string" && node.url.startsWith("http")) {
+          const label = node.quality || node.label || node.type || node.ext
+                     || node.resolution || node.format || labelHint || `Link ${items.length + 1}`;
+          items.push({ url: node.url, label: String(label) });
+        } else {
+          const ARRAY_KEYS = ["downloads", "medias", "data", "links", "sources", "results"];
+          for (const k of ARRAY_KEYS) {
+            if (Array.isArray(node[k])) walk(node[k], k, depth + 1);
+          }
+          for (const [k, v] of Object.entries(node)) {
+            if (!ARRAY_KEYS.includes(k)) walk(v, k, depth + 1);
+          }
+        }
+        return;
+      }
+      if (typeof node === "string" && node.startsWith("http")) {
+        items.push({ url: node, label: labelHint || `Link ${items.length + 1}` });
+      }
     }
 
     walk(root, "", 0);
 
+    // ── Render media info card if we have thumbnail or title ──
+    if (meta.thumbnail || meta.title) {
+      const infoCard = document.createElement("div");
+      infoCard.className = "media-info-card";
+      infoCard.innerHTML = `
+        ${meta.thumbnail ? `
+        <div class="media-thumb-wrap">
+          <img src="${meta.thumbnail}" alt="thumbnail" onerror="this.parentElement.style.display='none'">
+          ${meta.duration ? `<span class="media-thumb-badge"><i class="bi bi-clock me-1"></i>${meta.duration}</span>` : ""}
+        </div>` : ""}
+        <div class="media-meta">
+          ${meta.title ? `<div class="media-meta-title">${meta.title}</div>` : ""}
+          ${meta.desc  ? `<div class="media-meta-desc">${meta.desc}</div>` : ""}
+          ${(meta.likes || meta.comments) ? `
+          <div class="media-meta-stats">
+            ${meta.likes    ? `<span class="media-stat"><i class="bi bi-heart-fill" style="color:#f43f5e;font-size:11px"></i>${meta.likes}</span>` : ""}
+            ${meta.comments ? `<span class="media-stat"><i class="bi bi-chat-fill" style="color:#60a5fa;font-size:11px"></i>${meta.comments}</span>` : ""}
+          </div>` : ""}
+        </div>
+      `;
+      dlCards.appendChild(infoCard);
+    }
+
     if (items.length === 0) {
-      // Fallback: show raw JSON, hint user
-      dlCards.innerHTML = `
+      dlCards.innerHTML += `
         <div class="empty-state">
           <i class="bi bi-exclamation-circle"></i>
           <p>Không tìm thấy link tải trực tiếp — xem JSON bên dưới</p>
@@ -769,7 +870,7 @@
 
       const card = document.createElement("div");
       card.className = "dl-card";
-      card.style.animationDelay = (idx * 60) + "ms";
+      card.style.animationDelay = (idx * 80) + "ms";
       card.innerHTML = `
         <div class="dl-card-icon"><i class="bi ${icon}"></i></div>
         <div class="dl-card-info">
