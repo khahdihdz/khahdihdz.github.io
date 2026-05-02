@@ -1,434 +1,188 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mua Cho Tôi Một Ly Cà Phê ☕</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mua Cho Tôi Một Ly Cà Phê ☕ – khahdihdz</title>
+  <meta name="description" content="Ủng hộ khahdihdz – developer độc lập xây dựng các tool & game tiếng Việt miễn phí.">
+  <meta name="theme-color" content="#0d0d0f">
 
-        .main-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
-            animation: fadeIn 0.5s ease-in;
-        }
+  <!-- Bootstrap 5 CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        crossorigin="anonymous">
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+  <!-- Google Fonts: Be Vietnam Pro (body) + Nunito (tiêu đề) – đầy đủ Vietnamese UTF-8 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Nunito:wght@700;800;900&display=swap"
+        rel="stylesheet">
 
-        .coffee-card {
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            transition: all 0.3s;
-            cursor: pointer;
-            height: 100%;
-        }
-
-        .coffee-card:hover {
-            border-color: #667eea;
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .coffee-card.active {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
-
-        .coffee-icon {
-            font-size: 2.5rem;
-        }
-
-        .coffee-amount {
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        .qr-image {
-            max-width: 300px;
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .bank-info-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .crypto-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .crypto-card h6 {
-            color: #667eea;
-        }
-
-        .address-text {
-            background: white;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            word-break: break-all;
-        }
-
-        .btn-language {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            border: 1px solid #667eea;
-            color: #667eea;
-            border-radius: 20px;
-            transition: all 0.3s;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-language:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .copy-btn {
-            border: none;
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .copy-btn:hover {
-            background: #5568d3;
-        }
-
-        .copy-btn.copied {
-            background: #28a745;
-        }
-
-        .address-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .address-text {
-            flex: 1;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-    </style>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <!-- Language Toggle Button - Fixed Position -->
-    <button class="btn btn-language btn-sm" onclick="toggleLanguage()">English</button>
 
-    <div class="main-container p-4 p-md-5">
-        <!-- Header -->
-        <div class="text-center mb-4">
-            <h1 class="gradient-text fw-bold">☕ Mua Cho Tôi Một Ly Cà Phê</h1>
-        </div>
+  <!-- Lang Toggle -->
+  <button class="lang-toggle" id="langToggle">English</button>
 
-        <!-- Coffee Options -->
-        <div class="row g-3 mb-4">
-            <div class="col-6">
-                <div class="coffee-card card text-center p-3 active" onclick="selectAmount(25000, this)">
-                    <div class="card-body p-2">
-                        <div class="coffee-icon">☕</div>
-                        <p class="mb-1 fw-semibold coffee-label">Một ly</p>
-                        <p class="mb-0 coffee-amount">25K</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="coffee-card card text-center p-3" onclick="selectAmount(50000, this)">
-                    <div class="card-body p-2">
-                        <div class="coffee-icon">☕☕</div>
-                        <p class="mb-1 fw-semibold coffee-label">Hai ly</p>
-                        <p class="mb-0 coffee-amount">50K</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="coffee-card card text-center p-3" onclick="selectAmount(75000, this)">
-                    <div class="card-body p-2">
-                        <div class="coffee-icon">☕☕☕</div>
-                        <p class="mb-1 fw-semibold coffee-label">Ba ly</p>
-                        <p class="mb-0 coffee-amount">75K</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="coffee-card card text-center p-3" onclick="selectAmount(100000, this)">
-                    <div class="card-body p-2">
-                        <div class="coffee-icon">⭐</div>
-                        <p class="mb-1 fw-semibold coffee-label">Đặc biệt</p>
-                        <p class="mb-0 coffee-amount">100K</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <!-- ── Main Wrapper ──────────────────────────────────────── -->
+  <div class="wrapper">
 
-        <!-- Custom Amount -->
-        <div class="mb-4">
-            <input type="text" 
-                   class="form-control form-control-lg" 
-                   id="customAmount" 
-                   placeholder="Hoặc nhập số tiền khác (VNĐ)" 
-                   oninput="formatAmountInput(this)"
-                   onchange="updateQR()">
-            <div id="amountInWords" class="mt-2 text-muted small text-center" style="min-height: 20px;"></div>
-        </div>
-
-        <!-- QR Section -->
-        <div class="text-center mb-4">
-            <img id="qrImage" 
-                 class="qr-image img-fluid" 
-                 src="https://api.vietqr.io/image/970426-13001011869246-GuEo6F2.jpg?accountName=DINH%20TRONG%20KHANH&amount=25000" 
-                 alt="VietQR">
-            <p class="mt-3 text-muted">
-                <span id="selectedAmount" class="fw-bold fs-5 text-primary">25,000</span> VNĐ
-            </p>
-        </div>
-
-        <!-- Bank Info -->
-        <div class="bank-info-card p-4 mb-4">
-            <h5 class="fw-bold mb-3">Maritime Bank (MSB)</h5>
-            <div class="row mb-2">
-                <div class="col-5 text-muted bank-label-1">Tên tài khoản:</div>
-                <div class="col-7 fw-semibold">DINH TRONG KHANH</div>
-            </div>
-            <div class="row">
-                <div class="col-5 text-muted bank-label-2">Số tài khoản:</div>
-                <div class="col-7 fw-semibold">13001011869246</div>
-            </div>
-        </div>
-
-        <!-- Crypto Section -->
-        <div class="mb-4">
-            <h5 class="text-center mb-4 fw-bold crypto-title">Hoặc quyên góp bằng Crypto</h5>
-            
-            <div class="crypto-card p-3 mb-3">
-                <h6 class="mb-2 fw-semibold"><i class="bi bi-currency-bitcoin"></i> Bitcoin (BTC)</h6>
-                <div class="address-text p-2">375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9</div>
-            </div>
-
-            <div class="crypto-card p-3 mb-3">
-                <h6 class="mb-2 fw-semibold"><i class="bi bi-coin"></i> Tether (USDT) - TRC20</h6>
-                <div class="address-text p-2">TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp</div>
-            </div>
-
-            <div class="crypto-card p-3">
-                <h6 class="mb-2 fw-semibold"><i class="bi bi-currency-exchange"></i> Binance Coin (BNB) - BEP20</h6>
-                <div class="address-text p-2">0xAb173125a0d4Be248e7463695555092e306A2ddc</div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="text-center pt-3 border-top">
-            <p class="text-muted mb-0 footer-text">Cảm ơn bạn đã ủng hộ! ❤️</p>
-        </div>
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar-ring">☕</div>
+      <h1 id="main-title">Mua Cho Tôi Một Ly Cà Phê</h1>
+      <p id="main-desc">
+        Nếu những dự án của mình từng giúp ích cho bạn,<br>
+        một ly cà phê nhỏ sẽ là nguồn động lực rất lớn. ❤️
+      </p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        let currentLang = 'vi';
+    <!-- Coffee Options -->
+    <div class="section-label" id="label-choose">Chọn mức ủng hộ</div>
+    <div class="coffee-grid">
+      <div class="coffee-btn active" onclick="selectAmount(25000, this)">
+        <span class="emoji">☕</span>
+        <span class="label" data-vi="Một ly" data-en="One cup">Một ly</span>
+        <span class="price">25K</span>
+      </div>
+      <div class="coffee-btn" onclick="selectAmount(50000, this)">
+        <span class="emoji">☕☕</span>
+        <span class="label" data-vi="Hai ly" data-en="Two cups">Hai ly</span>
+        <span class="price">50K</span>
+      </div>
+      <div class="coffee-btn" onclick="selectAmount(100000, this)">
+        <span class="emoji">🌟</span>
+        <span class="label" data-vi="Đặc biệt" data-en="Special">Đặc biệt</span>
+        <span class="price">100K</span>
+      </div>
+      <div class="coffee-btn" onclick="selectAmount(200000, this)">
+        <span class="emoji">👑</span>
+        <span class="label" data-vi="VIP" data-en="VIP">VIP</span>
+        <span class="price">200K</span>
+      </div>
+    </div>
 
-        function selectAmount(amount, element) {
-            // Remove active class from all cards
-            document.querySelectorAll('.coffee-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            
-            // Add active class to clicked card
-            element.classList.add('active');
-            
-            // Clear custom amount
-            document.getElementById('customAmount').value = '';
-            document.getElementById('amountInWords').textContent = '';
-            
-            // Update QR code
-            updateQR(amount);
-        }
+    <!-- Custom Amount -->
+    <div class="custom-wrap">
+      <input type="text"
+             id="customAmount"
+             placeholder="Hoặc nhập số tiền khác (VNĐ)"
+             oninput="handleCustomInput(this)"
+             autocomplete="off">
+    </div>
+    <div class="amount-words" id="amountWords"></div>
 
-        function formatAmountInput(input) {
-            // Remove all non-numeric characters
-            let value = input.value.replace(/[^\d]/g, '');
-            
-            // Format with thousand separators
-            if (value) {
-                input.value = Number(value).toLocaleString('vi-VN');
-                // Convert to words
-                convertToWords(Number(value));
-                // Update QR
-                updateQR(Number(value));
-            } else {
-                input.value = '';
-                document.getElementById('amountInWords').textContent = '';
-            }
-        }
+    <!-- QR Card -->
+    <div class="qr-card">
+      <img id="qrImg"
+           src="https://api.vietqr.io/image/970422-8880812999-compact2.jpg?accountName=DINH%20TRONG%20KHANH&amount=25000&addInfo=Ung+ho+1+coffee"
+           alt="VietQR MB Bank" loading="lazy">
+      <div class="qr-amount" id="displayAmount">25.000 ₫</div>
+      <div class="qr-hint" id="qr-hint">Quét bằng ứng dụng ngân hàng bất kỳ</div>
+    </div>
 
-        function updateQR(amount) {
-            if (!amount) {
-                const inputValue = document.getElementById('customAmount').value.replace(/[^\d]/g, '');
-                amount = inputValue || 25000;
-            }
-            
-            const qrImage = document.getElementById('qrImage');
-            const selectedAmountText = document.getElementById('selectedAmount');
-            
-            qrImage.src = `https://api.vietqr.io/image/970426-13001011869246-GuEo6F2.jpg?accountName=DINH%20TRONG%20KHANH&amount=${amount}`;
-            selectedAmountText.textContent = Number(amount).toLocaleString('vi-VN');
-        }
+    <!-- Bank Info Card -->
+    <div class="bank-card">
+      <div class="bank-header">
+        <div class="bank-logo">MB</div>
+        <div>
+          <div class="bank-name">MB Bank</div>
+          <div class="bank-sub">Military Commercial Joint Stock Bank</div>
+        </div>
+      </div>
 
-        function convertToWords(num) {
-            if (!num || num === 0) {
-                document.getElementById('amountInWords').textContent = '';
-                return;
-            }
+      <div class="bank-row">
+        <span class="bank-row-label" data-vi="Tên tài khoản" data-en="Account name">Tên tài khoản</span>
+        <span class="bank-row-value">DINH TRONG KHANH</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-row-label" data-vi="Số tài khoản" data-en="Account number">Số tài khoản</span>
+        <span class="bank-row-value">
+          8880812999
+          <button class="copy-btn" onclick="copyText('8880812999', this)" title="Sao chép">📋</button>
+        </span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-row-label" data-vi="Nội dung" data-en="Transfer note">Nội dung</span>
+        <span class="bank-row-value" style="font-size:.82rem;color:var(--muted);">
+          <span id="transferNoteText">Ung ho 1 coffee</span>
+          <button class="copy-btn" onclick="copyText(document.getElementById('transferNoteText').textContent, this)" title="Sao chép">📋</button>
+        </span>
+      </div>
+    </div>
 
-            const units = ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
-            const teens = ['mười', 'mười một', 'mười hai', 'mười ba', 'mười bốn', 'mười lăm', 'mười sáu', 'mười bảy', 'mười tám', 'mười chín'];
-            const tens = ['', '', 'hai mươi', 'ba mươi', 'bốn mươi', 'năm mươi', 'sáu mươi', 'bảy mươi', 'tám mươi', 'chín mươi'];
-            const scales = ['', 'nghìn', 'triệu', 'tỷ'];
+    <!-- Crypto Divider -->
+    <div class="divider" id="crypto-divider">CRYPTO</div>
 
-            function convertChunk(n) {
-                if (n === 0) return '';
-                
-                let result = '';
-                const hundreds = Math.floor(n / 100);
-                const remainder = n % 100;
-                
-                if (hundreds > 0) {
-                    result += units[hundreds] + ' trăm';
-                    if (remainder > 0) result += ' ';
-                }
-                
-                if (remainder >= 10 && remainder < 20) {
-                    result += teens[remainder - 10];
-                } else if (remainder >= 20) {
-                    const tensDigit = Math.floor(remainder / 10);
-                    const onesDigit = remainder % 10;
-                    result += tens[tensDigit];
-                    if (onesDigit > 0) {
-                        if (onesDigit === 5) {
-                            result += ' lăm';
-                        } else if (onesDigit === 1 && tensDigit > 1) {
-                            result += ' mốt';
-                        } else {
-                            result += ' ' + units[onesDigit];
-                        }
-                    }
-                } else if (remainder > 0) {
-                    if (hundreds > 0) {
-                        result += 'lẻ ' + units[remainder];
-                    } else {
-                        result += units[remainder];
-                    }
-                }
-                
-                return result.trim();
-            }
+    <!-- Crypto Card -->
+    <div class="crypto-card">
+      <h3 id="crypto-title">Quyên góp bằng Crypto</h3>
 
-            let result = [];
-            let chunkIndex = 0;
-            
-            while (num > 0) {
-                const chunk = num % 1000;
-                if (chunk > 0) {
-                    let chunkWords = convertChunk(chunk);
-                    if (chunkIndex > 0) {
-                        chunkWords += ' ' + scales[chunkIndex];
-                    }
-                    result.unshift(chunkWords);
-                }
-                num = Math.floor(num / 1000);
-                chunkIndex++;
-            }
-            
-            let finalWords = result.join(' ');
-            finalWords = finalWords.charAt(0).toUpperCase() + finalWords.slice(1) + ' đồng';
-            
-            document.getElementById('amountInWords').textContent = finalWords;
-        }
+      <div class="crypto-item">
+        <div class="crypto-name">₿ Bitcoin (BTC)</div>
+        <div class="crypto-address-row">
+          <div class="crypto-address">375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9</div>
+          <button class="copy-btn" onclick="copyText('375JkbA3rEZnV8EhKupsCwEYTDSPnDVBM9', this)" title="Sao chép">📋</button>
+        </div>
+      </div>
 
-        function toggleLanguage() {
-            const h1 = document.querySelector('h1');
-            const langBtn = document.querySelector('.btn-language');
-            const customInput = document.getElementById('customAmount');
-            const footerText = document.querySelector('.footer-text');
-            const cryptoTitle = document.querySelector('.crypto-title');
-            const coffeeLabels = document.querySelectorAll('.coffee-label');
-            const bankLabel1 = document.querySelector('.bank-label-1');
-            const bankLabel2 = document.querySelector('.bank-label-2');
-            
-            if (currentLang === 'vi') {
-                // Switch to English
-                h1.textContent = '☕ Buy Me a Coffee';
-                langBtn.textContent = 'Tiếng Việt';
-                customInput.placeholder = 'Or enter custom amount (VND)';
-                footerText.textContent = 'Thank you for your support! ❤️';
-                cryptoTitle.textContent = 'Or donate with Crypto';
-                
-                coffeeLabels[0].textContent = 'One cup';
-                coffeeLabels[1].textContent = 'Two cups';
-                coffeeLabels[2].textContent = 'Three cups';
-                coffeeLabels[3].textContent = 'Special';
-                
-                bankLabel1.textContent = 'Account name:';
-                bankLabel2.textContent = 'Account number:';
-                
-                currentLang = 'en';
-            } else {
-                // Switch to Vietnamese
-                h1.textContent = '☕ Mua Cho Tôi Một Ly Cà Phê';
-                langBtn.textContent = 'English';
-                customInput.placeholder = 'Hoặc nhập số tiền khác (VNĐ)';
-                footerText.textContent = 'Cảm ơn bạn đã ủng hộ! ❤️';
-                cryptoTitle.textContent = 'Hoặc quyên góp bằng Crypto';
-                
-                coffeeLabels[0].textContent = 'Một ly';
-                coffeeLabels[1].textContent = 'Hai ly';
-                coffeeLabels[2].textContent = 'Ba ly';
-                coffeeLabels[3].textContent = 'Đặc biệt';
-                
-                bankLabel1.textContent = 'Tên tài khoản:';
-                bankLabel2.textContent = 'Số tài khoản:';
-                
-                currentLang = 'vi';
-            }
-        }
-    </script>
+      <div class="crypto-item">
+        <div class="crypto-name">💠 USDT – TRC20</div>
+        <div class="crypto-address-row">
+          <div class="crypto-address">TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp</div>
+          <button class="copy-btn" onclick="copyText('TRYxh8c8adXqmt5zGKgsY9TvY1qroJJEQp', this)" title="Sao chép">📋</button>
+        </div>
+      </div>
+
+      <div class="crypto-item">
+        <div class="crypto-name">🟡 BNB – BEP20</div>
+        <div class="crypto-address-row">
+          <div class="crypto-address">0xAb173125a0d4Be248e7463695555092e306A2ddc</div>
+          <button class="copy-btn" onclick="copyText('0xAb173125a0d4Be248e7463695555092e306A2ddc', this)" title="Sao chép">📋</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p id="footer-text">Cảm ơn bạn đã ủng hộ! Mỗi ly cà phê giúp mình có thêm động lực để tiếp tục xây dựng những dự án mới. ❤️</p>
+      <p style="margin-top:12px;">
+        <a href="https://github.com/khahdihdz" target="_blank" rel="noopener">GitHub</a> ·
+        <a href="mailto:khahdihdz@gmail.com">Liên hệ</a>
+      </p>
+      <p style="margin-top:8px;font-size:.72rem;opacity:.5;">© 2025 khahdihdz</p>
+    </div>
+
+  </div><!-- /.wrapper -->
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- ── Thank-You Overlay ──────────────────────────────────── -->
+  <div id="thankYouOverlay">
+    <div class="thankyou-card">
+      <span class="thankyou-emoji">🎉</span>
+      <div class="thankyou-title" id="ty-title">Cảm ơn bạn rất nhiều!</div>
+      <div class="thankyou-name" id="ty-name"></div>
+      <div class="thankyou-amount" id="ty-amount"></div>
+      <p class="thankyou-msg" id="ty-msg">
+        Sự ủng hộ của bạn giúp mình tiếp tục xây dựng những dự án mới.
+        Chúc bạn một ngày tuyệt vời! ☕
+      </p>
+      <button class="thankyou-btn" id="ty-close" onclick="closeThankYou()">Đóng lại</button>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle JS (Popper included) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          crossorigin="anonymous"></script>
+
+  <!-- App JS -->
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
