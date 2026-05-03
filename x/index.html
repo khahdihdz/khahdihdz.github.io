@@ -227,6 +227,67 @@
       50% { opacity:.5; transform:scale(1.3); }
     }
 
+    /* ── Progress bar ── */
+    .progress-wrap {
+      margin-top: 14px;
+      display: none;
+    }
+    .progress-wrap.show { display: block; }
+    .progress-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted2);
+      transition: color .3s;
+    }
+    .progress-step.active { color: #e2e8f0; }
+    .progress-step.done   { color: var(--success); }
+    .progress-step.error  { color: var(--danger); }
+    .step-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      transition: all .3s;
+    }
+    .progress-step.active .step-icon {
+      border-color: var(--accent);
+      color: var(--accent);
+      animation: spin .8s linear infinite;
+    }
+    .progress-step.done .step-icon {
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff;
+    }
+    .progress-step.error .step-icon {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #fff;
+    }
+    .progress-bar-track {
+      height: 3px;
+      background: var(--border);
+      border-radius: 99px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 99px;
+      width: 0%;
+      transition: width .5s cubic-bezier(.4,0,.2,1);
+    }
+
     /* ── Result area ── */
     .result-section { margin-top: 32px; }
     .section-label {
@@ -589,7 +650,15 @@
         </div>
 
         <!-- Raw JSON toggle -->
-        <div class="raw-toggle" id="rawToggle" style="display:none">
+        <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-steps" id="progressSteps"></div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="raw-toggle" id="rawToggle" style="display:none">
           <i class="bi bi-code-slash"></i>
           <span>Xem JSON thô</span>
           <i class="bi bi-chevron-down" id="rawChevron"></i>
@@ -910,6 +979,44 @@
     dlCards.appendChild(card);
   }
 
+  // ── Progress helpers ──────────────────────────────────────────────────
+  const progressWrap  = document.getElementById("progressWrap");
+  const progressSteps = document.getElementById("progressSteps");
+  const progressFill  = document.getElementById("progressFill");
+
+  const STEPS = [
+    { id: "detect",  label: "Phát hiện nền tảng" },
+    { id: "connect", label: "Kết nối tới máy chủ" },
+    { id: "fetch",   label: "Đang tải dữ liệu media" },
+    { id: "parse",   label: "Phân tích kết quả" },
+  ];
+
+  function initProgress() {
+    progressSteps.innerHTML = STEPS.map(s => `
+      <div class="progress-step" id="step-${s.id}">
+        <div class="step-icon"><i class="bi bi-circle"></i></div>
+        <span>${s.label}</span>
+      </div>`).join("");
+    progressFill.style.width = "0%";
+    progressWrap.classList.add("show");
+  }
+
+  function setStep(id, state) { // state: active | done | error
+    const el = document.getElementById(`step-${id}`);
+    if (!el) return;
+    el.className = `progress-step ${state}`;
+    const iconMap = { active: "bi-arrow-repeat", done: "bi-check-lg", error: "bi-x-lg" };
+    el.querySelector(".step-icon").innerHTML = `<i class="bi ${iconMap[state]}"></i>`;
+    // Update fill bar
+    const doneCount = progressSteps.querySelectorAll(".done").length;
+    const pct = Math.round((doneCount / STEPS.length) * 100);
+    progressFill.style.width = (state === "active" ? Math.max(pct, (STEPS.findIndex(s=>s.id===id)/STEPS.length)*100+8) : pct) + "%";
+  }
+
+  function hideProgress() {
+    setTimeout(() => progressWrap.classList.remove("show"), 1200);
+  }
+
   // ── Fetch handler ─────────────────────────────────────────────────────
   btn.addEventListener("click", async () => {
     const val = urlInput.value.trim();
@@ -917,29 +1024,58 @@
 
     btn.disabled = true;
     btnText.textContent = "Đang tải...";
-    setStatus("loading", "Đang phát hiện nền tảng...");
-    dlCards.innerHTML = `<div class="empty-state"><i class="bi bi-arrow-repeat" style="animation:spin 1s linear infinite;font-size:2rem;opacity:.4;display:block;margin-bottom:12px"></i><p>Đang xử lý...</p></div>`;
+    dlCards.innerHTML = "";
     rawToggle.style.display = "none";
     rawJsonWrap.classList.remove("show");
 
+    initProgress();
+
     try {
-      const btch     = window.btch;
+      const btch = window.btch;
       if (!btch) throw new Error("Thư viện btch chưa tải xong. Thử tải lại trang.");
 
+      // Step 1: detect
+      setStep("detect", "active");
+      setStatus("loading", "Đang phát hiện nền tảng...");
+      await new Promise(r => setTimeout(r, 300));
       const platform = detectPlatform(val, platformSel.value);
-      const fn       = btch[fnMap[platform]];
+      const fn = btch[fnMap[platform]];
       if (!fn) throw new Error(`Không tìm thấy hàm tải cho: ${platform}`);
+      setStep("detect", "done");
 
+      // Step 2: connect
+      setStep("connect", "active");
+      setStatus("loading", `Kết nối tới ${platform}...`);
+      await new Promise(r => setTimeout(r, 350));
+      setStep("connect", "done");
+
+      // Step 3: fetch
+      setStep("fetch", "active");
       setStatus("loading", `Đang tải từ ${platform}...`);
-
       const res = await fn(val);
+      setStep("fetch", "done");
+
+      // Step 4: parse
+      setStep("parse", "active");
+      setStatus("loading", "Đang phân tích kết quả...");
+      await new Promise(r => setTimeout(r, 250));
       output.textContent = JSON.stringify(res, null, 2);
+      setStep("parse", "done");
+      progressFill.style.width = "100%";
 
       setStatus("success", `Hoàn thành — ${platform}`);
+      hideProgress();
       renderCards(res, platform);
       rawToggle.style.display = "flex";
 
     } catch(err) {
+      // Mark active step as error
+      const activeStep = progressSteps.querySelector(".progress-step.active");
+      if (activeStep) {
+        const sid = activeStep.id.replace("step-", "");
+        setStep(sid, "error");
+      }
+      hideProgress();
       setStatus("error", "Lỗi: " + (err.message || err));
       dlCards.innerHTML = `
         <div class="empty-state">
