@@ -1055,18 +1055,52 @@
     const dlWrap = document.createElement("div");
     dlWrap.className = "rc-downloads";
 
+    const labelMap = {
+      original:    "Video Gốc",
+      images:      "Hình Ảnh",
+      image:       "Hình Ảnh",
+      video:       "Video",
+      audio:       "Âm Thanh",
+      hd:          "Video HD",
+      sd:          "Video SD",
+      watermark:   "Video (Có Watermark)",
+      nowatermark: "Video (Không Watermark)",
+      music:       "Nhạc nền",
+      cover:       "Ảnh bìa",
+      thumbnail:   "Ảnh thu nhỏ",
+      downloads:   "Tải về",
+      sources:     "Nguồn",
+      links:       "Liên kết",
+    };
+
+    const descMap = {
+      video: "Định dạng video",
+      audio: "Định dạng âm thanh",
+      image: "Định dạng hình ảnh",
+      file:  "Tệp đính kèm",
+    };
+
     items.forEach((item, idx) => {
       const mType = guessMediaType(item.url);
       const icon  = mediaIcons[mType] || mediaIcons.file;
       const fname = guessFilename(item.url, idx + 1);
+
+      const rawLabel = String(item.label).toLowerCase().trim();
+      const title = labelMap[rawLabel]
+        || (item.label || (mType === "video" ? `Video ${idx + 1}` : mType === "audio" ? `Âm thanh ${idx + 1}` : mType === "image" ? `Hình ảnh ${idx + 1}` : `Tệp ${idx + 1}`));
+
+      const ext  = fname.includes(".") ? fname.split(".").pop().toUpperCase() : "";
+      const desc = ext
+        ? `${descMap[mType] || "Tệp đính kèm"} · ${ext}`
+        : descMap[mType] || "Tệp đính kèm";
 
       const row = document.createElement("div");
       row.className = "rc-dl-row";
       row.innerHTML = `
         <div class="rc-dl-icon"><i class="bi ${icon}"></i></div>
         <div class="rc-dl-info">
-          <div class="rc-dl-label">${item.label}</div>
-          <div class="rc-dl-fname">${fname}</div>
+          <div class="rc-dl-label">${title}</div>
+          <div class="rc-dl-fname">${desc}</div>
         </div>
         <a href="${item.url}" target="_blank" download="${fname}" class="btn-download">
           <i class="bi bi-download"></i> Tải về
