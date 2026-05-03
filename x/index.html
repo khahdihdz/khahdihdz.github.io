@@ -238,49 +238,62 @@
       margin-bottom: 12px;
     }
 
-    /* ── Media info card (thumbnail + meta) ── */
-    .media-info-card {
+    /* ── Unified result card ── */
+    .dl-cards { display: flex; flex-direction: column; gap: 14px; }
+
+    .result-card {
       background: var(--bg-card2);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
+      animation: fadeUp .35s ease both;
+      transition: border-color .2s;
+    }
+    .result-card:hover { border-color: rgba(59,130,246,0.4); }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* Top: thumbnail + info row */
+    .rc-top {
       display: flex;
       gap: 0;
-      margin-bottom: 16px;
-      animation: fadeUp .3s ease both;
     }
-    .media-thumb-wrap {
-      flex: 0 0 160px;
+    .rc-thumb {
+      flex: 0 0 140px;
       position: relative;
       background: #000;
+      min-height: 100px;
     }
-    .media-thumb-wrap img {
+    .rc-thumb img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      opacity: .92;
+      opacity: .9;
     }
-    .media-thumb-badge {
+    .rc-thumb-badge {
       position: absolute;
-      bottom: 8px; left: 8px;
-      background: rgba(0,0,0,.65);
+      bottom: 7px; left: 7px;
+      background: rgba(0,0,0,.7);
       color: #fff;
-      font-size: 11px;
+      font-size: 10px;
       font-family: 'Space Mono', monospace;
-      padding: 2px 8px;
-      border-radius: 6px;
+      padding: 2px 7px;
+      border-radius: 5px;
       backdrop-filter: blur(4px);
     }
-    .media-meta {
+    .rc-info {
       flex: 1;
-      padding: 18px 20px;
+      padding: 16px 18px;
       min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
-    .media-meta-title {
+    .rc-title {
       font-size: 14px;
       font-weight: 600;
       color: #e2e8f0;
@@ -290,7 +303,7 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .media-meta-desc {
+    .rc-desc {
       font-size: 12px;
       color: var(--text-muted2);
       display: -webkit-box;
@@ -299,66 +312,64 @@
       overflow: hidden;
       line-height: 1.5;
     }
-    .media-meta-stats {
+    .rc-stats {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       margin-top: 4px;
     }
-    .media-stat {
+    .rc-stat {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       font-size: 12px;
       color: #64748b;
     }
-    @media (max-width: 500px) {
-      .media-thumb-wrap { flex: 0 0 110px; }
+
+    /* Divider */
+    .rc-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 18px;
     }
 
-    /* Download cards */
-    .dl-cards { display: flex; flex-direction: column; gap: 10px; }
-    .dl-card {
-      background: var(--bg-card2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 18px;
+    /* Bottom: download links */
+    .rc-downloads {
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .rc-dl-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      animation: fadeUp .3s ease both;
-      transition: border-color .2s;
+      gap: 12px;
     }
-    .dl-card:hover { border-color: rgba(59,130,246,0.35); }
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(8px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .dl-card-icon {
-      width: 38px; height: 38px;
-      border-radius: 10px;
+    .rc-dl-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
       background: var(--accent-glow);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
-      font-size: 17px;
+      font-size: 15px;
       color: var(--accent);
     }
-    .dl-card-info { flex: 1; min-width: 0; }
-    .dl-card-title {
+    .rc-dl-info { flex: 1; min-width: 0; }
+    .rc-dl-label {
       font-size: 13px;
       font-weight: 600;
       color: #e2e8f0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 3px;
     }
-    .dl-card-meta {
+    .rc-dl-fname {
       font-size: 11px;
       color: var(--text-muted2);
       font-family: 'Space Mono', monospace;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    @media (max-width: 500px) {
+      .rc-thumb { flex: 0 0 100px; }
     }
     .btn-download {
       flex-shrink: 0;
@@ -831,58 +842,72 @@
 
     walk(root, "", 0);
 
-    // ── Render media info card if we have thumbnail or title ──
-    if (meta.thumbnail || meta.title) {
-      const infoCard = document.createElement("div");
-      infoCard.className = "media-info-card";
-      infoCard.innerHTML = `
-        ${meta.thumbnail ? `
-        <div class="media-thumb-wrap">
-          <img src="${meta.thumbnail}" alt="thumbnail" onerror="this.parentElement.style.display='none'">
-          ${meta.duration ? `<span class="media-thumb-badge"><i class="bi bi-clock me-1"></i>${meta.duration}</span>` : ""}
-        </div>` : ""}
-        <div class="media-meta">
-          ${meta.title ? `<div class="media-meta-title">${meta.title}</div>` : ""}
-          ${meta.desc  ? `<div class="media-meta-desc">${meta.desc}</div>` : ""}
-          ${(meta.likes || meta.comments) ? `
-          <div class="media-meta-stats">
-            ${meta.likes    ? `<span class="media-stat"><i class="bi bi-heart-fill" style="color:#f43f5e;font-size:11px"></i>${meta.likes}</span>` : ""}
-            ${meta.comments ? `<span class="media-stat"><i class="bi bi-chat-fill" style="color:#60a5fa;font-size:11px"></i>${meta.comments}</span>` : ""}
+    // ── Build unified single card ──
+    const card = document.createElement("div");
+    card.className = "result-card";
+
+    // Top section: thumbnail + info
+    const hasTop = meta.thumbnail || meta.title || meta.desc;
+    if (hasTop) {
+      card.innerHTML += `
+        <div class="rc-top">
+          ${meta.thumbnail ? `
+          <div class="rc-thumb">
+            <img src="${meta.thumbnail}" alt="thumbnail" onerror="this.parentElement.style.display='none'">
+            ${meta.duration ? `<span class="rc-thumb-badge"><i class="bi bi-clock me-1"></i>${meta.duration}</span>` : ""}
           </div>` : ""}
+          <div class="rc-info">
+            ${meta.title ? `<div class="rc-title">${meta.title}</div>` : ""}
+            ${meta.desc  ? `<div class="rc-desc">${meta.desc}</div>` : ""}
+            ${(meta.likes || meta.comments) ? `
+            <div class="rc-stats">
+              ${meta.likes    ? `<span class="rc-stat"><i class="bi bi-heart-fill" style="color:#f43f5e;font-size:10px"></i>${meta.likes}</span>` : ""}
+              ${meta.comments ? `<span class="rc-stat"><i class="bi bi-chat-fill" style="color:#60a5fa;font-size:10px"></i>${meta.comments}</span>` : ""}
+            </div>` : ""}
+          </div>
         </div>
       `;
-      dlCards.appendChild(infoCard);
     }
 
     if (items.length === 0) {
-      dlCards.innerHTML += `
-        <div class="empty-state">
-          <i class="bi bi-exclamation-circle"></i>
-          <p>Không tìm thấy link tải trực tiếp — xem JSON bên dưới</p>
-        </div>`;
+      if (hasTop) {
+        card.innerHTML += `<div class="rc-divider"></div>
+          <div class="rc-downloads" style="color:var(--text-muted2);font-size:13px;padding:14px 18px;">
+            Không tìm thấy link tải trực tiếp — xem JSON bên dưới
+          </div>`;
+      }
+      dlCards.appendChild(card);
       return;
     }
+
+    // Divider + download rows
+    if (hasTop) card.innerHTML += `<div class="rc-divider"></div>`;
+
+    const dlWrap = document.createElement("div");
+    dlWrap.className = "rc-downloads";
 
     items.forEach((item, idx) => {
       const mType = guessMediaType(item.url);
       const icon  = mediaIcons[mType] || mediaIcons.file;
       const fname = guessFilename(item.url, idx + 1);
 
-      const card = document.createElement("div");
-      card.className = "dl-card";
-      card.style.animationDelay = (idx * 80) + "ms";
-      card.innerHTML = `
-        <div class="dl-card-icon"><i class="bi ${icon}"></i></div>
-        <div class="dl-card-info">
-          <div class="dl-card-title">${item.label}</div>
-          <div class="dl-card-meta">${fname}</div>
+      const row = document.createElement("div");
+      row.className = "rc-dl-row";
+      row.innerHTML = `
+        <div class="rc-dl-icon"><i class="bi ${icon}"></i></div>
+        <div class="rc-dl-info">
+          <div class="rc-dl-label">${item.label}</div>
+          <div class="rc-dl-fname">${fname}</div>
         </div>
         <a href="${item.url}" target="_blank" download="${fname}" class="btn-download">
           <i class="bi bi-download"></i> Tải về
         </a>
       `;
-      dlCards.appendChild(card);
+      dlWrap.appendChild(row);
     });
+
+    card.appendChild(dlWrap);
+    dlCards.appendChild(card);
   }
 
   // ── Fetch handler ─────────────────────────────────────────────────────
