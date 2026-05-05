@@ -17,9 +17,9 @@ function getTransferNote(amount) {
   return `Ung ho ${cups} coffee`;
 }
 
-/* Google Apps Script Web App URL – thay bằng URL sau khi deploy Code.gs
-   Xem hướng dẫn: gas-backend/SETUP.md                                    */
-const SEPAY_CHECK_URL = 'https://script.google.com/macros/s/AKfycbzr17FGigacNvM9MkNIfU8xEQaejtvFZQHQcOG8-SXpdhKGBzp4unHe-0P_F3aE2r1Y/exec';
+/* Render.com backend URL – thay bằng URL thực sau khi deploy
+   Ví dụ: https://sepay-backend-khahdihdz.onrender.com              */
+const SEPAY_CHECK_URL = 'https://sepay-backend-khahdihdz.onrender.com/check-payment';
 
 /* Bao lâu poll một lần (ms) */
 const POLL_INTERVAL  = 5000;
