@@ -1,28 +1,24 @@
 /* ============================================================
    style.css – Mua Cho Tôi Một Ly Cà Phê · khahdihdz
-   UTF-8 · Be Vietnam Pro + Nunito · Bootstrap 5 dark base
    ============================================================ */
 
-/* Google Fonts – đầy đủ Vietnamese UTF-8:
-   · Be Vietnam Pro → body text (Latin + Vietnamese)
-   · Nunito         → tiêu đề (hỗ trợ đầy đủ tổ hợp dấu tiếng Việt) */
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Nunito:wght@700;800;900&display=swap');
 
-/* ── CSS Variables ─────────────────────────────────────────── */
+/* ── CSS Variables ──────────────────────────────────────────── */
 :root {
-  --bg:           #0d0d0f;
-  --surface:      #15151a;
-  --surface2:     #1c1c24;
-  --border:       rgba(255,255,255,0.07);
-  --accent:       #f5a623;
-  --accent2:      #ff7c4d;
-  --text:         #f0ede8;
-  --muted:        #7a7887;
-  --green:        #3ecf8e;
-  --card-radius:  18px;
+  --bg:          #0d0d0f;
+  --surface:     #15151a;
+  --surface2:    #1c1c24;
+  --border:      rgba(255,255,255,0.07);
+  --accent:      #f5a623;
+  --accent2:     #ff7c4d;
+  --text:        #f0ede8;
+  --muted:       #7a7887;
+  --green:       #3ecf8e;
+  --card-radius: 18px;
 }
 
-/* ── Reset / Base ──────────────────────────────────────────── */
+/* ── Reset / Base ───────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
@@ -53,7 +49,7 @@ body::after {
   pointer-events: none; z-index: 0;
 }
 
-/* ── Layout ────────────────────────────────────────────────── */
+/* ── Layout ─────────────────────────────────────────────────── */
 .wrapper {
   position: relative; z-index: 1;
   max-width: 560px;
@@ -61,23 +57,7 @@ body::after {
   padding: 60px 20px 80px;
 }
 
-/* ── Lang Toggle ───────────────────────────────────────────── */
-.lang-toggle {
-  position: fixed; top: 20px; right: 20px; z-index: 100;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 7px 16px;
-  border-radius: 999px;
-  font-size: .78rem; font-weight: 600;
-  letter-spacing: .04em;
-  cursor: pointer;
-  transition: all .2s;
-  font-family: 'Nunito', 'Be Vietnam Pro', sans-serif;
-}
-.lang-toggle:hover { color: var(--text); border-color: rgba(255,255,255,.15); }
-
-/* ── Header ────────────────────────────────────────────────── */
+/* ── Header ─────────────────────────────────────────────────── */
 .header {
   text-align: center;
   margin-bottom: 40px;
@@ -112,7 +92,7 @@ body::after {
   max-width: 360px; margin: 0 auto;
 }
 
-/* ── Section Label ─────────────────────────────────────────── */
+/* ── Section Label ──────────────────────────────────────────── */
 .section-label {
   font-family: 'Nunito', 'Be Vietnam Pro', sans-serif;
   font-size: .7rem; font-weight: 700;
@@ -120,7 +100,7 @@ body::after {
   color: var(--muted); margin-bottom: 12px;
 }
 
-/* ── Coffee Buttons ────────────────────────────────────────── */
+/* ── Coffee Buttons ─────────────────────────────────────────── */
 .coffee-grid {
   display: grid;
   grid-template-columns: repeat(4,1fr);
@@ -151,7 +131,7 @@ body::after {
   font-weight: 700; font-size: .95rem; color: var(--accent);
 }
 
-/* ── Custom Amount ─────────────────────────────────────────── */
+/* ── Custom Amount ──────────────────────────────────────────── */
 .custom-wrap { position: relative; margin-bottom: 6px; animation: fadeUp .6s .15s ease both; }
 .custom-wrap input {
   width: 100%;
@@ -172,7 +152,7 @@ body::after {
   margin-bottom: 24px; opacity: .8;
 }
 
-/* ── QR Card ───────────────────────────────────────────────── */
+/* ── QR Card ────────────────────────────────────────────────── */
 .qr-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -201,7 +181,7 @@ body::after {
 }
 .qr-hint { font-size: .78rem; color: var(--muted); margin-top: 4px; }
 
-/* ── Bank Card ─────────────────────────────────────────────── */
+/* ── Bank Card ──────────────────────────────────────────────── */
 .bank-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -232,7 +212,7 @@ body::after {
 .bank-row-label { font-size: .8rem; color: var(--muted); font-weight: 500; }
 .bank-row-value { font-weight: 600; font-size: .9rem; display: flex; align-items: center; gap: 8px; }
 
-/* ── Copy Button ───────────────────────────────────────────── */
+/* ── Copy Button ────────────────────────────────────────────── */
 .copy-btn {
   background: rgba(245,166,35,.12); border: none; color: var(--accent);
   width: 28px; height: 28px; border-radius: 8px;
@@ -243,70 +223,7 @@ body::after {
 .copy-btn:hover  { background: rgba(245,166,35,.22); }
 .copy-btn.copied { background: rgba(62,207,142,.15); color: var(--green); }
 
-/* ── Crypto Card ───────────────────────────────────────────── */
-.crypto-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  padding: 22px 24px; margin-bottom: 14px;
-  animation: fadeUp .6s .3s ease both;
-}
-.crypto-card h3 {
-  font-family: 'Nunito', 'Be Vietnam Pro', sans-serif;
-  font-size: .95rem; font-weight: 700;
-  margin-bottom: 16px; color: var(--text);
-}
-.crypto-item { padding: 12px 0; border-top: 1px solid var(--border); }
-.crypto-item:first-of-type { border-top: none; padding-top: 0; }
-.crypto-name { font-size: .8rem; color: var(--muted); font-weight: 500; margin-bottom: 6px; }
-.crypto-address-row { display: flex; align-items: center; gap: 8px; }
-.crypto-address {
-  font-family: 'Courier New', monospace; font-size: .75rem;
-  color: var(--text); word-break: break-all;
-  background: var(--surface2); padding: 8px 10px;
-  border-radius: 8px; flex: 1; line-height: 1.5;
-  border: 1px solid var(--border);
-}
-
-/* ── Divider ───────────────────────────────────────────────── */
-.divider {
-  text-align: center; color: var(--muted);
-  font-size: .75rem; font-weight: 600;
-  letter-spacing: .08em;
-  font-family: 'Nunito', 'Be Vietnam Pro', sans-serif;
-  position: relative; margin: 20px 0 14px;
-}
-.divider::before, .divider::after {
-  content: ''; position: absolute; top: 50%;
-  width: 35%; height: 1px; background: var(--border);
-}
-.divider::before { left: 0; }
-.divider::after  { right: 0; }
-
-/* ── Toast ─────────────────────────────────────────────────── */
-.toast {
-  position: fixed; bottom: 30px; left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--surface2); border: 1px solid var(--border);
-  color: var(--text); padding: 12px 22px;
-  border-radius: 999px; font-size: .85rem; font-weight: 500;
-  opacity: 0; pointer-events: none;
-  transition: all .3s; z-index: 999; white-space: nowrap;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.success { border-color: rgba(62,207,142,.3); color: var(--green); }
-.toast.error   { border-color: rgba(255,80,80,.3); color: #ff6b6b; }
-
-/* ── Footer ────────────────────────────────────────────────── */
-.footer {
-  text-align: center; font-size: .78rem; color: var(--muted);
-  margin-top: 40px;
-  animation: fadeUp .6s .4s ease both; line-height: 1.7;
-}
-.footer a { color: var(--accent); text-decoration: none; }
-.footer a:hover { text-decoration: underline; }
-
-/* ── SePay Status Banner ───────────────────────────────────── */
+/* ── SePay Status Banner ────────────────────────────────────── */
 .payment-status {
   display: none;
   border-radius: var(--card-radius);
@@ -329,7 +246,6 @@ body::after {
   background: rgba(255,80,80,.07);
   border: 1px solid rgba(255,80,80,.25);
 }
-.payment-status .status-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
 .payment-status .status-title {
   font-family: 'Nunito', 'Be Vietnam Pro', sans-serif; font-weight: 700; font-size: 1.05rem;
   margin-bottom: 4px;
@@ -341,7 +257,7 @@ body::after {
 
 /* Spinner */
 .spinner {
-  display: inline-block; width: 20px; height: 20px;
+  display: inline-block; width: 18px; height: 18px;
   border: 2px solid rgba(245,166,35,.3);
   border-top-color: var(--accent);
   border-radius: 50%;
@@ -350,7 +266,30 @@ body::after {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Thank-you Overlay ─────────────────────────────────────── */
+/* ── Toast ──────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text); padding: 12px 22px;
+  border-radius: 999px; font-size: .85rem; font-weight: 500;
+  opacity: 0; pointer-events: none;
+  transition: all .3s; z-index: 999; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: rgba(62,207,142,.3); color: var(--green); }
+.toast.error   { border-color: rgba(255,80,80,.3); color: #ff6b6b; }
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.footer {
+  text-align: center; font-size: .78rem; color: var(--muted);
+  margin-top: 40px;
+  animation: fadeUp .6s .35s ease both; line-height: 1.7;
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* ── Thank-you Overlay ──────────────────────────────────────── */
 #thankYouOverlay {
   display: none;
   position: fixed; inset: 0;
@@ -431,13 +370,13 @@ body::after {
 }
 #confettiCanvas.active { display: block; }
 
-/* ── Animations ────────────────────────────────────────────── */
+/* ── Animations ─────────────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Mobile ────────────────────────────────────────────────── */
+/* ── Mobile ─────────────────────────────────────────────────── */
 @media (max-width: 420px) {
   .wrapper { padding: 50px 16px 70px; }
   .coffee-grid { grid-template-columns: repeat(2,1fr); }
