@@ -28,7 +28,19 @@ let pollErrors    = 0;
 /* ── Helpers ─────────────────────────────────────────────────── */
 function getTransferNote(amount) {
   const cups = Math.max(1, Math.round(amount / PRICE_PER_CUP));
-  return `Ung ho ${cups} coffee`;
+  const templates = [
+    `Surprise! ung ho ${cups} coffee`,
+    `Ung ho ${cups} coffee nhe ban oi`,
+    `Cafein loading... ung ho ${cups} coffee`,
+    `Khong co gi, chi ung ho ${cups} coffee thoi`,
+    `Debug met qua, ung ho ${cups} coffee`,
+    `Ung ho ${cups} coffee, code on thi thoi`,
+    `Uong cafe di cho tinh, ung ho ${cups} coffee`,
+    `${cups} cup${cups > 1 ? 's' : ''} of joy - ung ho ${cups} coffee`,
+    `Ung ho ${cups} coffee, keep building!`,
+    `Goi ${cups} ly nhe - ung ho ${cups} coffee`,
+  ];
+  return templates[Math.floor(Math.random() * templates.length)];
 }
 
 /* ── Amount selection ───────────────────────────────────────── */
