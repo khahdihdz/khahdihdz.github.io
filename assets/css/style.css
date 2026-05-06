@@ -242,6 +242,16 @@ body::after {
   background: rgba(62,207,142,.07);
   border: 1px solid rgba(62,207,142,.3);
 }
+.payment-status.timeout {
+  display: block;
+  background: rgba(245,158,11,.07);
+  border: 1px solid rgba(245,158,11,.25);
+}
+.payment-status.error {
+  display: block;
+  background: rgba(248,113,113,.07);
+  border: 1px solid rgba(248,113,113,.25);
+}
 .payment-status.failed {
   display: block;
   background: rgba(255,80,80,.07);
@@ -254,6 +264,8 @@ body::after {
 .payment-status.checking .status-title { color: var(--accent); }
 .payment-status.success  .status-title { color: var(--green); }
 .payment-status.failed   .status-title { color: #ff6b6b; }
+.payment-status.timeout  .status-title { color: #f59e0b; }
+.payment-status.error    .status-title { color: #f87171; }
 .payment-status .status-msg { font-size: .85rem; color: var(--muted); }
 
 /* Spinner */

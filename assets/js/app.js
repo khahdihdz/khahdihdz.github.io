@@ -14,14 +14,16 @@ const PRICE_PER_CUP  = 25000;
 /* Render.com backend – thay bằng URL thực sau khi deploy */
 const SEPAY_CHECK_URL = 'https://sepay-backend-khahdihdz.onrender.com/check-payment';
 
-const POLL_INTERVAL = 5000;
-const POLL_TIMEOUT  = 300000; // 5 phút
+const POLL_INTERVAL     = 5000;   // Polling mỗi 5 giây
+const POLL_TIMEOUT      = 300000; // Timeout sau 5 phút
+const POLL_MAX_ERRORS   = 5;      // Dừng nếu lỗi liên tiếp quá nhiều
 
 /* ── State ──────────────────────────────────────────────────── */
 let currentAmount = 25000;
 let pollTimer     = null;
 let pollStart     = null;
 let pollActive    = false;
+let pollErrors    = 0;
 
 /* ── Helpers ─────────────────────────────────────────────────── */
 function getTransferNote(amount) {
@@ -78,6 +80,7 @@ function startPolling() {
   if (pollActive) return;
   pollActive = true;
   pollStart  = Date.now();
+  pollErrors = 0;
 
   showPaymentStatus('checking',
     `<span class="spinner"></span> Đang chờ xác nhận thanh toán…`,
@@ -85,31 +88,62 @@ function startPolling() {
   );
 
   pollTimer = setInterval(async () => {
+    // Timeout sau POLL_TIMEOUT ms
     if (Date.now() - pollStart > POLL_TIMEOUT) {
       stopPolling();
-      hidePaymentStatus();
+      showPaymentStatus('timeout',
+        '⏰ Hết thời gian chờ',
+        'Nếu bạn đã chuyển khoản, giao dịch vẫn sẽ được ghi nhận. Tải lại trang để thử lại.'
+      );
       return;
     }
+
     try {
-      const res  = await fetch(
-        `${SEPAY_CHECK_URL}?amount=${currentAmount}&ref=${encodeURIComponent(getTransferNote(currentAmount))}`,
-        { cache: 'no-store' }
-      );
-      if (!res.ok) return;
+      const url = `${SEPAY_CHECK_URL}?amount=${currentAmount}`
+                + `&ref=${encodeURIComponent(getTransferNote(currentAmount))}`;
+      const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+
+      if (!res.ok) {
+        pollErrors++;
+        if (pollErrors >= POLL_MAX_ERRORS) {
+          stopPolling();
+          showPaymentStatus('error',
+            '⚠️ Không kết nối được server',
+            'Kiểm tra lại kết nối mạng hoặc tải lại trang.'
+          );
+        }
+        return;
+      }
+
+      pollErrors = 0; // reset lỗi khi thành công
       const data = await res.json();
+
       if (data.paid) {
         stopPolling();
-        showPaymentStatus('success', 'Đã nhận được thanh toán!',
-          'Giao dịch được xác nhận tự động qua SePay.');
+        showPaymentStatus('success',
+          '✅ Đã xác nhận thanh toán!',
+          `Giao dịch được xác nhận tự động qua SePay.`
+        );
         setTimeout(() => showThankYou(data.payer, data.amount || currentAmount), 800);
       }
-    } catch (_) { /* network error – keep trying */ }
+    } catch (err) {
+      // AbortError = timeout, TypeError = network fail – cả hai đều tăng bộ đếm lỗi
+      pollErrors++;
+      if (pollErrors >= POLL_MAX_ERRORS) {
+        stopPolling();
+        showPaymentStatus('error',
+          '⚠️ Mất kết nối tới server',
+          'Vui lòng kiểm tra mạng và tải lại trang.'
+        );
+      }
+    }
   }, POLL_INTERVAL);
 }
 
 function stopPolling() {
   clearInterval(pollTimer);
   pollActive = false;
+  pollErrors = 0;
 }
 
 /* ── Payment Status Banner ───────────────────────────────────── */
