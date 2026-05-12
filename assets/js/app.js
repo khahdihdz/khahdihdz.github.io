@@ -1,52 +1,45 @@
 /* ============================================================
    app.js – Mua Cho Tôi Một Ly Cà Phê · khahdihdz
    SePay webhook polling + confetti
-   Backend: Google Apps Script (Code.gs)
+   Backend: Cloudflare Worker → Google Apps Script
    ============================================================ */
 
 'use strict';
 
 /* ── Config ─────────────────────────────────────────────────── */
-const BANK_CODE      = '970422';       // MB Bank
+const BANK_CODE      = '970422';        // MB Bank
 const ACCOUNT_NUMBER = '8880812999';
 const ACCOUNT_NAME   = 'DINH TRONG KHANH';
 const PRICE_PER_CUP  = 25000;
 
-/*
- * Google Apps Script Web App URL
- * Sau khi deploy Code.gs → copy URL dán vào đây
- * Dạng: https://script.google.com/macros/s/AKfyc.../exec
- */
-const GAS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+/* Cloudflare Worker proxy URL */
+const WORKER_URL = 'https://sepay-webhook.khahdihdz.workers.dev';
 
-/* Endpoint check-payment qua GAS */
-const SEPAY_CHECK_URL = `${GAS_URL}?route=check-payment`;
-
-const POLL_INTERVAL   = 5000;   // Polling mỗi 5 giây
+const POLL_INTERVAL   = 4000;   // Polling mỗi 4 giây
 const POLL_TIMEOUT    = 300000; // Timeout sau 5 phút
-const POLL_MAX_ERRORS = 5;      // Dừng nếu lỗi liên tiếp quá nhiều
+const POLL_MAX_ERRORS = 6;      // Dừng nếu lỗi liên tiếp quá nhiều
 
 /* ── State ──────────────────────────────────────────────────── */
-let currentAmount = 25000;
-let pollTimer     = null;
-let pollStart     = null;
-let pollActive    = false;
-let pollErrors    = 0;
+let currentAmount    = 25000;
+let currentNote      = '';      // note cố định theo session chọn amount
+let pollTimer        = null;
+let pollStart        = null;
+let pollActive       = false;
+let pollErrors       = 0;
+let pollSessionId    = 0;       // tránh race condition khi đổi amount
 
-/* ── Helpers ─────────────────────────────────────────────────── */
-function getTransferNote(amount) {
+/* ── Transfer note – tạo 1 lần, cố định cho lần polling đó ── */
+function generateNote(amount) {
   const cups = Math.max(1, Math.round(amount / PRICE_PER_CUP));
   const templates = [
-    `Surprise! ung ho ${cups} coffee`,
     `Ung ho ${cups} coffee nhe ban oi`,
-    `Cafein loading... ung ho ${cups} coffee`,
-    `Khong co gi, chi ung ho ${cups} coffee thoi`,
-    `Debug met qua, ung ho ${cups} coffee`,
-    `Ung ho ${cups} coffee, code on thi thoi`,
-    `Uong cafe di cho tinh, ung ho ${cups} coffee`,
-    `${cups} cup${cups > 1 ? 's' : ''} of joy - ung ho ${cups} coffee`,
-    `Ung ho ${cups} coffee, keep building!`,
-    `Goi ${cups} ly nhe - ung ho ${cups} coffee`,
+    `Cafein loading ung ho ${cups} coffee`,
+    `Debug met qua ung ho ${cups} coffee`,
+    `Ung ho ${cups} coffee code on thi thoi`,
+    `Uong cafe di cho tinh ung ho ${cups} coffee`,
+    `Goi ${cups} ly nhe ung ho ${cups} coffee`,
+    `Ung ho ${cups} coffee keep building`,
+    `Surprise ung ho ${cups} coffee`,
   ];
   return templates[Math.floor(Math.random() * templates.length)];
 }
@@ -71,57 +64,66 @@ function handleCustomInput(input) {
     document.querySelectorAll('.coffee-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('amountWords').textContent = toWords(Number(raw));
     updateQR();
+    stopPolling();
+    startPolling();
   } else {
     document.getElementById('amountWords').textContent = '';
+    stopPolling();
+    hidePaymentStatus();
   }
-  stopPolling();
-  if (raw) startPolling();
-  else hidePaymentStatus();
 }
 
 /* ── QR ──────────────────────────────────────────────────────── */
 function updateQR() {
-  const img  = document.getElementById('qrImg');
+  currentNote      = generateNote(currentAmount);  // tạo note mới khi đổi amount
+  const img        = document.getElementById('qrImg');
   img.classList.add('loading');
-  const note = getTransferNote(currentAmount);
-  const name = encodeURIComponent(ACCOUNT_NAME);
-  const info = encodeURIComponent(note);
-  img.src    = `https://api.vietqr.io/image/${BANK_CODE}-${ACCOUNT_NUMBER}-compact2.jpg`
-             + `?accountName=${name}&amount=${currentAmount}&addInfo=${info}`;
-  img.onload = () => img.classList.remove('loading');
+  const name       = encodeURIComponent(ACCOUNT_NAME);
+  const info       = encodeURIComponent(currentNote);
+  img.src          = `https://api.vietqr.io/image/${BANK_CODE}-${ACCOUNT_NUMBER}-compact2.jpg`
+                   + `?accountName=${name}&amount=${currentAmount}&addInfo=${info}`;
+  img.onload       = () => img.classList.remove('loading');
+  img.onerror      = () => img.classList.remove('loading');
   document.getElementById('displayAmount').textContent =
     currentAmount.toLocaleString('vi-VN') + ' ₫';
   const noteEl = document.getElementById('transferNoteText');
-  if (noteEl) noteEl.textContent = note;
+  if (noteEl) noteEl.textContent = currentNote;
 }
 
 /* ── SePay Auto-Polling ──────────────────────────────────────── */
 function startPolling() {
   if (pollActive) return;
-  pollActive = true;
-  pollStart  = Date.now();
-  pollErrors = 0;
+  pollActive    = true;
+  pollStart     = Date.now();
+  pollErrors    = 0;
+  const sid     = ++pollSessionId;  // snapshot session
 
   showPaymentStatus('checking',
-    `<span class="spinner"></span> Đang chờ xác nhận thanh toán…`,
-    'Hệ thống sẽ tự động xác nhận khi nhận được giao dịch.'
+    '<span class="spinner"></span> Đang chờ xác nhận thanh toán…',
+    'Hệ thống tự động xác nhận ngay khi nhận được giao dịch.'
   );
 
   pollTimer = setInterval(async () => {
-    // Timeout sau POLL_TIMEOUT ms
+    // Session đã đổi (user chọn amount mới) → dừng
+    if (sid !== pollSessionId) { stopPolling(); return; }
+
+    // Timeout
     if (Date.now() - pollStart > POLL_TIMEOUT) {
       stopPolling();
       showPaymentStatus('timeout',
         '⏰ Hết thời gian chờ',
-        'Nếu bạn đã chuyển khoản, giao dịch vẫn sẽ được ghi nhận. Tải lại trang để thử lại.'
+        'Nếu bạn đã chuyển khoản, giao dịch vẫn được ghi nhận. Tải lại trang để thử lại.'
       );
       return;
     }
 
     try {
-      const ref = encodeURIComponent(getTransferNote(currentAmount));
-      const url = `${SEPAY_CHECK_URL}&amount=${currentAmount}&ref=${ref}`;
-      const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
+      // Chỉ truyền amount – GAS tìm trong 10 phút gần nhất
+      const url = `${WORKER_URL}?route=check-payment&amount=${currentAmount}`;
+      const res = await fetch(url, {
+        cache:  'no-store',
+        signal: AbortSignal.timeout(10000),
+      });
 
       if (!res.ok) {
         pollErrors++;
@@ -135,7 +137,7 @@ function startPolling() {
         return;
       }
 
-      pollErrors = 0; // reset lỗi khi thành công
+      pollErrors = 0;
       const data = await res.json();
 
       if (data.paid) {
@@ -144,8 +146,9 @@ function startPolling() {
           '✅ Đã xác nhận thanh toán!',
           'Giao dịch được xác nhận tự động qua SePay.'
         );
-        setTimeout(() => showThankYou(data.payer, data.amount || currentAmount), 800);
+        setTimeout(() => showThankYou(data.payer, data.amount || currentAmount), 600);
       }
+
     } catch (err) {
       pollErrors++;
       if (pollErrors >= POLL_MAX_ERRORS) {
@@ -179,23 +182,47 @@ function hidePaymentStatus() {
 
 /* ── Thank-You Overlay ───────────────────────────────────────── */
 function showThankYou(payer, amount) {
-  document.getElementById('ty-title').textContent  = 'Cảm ơn bạn rất nhiều!';
-  document.getElementById('ty-msg').textContent    = 'Sự ủng hộ của bạn giúp mình tiếp tục xây dựng những dự án mới. Chúc bạn một ngày tuyệt vời! ☕';
-  document.getElementById('ty-close').textContent  = 'Đóng lại';
-  document.getElementById('ty-amount').textContent =
-    (amount || currentAmount).toLocaleString('vi-VN') + ' ₫';
+  const fmt = (n) => Number(n).toLocaleString('vi-VN') + ' ₫';
+  const cups = Math.max(1, Math.round((amount || currentAmount) / PRICE_PER_CUP));
+
+  // Title theo số tiền
+  const titles = [
+    'Cảm ơn bạn rất nhiều! 🙏',
+    'Bạn thật tuyệt vời! ❤️',
+    'Cà phê đến rồi! ☕',
+    'Cảm ơn đã ủng hộ! 🎉',
+  ];
+  const msgs = [
+    'Sự ủng hộ của bạn là nguồn động lực lớn nhất để mình tiếp tục xây dựng những dự án mới. Chúc bạn một ngày tuyệt vời!',
+    `${cups} ly cà phê sẽ giúp mình code thêm ${cups * 2} tiếng đêm nay. Cảm ơn bạn thật nhiều! ☕`,
+    'Với sự ủng hộ của bạn, mình sẽ cố gắng cho ra thêm nhiều dự án hay ho. Trân trọng lắm! 🚀',
+    'Mỗi đồng ủng hộ đều có ý nghĩa rất lớn với mình. Cảm ơn bạn đã đồng hành! ❤️',
+  ];
+  const idx = Math.floor(Math.random() * titles.length);
+
+  document.getElementById('ty-title').textContent  = titles[idx];
+  document.getElementById('ty-msg').textContent    = msgs[idx];
+  document.getElementById('ty-close').textContent  = 'Đóng lại ✕';
+  document.getElementById('ty-amount').textContent = fmt(amount || currentAmount);
+
   const nameEl = document.getElementById('ty-name');
-  if (payer) {
+  if (payer && payer.trim()) {
     nameEl.textContent   = `👤 ${payer}`;
     nameEl.style.display = 'block';
   } else {
     nameEl.style.display = 'none';
   }
+
   document.getElementById('thankYouOverlay').classList.add('active');
   launchConfetti();
+
+  // Tự đóng sau 15 giây
+  clearTimeout(showThankYou._autoClose);
+  showThankYou._autoClose = setTimeout(closeThankYou, 15000);
 }
 
 function closeThankYou() {
+  clearTimeout(showThankYou._autoClose);
   document.getElementById('thankYouOverlay').classList.remove('active');
   stopConfetti();
 }
@@ -203,29 +230,31 @@ function closeThankYou() {
 /* ── Confetti ────────────────────────────────────────────────── */
 let confettiAnim;
 function launchConfetti() {
-  const canvas = document.getElementById('confettiCanvas');
+  const canvas  = document.getElementById('confettiCanvas');
   canvas.classList.add('active');
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
-  const ctx    = canvas.getContext('2d');
-  const pieces = [];
-  const colors = ['#f5a623','#ff7c4d','#3ecf8e','#60a5fa','#c084fc','#fb7185'];
+  const ctx     = canvas.getContext('2d');
+  const pieces  = [];
+  const colors  = ['#f5a623','#ff7c4d','#3ecf8e','#60a5fa','#c084fc','#fb7185','#fbbf24','#34d399'];
 
-  for (let i = 0; i < 140; i++) {
+  for (let i = 0; i < 180; i++) {
     pieces.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * -canvas.height,
-      w: 6 + Math.random() * 8,
-      h: 3 + Math.random() * 5,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      vx: (Math.random() - .5) * 3,
-      vy: 2 + Math.random() * 4,
-      rot: Math.random() * 360,
-      vr: (Math.random() - .5) * 6,
-      opacity: .9 + Math.random() * .1,
+      x:       Math.random() * canvas.width,
+      y:       Math.random() * -canvas.height,
+      w:       5 + Math.random() * 9,
+      h:       3 + Math.random() * 5,
+      color:   colors[Math.floor(Math.random() * colors.length)],
+      vx:      (Math.random() - .5) * 3.5,
+      vy:      1.5 + Math.random() * 4,
+      rot:     Math.random() * 360,
+      vr:      (Math.random() - .5) * 7,
+      opacity: .85 + Math.random() * .15,
+      shape:   Math.random() > .7 ? 'circle' : 'rect',
     });
   }
 
+  cancelAnimationFrame(confettiAnim);
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let alive = 0;
@@ -234,10 +263,16 @@ function launchConfetti() {
       if (p.y < canvas.height + 20) alive++;
       ctx.save();
       ctx.globalAlpha = p.opacity;
-      ctx.translate(p.x + p.w/2, p.y + p.h/2);
+      ctx.fillStyle   = p.color;
+      ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
       ctx.rotate(p.rot * Math.PI / 180);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
       ctx.restore();
     });
     if (alive > 0) confettiAnim = requestAnimationFrame(draw);
@@ -294,13 +329,13 @@ function toWords(num) {
   function chunk(n) {
     if (!n) return '';
     let r = '';
-    const h = Math.floor(n/100), rem = n%100;
+    const h = Math.floor(n / 100), rem = n % 100;
     if (h) r += units[h] + ' trăm' + (rem ? ' ' : '');
-    if      (rem>=10 && rem<20) r += teens[rem-10];
-    else if (rem>=20) {
-      r += tens[Math.floor(rem/10)];
-      const o = rem%10;
-      if (o) r += ' ' + (o===5 ? 'lăm' : (o===1 && Math.floor(rem/10)>1 ? 'mốt' : units[o]));
+    if      (rem >= 10 && rem < 20) r += teens[rem - 10];
+    else if (rem >= 20) {
+      r += tens[Math.floor(rem / 10)];
+      const o = rem % 10;
+      if (o) r += ' ' + (o === 5 ? 'lăm' : (o === 1 && Math.floor(rem / 10) > 1 ? 'mốt' : units[o]));
     } else if (rem) r += (h ? 'lẻ ' : '') + units[rem];
     return r.trim();
   }
@@ -314,6 +349,16 @@ function toWords(num) {
   const w = parts.join(' ');
   return w.charAt(0).toUpperCase() + w.slice(1) + ' đồng';
 }
+
+/* ── Keyboard: Esc đóng overlay ─────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeThankYou();
+});
+
+/* ── Click ngoài overlay để đóng ────────────────────────────── */
+document.getElementById('thankYouOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeThankYou();
+});
 
 /* ── Init ────────────────────────────────────────────────────── */
 updateQR();
