@@ -32,14 +32,16 @@ let pollSessionId    = 0;       // tránh race condition khi đổi amount
 function generateNote(amount) {
   const cups = Math.max(1, Math.round(amount / PRICE_PER_CUP));
   const templates = [
-    `Ung ho ${cups} coffee nhe ban oi`,
-    `Cafein loading ung ho ${cups} coffee`,
-    `Debug met qua ung ho ${cups} coffee`,
-    `Ung ho ${cups} coffee code on thi thoi`,
-    `Uong cafe di cho tinh ung ho ${cups} coffee`,
-    `Goi ${cups} ly nhe ung ho ${cups} coffee`,
-    `Ung ho ${cups} coffee keep building`,
-    `Surprise ung ho ${cups} coffee`,
+    `Cafein loading ${cups} coffee`,
+    `Debug met qua ${cups} ly cafe`,
+    `Code on thi thoi ${cups} coffee`,
+    `Goi ${cups} ly nhe`,
+    `Chay deadline ${cups} coffee`,
+    `Uong cafe di cho tinh ${cups} ly`,
+    `Keep building ${cups} coffee`,
+    `Surprise ${cups} ly ca phe`,
+    `Mua cafe uong code ${cups} ly`,
+    `Tang ${cups} ly cafe nhe`,
   ];
   return templates[Math.floor(Math.random() * templates.length)];
 }
