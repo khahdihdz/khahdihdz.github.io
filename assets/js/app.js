@@ -1,6 +1,7 @@
 /* ============================================================
    app.js – Mua Cho Tôi Một Ly Cà Phê · khahdihdz
    SePay webhook polling + confetti
+   Backend: Google Apps Script (Code.gs)
    ============================================================ */
 
 'use strict';
@@ -11,12 +12,19 @@ const ACCOUNT_NUMBER = '8880812999';
 const ACCOUNT_NAME   = 'DINH TRONG KHANH';
 const PRICE_PER_CUP  = 25000;
 
-/* Render.com backend – thay bằng URL thực sau khi deploy */
-const SEPAY_CHECK_URL = 'https://sepay-backend-khahdihdz.onrender.com/check-payment';
+/*
+ * Google Apps Script Web App URL
+ * Sau khi deploy Code.gs → copy URL dán vào đây
+ * Dạng: https://script.google.com/macros/s/AKfyc.../exec
+ */
+const GAS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
 
-const POLL_INTERVAL     = 5000;   // Polling mỗi 5 giây
-const POLL_TIMEOUT      = 300000; // Timeout sau 5 phút
-const POLL_MAX_ERRORS   = 5;      // Dừng nếu lỗi liên tiếp quá nhiều
+/* Endpoint check-payment qua GAS */
+const SEPAY_CHECK_URL = `${GAS_URL}?route=check-payment`;
+
+const POLL_INTERVAL   = 5000;   // Polling mỗi 5 giây
+const POLL_TIMEOUT    = 300000; // Timeout sau 5 phút
+const POLL_MAX_ERRORS = 5;      // Dừng nếu lỗi liên tiếp quá nhiều
 
 /* ── State ──────────────────────────────────────────────────── */
 let currentAmount = 25000;
@@ -111,9 +119,9 @@ function startPolling() {
     }
 
     try {
-      const url = `${SEPAY_CHECK_URL}?amount=${currentAmount}`
-                + `&ref=${encodeURIComponent(getTransferNote(currentAmount))}`;
-      const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+      const ref = encodeURIComponent(getTransferNote(currentAmount));
+      const url = `${SEPAY_CHECK_URL}&amount=${currentAmount}&ref=${ref}`;
+      const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
 
       if (!res.ok) {
         pollErrors++;
@@ -134,12 +142,11 @@ function startPolling() {
         stopPolling();
         showPaymentStatus('success',
           '✅ Đã xác nhận thanh toán!',
-          `Giao dịch được xác nhận tự động qua SePay.`
+          'Giao dịch được xác nhận tự động qua SePay.'
         );
         setTimeout(() => showThankYou(data.payer, data.amount || currentAmount), 800);
       }
     } catch (err) {
-      // AbortError = timeout, TypeError = network fail – cả hai đều tăng bộ đếm lỗi
       pollErrors++;
       if (pollErrors >= POLL_MAX_ERRORS) {
         stopPolling();
