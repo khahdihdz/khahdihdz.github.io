@@ -1,17 +1,17 @@
-# 🚀 Hướng dẫn Deploy – SePay Backend lên Google Apps Script
+# 🚀 Hướng dẫn Deploy – SePay Backend lên Render.com
 
-## Kiến trúc
+## Kiến trúc mới
 
 ```
 [User quét QR]
       │  chuyển khoản MB Bank
       ▼
-  SePay.vn  ──POST webhook──►  [Google Apps Script – Code.gs]
+  SePay.vn  ──POST webhook──►  [Render.com – server.js]
                                       │
-                                      ├─ Lưu vào Google Sheets
+                                      ├─ Lưu vào SQLite
                                       ├─ Gửi Telegram thông báo
                                       │
-[Frontend polling]  ◄──GET ?route=check-payment──  GAS trả { paid: true/false }
+[Frontend polling]  ◄──GET /check-payment──  Render trả { paid: true/false }
       │
       ▼  paid: true
   Hiện overlay cảm ơn + confetti 🎉
@@ -19,116 +19,121 @@
 
 ---
 
-## Bước 1 – Deploy Google Apps Script (Code.gs)
+## Bước 1 – Push backend lên GitHub
 
-1. Truy cập https://script.google.com → **New project**
-2. Paste toàn bộ nội dung `Code.gs` vào editor
-3. **Project Settings** → **Script Properties** → thêm:
+```bash
+cd sepay-backend
+git init
+git add .
+git commit -m "feat: sepay webhook backend"
+git remote add origin https://github.com/<username>/sepay-backend.git
+git push -u origin main
+```
+
+---
+
+## Bước 2 – Deploy lên Render.com
+
+1. Truy cập https://render.com → **New → Web Service**
+2. Kết nối GitHub repo `sepay-backend`
+3. Cấu hình:
+   - **Name:** `sepay-backend-khahdihdz`
+   - **Runtime:** Node
+   - **Build Command:** `npm install`
+   - **Start Command:** `node server.js`
+   - **Plan:** Free
+
+4. Điền **Environment Variables** (tab *Environment*):
 
 | Key | Giá trị |
 |-----|---------|
 | `ACCOUNT_NUMBER` | `8880812999` |
 | `TRANSFER_PREFIX` | `UNG HO` |
-| `SEPAY_SECRET` | chuỗi random bất kỳ |
-| `TG_BOT_TOKEN` | token Telegram bot |
-| `TG_CHAT_ID` | chat ID Telegram |
-| `STATS_API_KEY` | (tùy chọn) key bảo vệ /stats |
-| `SPREADSHEET_ID` | *(để trống – script tự tạo Sheet)* |
+| `FRONTEND_URL` | URL GitHub Pages/Netlify của bạn |
+| `SEPAY_SECRET` | Chuỗi random bất kỳ (tự tạo) |
+| `TG_BOT_TOKEN` | Token từ @BotFather |
+| `TG_CHAT_ID` | Chat ID Telegram của bạn |
+| `STATS_API_KEY` | (Tùy chọn) key bảo vệ /stats |
 
-4. **Deploy** → **New deployment**
-   - Type: **Web App**
-   - Execute as: **Me**
-   - Who has access: **Anyone**
-5. Copy URL dạng:
-   ```
-   https://script.google.com/macros/s/AKfyc.../exec
-   ```
+5. Nhấn **Create Web Service** → đợi build xong (~2 phút)
+6. Copy URL Render cấp, ví dụ: `https://sepay-backend-khahdihdz.onrender.com`
 
 ---
 
-## Bước 2 – Cập nhật frontend
+## Bước 3 – Cập nhật frontend
 
-Trong `assets/js/app.js`, thay URL GAS:
+Trong `assets/js/app.js`, thay URL:
 
 ```js
-const GAS_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+const SEPAY_CHECK_URL = 'https://sepay-backend-khahdihdz.onrender.com/check-payment';
 ```
 
-> ⚠️ Mỗi lần **redeploy** Code.gs phải chọn **"New deployment"** –
-> nếu chọn "Manage deployments → Edit" thì URL không đổi (khuyến nghị).
+*(File đã được cập nhật sẵn trong bản này)*
 
 ---
 
-## Bước 3 – Cấu hình SePay Webhook
+## Bước 4 – Cấu hình SePay Webhook
 
 1. Đăng nhập https://my.sepay.vn
-2. **Tài khoản ngân hàng** → chọn `8880812999`
-3. **Webhook** → Thêm mới:
-   - **URL:**
-     ```
-     https://script.google.com/macros/s/YOUR_ID/exec?route=sepay-webhook&secret=YOUR_SEPAY_SECRET
-     ```
+2. **Tài khoản ngân hàng** → chọn tài khoản `8880812999`
+3. **Webhook** → Thêm webhook mới:
+   - **URL:** `https://sepay-backend-khahdihdz.onrender.com/sepay-webhook`
    - **Method:** POST
-4. Nhấn **Lưu** → **Test**
-
-> ℹ️ GAS Web App không đọc được HTTP headers tùy chỉnh, nên secret
-> được truyền qua query param `?secret=` thay vì header `x-sepay-token`.
+   - **Header (tùy chọn):** `x-sepay-token: <SEPAY_SECRET của bạn>`
+4. Nhấn **Lưu** → Nhấn **Test** để kiểm tra
 
 ---
 
-## Bước 4 – (Tùy chọn) Cấu hình Telegram Bot
+## Bước 5 – (Tùy chọn) Cấu hình Telegram Bot
 
 ### Tạo bot:
-1. Chat với @BotFather → `/newbot` → copy token
+1. Chat với @BotFather → `/newbot` → đặt tên → copy token
 2. Chat với @userinfobot → copy Chat ID
 
-### Đăng ký webhook Telegram:
+### Đăng ký Telegram webhook (để nhận lệnh /stats, /today...):
 ```bash
-curl "https://api.telegram.org/botYOUR_TOKEN/setWebhook?url=https://script.google.com/macros/s/YOUR_ID/exec?route=tg-webhook"
+# Thay YOUR_TOKEN và YOUR_RENDER_URL
+curl "https://api.telegram.org/botYOUR_TOKEN/setWebhook?url=https://your-render-url.onrender.com/tg-webhook"
 ```
 
 ---
 
 ## Endpoints
 
-| Method | URL | Mô tả |
-|--------|-----|-------|
-| GET | `?route=` *(trống)* | Health check |
-| POST | `?route=sepay-webhook&secret=XXX` | SePay gọi vào đây |
-| GET | `?route=check-payment&amount=25000` | Frontend polling |
-| GET | `?route=stats&key=XXX` | Thống kê tổng quan |
-| POST | `?route=tg-webhook` | Nhận lệnh Telegram bot |
+| Method | Path | Mô tả |
+|--------|------|-------|
+| GET | `/` | Health check |
+| POST | `/sepay-webhook` | SePay gọi vào đây |
+| GET | `/check-payment?amount=25000` | Frontend polling |
+| GET | `/stats` | Thống kê (có thể bảo vệ bằng API key) |
+| POST | `/tg-webhook` | Nhận lệnh Telegram bot |
 
 ---
 
-## Test thủ công
+## Lưu ý Free Tier Render.com
+
+- **Cold start:** Server ngủ sau 15 phút không có request → lần đầu gọi sẽ chậm ~30 giây
+- **Giải pháp:** Dùng dịch vụ như UptimeRobot để ping `/` mỗi 14 phút (miễn phí)
+- **Dữ liệu:** SQLite lưu trong ephemeral disk → mất khi redeploy. Nếu cần persistent, nâng lên plan có disk hoặc dùng Turso/PlanetScale.
+
+---
+
+## Test webhook thủ công
 
 ```bash
 # Giả lập SePay gọi webhook
-curl -X POST "https://script.google.com/macros/s/YOUR_ID/exec?route=sepay-webhook&secret=YOUR_SECRET" \
+curl -X POST https://sepay-backend-khahdihdz.onrender.com/sepay-webhook \
   -H "Content-Type: application/json" \
+  -H "x-sepay-token: your_secret" \
   -d '{
     "transferType": "in",
     "accountNumber": "8880812999",
     "content": "UNG HO 1 COFFEE",
     "transferAmount": 25000,
     "description": "CT TU 0123456789 NGUYEN VAN A DEN 8880812999",
-    "id": "TEST001"
+    "transactionID": "TEST001"
   }'
 
 # Kiểm tra payment
-curl "https://script.google.com/macros/s/YOUR_ID/exec?route=check-payment&amount=25000"
+curl "https://sepay-backend-khahdihdz.onrender.com/check-payment?amount=25000"
 ```
-
----
-
-## So sánh với bản Render.com cũ
-
-| | Render.com (cũ) | Google Apps Script (mới) |
-|--|--|--|
-| Database | SQLite (ephemeral) | Google Sheets (persistent) |
-| Cold start | ~30 giây | Không có |
-| Free tier | Ngủ sau 15 phút | Luôn sẵn sàng |
-| Auth | Header `x-sepay-token` | Query `?secret=` |
-| Giới hạn | 750h/tháng | 6 phút/execution, 90 phút/ngày tổng |
-| Xem data | Cần tool DB | Mở Google Sheet trực tiếp |
