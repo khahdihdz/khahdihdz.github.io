@@ -108,13 +108,19 @@ async function post(data) {
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(data)
   });
-  if (!response.ok) throw new Error("Không thể kết nối máy chủ (HTTP " + response.status + ").");
   const text = await response.text();
+  let result;
   try {
-    return JSON.parse(text);
+    result = JSON.parse(text);
   } catch {
+    if (!response.ok) throw new Error("Không thể kết nối máy chủ (HTTP " + response.status + ").");
     throw new Error("Máy chủ trả về dữ liệu không hợp lệ. Hãy kiểm tra lại URL Cloudflare Worker.");
   }
+  if (!response.ok) {
+    const detail = result?.detail ? " Chi tiết: " + result.detail : "";
+    throw new Error((result?.error || "Không thể kết nối máy chủ") + " (HTTP " + response.status + ")." + detail);
+  }
+  return result;
 }
 
 $("donationForm").addEventListener("submit", async event => {
