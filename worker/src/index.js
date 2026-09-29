@@ -25,7 +25,7 @@ async function sheetsToken(env) {
 }
 async function sheetRequest(env, range, method="GET", values) {
   const token=await sheetsToken(env), id=env.SHEET_ID;
-  const url="https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(id)+"/values/"+encodeURIComponent(range)+(method==="POST"?"?valueInputOption=RAW":"");
+  const base="https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(id)+"/values/"+encodeURIComponent(range);\n  const url=method==="POST"?base+":append?valueInputOption=RAW&insertDataOption=INSERT_ROWS":base;
   const res=await fetch(url,{method,headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},...(method==="POST"?{body:JSON.stringify({values})}:{})});
   if(!res.ok) throw new Error("Google Sheets API error: "+res.status);
   return res.json();
