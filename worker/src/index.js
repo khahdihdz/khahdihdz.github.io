@@ -52,7 +52,7 @@ async function handle(request,env){
    const range="Transactions!G"+rowIndex;
    const patch=await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(env.SHEET_ID)+"/values/"+encodeURIComponent(range)+"?valueInputOption=RAW",{method:"PUT",headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify({values:[["SUCCESS"]]})});
    if(!patch.ok) throw new Error("Unable to update transaction status");
-   await sheetRequest(env,"Transactions!H:J","POST",[[String(p.transactionID||""),String(p.transactionDate||new Date().toISOString()),""]]);
+   const auditToken=await sheetsToken(env);\n   const auditRange="Transactions!H"+rowIndex+":I"+rowIndex;\n   await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(env.SHEET_ID)+"/values/"+encodeURIComponent(auditRange)+"?valueInputOption=RAW",{method:"PUT",headers:{Authorization:"Bearer "+auditToken,"Content-Type":"application/json"},body:JSON.stringify({values:[[String(p.transactionID||""),String(p.transactionDate||new Date().toISOString())]]})});
    return json({success:true,matched:true,orderCode:target[0]},200,origin);
   }
   if(request.method==="POST"&&(path==="/api/transactions"||path==="/")){
