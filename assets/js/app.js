@@ -171,6 +171,7 @@ $("donationForm").addEventListener("submit", async event => {
     $("order").textContent = orderCode;
     $("status").className = "alert alert-info";
     $("status").textContent = "Đang chờ thanh toán…";
+    $("paymentWaiting").classList.add("d-none");
     $("payment").classList.remove("d-none");
     $("payment").scrollIntoView({ behavior: "smooth", block: "center" });
 
