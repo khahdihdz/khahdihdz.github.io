@@ -1,4 +1,4 @@
-const API = "https://script.google.com/macros/s/AKfycbwhETLuQ0Jl8BjvQ-w4lywLtVoHODceoigKYttiilpNH1grovoE8tJ6_K91U52SQ0hU/exec";
+const API = "https://tip4me-api.khahdihdz.workers.dev/";
 const $ = id => document.getElementById(id);
 let orderCode = "";
 let timer = null;
@@ -113,7 +113,7 @@ async function post(data) {
   try {
     return JSON.parse(text);
   } catch {
-    throw new Error("Máy chủ trả về dữ liệu không hợp lệ. Hãy kiểm tra lại URL triển khai Google Apps Script.");
+    throw new Error("Máy chủ trả về dữ liệu không hợp lệ. Hãy kiểm tra lại URL Cloudflare Worker.");
   }
 }
 
