@@ -9,7 +9,7 @@ const json = (data, status=200, origin="*") => new Response(JSON.stringify(data)
 const clean = (v, max=300) => String(v ?? "").trim().slice(0,max);
 const b64url = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_");
 async function sheetsToken(env) {
-  const sa = JSON.parse(env.GOOGLE_SERVICE_ACCOUNT);
+  const sa = { client_email: env.GOOGLE_CLIENT_EMAIL, private_key: env.GOOGLE_PRIVATE_KEY };
   const now = Math.floor(Date.now()/1000);
   const head = b64url(new TextEncoder().encode(JSON.stringify({alg:"RS256",typ:"JWT"})));
   const claim = b64url(new TextEncoder().encode(JSON.stringify({iss:sa.client_email,scope:"https://www.googleapis.com/auth/spreadsheets",aud:"https://oauth2.googleapis.com/token",iat:now,exp:now+3600})));
@@ -24,8 +24,9 @@ async function sheetsToken(env) {
   return (await response.json()).access_token;
 }
 async function sheetRequest(env, range, method="GET", values) {
-  const token=await sheetsToken(env), id=env.SHEET_ID;
-  const base="https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(id)+"/values/"+encodeURIComponent(range);\n  const url=method==="POST"?base+":append?valueInputOption=RAW&insertDataOption=INSERT_ROWS":base;
+  const token=await sheetsToken(env), id=env.GOOGLE_SHEET_ID;
+  const base="https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(id)+"/values/"+encodeURIComponent(range);
+  const url=method==="POST"?base+":append?valueInputOption=RAW&insertDataOption=INSERT_ROWS":base;
   const res=await fetch(url,{method,headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},...(method==="POST"?{body:JSON.stringify({values})}:{})});
   if(!res.ok) throw new Error("Google Sheets API error: "+res.status);
   return res.json();
@@ -40,7 +41,7 @@ async function handle(request,env){
   if(path==="/health") return json({ok:true,service:"tip4me-worker"},200,origin);
   if(path==="/webhooks/sepay"&&request.method==="POST"){
    const supplied=request.headers.get("x-sepay-token")||request.headers.get("Authorization")?.replace(/^Bearer\s+/i,"");
-   if(!env.SEPAY_TOKEN||supplied!==env.SEPAY_TOKEN) return json({success:false,error:"Unauthorized"},401,origin);
+   if(!env.SEPAY_WEBHOOK_TOKEN||supplied!==env.SEPAY_TOKEN) return json({success:false,error:"Unauthorized"},401,origin);
    const p=await request.json();
    if(String(p.transferType||"").toLowerCase()!=="in"||String(p.accountNumber||"")!==env.ACCOUNT_NUMBER) return json({success:true,ignored:true},200,origin);
    const content=String(p.content||p.description||"").toUpperCase();
@@ -50,9 +51,10 @@ async function handle(request,env){
    const rowIndex=all.indexOf(target)+1;
    const token=await sheetsToken(env);
    const range="Transactions!G"+rowIndex;
-   const patch=await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(env.SHEET_ID)+"/values/"+encodeURIComponent(range)+"?valueInputOption=RAW",{method:"PUT",headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify({values:[["SUCCESS"]]})});
+   const patch=await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(env.GOOGLE_SHEET_ID)+"/values/"+encodeURIComponent(range)+"?valueInputOption=RAW",{method:"PUT",headers:{Authorization:"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify({values:[["SUCCESS"]]})});
    if(!patch.ok) throw new Error("Unable to update transaction status");
-   const auditToken=await sheetsToken(env);\n   const auditRange="Transactions!H"+rowIndex+":I"+rowIndex;\n   await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(env.SHEET_ID)+"/values/"+encodeURIComponent(auditRange)+"?valueInputOption=RAW",{method:"PUT",headers:{Authorization:"Bearer "+auditToken,"Content-Type":"application/json"},body:JSON.stringify({values:[[String(p.transactionID||""),String(p.transactionDate||new Date().toISOString())]]})});
+   const auditToken=await sheetsToken(env);
+   const auditRange="Transactions!H"+rowIndex+":I"+rowIndex;\n   await fetch("https://sheets.googleapis.com/v4/spreadsheets/"+encodeURIComponent(env.GOOGLE_SHEET_ID)+"/values/"+encodeURIComponent(auditRange)+"?valueInputOption=RAW",{method:"PUT",headers:{Authorization:"Bearer "+auditToken,"Content-Type":"application/json"},body:JSON.stringify({values:[[String(p.transactionID||""),String(p.transactionDate||new Date().toISOString())]]})});
    return json({success:true,matched:true,orderCode:target[0]},200,origin);
   }
   if(request.method==="POST"&&(path==="/api/transactions"||path==="/")){
