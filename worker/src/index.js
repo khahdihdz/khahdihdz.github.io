@@ -14,7 +14,15 @@ async function sheetsToken(env) {
   const head = b64url(new TextEncoder().encode(JSON.stringify({alg:"RS256",typ:"JWT"})));
   const claim = b64url(new TextEncoder().encode(JSON.stringify({iss:sa.client_email,scope:"https://www.googleapis.com/auth/spreadsheets",aud:"https://oauth2.googleapis.com/token",iat:now,exp:now+3600})));
   const unsigned = head+"."+claim;
-  const pem = sa.private_key.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----|\s/g,"");
+  // Cloudflare secrets may contain PEM line breaks either literally or as escaped "\\n".
+  // Normalize both forms before decoding the PKCS#8 key.
+  const privateKey = String(sa.private_key || "").trim().replace(/\\\\n/g, "\\n");
+  const pem = privateKey
+    .replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----/g, "")
+    .replace(/\\s/g, "");
+  if (!pem || !/^[A-Za-z0-9+/]+={0,2}$/.test(pem) || pem.length % 4 !== 0) {
+    throw new Error("GOOGLE_PRIVATE_KEY is not valid PEM/base64. Set the full Google service-account private_key, including BEGIN/END PRIVATE KEY lines.");
+  }
   const der = Uint8Array.from(atob(pem),c=>c.charCodeAt(0));
   const key = await crypto.subtle.importKey("pkcs8",der,{name:"RSASSA-PKCS1-v1_5",hash:"SHA-256"},false,["sign"]);
   const sig = await crypto.subtle.sign("RSASSA-PKCS1-v1_5",key,new TextEncoder().encode(unsigned));
