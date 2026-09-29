@@ -2,8 +2,6 @@ const API = "https://script.google.com/macros/s/AKfycbwhETLuQ0Jl8BjvQ-w4lywLtVoH
 const $ = id => document.getElementById(id);
 let orderCode = "";
 let timer = null;
-let qrPreviewTimer = null;
-let qrPreviewRequest = 0;
 
 const fmt = n => new Intl.NumberFormat("vi-VN").format(n) + " ₫";
 const digitWords = ["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"];
@@ -85,37 +83,7 @@ function renderQr(amount, transferContent) {
   $("payment").classList.remove("d-none");
 }
 
-async function refreshQrPreview() {
-  const amount = parseAmount($("amount").value);
-  if (!Number.isSafeInteger(amount) || amount < 1000) { $("payment").classList.add("d-none"); return; }
-  const requestId = ++qrPreviewRequest;
-  $("payCode").textContent = "Đang tạo mã giao dịch…";
-  $("payment").classList.remove("d-none");
-  try {
-    const id = "BMC" + Math.floor(10000 + Math.random() * 90000);
-    const result = await post({ action: "create_transaction", id, donorName: $("name").value.trim() || "Người bạn tốt", message: $("message").value.trim(), amount, currency: "VND", coffeeCount: 1, paymentMethod: "vietqr", language: "vi" });
-    if (requestId !== qrPreviewRequest) return;
-    if (!result || result.success !== true || !result.transaction || !result.transaction.id) throw new Error(result?.error || result?.message || "Không tạo được mã QR.");
-    orderCode = String(result.transaction.id);
-    renderQr(amount, "UNGHO " + orderCode);
-    $("status").className = "alert alert-info";
-    $("status").textContent = "Đang chờ thanh toán…";
-    clearInterval(timer);
-    timer = setInterval(check, 5000);
-  } catch (error) {
-    if (requestId !== qrPreviewRequest) return;
-    console.error("Không thể cập nhật mã QR:", error);
-    $("payCode").textContent = "Không thể tạo mã QR. Vui lòng thử lại.";
-  }
-}
-
-$("amount").addEventListener("input", () => {
-  updateAmountDisplay();
-  clearTimeout(qrPreviewTimer);
-  qrPreviewTimer = setTimeout(refreshQrPreview, 700);
-});
 updateAmountDisplay();
-setTimeout(refreshQrPreview, 300);
 
 document.querySelectorAll("[data-amount]").forEach(button => {
   button.addEventListener("click", () => {
