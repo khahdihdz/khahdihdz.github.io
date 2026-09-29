@@ -88,6 +88,6 @@ async function handle(request,env){
    }
   }
   return json({success:false,error:"Not found"},404,origin);
- } catch(e){return json({success:false,error:"Internal server error"},500,origin);}
+ } catch(e){ console.error("Tip4Me Worker error:", e?.message || e); return json({success:false,error:"Internal server error",detail:String(e?.message || "Unknown error").slice(0,240)},500,origin); }
 }
 export default {fetch:handle};
