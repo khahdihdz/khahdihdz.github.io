@@ -48,7 +48,7 @@ async function handle(request,env){
  try {
   if(path==="/health") return json({ok:true,service:"tip4me-worker"},200,origin);
   if(path==="/webhooks/sepay"&&request.method==="POST"){
-   const supplied=request.headers.get("x-sepay-token")||request.headers.get("Authorization")?.replace(/^Bearer\s+/i,"");
+   const supplied=request.headers.get("x-sepay-token")||request.headers.get("Authorization")?.replace(/^(?:Bearer|Apikey)\s+/i,"");
    if(!env.SEPAY_WEBHOOK_TOKEN||supplied!==env.SEPAY_WEBHOOK_TOKEN) return json({success:false,error:"Unauthorized"},401,origin);
    const p=await request.json();
    if(String(p.transferType||"").toLowerCase()!=="in"||String(p.accountNumber||"")!==env.ACCOUNT_NUMBER) return json({success:true,ignored:true},200,origin);
