@@ -192,6 +192,51 @@ $("donationForm").addEventListener("submit", async event => {
   }
 });
 
+
+function launchFireworks() {
+  const canvas = $("fireworksCanvas");
+  if (!canvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const ctx = canvas.getContext("2d");
+  const box = canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = box.width * dpr;
+  canvas.height = box.height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const particles = [];
+  const colors = ["#ffd166", "#ff8c69", "#75e6a0", "#8bd3ff", "#e9a8ff", "#fff1a8"];
+  const bursts = [
+    {x: box.width*.18, y: box.height*.28},
+    {x: box.width*.82, y: box.height*.24},
+    {x: box.width*.5, y: box.height*.12},
+    {x: box.width*.28, y: box.height*.52},
+    {x: box.width*.73, y: box.height*.48}
+  ];
+  bursts.forEach((point, index) => {
+    const count = 34;
+    for (let i=0;i<count;i++) {
+      const angle = Math.PI*2*i/count + Math.random()*.12;
+      const speed = 1.2 + Math.random()*2.8;
+      particles.push({x:point.x,y:point.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,
+        life:55+Math.random()*35,max:90,size:1.5+Math.random()*2.5,color:colors[(i+index*2)%colors.length]});
+    }
+  });
+  let frame=0;
+  function draw() {
+    ctx.clearRect(0,0,box.width,box.height);
+    particles.forEach(p=>{
+      if(p.life<=0)return;
+      p.x+=p.vx;p.y+=p.vy;p.vy+=.025;p.vx*=.99;p.life--;
+      ctx.globalAlpha=Math.min(1,p.life/24);
+      ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+    });
+    ctx.globalAlpha=1;
+    frame++;
+    if(frame<100) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,box.width,box.height);
+  }
+  requestAnimationFrame(draw);
+}
+
 async function check() {
   if (!orderCode) return;
   try {
@@ -204,6 +249,7 @@ async function check() {
       $("paymentSuccess").classList.remove("success-pop");
       void $("paymentSuccess").offsetWidth;
       $("paymentSuccess").classList.add("success-pop");
+      launchFireworks();
       clearInterval(timer);
       loadSummary();
     }
