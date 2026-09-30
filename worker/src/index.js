@@ -107,7 +107,7 @@ async function handle(request,env){
    if(!id||!Number.isSafeInteger(amount)||amount<1000) return json({success:false,error:"Invalid transaction"},400,origin);
    const existing=await findOrder(env,id);
    if(existing>=0) return json({success:true,transaction:{id}},200,origin);
-   await sheetRequest(env,"Transactions!A:J","POST",[[id,clean(p.donorName,100)||"Người bạn tốt",clean(p.message,500),amount,"VND","vietqr","PENDING","","",new Date().toISOString()]]);
+   await sheetRequest(env,"Transactions!A:J","POST",[[id,clean(p.donorName,100)||"Đại gia giấu tên",clean(p.message,500),amount,"VND","vietqr","PENDING","","",new Date().toISOString()]]);
    return json({success:true,transaction:{id}},200,origin);
   }
   if(request.method==="GET"){
