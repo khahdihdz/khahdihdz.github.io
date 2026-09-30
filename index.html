@@ -70,7 +70,7 @@
 
       <section id="payment" class="panel payment-panel d-none">
         <div class="panel-title"><span class="panel-icon">▦</span><div><h2>Quét mã để thanh toán</h2><p>Sử dụng ứng dụng ngân hàng hoặc ví điện tử để quét mã QR.</p></div></div>
-        <div class="qr-frame"><img id="qr" class="qr" alt="QR thanh toán"></div>
+        <div id="paymentSuccess" class="payment-success d-none" role="status" aria-live="polite"><div class="success-badge"><svg viewBox="0 0 52 52" aria-hidden="true"><path class="success-circle" d="M26 2a24 24 0 1 0 0 48 24 24 0 0 0 0-48"/><path class="success-check" d="m14 27 8 8 17-18"/></svg></div><h3>Thanh toán thành công!</h3><p>Cảm ơn bạn đã ủng hộ Tip4Me. Sự đóng góp của bạn là nguồn động lực để dự án tiếp tục phát triển.</p><span class="success-heart">♥</span></div><div id="paymentQrContent"><div class="qr-frame"><img id="qr" class="qr" alt="QR thanh toán"></div>
         <p id="qrError" class="alert alert-warning d-none mt-3">Không tải được ảnh QR. Vui lòng thử tải lại trang hoặc liên hệ tác giả.</p>
         <div class="payment-details">
           <p><span>Ngân hàng</span><b>MB Bank (Quân đội)</b></p>
@@ -80,7 +80,7 @@
           <p><span>Nội dung</span><b id="payCode"></b></p>
           <p><span>Mã giao dịch</span><b id="order"></b></p>
         </div>
-        <div id="status" class="alert alert-info mt-3">Đang chờ thanh toán…</div>
+        <div id="status" class="alert alert-info mt-3">Đang chờ thanh toán…</div></div>
       </section>
 
       <section class="panel stats-panel">
