@@ -5,7 +5,7 @@ workers_dev = true
 
 [vars]
 ACCOUNT_NUMBER = "8880812999"
-PENDING_TTL_HOURS = "24"
+PENDING_TTL_HOURS = "1"
 
 [triggers]
 crons = ["0 * * * *"]
