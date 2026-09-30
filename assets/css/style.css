@@ -202,3 +202,5 @@ body{min-width:0}
 @keyframes success-pop{0%{opacity:0;transform:translateY(14px) scale(.94)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes heart-beat{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
 @media(prefers-reduced-motion:reduce){.success-circle,.success-check,.success-pop,.success-heart{animation:none!important;stroke-dashoffset:0}}
+
+.payment-success{position:relative;isolation:isolate;overflow:hidden}.fireworks-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1}
