@@ -28,7 +28,7 @@ async function sheetsToken(env) {
   const sig = await crypto.subtle.sign("RSASSA-PKCS1-v1_5",key,new TextEncoder().encode(unsigned));
   const assertion = unsigned+"."+b64url(sig);
   const response = await fetch("https://oauth2.googleapis.com/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({grant_type:"urn:ietf:params:oauth:grant-type:jwt-bearer",assertion})});
-  if(!response.ok) throw new Error("Google OAuth failed");
+  if(!response.ok) { const detail = await response.text(); throw new Error("Google OAuth failed ("+response.status+"): "+detail.slice(0,300)); }
   return (await response.json()).access_token;
 }
 async function sheetRequest(env, range, method="GET", values) {
