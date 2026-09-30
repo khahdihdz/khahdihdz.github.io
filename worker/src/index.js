@@ -41,6 +41,40 @@ async function sheetRequest(env, range, method="GET", values) {
 }
 async function rows(env){const data=await sheetRequest(env,"Transactions!A:J");return data.values||[];}
 async function findOrder(env,code){const all=await rows(env);return all.findIndex((r,i)=>i>0&&r[0]===code);}
+async function cleanupPending(env) {
+  const all = await rows(env);
+  if (all.length <= 1) return { deleted: 0 };
+  const ttlHours = Math.max(1, Number(env.PENDING_TTL_HOURS) || 24);
+  const cutoff = Date.now() - ttlHours * 60 * 60 * 1000;
+  const expired = [];
+  for (let i = 1; i < all.length; i++) {
+    const row = all[i];
+    if (String(row[6] || "").toUpperCase() !== "PENDING") continue;
+    const createdAt = Date.parse(row[9] || "");
+    if (Number.isFinite(createdAt) && createdAt <= cutoff) expired.push(i);
+  }
+  if (!expired.length) return { deleted: 0 };
+  const token = await sheetsToken(env);
+  const meta = await fetch("https://sheets.googleapis.com/v4/spreadsheets/" + encodeURIComponent(env.GOOGLE_SHEET_ID) + "?fields=sheets.properties");
+  if (!meta.ok) throw new Error("Unable to read Google Sheets metadata");
+  const spreadsheet = await meta.json();
+  const sheet = (spreadsheet.sheets || []).find(s => s.properties?.title === "Transactions");
+  if (!sheet) throw new Error('Sheet "Transactions" not found');
+  // Delete bottom-up so earlier row indices remain valid.
+  const requests = expired.sort((a,b) => b-a).map(index => ({
+    deleteDimension: {
+      range: { sheetId: sheet.properties.sheetId, dimension: "ROWS", startIndex: index, endIndex: index + 1 }
+    }
+  }));
+  const response = await fetch("https://sheets.googleapis.com/v4/spreadsheets/" + encodeURIComponent(env.GOOGLE_SHEET_ID) + ":batchUpdate", {
+    method: "POST",
+    headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+    body: JSON.stringify({ requests })
+  });
+  if (!response.ok) throw new Error("Unable to delete expired pending transactions: " + response.status);
+  return { deleted: expired.length };
+}
+
 async function handle(request,env){
  const origin=request.headers.get("Origin")||"*";
  if(request.method==="OPTIONS") return new Response(null,{headers:cors(origin)});
@@ -98,4 +132,11 @@ async function handle(request,env){
   return json({success:false,error:"Not found"},404,origin);
  } catch(e){ console.error("Tip4Me Worker error:", e?.message || e); return json({success:false,error:"Internal server error",detail:String(e?.message || "Unknown error").slice(0,240)},500,origin); }
 }
-export default {fetch:handle};
+export default {
+ fetch: handle,
+ async scheduled(controller, env, ctx) {
+  ctx.waitUntil(cleanupPending(env).then(result => {
+   console.log("Pending transaction cleanup:", result.deleted, "deleted");
+  }).catch(error => console.error("Pending cleanup failed:", error?.message || error)));
+ }
+};
