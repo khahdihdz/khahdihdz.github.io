@@ -83,6 +83,7 @@ function renderQr(amount, transferContent) {
   $("payment").classList.remove("d-none");
 }
 
+$("amount").addEventListener("input", updateAmountDisplay);
 updateAmountDisplay();
 
 document.querySelectorAll("[data-amount]").forEach(button => {
