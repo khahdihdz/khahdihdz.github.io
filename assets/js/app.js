@@ -198,7 +198,12 @@ async function check() {
     const result = await get("check_status", { order_code: orderCode });
     if (result.status === "SUCCESS") {
       $("status").className = "alert alert-success";
-      $("status").textContent = "Thanh toán thành công! Cảm ơn bạn đã ủng hộ ❤️";
+      $("status").textContent = "Đã xác nhận giao dịch.";
+      $("paymentQrContent").classList.add("d-none");
+      $("paymentSuccess").classList.remove("d-none");
+      $("paymentSuccess").classList.remove("success-pop");
+      void $("paymentSuccess").offsetWidth;
+      $("paymentSuccess").classList.add("success-pop");
       clearInterval(timer);
       loadSummary();
     }
