@@ -16,10 +16,10 @@ async function sheetsToken(env) {
   const unsigned = head+"."+claim;
   // Cloudflare secrets may contain PEM line breaks either literally or as escaped "\\n".
   // Normalize both forms before decoding the PKCS#8 key.
-  const privateKey = String(sa.private_key || "").trim().replace(/\\\\n/g, "\\n");
+  const privateKey = String(sa.private_key || "").trim().replace(/\\n/g, "\n");
   const pem = privateKey
     .replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----/g, "")
-    .replace(/\\s/g, "");
+    .replace(/\s/g, "");
   if (!pem || !/^[A-Za-z0-9+/]+={0,2}$/.test(pem) || pem.length % 4 !== 0) {
     throw new Error("GOOGLE_PRIVATE_KEY is not valid PEM/base64. Set the full Google service-account private_key, including BEGIN/END PRIVATE KEY lines.");
   }
