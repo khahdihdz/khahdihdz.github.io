@@ -144,7 +144,7 @@ $("donationForm").addEventListener("submit", async event => {
     const result = await post({
       action: "create_transaction",
       id,
-      donorName: $("name").value.trim() || "Người bạn tốt",
+      donorName: $("name").value.trim() || "Đại gia giấu tên",
       message: $("message").value.trim(),
       amount,
       currency: "VND",
